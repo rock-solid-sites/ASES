@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "known_accounts",
-  "as_of_date": "2026-11-02",
+  "as_of_date": "2026-11-13",
   "status": "historical_user_and_provider_claims_not_live_usage",
   "source_document": "docs/research/Known Accounts and Resource Reconciliation 2026-11-02.md",
   "public_repository_redaction": "No private billing IDs, account emails, access tokens, or credentials.",
@@ -759,12 +759,22 @@
       "id": "openrouter",
       "provider": "OpenRouter",
       "account_evidence": {
-        "status": "user_reported",
+        "status": "user_confirmed",
         "last_live_verified_at": null,
-        "notes": "Account user-reported"
+        "notes": "Operator reconfirmed existing account and reported $5 recurring monthly credit on 2026-11-13; actual credited period and remaining balance not provider-verified."
       },
-      "offering_summary": "Model API aggregator; balances and free model limits vary",
-      "claims": [],
+      "offering_summary": "Model API aggregator; operator-reported $5 monthly credits plus variable free models and model/provider-specific limits.",
+      "claims": [
+        {
+          "metric": "operator_reported_monthly_credit",
+          "value": 5,
+          "unit": "USD",
+          "period": "monthly",
+          "scope": "account_reported",
+          "verified_for_current_account": null,
+          "source": "operator_update_2026-11-13"
+        }
+      ],
       "usage": {
         "status": "unknown",
         "observed_at": null,
@@ -779,18 +789,18 @@
           }
         ]
       },
-      "verification_next": "Keys/credits dashboard (do not publish secrets)",
-      "source_usage_description": "Remaining credit/requests **unknown**"
+      "verification_next": "Read-only check of credit entitlement, current monthly credit period and balance, per-model prices/limits, and accessible model IDs; do not publish any API key.",
+      "source_usage_description": "Operator reports $5 monthly credits; awarded this period, consumed and remaining USD unknown (do not equate monthly nominal with spendable balance)."
     },
     {
       "id": "nvidia",
       "provider": "NVIDIA",
       "account_evidence": {
-        "status": "user_reported",
+        "status": "user_confirmed",
         "last_live_verified_at": null,
-        "notes": "Account user-reported; actual product unknown"
+        "notes": "Operator explicitly confirmed possession of an NVIDIA NIM API key on 2026-11-13; key value, enabled models, key permissions and limits were not inspected or stored."
       },
-      "offering_summary": "Developer APIs or NIM trials, subject to program eligibility",
+      "offering_summary": "NVIDIA NIM developer inference API with operator-confirmed key possession; current models and request quotas not yet verified.",
       "claims": [],
       "usage": {
         "status": "unknown",
@@ -806,8 +816,8 @@
           }
         ]
       },
-      "verification_next": "NVIDIA console",
-      "source_usage_description": "All credit/usage values **unknown**"
+      "verification_next": "Test a minimal authorized key-scoped NIM inference/read-only model listing through an approved secret store; verify model ID and usage limits without exposing key.",
+      "source_usage_description": "NIM API key exists according to operator; usable requests, remaining free quota and spending constraints unknown."
     },
     {
       "id": "deepseek",
@@ -1061,6 +1071,40 @@
       },
       "verification_next": "ChatGPT usage/Codex settings and API billing if account exists",
       "source_usage_description": "Remaining Codex task/model limits, API balance **unknown**"
+    },
+    {
+      "id": "northflank",
+      "provider": "Northflank",
+      "account_evidence": {
+        "status": "user_confirmed",
+        "last_live_verified_at": null,
+        "notes": "Operator explicitly confirmed existing Northflank account on 2026-11-13; no authenticated API session, plan, quota, credentials, or job launch has been observed."
+      },
+      "offering_summary": "Manual jobs, container services, and sandboxes; free-plan and payment-verification eligibility for this account have not been checked.",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "jobs.compute_used",
+            "unit": "minutes",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "sandboxes.active_count",
+            "unit": "instances",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Verify Northflank account plan, job/sandbox entitlement, payment-card requirements, free quota, API credentials without exposing values, and bounded manual-job launch.",
+      "source_usage_description": "Existing login is user-confirmed; free allotment, current usage, job quota, and launch permissions unknown."
     }
   ]
 }
