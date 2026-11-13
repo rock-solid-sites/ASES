@@ -1,6 +1,6 @@
 ---
 title: "Sol control-plane A — document authority and version register"
-version: 0.3.2-experimental
+version: 0.3.3-experimental
 status: experimental
 authority: run-scoped
 run_id: ASES-SOL-CTRL-A-20261113
@@ -19,10 +19,10 @@ run_id: ASES-SOL-CTRL-A-20261113
 | `PACKETS.md` | strategy-to-builder and verifier packet procedure | 0.3.1-experimental; run-scoped |
 | `EVALUATION.md` | treatment A / historical baseline comparison | 0.2.0-experimental; run-scoped |
 | `HANDOFF.md` | durable worker checkpoint protocol | 0.2.0-experimental; run-scoped |
-| `LAUNCH.md` | fresh-session launch text | 0.3.2-experimental; run-scoped |
-| `VERSIONING.md` | this resolution register | 0.3.2-experimental; run-scoped |
-| `REVIEW-ROUTES.md` | external-family reviewer route proposal | 0.2.0-experimental; proposed-unverified |
-| `PROVIDER-SELECTION.md` | ranked full-registry account selection | 0.1.0-experimental; ranked-preflight-required |
+| `LAUNCH.md` | fresh-session launch text | 0.3.3-experimental; run-scoped |
+| `VERSIONING.md` | this resolution register | 0.3.3-experimental; run-scoped |
+| `REVIEW-ROUTES.md` | external-family reviewer route proposal | 0.3.0-experimental; proposed-unverified |
+| `PROVIDER-SELECTION.md` | ranked full-registry account selection | 0.2.0-experimental; ranked-preflight-required |
 
 Documents are versioned independently; editing one does not silently increase the versions of unchanged files. `REVIEW-ROUTES.md` describes proposed routes, not completed live verification. `PROVIDER-SELECTION.md` selects from all recorded accounts and candidate/offer classes; none of its unverified model or sandbox routes is promoted to live.
 
