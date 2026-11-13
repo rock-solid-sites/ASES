@@ -1,6 +1,6 @@
 ---
 title: "External-family verifier routing — no Projektor dispatch assumption"
-version: 0.2.0-experimental
+version: 0.3.0-experimental
 status: proposed-unverified
 authority: run-scoped-design
 run_id: ASES-SOL-CTRL-A-20261113
@@ -10,7 +10,7 @@ run_id: ASES-SOL-CTRL-A-20261113
 
 **No live cross-family route is claimed.** Work Notes/Projektor can log work and reports; they are NOT assumed to launch models or bridge runtimes. External review is an optional independent gate until a bounded live test verifies actual authenticated execution.
 
-**Provider selection is registry-driven, not a preference invented for this document.** Read `PROVIDER-SELECTION.md` (v0.1.0) and its pinned 28-account/54-candidate/26-offer sources. Distinguish verified execution history from provider-catalog routes and unknown balances. The present selection ranks fixed-model NVIDIA/Google/OpenRouter for tool-free review and GitHub Actions then Modal/GitLab for executable review; all new launcher and entitlement checks remain pending.
+**Provider selection is registry-driven, not a preference invented for this document.** Read `PROVIDER-SELECTION.md` (v0.2.0) and the updated 29-account/54-candidate/26-offer sources on PR #44. The operator confirms an NVIDIA NIM API key, an OpenRouter account with $5/month credits, and a Northflank account. GitHub/Google SSO signup for *eligible genuinely free services* is low friction, so do not screen out good alternatives merely for lacking an existing account. Distinguish existence, actual entitlement, billing, and independently demonstrated execution; all new launcher and entitlement checks remain pending.
 
 ## Routing preference
 
@@ -24,7 +24,7 @@ The reviewer returns severity-ranked falsifiable findings, explicit counterexamp
 
 A Luna launcher provisions an explicitly approved, bounded sandbox and runs a configured OpenCode model against a read-only or isolated checkout. Use a narrow review agent with edits, destructive operations and network side effects disabled, plus finite time/CPU/tokens. Only allow reproducible test execution when the review genuinely needs to exercise behavior. Preserve exact source refs, run command, provider/model provenance, console traces, findings and cleanup receipt.
 
-**Candidate executors (NOT live/authorized):** Rank against recorded accounts in `PROVIDER-SELECTION.md`, rather than a few example providers. GitHub Actions is the first runnable test baseline because an ASES workflow has actually executed; Modal is second for a sandbox because its account was user-confirmed but Cloud launch isn't tested; GitLab CI is another recorded-account alternative. Codespaces, E2B/Daytona/Vercel and Cloudflare Sandbox remain conditional on product-specific access and meters. Northflank and several others are discovery-only without a recorded account in the pinned inventory. No single candidate may be promoted to `active` by published API docs alone.
+**Candidate executors (NOT live/authorized):** GitHub Actions is the observed runner baseline; Northflank (now user-confirmed account), Modal and GitLab CI are peers to measure for short-lived executable review. Include other eligible free GitHub/Google SSO candidates when their specific product has a validated no-unapproved-charge launch path. Codespaces, E2B/Daytona/Vercel and Cloudflare Sandbox remain conditional on product-specific access and meters. Do not arbitrarily promote Modal or exclude Northflank based on a stale account inventory. The ranking in `PROVIDER-SELECTION.md` is a preflight order, not launch permission.
 
 The ASES provider registry in PR #44 records product APIs and account evidence separately; `known_accounts_v1.json` is **not** live billing authority. The dedicated provider launcher must verify real credentials/permissions, quota, allowed network egress, model entitlement and cleanup. Do not invent credentials or commit secrets. No new paid/chargeable resources are authorized by this document.
 
