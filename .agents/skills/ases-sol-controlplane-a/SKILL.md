@@ -1,6 +1,6 @@
 ---
 name: ases-sol-controlplane-a
-version: 0.3.1-experimental
+version: 0.3.2-experimental
 status: experimental
 authority: run-scoped
 description: Apply ONLY when the user explicitly activates experiment ASES-SOL-CTRL-A-20261113. Makes the primary Codex agent a delegation-only ASES orchestrator; Luna-class subagents perform ALL routine tool calls, code reading, research, editing, tests, Git and Work Notes operations. Never apply to worker agents or unrelated sessions.
@@ -25,7 +25,7 @@ If a critical task proves impossible to delegate, ask a worker first to identify
 3. Have workers compile an Implementation Packet before coding. Sol settles any **genuinely contested** authority/interface decision; never take over code or tests.
 4. **Sol defines verification BEFORE implementation**: the contract's decisive claims, valid neighbors, unacceptable counterexamples, red/green obligations, and what evidence changes its decision. Delegate implementation, builder-local tests, debugging, evidence preservation, Git commits and Work Notes to a builder Luna. Use disjoint worktrees/paths.
 5. Commission a **different verifier Luna** on a separate scope/worktree, with the frozen claim, required source/ref and acceptance criteria, but not the builder's implementation plan, expected weak points, or self-grading report. It independently reads the result, derives falsifiers and tests, preserves raw evidence, and issues its own verdict. Sol compares compact independent reports, flags disagreement, and may delegate a third focused adjudication. **No self-verification as the only gate.**
-6. Sol owns the final **ACCEPT / REVISE / UNVERIFIED** decision. A passing builder suite alone is UNVERIFIED. Same-family Luna checks are practical adversarial tests, not cross-family clean-room review. Prefer an **actual external-family reviewer**, dispatched through a Luna-owned API or approved cloud/OpenCode launcher only after its route is verified. No Projektor/Work Notes dispatch mechanism is assumed; see `REVIEW-ROUTES.md`. Independent CI remains a separate obligation for stronger claims.
+6. Sol owns the final **ACCEPT / REVISE / UNVERIFIED** decision. A passing builder suite alone is UNVERIFIED. Same-family Luna checks are practical adversarial tests, not cross-family clean-room review. Prefer an **actual external-family reviewer**, dispatched through a Luna-owned API or approved cloud/OpenCode launcher only after its route is verified. No Projektor/Work Notes dispatch mechanism is assumed; see `REVIEW-ROUTES.md` and its registry-grounded `PROVIDER-SELECTION.md`. Independent CI remains a separate obligation for stronger claims.
 7. After a sufficiently evidenced slice, take the next viable item immediately. Preserve negative evidence and prior failures. The absence of a fresh user message is not a stop-on-success rule. Workers perform Git/draft PR publication and Work Notes checkpoints.
 
 ## Worker output contract
