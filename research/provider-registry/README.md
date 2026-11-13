@@ -1,7 +1,16 @@
+---
+title: "Account and promotional compute inventories"
+version: 0.2.0-research
+status: research-active
+authority: registry-evidence
+last_updated: 2026-11-13
+supersedes_revision: 9a122c6c840c39dbe0cefbfc3cf2970b3d0a5a2f
+---
+
 # Account & promotional compute inventories
 
 Machine-readable canonical sources:
-- [known_accounts_v1.json](known_accounts_v1.json): **28** previously enumerated provider accounts, claimed resource entitlements, unknown current consumption, and verification checklist.
+- [known_accounts_v1.json](known_accounts_v1.json): **29** recorded provider accounts (28 historical plus the 2026-11-13 Northflank update), claimed resource entitlements, unknown current consumption, and verification checklist.
 - [potential_offers_v1.json](potential_offers_v1.json): **26** individually addressable offers/comparators, with credit terms and illustrative rather than provider-quoted compute value.
 - [inventory_schema_v1.json](inventory_schema_v1.json): JSON Schema Draft 2020-12 contract.
 - [test_inventory_v1.py](test_inventory_v1.py): stdlib static tests, including negative/mutation checks. Run with `python -m unittest discover -s research/provider-registry -p 'test_inventory_v1.py'`. Optionally validate schema with Python `jsonschema` or another JSON Schema 2020-12 implementation.
@@ -17,6 +26,14 @@ The snapshots were transcribed from the Nov 2, 2026 inventory documents; account
 - `account_evidence.status` is evidence about **account existence**, not usage or entitlement.
 
 Future agents should append read-only provider observations or maintain an account-scoped private ledger with exact timestamps, meters, billing periods and provenance. Do **not** commit credentials, account identifiers, billing PII or sensitive usage details to this public repository. For architecture see `docs/research/Provider Registry Control Plane and Usage Reconciliation 2026-11-01.md`.
+
+## Operator account and onboarding update (2026-11-13)
+
+The operator now confirms an existing **Northflank** account, **OpenRouter** with **$5 in reported monthly credits**, and possession of an **NVIDIA NIM API key**. The account registry records these facts without logging tokens, private IDs or credentials. The $5 is a **claimed recurring allowance**, not a provider-observed current balance; `usage`, awarded this billing period, consumed and remaining are still unknown. API-key possession does not demonstrate usable models, token quotas, or valid permissions.
+
+**Provider selection must not impose an existing-account-only filter.** The operator reports that signing up for eligible free services through GitHub or Google SSO typically takes only minutes. Thus **potential easy free SSO signup** has low onboarding friction relative to conventional account acquisition and can compete with existing but unverified accounts. For each provider the assistant must still verify that the *specific product* permits GitHub/Google sign-in, an actual usable free tier, no unexpected payment-card requirement, network/API access and limits before suggesting signup or starting a job. Never invent already-held accounts merely because signup is easy. Operator action is required for authentication or signup; a free signup is not an automatic authorization for billable provisioning.
+
+Selection should distinguish three separable properties: `account_evidence` (existing versus possible low-friction signup), `product_entitlement` (actual quota, API permissions and billing), and `live_route` (tested invocation, cleanup and receipts). Discovery candidate entries remain unverified until product-specific facts are observed. Existing executable evidence (e.g. an ASES GitHub Actions run) is a useful baseline, **not** a global ranking over other accessible providers.
 
 ## Cloud agent execution discovery (research, 2026-11-12)
 The existing `candidate_inventory_v0.json` now retains all earlier candidates and adds
