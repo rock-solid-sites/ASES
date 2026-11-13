@@ -48,6 +48,19 @@ class AgentExecutionDiscoveryCatalog(unittest.TestCase):
                          "vercel", "cloudflare", "openai", "hostkey"):
             self.assertIn(required, ids)
 
+    def test_inference_candidate_research_is_not_account_evidence(self):
+        records = {p["id"]: p for p in self.providers}
+        for required in ("groq", "cohere", "z-ai", "cerebras", "sambanova", "ollama"):
+            with self.subTest(provider=required):
+                record = records[required]
+                self.assertEqual(record["status"], "unverified_candidate")
+                self.assertIn("inference", record["roles"])
+                self.assertNotIn("account_evidence", record)
+                self.assertFalse(record.get("documented_execution_routes"))
+        self.assertIn("payment method", records["cerebras"]["notes"])
+        self.assertIn("conflicting", records["sambanova"]["notes"])
+        self.assertIn("pay-per-token", records["ollama"]["notes"])
+
     def test_no_duplicate_fly_sprite_alias(self):
         ids = {p["id"] for p in self.providers}
         self.assertIn("fly", ids)
