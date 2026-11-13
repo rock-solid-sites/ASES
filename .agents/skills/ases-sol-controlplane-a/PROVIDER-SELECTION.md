@@ -1,6 +1,6 @@
 ---
 title: "ASES reviewer provider selection from recorded accounts"
-version: 0.3.0-experimental
+version: 0.3.1-experimental
 status: ranked-preflight-required
 authority: run-scoped-research
 run_id: ASES-SOL-CTRL-A-20261113
@@ -10,7 +10,7 @@ review_date: 2026-11-13
 
 # Select from the provider registry, not an arbitrary example list
 
-**Decision:** For the simple **tool-free** review of a bounded, private ASES code/contract packet, prefer **existing OpenCode Go/Console** (different underlying model families) and **OpenRouter's $5 reported monthly credit** over provisioning any cloud compute service. Model identity, privacy, plan and credentials in the chosen Luna environment must be verified. New free signup options such as Groq/Z.ai merit consideration if existing routes fail. **Do not send raw private ASES code to NVIDIA's free prototyping endpoints or Google's unpaid Gemini API by default**, because the services permit data use/review beyond our zero-training expectation. GitHub Actions is the proven *test runner*, while Northflank/Modal/GitLab and other sandbox providers are only needed if the external verifier itself requires tools or a repository checkout. No model call or compute launch was executed in this research.
+**Decision:** The **specific unsolved experiment** is invoking OpenCode's free Console models through a Luna-owned **OpenCode CLI process inside Codex Cloud**. The user **already has paid OpenCode Go**; don't rediscover its account, but the Go Flash versions are affordable fallbacks. For the simple **tool-free** review of a bounded, private ASES code/contract packet, prefer **existing OpenCode Console/Go** (different underlying model families) and **OpenRouter's $5 reported monthly credit** over provisioning any cloud compute service. Model identity, privacy, plan and credentials in the chosen Luna environment must be verified. New free signup options such as Groq/Z.ai merit consideration if existing routes fail. **Do not send raw private ASES code to NVIDIA's free prototyping endpoints or Google's unpaid Gemini API by default**, because the services permit data use/review beyond our zero-training expectation. GitHub Actions is the proven *test runner*, while Northflank/Modal/GitLab and other sandbox providers are only needed if the external verifier itself requires tools or a repository checkout. No model call or compute launch was executed in this research.
 
 ## What the inventory actually says
 
@@ -26,8 +26,8 @@ Ranking weighs (a) **verified effective cost and usable quota**, (b) model/execu
 
 | Priority | Provider / actual account | Specific route and cost state | Privacy/verification gate |
 | --- | --- | --- | --- |
-| **1** | **OpenCode Go** (`opencode`, user-reported existing plan) | Go API can serve third-party model families to Codex and other coding-agent clients. Catalog includes GLM 5.3, Kimi, MiniMax, DeepSeek, Claude Haiku, Gemini. The *current active Go subscription* is not verified in this Cloud host | Prefer distinct builder-family model and no-training endpoint. Luna checks plan, available Go key, enabled model and usage allowance; no new sandbox required |
-| **1** | **OpenCode Console free** (`opencode`) | At time checked, **GLM-5.3 Flash Free, DeepSeek V4.1 Flash Free and MiniMax M3.1 Flash Free** are free via the **OpenCode CLI** and advertise zero-retention/no-training. OpenCode requires its client for free chat requests | Luna must use tool-disabled OpenCode process, not treat free endpoint as unrestricted third-party API; offers may end at any time; model family of builder must differ |
+| **Fallback** | **OpenCode Go** (`opencode`, **paid subscription operator-confirmed**) | The ordinary **DeepSeek V4.1 Flash, MiMo V2.6 Flash and GLM-5.3 Flash** models are available under Go. Exact tier, remaining allowance and credential availability in Codex Cloud still unknown | If Console free CLI cannot be launched economically, use a normal Go Flash model via an authorized Go-compatible route. Distinguish plan-included usage from fully free calls; choose different underlying family from builder |
+| **First capability test** | **OpenCode Console free** (`opencode`, already held) | **GLM-5.3 Flash Free, DeepSeek V4.1 Flash Free and MiniMax M3.1 Flash Free** are temporary no-charge offers through the **OpenCode CLI**; they are **not generally callable directly as Codex third-party API clients** | Luna attempts a single harmless, bounded **CLI-only** review process within Codex Cloud, with tools disabled and secret-safe auth; stop after a concrete failure, do not waste Sol quota on environment work; no self-verifier model family |
 | **2** | **OpenRouter** (`openrouter`, user-confirmed account, $5/month credit claimed) | Fixed-model direct API. Strong *Claude Sonnet 5.5* costs about **$0.08** for a 20k-input/4k-output example at $2/$10 per million. Other inexpensive models available. Free `:free` quotas vary with lifetime purchases | Confirm current **remaining** balance, model, provider **ZDR/no training** and source packet privacy. Choose exact model, prohibit silent fallback across families |
 | **3** | **Groq** (NEW candidate; not an observed account) | Free API suitable for small Qwen/Llama packet reviews; official Free plan Qwen3.8-27B sample: 30 RPM, 1k RPD but only 8k TPM | Fast free SSO signup candidate, per-account quotas and **ZDR controls**; chunk long source packet if necessary |
 | **3** | **Cloudflare Workers AI** (`cloudflare`, existing account) | Published 10,000 free neurons/day; suitable free models depend on exact SKU | Check Workers AI token/API and SKU; strongest Kimi/GLM/DeepSeek models listed on pricing often require paid billing |
@@ -59,7 +59,7 @@ The detailed versioned provider screening, exact official URLs and privacy disqu
 
 ## Execution policy
 
-**First goal:** no cloud machine at all. Luna probes **OpenCode Go, OpenCode Console free through the CLI, and OpenRouter** in that order with known free or authorized allowance and confirmed private-code data terms. The already-held NVIDIA key and Google's free API are **not** default private-source routes. A tiny nonsensitive capability check must precede real source packet submission. The reviewer returns falsifiers, not self-certification.
+**First goal:** no extra cloud machine at all. Luna specifically tests **OpenCode Console free through its CLI inside Codex Cloud**, then uses the user's **already-paid Go** normal Flash models (or OpenRouter) rather than treating Go as an undiscovered entitlement with known free or authorized allowance and confirmed private-code data terms. The already-held NVIDIA key and Google's free API are **not** default private-source routes. A tiny nonsensitive capability check must precede real source packet submission. The reviewer returns falsifiers, not self-certification.
 
 If the claim requires actual tests, use an independent Luna to turn findings into tests. GitHub Actions is a known runner baseline; **compare Northflank, Modal and GitLab CI** (plus suitable quick-SSO eligible candidates) on account-specific entitlement, one tiny reproducible launch, startup duration, review usefulness, model cost and cleanup before promoting any as the preferred sandbox. Signup is an operator action, not an automatic agent power.
 
@@ -80,4 +80,4 @@ Private source disclosure requires an authorized destination and data-handling t
 - GitLab.com Free CI quota: https://docs.gitlab.com/ci/pipelines/compute_minutes/
 - Cloudflare Sandbox plan gate: https://developers.cloudflare.com/sandbox/
 
-**Unknown:** whether OpenCode Go is currently active; whether OpenCode Console/Go credentials, OpenRouter, NVIDIA or Google keys are available in a **worker-approved** Codex Cloud execution environment; actual quota/credit; provider-specific model privacy; API egress; and executable sandbox readiness. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
+**Unknown:** exact paid OpenCode Go tier/remaining allowance and whether OpenCode Console/Go credentials, OpenRouter, NVIDIA or Google keys are available in a **worker-approved** Codex Cloud execution environment; actual quota/credit; provider-specific model privacy; API egress; and executable sandbox readiness. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
