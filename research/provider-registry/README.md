@@ -1,6 +1,6 @@
 ---
 title: "Account and promotional compute inventories"
-version: 0.2.0-research
+version: 0.3.0-research
 status: research-active
 authority: registry-evidence
 last_updated: 2026-11-13
@@ -34,6 +34,10 @@ The operator now confirms an existing **Northflank** account, **OpenRouter** wit
 **Provider selection must not impose an existing-account-only filter.** The operator reports that signing up for eligible free services through GitHub or Google SSO typically takes only minutes. Thus **potential easy free SSO signup** has low onboarding friction relative to conventional account acquisition and can compete with existing but unverified accounts. For each provider the assistant must still verify that the *specific product* permits GitHub/Google sign-in, an actual usable free tier, no unexpected payment-card requirement, network/API access and limits before suggesting signup or starting a job. Never invent already-held accounts merely because signup is easy. Operator action is required for authentication or signup; a free signup is not an automatic authorization for billable provisioning.
 
 Selection should distinguish three separable properties: `account_evidence` (existing versus possible low-friction signup), `product_entitlement` (actual quota, API permissions and billing), and `live_route` (tested invocation, cleanup and receipts). Discovery candidate entries remain unverified until product-specific facts are observed. Existing executable evidence (e.g. an ASES GitHub Actions run) is a useful baseline, **not** a global ranking over other accessible providers.
+
+## Cross-family reviewer inference screen (2026-11-13)
+
+[reviewer-inference-screen-2026-11-13.md](reviewer-inference-screen-2026-11-13.md) versions the task-specific account/candidate screen. The catalogue contains **60 discovery providers**, including six newly researched, **unowned/unverified** inference API candidates (Groq, Cohere, Z.ai, Cerebras, SambaNova, Ollama). The 29-account inventory still identifies only accounts actually reported or observed; new candidate additions are **not** treated as new user-owned accounts. Since model-only reviews generally need neither an OpenCode sandbox nor remote CPU, the first preflight is already owned OpenCode Go/Console and OpenRouter, with Groq/Z.ai as plausible no-card alternatives. Private-source data handling and actual credits/keys are separate gates. No external API or account signup was performed for this screen.
 
 ## Cloud agent execution discovery (research, 2026-11-12)
 The existing `candidate_inventory_v0.json` now retains all earlier candidates and adds
