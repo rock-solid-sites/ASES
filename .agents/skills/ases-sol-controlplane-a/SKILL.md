@@ -1,6 +1,6 @@
 ---
 name: ases-sol-controlplane-a
-version: 0.3.0-experimental
+version: 0.3.1-experimental
 status: experimental
 authority: run-scoped
 description: Apply ONLY when the user explicitly activates experiment ASES-SOL-CTRL-A-20261113. Makes the primary Codex agent a delegation-only ASES orchestrator; Luna-class subagents perform ALL routine tool calls, code reading, research, editing, tests, Git and Work Notes operations. Never apply to worker agents or unrelated sessions.
