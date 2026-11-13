@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "kind": "provider_account_attribution",
+  "as_of_date": "2026-11-12",
+  "authority": "account_identity_observation_and_operator_intent_only",
+  "warning": "This is a public identity/scope map, not a source of billing grants, API keys, live usage, quotas or dispatch authorization.",
+  "workstreams": [
+    {
+      "id": "rss",
+      "label": "Rock Solid Sites",
+      "parent_id": null
+    },
+    {
+      "id": "ases",
+      "label": "ASES",
+      "parent_id": "rss"
+    },
+    {
+      "id": "hms",
+      "label": "HMS",
+      "parent_id": "rss"
+    },
+    {
+      "id": "mbd",
+      "label": "MbD Record",
+      "parent_id": null
+    },
+    {
+      "id": "tripn",
+      "label": "Trip'n Chill Zone",
+      "parent_id": null
+    }
+  ],
+  "accounts": [
+    {
+      "id": "github-rss",
+      "provider_id": "github",
+      "public_handle": "rock-solid-sites",
+      "kind": "github_user",
+      "workstream_id": "rss",
+      "identity_state": "connector_observed",
+      "evidence": "Connected GitHub profile and user-owned ASES/HMS repositories observed 2026-11-12",
+      "entitlement_state": "unknown",
+      "billing_state": "unknown"
+    },
+    {
+      "id": "github-mbd",
+      "provider_id": "github",
+      "public_handle": "MbD-Record",
+      "kind": "github_user",
+      "workstream_id": "mbd",
+      "identity_state": "connector_observed",
+      "evidence": "Connected GitHub profile observed 2026-11-12",
+      "entitlement_state": "unknown",
+      "billing_state": "unknown"
+    },
+    {
+      "id": "github-tripn",
+      "provider_id": "github",
+      "public_handle": "TripN-Chill-Zone",
+      "kind": "github_user",
+      "workstream_id": "tripn",
+      "identity_state": "connector_observed",
+      "evidence": "Connected GitHub profile observed 2026-11-12",
+      "entitlement_state": "unknown",
+      "billing_state": "unknown"
+    },
+    {
+      "id": "github-ases-planned",
+      "provider_id": "github",
+      "public_handle": null,
+      "kind": "undecided_user_or_organization",
+      "workstream_id": "ases",
+      "identity_state": "planned",
+      "evidence": "Operator plans separate GitHub account or organization for ASES; not created or observed",
+      "entitlement_state": "unknown",
+      "billing_state": "unknown"
+    },
+    {
+      "id": "github-hms-planned",
+      "provider_id": "github",
+      "public_handle": null,
+      "kind": "undecided_user_or_organization",
+      "workstream_id": "hms",
+      "identity_state": "planned",
+      "evidence": "Operator plans separate GitHub account or organization for HMS; not created or observed",
+      "entitlement_state": "unknown",
+      "billing_state": "unknown"
+    }
+  ],
+  "repositories": [
+    {
+      "full_name": "rock-solid-sites/ASES",
+      "workstream_id": "ases",
+      "repository_owner_account_id": "github-rss",
+      "observation": "github_connector_repo_metadata_2026-11-12"
+    },
+    {
+      "full_name": "rock-solid-sites/HMS",
+      "workstream_id": "hms",
+      "repository_owner_account_id": "github-rss",
+      "observation": "github_connector_repo_metadata_2026-11-12"
+    }
+  ],
+  "event_attribution_contract": {
+    "required": [
+      "workstream_id",
+      "execution_account_id",
+      "api_actor_account_id",
+      "repository_owner_account_id",
+      "billing_account_id",
+      "product_id",
+      "meter_id",
+      "billing_period",
+      "amount",
+      "unit",
+      "observation_source",
+      "observed_at",
+      "correlation_id"
+    ],
+    "rules": [
+      "execution_account_id and billing_account_id are independent roles; never infer equality",
+      "api_actor_account_id can differ from repository_owner_account_id",
+      "a known workstream is not proof of a billable provider account",
+      "null billing_account_id is an unresolved observation, not free usage and not paid launch admission",
+      "a single agent job may consume separate GitHub and model-provider accounts and meters",
+      "repository transfers, account transitions and historical usage require dated attribution, not retroactive reassignment",
+      "planned accounts never count as connected accounts or eligible routes",
+      "credentials and private billing IDs must not enter this public file"
+    ]
+  },
+  "usage_events": [],
+  "notes": "Additional providers and accounts should be added by stable ID. Workstream hierarchy is reporting structure, not GitHub organization membership, ownership, or billing policy."
+}
