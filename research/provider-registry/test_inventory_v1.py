@@ -64,8 +64,29 @@ class InventoryContract(unittest.TestCase):
         self.assertTrue(validate_offers(self.offers))
 
     def test_source_row_preservation(self):
-        self.assertEqual(len(self.known["records"]), 28)
+        self.assertEqual(len(self.known["records"]), 29)
         self.assertEqual(len(self.offers["records"]), 26)
+
+    def test_new_operator_accounts_and_quota_claims(self):
+        accounts = {r["id"]: r for r in self.known["records"]}
+        northflank = accounts["northflank"]
+        self.assertEqual(northflank["account_evidence"]["status"], "user_confirmed")
+        self.assertIsNone(northflank["account_evidence"]["last_live_verified_at"])
+        self.assertEqual(northflank["usage"]["status"], "unknown")
+
+        openrouter = accounts["openrouter"]
+        monthly = [c for c in openrouter["claims"] if c["metric"] == "operator_reported_monthly_credit"]
+        self.assertEqual(len(monthly), 1)
+        self.assertEqual(monthly[0]["value"], 5)
+        self.assertEqual(monthly[0]["period"], "monthly")
+        self.assertEqual(monthly[0]["scope"], "account_reported")
+        self.assertIsNone(monthly[0]["verified_for_current_account"])
+        self.assertTrue(all(m["remaining"] is None for m in openrouter["usage"]["meters"]))
+
+        nvidia = accounts["nvidia"]
+        self.assertEqual(nvidia["account_evidence"]["status"], "user_confirmed")
+        self.assertIn("NIM API key", nvidia["account_evidence"]["notes"])
+        self.assertEqual(nvidia["usage"]["status"], "unknown")
 
     def test_no_account_usage_mistaken_for_zero(self):
         for record in self.known["records"]:
