@@ -1,6 +1,6 @@
 ---
 title: "BRIEF"
-version: 0.2.0-experimental
+version: 0.2.1-experimental
 status: experimental
 authority: run-scoped
 run_id: ASES-SOL-CTRL-A-20261113
@@ -10,6 +10,10 @@ supersedes_revision: eaf0d2c5092c1c1627e1ef79188378d1237f3e37
 # Current engineering queue — delegated reconnaissance required
 
 **Run:** ASES-SOL-CTRL-A-20261113. **Repo:** `rock-solid-sites/ASES`. **Work Notes:** `ASES-8` is the new experiment and progress log; `ASES-4` is the inherited engineering thread; earlier `ASES-2` contains the baseline. This page is a **source index**, not an instruction to trust stale PR summaries.
+
+## Registry source across independent research branches
+
+The **updated provider account registry lives on draft PR #44**, head `5903b7b9ce3f1d9499a08f794775c3faf40a5d3d`, whereas this session package lives on draft PR #45 and is based on `main`. **Do not use the older 28-account snapshot in local main as the current inventory.** The authoritative source for this experiment is `research/provider-registry/known_accounts_v1.json` at that exact PR #44 commit, which has 29 records: Northflank user-confirmed, OpenRouter $5 reported monthly credit, NVIDIA NIM API key possession. For provider routing, read this folder's `PROVIDER-SELECTION.md` v0.2.0 and test the candidate rather than assuming either branch means live access.
 
 ## First worker job: state reconnaissance
 
