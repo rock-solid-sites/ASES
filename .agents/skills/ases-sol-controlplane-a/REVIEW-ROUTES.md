@@ -1,6 +1,6 @@
 ---
 title: "External-family verifier routing — no Projektor dispatch assumption"
-version: 0.3.0-experimental
+version: 0.4.0-experimental
 status: proposed-unverified
 authority: run-scoped-design
 run_id: ASES-SOL-CTRL-A-20261113
@@ -10,13 +10,13 @@ run_id: ASES-SOL-CTRL-A-20261113
 
 **No live cross-family route is claimed.** Work Notes/Projektor can log work and reports; they are NOT assumed to launch models or bridge runtimes. External review is an optional independent gate until a bounded live test verifies actual authenticated execution.
 
-**Provider selection is registry-driven, not a preference invented for this document.** Read `PROVIDER-SELECTION.md` (v0.2.0) and the updated 29-account/54-candidate/26-offer sources on PR #44. The operator confirms an NVIDIA NIM API key, an OpenRouter account with $5/month credits, and a Northflank account. GitHub/Google SSO signup for *eligible genuinely free services* is low friction, so do not screen out good alternatives merely for lacking an existing account. Distinguish existence, actual entitlement, billing, and independently demonstrated execution; all new launcher and entitlement checks remain pending.
+**Provider selection is registry-driven**: read `PROVIDER-SELECTION.md` v0.3.0 and PR #44's 29-account / 60-candidate / 26-offer registry, especially the new versioned `reviewer-inference-screen-2026-11-13.md`. For the present simple code review, **OpenCode Go/Console free and OpenRouter** precede NVIDIA, Google or a sandbox. NVIDIA's free hosted trial and Google's unpaid API are not appropriate default destinations for raw private ASES source. New Groq/Z.ai/Cohere routes are unowned signup candidates, not existing accounts. All credentials, quotas, and availability in the actual Cloud executor require preflight.
 
 ## Routing preference
 
 ### A. Stateless external-model review (preferred when tools are unnecessary)
 
-A Luna dispatcher assembles a bounded **blind review packet** from frozen requirements, source pins, implementation source/diff, necessary adjacent contracts and interface material, plus requested claim/falsification obligations. **Do not include builder's rationale, green-test narrative, known predicted weak points or peer review output.** The dispatcher invokes an approved external-family inference endpoint directly (or a headless OpenCode reviewer with all tools disabled when a working route already exists). Cloud compute is unnecessary when the request is only an LLM inference call. Even with no reviewer tools, Luna performs all input retrieval and output persistence.
+A Luna dispatcher assembles a bounded **blind review packet** from frozen requirements, source pins, implementation source/diff, necessary adjacent contracts and interface material, plus requested claim/falsification obligations. **Do not include builder's rationale, green-test narrative, known predicted weak points or peer review output.** The dispatcher invokes an approved external-family inference endpoint directly through OpenCode **Go** or **OpenRouter**, or runs a headless tool-disabled OpenCode reviewer to access OpenCode **Console free** models. Check exact client/tool permissions: OpenCode free chat models require the OpenCode client, whereas Go supports other agent clients. Cloud compute is unnecessary when the request is only an LLM inference call. Even with no reviewer tools, Luna performs all input retrieval and output persistence.
 
 The reviewer returns severity-ranked falsifiable findings, explicit counterexample suggestions, missing facts and a verdict qualified as **static cross-family analysis**. A tool-free review does **not** claim that code compiled, that native histories were run, or that the model searched the full repository. A separate Luna can turn the proposed falsifiers into executable tests; Sol weighs both results.
 
@@ -24,7 +24,7 @@ The reviewer returns severity-ranked falsifiable findings, explicit counterexamp
 
 A Luna launcher provisions an explicitly approved, bounded sandbox and runs a configured OpenCode model against a read-only or isolated checkout. Use a narrow review agent with edits, destructive operations and network side effects disabled, plus finite time/CPU/tokens. Only allow reproducible test execution when the review genuinely needs to exercise behavior. Preserve exact source refs, run command, provider/model provenance, console traces, findings and cleanup receipt.
 
-**Candidate executors (NOT live/authorized):** GitHub Actions is the observed runner baseline; Northflank (now user-confirmed account), Modal and GitLab CI are peers to measure for short-lived executable review. Include other eligible free GitHub/Google SSO candidates when their specific product has a validated no-unapproved-charge launch path. Codespaces, E2B/Daytona/Vercel and Cloudflare Sandbox remain conditional on product-specific access and meters. Do not arbitrarily promote Modal or exclude Northflank based on a stale account inventory. The ranking in `PROVIDER-SELECTION.md` is a preflight order, not launch permission.
+**Candidate executors (NOT live/authorized):** **Do not provision a remote sandbox merely to submit a static model review packet**. GitHub Actions is the observed runner baseline; Northflank (now user-confirmed account), Modal and GitLab CI are peers to measure for short-lived executable review. Include other eligible free GitHub/Google SSO candidates when their specific product has a validated no-unapproved-charge launch path. Codespaces, E2B/Daytona/Vercel and Cloudflare Sandbox remain conditional on product-specific access and meters. Do not arbitrarily promote Modal or exclude Northflank based on a stale account inventory. The ranking in `PROVIDER-SELECTION.md` is a preflight order, not launch permission.
 
 The ASES provider registry in PR #44 records product APIs and account evidence separately; `known_accounts_v1.json` is **not** live billing authority. The dedicated provider launcher must verify real credentials/permissions, quota, allowed network egress, model entitlement and cleanup. Do not invent credentials or commit secrets. No new paid/chargeable resources are authorized by this document.
 
