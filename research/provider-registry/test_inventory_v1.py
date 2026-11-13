@@ -88,6 +88,17 @@ class InventoryContract(unittest.TestCase):
         self.assertIn("NIM API key", nvidia["account_evidence"]["notes"])
         self.assertEqual(nvidia["usage"]["status"], "unknown")
 
+    def test_paid_opencode_go_is_distinct_from_free_cli_route(self):
+        accounts = {r["id"]: r for r in self.known["records"]}
+        opencode = accounts["opencode"]
+        self.assertEqual(opencode["account_evidence"]["status"], "user_confirmed")
+        active_go = [c for c in opencode["claims"] if c["metric"] == "opencode_go_paid_subscription"]
+        self.assertEqual(len(active_go), 1)
+        self.assertIs(active_go[0]["value"], True)
+        self.assertIsNone(active_go[0]["verified_for_current_account"])
+        self.assertEqual(opencode["usage"]["status"], "unknown")
+        self.assertIn("free variants are CLI-only", opencode["offering_summary"])
+
     def test_no_account_usage_mistaken_for_zero(self):
         for record in self.known["records"]:
             self.assertEqual(record["usage"]["status"], "unknown")
