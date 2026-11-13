@@ -1,6 +1,6 @@
 ---
 title: "Sol control-plane A — document authority and version register"
-version: 0.3.3-experimental
+version: 0.3.4-experimental
 status: experimental
 authority: run-scoped
 run_id: ASES-SOL-CTRL-A-20261113
@@ -15,12 +15,12 @@ run_id: ASES-SOL-CTRL-A-20261113
 | File | Document identity | Authority |
 | --- | --- | --- |
 | `SKILL.md` | `ases-sol-controlplane-a` | 0.3.2-experimental; run-scoped parent policy |
-| `BRIEF.md` | session source index | 0.2.0-experimental; run-scoped |
+| `BRIEF.md` | session source index | 0.2.1-experimental; run-scoped |
 | `PACKETS.md` | strategy-to-builder and verifier packet procedure | 0.3.1-experimental; run-scoped |
 | `EVALUATION.md` | treatment A / historical baseline comparison | 0.2.0-experimental; run-scoped |
 | `HANDOFF.md` | durable worker checkpoint protocol | 0.2.0-experimental; run-scoped |
-| `LAUNCH.md` | fresh-session launch text | 0.3.3-experimental; run-scoped |
-| `VERSIONING.md` | this resolution register | 0.3.3-experimental; run-scoped |
+| `LAUNCH.md` | fresh-session launch text | 0.3.4-experimental; run-scoped |
+| `VERSIONING.md` | this resolution register | 0.3.4-experimental; run-scoped |
 | `REVIEW-ROUTES.md` | external-family reviewer route proposal | 0.3.0-experimental; proposed-unverified |
 | `PROVIDER-SELECTION.md` | ranked full-registry account selection | 0.2.0-experimental; ranked-preflight-required |
 
