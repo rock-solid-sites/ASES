@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-13",
+  "as_of_utc": "2026-11-14",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -827,6 +827,15 @@
       "official_url": "https://avoro.eu/en/black-friday",
       "last_verified_at": "2026-11-13",
       "notes": "Related brand of dataforest GmbH, not necessarily separate underlying compute capacity or sale; three fixed-price VPS promotions scheduled for disclosure Nov 23."
+    },
+    {
+      "id": "hostpro-ua",
+      "name": "HostPro Ukraine",
+      "category": "fixed_term_vps",
+      "official_url": "https://hostpro.ua/",
+      "notes": "Official BF2026 20% off VPS and other services; no verified 8-24GB effective hourly pricing or checkout; do not conflate with cloud credits.",
+      "first_seen_at": "2026-11-14",
+      "last_checked_at": "2026-11-14"
     }
   ],
   "compute_offerings": [
@@ -1654,14 +1663,15 @@
       "type": "black_friday_fixed_term_vps",
       "advertised_value": null,
       "value_unit": "EUR_plan_prices",
-      "details": "Official sale: 4 vCPU/8GB/180GB NVMe €58.80/year recurring; 6 vCPU/10GB/200GB NVMe €6.39/month recurring; 6 vCPU/16GB/250GB NVMe €7.99/month recurring. Frankfurt, 10TB traffic, IPv4, 10 backup slots; no setup fee. CPU 24/7 full saturation prohibited per provider-authored LET post; AI training prohibited. Prepaid VPS purchase is nonrefundable after immediate provisioning; no separate deposit requirement established. Official website says stock limited, dynamic count. No hourly VM pricing or signup bonus: unsuitable for strictly pay-per-hour credits but useful VPS alternative.",
+      "details": "Official sale: 4 vCPU/8GB/180GB NVMe €58.80/year recurring; 6 vCPU/10GB/200GB NVMe €6.39/month recurring; 6 vCPU/16GB/250GB NVMe €7.99/month recurring. Frankfurt, 10TB traffic, IPv4, 10 backup slots; no setup fee. CPU 24/7 full saturation prohibited per provider-authored LET post; AI training prohibited. Prepaid VPS purchase is nonrefundable after immediate provisioning; no separate deposit requirement established. Official website says stock limited, dynamic count. No hourly VM pricing or signup bonus: unsuitable for strictly pay-per-hour credits but useful VPS alternative. Provider official promotions FAQ confirms promotional price renews while active (subject to notified price changes), nonrefundable prepaid credit, no mining/AI training and resource-intensive abusive activities; AI agent coding not specifically ruled out but CPU policy still unresolved. Nov9+ new orders have 1TB egress per GB RAM capped 10TB then fair use.",
       "source_urls": [
         "https://prepaid-host.com/en/aktion/flash-16",
-        "https://lowendtalk.com/discussion/223243/prepaid-host-pre-bf-frankfurt-epyc-kvm-8gb-58-80-yr-16gb-7-99-mo"
+        "https://lowendtalk.com/discussion/223243/prepaid-host-pre-bf-frankfurt-epyc-kvm-8gb-58-80-yr-16gb-7-99-mo",
+        "https://prepaid-host.com/de/aktionen/faq"
       ],
       "credit_expiry": "not_applicable_fixed_term_service",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-13",
+      "last_checked_at": "2026-11-14",
       "status": "official_live_periodic_only_checkout_unverified",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1710,7 +1720,7 @@
       ],
       "credit_expiry": "unknown",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-13",
+      "last_checked_at": "2026-11-14",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1734,7 +1744,7 @@
       ],
       "credit_expiry": "not_applicable_fixed_term_service",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-13",
+      "last_checked_at": "2026-11-14",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1745,6 +1755,55 @@
       "redemption_deadline_utc": "2026-11-30T22:59:00Z",
       "evidence_level": "official_provider_teaser_not_live_offer",
       "alert_state": "watch_no_alert_until_terms_qualify"
+    },
+    {
+      "id": "hostpro-bf2026-20pct",
+      "provider_id": "hostpro-ua",
+      "type": "fixed_term_vps_coupon",
+      "advertised_value": 20,
+      "value_unit": "percent_first_order_unverified_duration",
+      "details": "Provider announced BF2026 coupon 20% off VPS, dedicated servers, hosting, etc., Oct29-Nov30 2026. No published verified 8GB+ price or evidence that hourly instances or existing-account top-ups qualify. Not usable compute credit. Checkout not verified.",
+      "source_urls": [
+        "https://hostpro.ua/blog/news/black-friday-sale/"
+      ],
+      "credit_expiry": "not_applicable",
+      "first_seen_at": "2026-11-14",
+      "last_checked_at": "2026-11-14",
+      "status": "official_live_fixed_term_only_price_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": "2026-11-30T23:59:00Z",
+      "evidence_level": "official_provider_announcement_no_checkout",
+      "alert_state": "research_only"
+    },
+    {
+      "id": "alibaba-double11-2026",
+      "provider_id": "alibaba-cloud",
+      "type": "domestic_china_annual_ecs_sale",
+      "advertised_value": null,
+      "value_unit": "CNY_fixed_term_plan",
+      "details": "Official Alibaba Cloud China Double 11 campaign advertises limited-time purchases and 99-plan new/renewal low pricing; Alibaba developer-community Nov 5/7 posts describe 99 CNY/year ECS and 38 CNY/year 2GB lightweight server, below RAM minimum. Region and international account eligibility not verified, no hourly compute credit or 8GB+ effective price established; not alert-worthy.",
+      "source_urls": [
+        "https://www.aliyun.com/activity/hub/1111-cloud",
+        "https://developer.aliyun.com/article/1780373"
+      ],
+      "credit_expiry": "not_applicable_fixed_term_service",
+      "first_seen_at": "2026-11-14",
+      "last_checked_at": "2026-11-14",
+      "status": "official_campaign_domestic_eligibility_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Mainland China campaign; international eligibility unknown",
+      "redemption_deadline_utc": "2026-11-30T15:59:00Z",
+      "evidence_level": "official_china_campaign_and_developer_community_not_checkout_verified",
+      "alert_state": "research_only"
     }
   ],
   "account_inventory": {
@@ -1918,6 +1977,18 @@
         "avoro-black-week-2026"
       ],
       "summary": "Began dedicated BF/CM 2026 discovery, captured provider-official Prepaid-Host and VM6 periodic VPS offers (not hourly credits), unresolved VM6 official renewal contradiction, and dataforest/AVORO Nov23 unpriced teasers; added LowEndBox Nov27 feed; retain other search tracks."
+    },
+    {
+      "at": "2026-11-14",
+      "kind": "black_friday_targeted_sweep_no_alert",
+      "entity_ids": [
+        "hostpro-bf2026-20pct",
+        "alibaba-double11-2026",
+        "prepaid-host-prebf-2026",
+        "dataforest-black-week-2026",
+        "avoro-black-week-2026"
+      ],
+      "summary": "Found official HostPro 20% BF2026 coupon and Alibaba domestic Double11 fixed-term ECS sale; neither establishes eligible 6GB+ hourly compute credit or checkout-verified price. Rechecked dataforest and AVORO Nov23 unpriced teasers and Prepaid-Host renewal/refund/use policy. No actionable new qualifying burst-compute credit; no notification."
     }
   ],
   "source_policy": {
