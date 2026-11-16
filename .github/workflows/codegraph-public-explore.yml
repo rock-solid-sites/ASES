@@ -4,6 +4,9 @@ name: CodeGraph public repository exploration
 on:
   issues:
     types: [opened]
+  pull_request:
+    paths:
+      - '.github/workflows/codegraph-public-explore.yml'
   workflow_dispatch:
     inputs:
       repository:
@@ -24,7 +27,9 @@ jobs:
   explore:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.issue.user.login == 'rock-solid-sites' &&
+      (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'rock-solid-sites' &&
+       github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
        startsWith(github.event.issue.title, '[codegraph] '))
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -32,8 +37,8 @@ jobs:
       CODEGRAPH_NO_DAEMON: '1'
       CODEGRAPH_NO_WATCH: '1'
       CODEGRAPH_TELEMETRY: '0'
-      REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository }}
-      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question }}
+      REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository || 'rock-solid-sites/ASES' }}
+      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question || 'Where is the software customization and upstream compatibility method defined?' }}
     steps:
       - uses: actions/setup-node@v4
         with:
@@ -71,7 +76,7 @@ jobs:
           du -sh "$RUNNER_TEMP/source/.codegraph"
           wc -c "$RUNNER_TEMP/codegraph-answer.md"
           # Manual dispatch also receives the result in the job trace.
-          if [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' ]]; then
+          if [[ "$GITHUB_EVENT_NAME" != 'issues' ]]; then
             head -c 40000 "$RUNNER_TEMP/codegraph-answer.md"
           fi
       - name: Return answer to the requesting issue
