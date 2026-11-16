@@ -38,7 +38,7 @@ jobs:
       CODEGRAPH_NO_WATCH: '1'
       CODEGRAPH_TELEMETRY: '0'
       REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository || 'rock-solid-sites/ASES' }}
-      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question || 'Where is the software customization and upstream compatibility method defined?' }}
+      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question || 'Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' }}
     steps:
       - uses: actions/setup-node@v4
         with:
@@ -72,6 +72,10 @@ jobs:
             cd "$RUNNER_TEMP/source"
             "$engine" explore "$REQUEST_QUESTION"
           } > "$RUNNER_TEMP/codegraph-answer.md"
+          if [[ "$GITHUB_EVENT_NAME" == 'pull_request' ]]; then
+            grep -Fq '**Source Code**' "$RUNNER_TEMP/codegraph-answer.md"
+            grep -Fq 'fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' "$RUNNER_TEMP/codegraph-answer.md"
+          fi
           echo '--- Resource evidence ---'
           du -sh "$RUNNER_TEMP/source/.codegraph"
           wc -c "$RUNNER_TEMP/codegraph-answer.md"
