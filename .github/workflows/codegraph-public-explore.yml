@@ -41,8 +41,6 @@ jobs:
        github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
     timeout-minutes: 25
-    env:
-      CODEGRAPH_BIN: ${{ runner.temp }}/codegraph/node_modules/.bin/codegraph
     permissions:
       contents: read
     steps:
@@ -51,7 +49,9 @@ jobs:
         with:
           node-version: '22'
       - name: Install pinned CodeGraph CLI
-        run: npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+        run: |
+          npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+          echo "CODEGRAPH_BIN=$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph" >> "$GITHUB_ENV"
       - name: Test B2 cache hit, invalidation and corruption handling without credentials
         run: bash .github/scripts/test-codegraph-b2-cache.sh
       - name: Analyze public source without B2 credentials
