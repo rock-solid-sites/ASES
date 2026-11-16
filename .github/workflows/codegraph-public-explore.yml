@@ -67,9 +67,10 @@ jobs:
 
   explore:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
-       startsWith(github.event.issue.title, '[codegraph] '))
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
+        startsWith(github.event.issue.title, '[codegraph] ')))
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     environment: codegraph-b2
