@@ -38,7 +38,7 @@ jobs:
       CODEGRAPH_NO_WATCH: '1'
       CODEGRAPH_TELEMETRY: '0'
       REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository || 'rock-solid-sites/ASES' }}
-      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question || 'Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' }}
+      REQUEST_QUESTION: ${{ github.event_name == 'pull_request' && 'Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' || github.event_name == 'issues' && github.event.issue.body || inputs.question }}
     steps:
       - uses: actions/setup-node@v4
         with:
