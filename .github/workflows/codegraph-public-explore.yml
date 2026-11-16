@@ -9,6 +9,13 @@ on:
       - '.github/workflows/codegraph-public-explore.yml'
       - '.github/scripts/codegraph-public-explore.sh'
       - '.github/scripts/test-codegraph-b2-cache.sh'
+  push:
+    branches:
+      - 'experiment/**'
+    paths:
+      - '.github/workflows/codegraph-public-explore.yml'
+      - '.github/scripts/codegraph-public-explore.sh'
+      - '.github/scripts/test-codegraph-b2-cache.sh'
   workflow_dispatch:
     inputs:
       repository:
@@ -26,11 +33,12 @@ permissions:
   issues: write
 
 jobs:
-  pull-request-test:
+  branch-test:
     if: >-
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.user.login == 'rock-solid-sites' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.user.login == 'rock-solid-sites' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
