@@ -74,11 +74,11 @@ run_fixture() {
 }
 
 run_fixture > "$root/fresh.txt"
-rg -q '\*\*Index:\*\* `fresh`' "$root/fresh.txt"
+grep -Fq '**Index:** `fresh`' "$root/fresh.txt"
 run_fixture > "$root/restored.txt"
-rg -q '\*\*Index:\*\* `restored`' "$root/restored.txt"
-rg -q 'Restored verified CodeGraph index' "$root/restored.txt"
-rg -q 'normalize' "$root/restored.txt"
+grep -Fq '**Index:** `restored`' "$root/restored.txt"
+grep -Fq 'Restored verified CodeGraph index' "$root/restored.txt"
+grep -Fq 'normalize' "$root/restored.txt"
 
 object="$(find "$root/store" -type f ! -name '*.meta' | head -1)"
 cp "$object" "$root/good.tar.gz"
@@ -88,7 +88,7 @@ if run_fixture > "$root/corrupt.txt" 2>&1; then
   echo 'Corrupt snapshot was accepted' >&2
   exit 1
 fi
-rg -q 'checksum does not match object metadata' "$root/corrupt.txt"
+grep -Fq 'checksum does not match object metadata' "$root/corrupt.txt"
 cp "$root/good.tar.gz" "$object"
 
 tamper_manifest() {
@@ -127,20 +127,20 @@ if run_fixture > "$root/manifest-repository.txt" 2>&1; then
   echo 'Manifest with a mismatched repository identity was accepted' >&2
   exit 1
 fi
-rg -q 'manifest is invalid or does not match' "$root/manifest-repository.txt"
+grep -Fq 'manifest is invalid or does not match' "$root/manifest-repository.txt"
 tamper_manifest codegraph_version 0.0.0
 if run_fixture > "$root/manifest-version.txt" 2>&1; then
   echo 'Manifest with a mismatched CodeGraph version was accepted' >&2
   exit 1
 fi
-rg -q 'manifest is invalid or does not match' "$root/manifest-version.txt"
+grep -Fq 'manifest is invalid or does not match' "$root/manifest-version.txt"
 
 printf '\nexport const anotherRegion = "eu-central-003";\n' >> "$root/fixture/region.ts"
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid add .
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm 'new fixture commit'
 run_fixture > "$root/new-commit.txt"
-rg -q '\*\*Index:\*\* `fresh`' "$root/new-commit.txt"
-rg -q 'Stored verified CodeGraph index' "$root/new-commit.txt"
+grep -Fq '**Index:** `fresh`' "$root/new-commit.txt"
+grep -Fq 'Stored verified CodeGraph index' "$root/new-commit.txt"
 
 echo 'PASS: first-run upload and verified restore'
 echo 'PASS: corrupted archive rejected'

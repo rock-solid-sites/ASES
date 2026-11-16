@@ -62,7 +62,7 @@ if [[ "$cache_enabled" == 'true' ]]; then
     if aws s3api head-object --bucket "$B2_BUCKET" --key "$key" "${aws_args[@]}" >/dev/null 2>"$error_file"; then
       return 0
     fi
-    if rg -qi '404|Not Found|NoSuchKey' "$error_file"; then
+    if grep -Eqi '404|Not Found|NoSuchKey' "$error_file"; then
       return 1
     fi
     cat "$error_file" >&2
