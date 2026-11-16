@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-14",
+  "as_of_utc": "2026-11-16",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -836,6 +836,36 @@
       "notes": "Official BF2026 20% off VPS and other services; no verified 8-24GB effective hourly pricing or checkout; do not conflate with cloud credits.",
       "first_seen_at": "2026-11-14",
       "last_checked_at": "2026-11-14"
+    },
+    {
+      "id": "zenyx",
+      "name": "Zenyx",
+      "category": "fixed_term_vps_not_hourly_credit",
+      "official_url": "https://www.zenyx.eu/black-friday",
+      "last_verified_at": "2026-11-16",
+      "account": {
+        "status": "unknown"
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "notes": "2026 Black Friday fixed-term VPS; no hourly compute credits verified."
+    },
+    {
+      "id": "nvhcloud",
+      "name": "NVHCloud",
+      "category": "fixed_term_vps_not_hourly_credit",
+      "official_url": "https://www.nvhcloud.com/en/black-friday",
+      "last_verified_at": "2026-11-16",
+      "account": {
+        "status": "unknown"
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "notes": "2026 Black Friday fixed-term VPS; no hourly compute credits verified."
     }
   ],
   "compute_offerings": [
@@ -1720,7 +1750,7 @@
       ],
       "credit_expiry": "unknown",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-14",
+      "last_checked_at": "2026-11-16",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1744,7 +1774,7 @@
       ],
       "credit_expiry": "not_applicable_fixed_term_service",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-14",
+      "last_checked_at": "2026-11-16",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1804,6 +1834,54 @@
       "redemption_deadline_utc": "2026-11-30T15:59:00Z",
       "evidence_level": "official_china_campaign_and_developer_community_not_checkout_verified",
       "alert_state": "research_only"
+    },
+    {
+      "id": "zenyx-bf2026-vps",
+      "provider_id": "zenyx",
+      "type": "black_friday_fixed_term_vps",
+      "advertised_value": null,
+      "value_unit": "EUR_introductory_periodic_prices",
+      "details": "Official 23-30 Nov 2026 sale, Paris time. Cloud8 4 vCPU/8GB/150GB €67.11 first year OR €4.79/mo first three months then €7.99/mo. Cloud16 6 vCPU/16GB/250GB €117.51 first year OR €8.39/mo first three months then €13.99/mo. No hourly billing, no credits. CPU policy, tax and checkout unverified.",
+      "source_urls": [
+        "https://www.zenyx.eu/black-friday"
+      ],
+      "credit_expiry": "not_applicable",
+      "first_seen_at": "2026-11-16",
+      "last_checked_at": "2026-11-16",
+      "status": "official_future_dated_not_yet_redeemable",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": "2026-11-30T22:59:00Z",
+      "evidence_level": "provider_official_page_not_checkout_verified",
+      "alert_state": "research_only_not_hourly"
+    },
+    {
+      "id": "nvhcloud-bf2026-first-month",
+      "provider_id": "nvhcloud",
+      "type": "black_friday_first_month_vps_discount",
+      "advertised_value": 20,
+      "value_unit": "percent_first_month_only",
+      "details": "Official 27-30 Nov 2026 Paris time; BLACKFRIDAY26 gives 20% off first monthly invoice on new Linux/Windows VPS/VPN orders, including additional new servers for existing customers. Renewals normal price; no hourly billing or reusable credits. Site has an inconsistent Linux price display; do not infer checkout value. 8GB+ specs and CPU policy unverified.",
+      "source_urls": [
+        "https://www.nvhcloud.com/en/black-friday"
+      ],
+      "credit_expiry": "not_applicable",
+      "first_seen_at": "2026-11-16",
+      "last_checked_at": "2026-11-16",
+      "status": "official_future_dated_not_yet_redeemable",
+      "eligible_existing_account": true,
+      "requires_new_account": false,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": "2026-11-30T22:59:00Z",
+      "evidence_level": "provider_official_page_not_checkout_verified",
+      "alert_state": "research_only_not_hourly"
     }
   ],
   "account_inventory": {
@@ -1989,6 +2067,17 @@
         "avoro-black-week-2026"
       ],
       "summary": "Found official HostPro 20% BF2026 coupon and Alibaba domestic Double11 fixed-term ECS sale; neither establishes eligible 6GB+ hourly compute credit or checkout-verified price. Rechecked dataforest and AVORO Nov23 unpriced teasers and Prepaid-Host renewal/refund/use policy. No actionable new qualifying burst-compute credit; no notification."
+    },
+    {
+      "at": "2026-11-16",
+      "kind": "black_friday_targeted_sweep_no_alert",
+      "entity_ids": [
+        "zenyx-bf2026-vps",
+        "nvhcloud-bf2026-first-month",
+        "dataforest-black-week-2026",
+        "avoro-black-week-2026"
+      ],
+      "summary": "Official Zenyx and NVHCloud 2026 Black Friday fixed-term introductory VPS discounts recorded, not eligible hourly CPU credits. Rechecked dataforest and AVORO Nov23 teasers: prices still undisclosed. Daytona $200 baseline remains known; no new eligible burst-compute promotion verified. Targeted major-cloud/sandbox/community checks; no actionable alert."
     }
   ],
   "source_policy": {
