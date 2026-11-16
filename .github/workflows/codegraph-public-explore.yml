@@ -1,0 +1,94 @@
+# A small, disposable CodeGraph research runner. Public repositories and results only.
+name: CodeGraph public repository exploration
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Public GitHub owner/repository
+        type: string
+        required: true
+        default: rock-solid-sites/ASES
+      question:
+        description: Question for CodeGraph to explore
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  explore:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.issue.user.login == 'rock-solid-sites' &&
+       startsWith(github.event.issue.title, '[codegraph] '))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CODEGRAPH_NO_DAEMON: '1'
+      CODEGRAPH_NO_WATCH: '1'
+      CODEGRAPH_TELEMETRY: '0'
+      REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository }}
+      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Analyze a public GitHub repository without executing its build
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$REQUEST_REPO"
+          if [[ "$GITHUB_EVENT_NAME" == 'issues' ]]; then
+            repo="${repo#\[codegraph\] }"
+          fi
+          if [[ ! "$repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+            echo 'Invalid repository: use owner/repository' >&2
+            exit 1
+          fi
+          if [[ -z "${REQUEST_QUESTION//[[:space:]]/}" || ${#REQUEST_QUESTION} -gt 2000 ]]; then
+            echo 'Question must contain 1-2000 characters' >&2
+            exit 1
+          fi
+          git clone --quiet --depth 1 --no-tags "https://github.com/${repo}.git" "$RUNNER_TEMP/source"
+          sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
+          npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+          engine="$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph"
+          (cd "$RUNNER_TEMP/source" && "$engine" init --local-only . > "$RUNNER_TEMP/codegraph-index.log" 2>&1) || {
+            tail -n 60 "$RUNNER_TEMP/codegraph-index.log" >&2
+            exit 1
+          }
+          {
+            printf '**Repository:** `%s`  \n**Commit:** `%s`  \n**CodeGraph:** `1.6.2`\n\n' "$repo" "$sha"
+            cd "$RUNNER_TEMP/source"
+            "$engine" explore "$REQUEST_QUESTION"
+          } > "$RUNNER_TEMP/codegraph-answer.md"
+          echo '--- Resource evidence ---'
+          du -sh "$RUNNER_TEMP/source/.codegraph"
+          wc -c "$RUNNER_TEMP/codegraph-answer.md"
+          # Manual dispatch also receives the result in the job trace.
+          if [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' ]]; then
+            head -c 40000 "$RUNNER_TEMP/codegraph-answer.md"
+          fi
+      - name: Return answer to the requesting issue
+        if: always() && github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = `${process.env.RUNNER_TEMP}/codegraph-answer.md`;
+            const run = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const result = fs.existsSync(file)
+              ? fs.readFileSync(file, 'utf8')
+              : 'CodeGraph did not return a result. See the job log for the failure.';
+            const limit = 40000;
+            const answer = result.length > limit ? `${result.slice(0, limit)}\n\n[Response truncated]` : result;
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `${answer}\n\n[GitHub Actions run](${run})`,
+            });
