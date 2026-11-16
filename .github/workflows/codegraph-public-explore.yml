@@ -7,6 +7,8 @@ on:
   pull_request:
     paths:
       - '.github/workflows/codegraph-public-explore.yml'
+      - '.github/scripts/codegraph-public-explore.sh'
+      - '.github/scripts/test-codegraph-b2-cache.sh'
   workflow_dispatch:
     inputs:
       repository:
@@ -24,26 +26,63 @@ permissions:
   issues: write
 
 jobs:
+  pull-request-test:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'rock-solid-sites' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CODEGRAPH_BIN: ${{ runner.temp }}/codegraph/node_modules/.bin/codegraph
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned CodeGraph CLI
+        run: npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+      - name: Test B2 cache hit, invalidation and corruption handling without credentials
+        run: bash .github/scripts/test-codegraph-b2-cache.sh
+      - name: Analyze public source without B2 credentials
+        shell: bash
+        env:
+          B2_CACHE_ENABLED: 'false'
+        run: |
+          set -euo pipefail
+          question='Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts'
+          bash .github/scripts/codegraph-public-explore.sh "$GITHUB_REPOSITORY" "$question" | tee "$RUNNER_TEMP/codegraph-answer.md"
+          grep -Fq '**Source Code**' "$RUNNER_TEMP/codegraph-answer.md"
+          grep -Fq 'fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' "$RUNNER_TEMP/codegraph-answer.md"
+
   explore:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'rock-solid-sites' &&
-       github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
        startsWith(github.event.issue.title, '[codegraph] '))
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    environment: codegraph-b2
     env:
-      CODEGRAPH_NO_DAEMON: '1'
-      CODEGRAPH_NO_WATCH: '1'
-      CODEGRAPH_TELEMETRY: '0'
       REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository || 'rock-solid-sites/ASES' }}
-      REQUEST_QUESTION: ${{ github.event_name == 'pull_request' && 'Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' || github.event_name == 'issues' && github.event.issue.body || inputs.question }}
+      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question }}
+      B2_CACHE_ENABLED: 'true'
+      B2_BUCKET: ${{ vars.B2_BUCKET }}
+      B2_REGION: ${{ vars.B2_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+    permissions:
+      contents: read
+      issues: write
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Analyze a public GitHub repository without executing its build
+      - name: Restore or build and archive the public CodeGraph index
         shell: bash
         run: |
           set -euo pipefail
@@ -51,38 +90,7 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == 'issues' ]]; then
             repo="${repo#\[codegraph\] }"
           fi
-          if [[ ! "$repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
-            echo 'Invalid repository: use owner/repository' >&2
-            exit 1
-          fi
-          if [[ -z "${REQUEST_QUESTION//[[:space:]]/}" || ${#REQUEST_QUESTION} -gt 2000 ]]; then
-            echo 'Question must contain 1-2000 characters' >&2
-            exit 1
-          fi
-          git clone --quiet --depth 1 --no-tags "https://github.com/${repo}.git" "$RUNNER_TEMP/source"
-          sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
-          npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
-          engine="$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph"
-          (cd "$RUNNER_TEMP/source" && "$engine" init --yes . > "$RUNNER_TEMP/codegraph-index.log" 2>&1) || {
-            tail -n 60 "$RUNNER_TEMP/codegraph-index.log" >&2
-            exit 1
-          }
-          {
-            printf '**Repository:** `%s`  \n**Commit:** `%s`  \n**CodeGraph:** `1.6.2`\n\n' "$repo" "$sha"
-            cd "$RUNNER_TEMP/source"
-            "$engine" explore "$REQUEST_QUESTION"
-          } > "$RUNNER_TEMP/codegraph-answer.md"
-          if [[ "$GITHUB_EVENT_NAME" == 'pull_request' ]]; then
-            grep -Fq '**Source Code**' "$RUNNER_TEMP/codegraph-answer.md"
-            grep -Fq 'fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' "$RUNNER_TEMP/codegraph-answer.md"
-          fi
-          echo '--- Resource evidence ---'
-          du -sh "$RUNNER_TEMP/source/.codegraph"
-          wc -c "$RUNNER_TEMP/codegraph-answer.md"
-          # Manual dispatch also receives the result in the job trace.
-          if [[ "$GITHUB_EVENT_NAME" != 'issues' ]]; then
-            head -c 40000 "$RUNNER_TEMP/codegraph-answer.md"
-          fi
+          bash .github/scripts/codegraph-public-explore.sh "$repo" "$REQUEST_QUESTION" | tee "$RUNNER_TEMP/codegraph-answer.md"
       - name: Return answer to the requesting issue
         if: always() && github.event_name == 'issues'
         uses: actions/github-script@v7
