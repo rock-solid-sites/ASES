@@ -63,7 +63,7 @@ jobs:
           sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
           npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
           engine="$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph"
-          (cd "$RUNNER_TEMP/source" && "$engine" init --local-only . > "$RUNNER_TEMP/codegraph-index.log" 2>&1) || {
+          (cd "$RUNNER_TEMP/source" && "$engine" init --yes . > "$RUNNER_TEMP/codegraph-index.log" 2>&1) || {
             tail -n 60 "$RUNNER_TEMP/codegraph-index.log" >&2
             exit 1
           }
