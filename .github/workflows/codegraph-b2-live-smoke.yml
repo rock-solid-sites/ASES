@@ -1,0 +1,70 @@
+name: Temporary CodeGraph B2 live smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: Run the fresh cache fill first, then run the restore check
+        type: choice
+        options:
+          - fresh
+          - restored
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  live-smoke:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    environment: codegraph-b2
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the exact PR #46 implementation
+        uses: actions/checkout@v4
+        with:
+          ref: 22abfa982fb0284247107576017dc752b973af8a
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pinned CodeGraph CLI
+        run: |
+          npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+          echo "CODEGRAPH_BIN=$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph" >> "$GITHUB_ENV"
+
+      - name: Run and verify the requested cache phase
+        shell: bash
+        env:
+          EXPECTED_PHASE: ${{ inputs.phase }}
+          B2_CACHE_ENABLED: 'true'
+          B2_BUCKET: ${{ vars.B2_BUCKET }}
+          B2_REGION: ${{ vars.B2_REGION }}
+          B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/codegraph-b2-live-smoke.txt"
+          question='Summarize the project structure and identify its primary application entry points.'
+          bash .github/scripts/codegraph-public-explore.sh rock-solid-sites/ASES "$question" | tee "$output"
+
+          case "$EXPECTED_PHASE" in
+            fresh)
+              grep -Fq 'Building CodeGraph index for rock-solid-sites/ASES at ' "$output"
+              grep -Fq 'Stored verified CodeGraph index (' "$output"
+              ! grep -Fq 'Restored verified CodeGraph index' "$output"
+              ;;
+            restored)
+              grep -Fq 'Restored verified CodeGraph index for rock-solid-sites/ASES at ' "$output"
+              ! grep -Fq 'Stored verified CodeGraph index (' "$output"
+              ;;
+            *)
+              echo 'Unknown smoke-test phase' >&2
+              exit 1
+              ;;
+          esac
