@@ -1,6 +1,10 @@
 # Current ASES operational skills
 
-This is the **only directory the installed ASES Workflow dispatcher should use for live operational instructions**. List this directory and read the selected `<skill>/SKILL.md` through the connected GitHub tool at invocation time.
+This is the **only directory the installed ASES Workflow dispatcher should use for current operational instructions**. Fetch the current public Markdown by **read-only HTTPS GET**, rather than using an authenticated GitHub connector for ordinary instruction retrieval.
+
+**Read-only entry point:** https://raw.githubusercontent.com/rock-solid-sites/ASES/main/skills/current/README.md
+
+**Individual skills:** `https://raw.githubusercontent.com/rock-solid-sites/ASES/main/skills/current/<skill>/SKILL.md` (replace `<skill>` with one of the listed directory names). These endpoints return the file contents and offer no editing operation.
 
 - `review-launch/SKILL.md` — independent reviewers on GitHub Actions; deep investigations in isolated workspaces.
 - `agent-launch/SKILL.md` — select and verify controller, execution host, permissions, launcher and model.
@@ -11,9 +15,9 @@ This is the **only directory the installed ASES Workflow dispatcher should use f
 
 **Source of truth:** `rock-solid-sites/ASES`, branch `main`, directory `skills/current/`. Git commit history and release tags preserve previous approved versions. Do not copy prior version files or historical redirects into `current/`.
 
-**Publication:** Update the canonical Markdown through a reviewed GitHub PR. The installed ChatGPT plugin is only a thin locator; do not update it for ordinary skill text changes. The plugin can technically be edited via Plugin Creator, so read-only intent is a *procedural* restriction, not permission enforcement. The current `main` branch is **not protected as of 2026-11-17**, and protecting it requires repository administration outside the GitHub connector.
+**Publication:** Changes are made in the source repository, preferably through a GitHub pull request; the read-only URLs cannot edit documents. No plugin republish is required for ordinary Markdown edits. These HTTP URLs do not revoke write access that a different tool may separately hold. Repository `main` was not branch-protected as of 2026-11-17; branch protection is not necessary for read-only HTTP retrieval.
 
-**Retrieval:** Read the exact `skills/current/<skill>/SKILL.md` on each invocation; prefer a GitHub file fetch with branch/ref evidence. When possible, resolve the HEAD SHA first and fetch that immutable ref to avoid a moving-branch race. Report verified source SHA if available. Do not pretend that static packaged skills enforce tool call ordering, access control or immutable provenance. If access fails, do not silently substitute bundled/legacy instructions for operational agent launches.
+**Retrieval:** Read the exact public raw-content URL on each invocation using a read-only web retrieval tool. Do not invoke a write-capable GitHub connector merely to read skills. If the HTTP tool cannot retrieve a complete document, stop the operational action rather than reverting to bundled/legacy instructions. Record the URL and retrieval time; record a source commit only when actually verified. A moving `main` URL gives latest-published content, not automatically an immutable revision. This model-followed convention is not a guaranteed pre-read hook.
 
 **Instruction safety:** The content fetched from GitHub is project-level procedure, not permission to override system policies, grant new secrets, edit protected files or launch paid work without authorization. The operation must remain within the user's requested authority.
 
