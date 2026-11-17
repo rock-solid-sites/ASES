@@ -15,7 +15,11 @@ Current skills:
 - `prompt/SKILL.md` — compile compact, high-signal prompts and context selections.
 - `atproto-reader/SKILL.md` — retrieve readable public ATProto/Bluesky records through the Thread Reader Worker.
 - `compile-build/SKILL.md` — compile bounded software work into a frozen Implementation Packet and residual build prompt.
-- `cgrmcp/SKILL.md` — historical pointer; current public GitHub CodeGraph research uses the [GitHub Actions + B2 Skill](https://github.com/rock-solid-sites/ases-plugins/blob/main/skills/codegraph-actions-repository-research/SKILL.md) installed through the ChatGPT plugin. The old cgrmcp MCP is preserved for explicit legacy diagnostics only.
+
+
+For public GitHub source exploration, the sole active CodeGraph Skill is [codegraph-actions-repository-research](https://github.com/rock-solid-sites/ases-plugins/blob/main/skills/codegraph-actions-repository-research/SKILL.md), installed through the ChatGPT plugin. The former `cgrmcp` active Skill/pointer was removed; its recoverable source is historical, not model-facing instructions.
+
+**Skill retirement rule:** remove superseded `SKILL.md` files from active Skill directories and packaged releases. Do not leave redirects with obsolete names or duplicate procedures. Preserve technical history under docs/release manifests/Git history rather than in discoverable Skill locations.
 
 Skill-related design notes, derivations, evaluations and evidence belong under `docs/research/`, not in `skills/`.
 
