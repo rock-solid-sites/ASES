@@ -1,0 +1,120 @@
+# A small, disposable CodeGraph research runner. Public repositories and results only.
+name: CodeGraph public repository exploration
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    paths:
+      - '.github/workflows/codegraph-public-explore.yml'
+      - '.github/scripts/codegraph-public-explore.sh'
+      - '.github/scripts/test-codegraph-b2-cache.sh'
+  push:
+    branches:
+      - 'experiment/**'
+    paths:
+      - '.github/workflows/codegraph-public-explore.yml'
+      - '.github/scripts/codegraph-public-explore.sh'
+      - '.github/scripts/test-codegraph-b2-cache.sh'
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Public GitHub owner/repository
+        type: string
+        required: true
+        default: rock-solid-sites/ASES
+      question:
+        description: Question for CodeGraph to explore
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  branch-test:
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.user.login == 'rock-solid-sites' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned CodeGraph CLI
+        run: |
+          npm install --prefix "$RUNNER_TEMP/codegraph" --no-audit --no-fund @colbymchenry/codegraph@1.6.2
+          echo "CODEGRAPH_BIN=$RUNNER_TEMP/codegraph/node_modules/.bin/codegraph" >> "$GITHUB_ENV"
+      - name: Test B2 cache hit, invalidation and corruption handling without credentials
+        run: bash .github/scripts/test-codegraph-b2-cache.sh
+      - name: Analyze public source without B2 credentials
+        shell: bash
+        env:
+          B2_CACHE_ENABLED: 'false'
+        run: |
+          set -euo pipefail
+          question='Show the source and callers of configureProfile in fork/opencode-src/packages/llm/src/providers/openai-compatible.ts'
+          bash .github/scripts/codegraph-public-explore.sh "$GITHUB_REPOSITORY" "$question" | tee "$RUNNER_TEMP/codegraph-answer.md"
+          grep -Fq '**Source Code**' "$RUNNER_TEMP/codegraph-answer.md"
+          grep -Fq 'fork/opencode-src/packages/llm/src/providers/openai-compatible.ts' "$RUNNER_TEMP/codegraph-answer.md"
+
+  explore:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
+        startsWith(github.event.issue.title, '[codegraph] ')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    environment: codegraph-b2
+    env:
+      REQUEST_REPO: ${{ github.event_name == 'issues' && github.event.issue.title || inputs.repository || 'rock-solid-sites/ASES' }}
+      REQUEST_QUESTION: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.question }}
+      B2_CACHE_ENABLED: 'true'
+      B2_BUCKET: ${{ vars.B2_BUCKET }}
+      B2_REGION: ${{ vars.B2_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restore or build and archive the public CodeGraph index
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$REQUEST_REPO"
+          if [[ "$GITHUB_EVENT_NAME" == 'issues' ]]; then
+            repo="${repo#\[codegraph\] }"
+          fi
+          bash .github/scripts/codegraph-public-explore.sh "$repo" "$REQUEST_QUESTION" | tee "$RUNNER_TEMP/codegraph-answer.md"
+      - name: Return answer to the requesting issue
+        if: always() && github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = `${process.env.RUNNER_TEMP}/codegraph-answer.md`;
+            const run = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const result = fs.existsSync(file)
+              ? fs.readFileSync(file, 'utf8')
+              : 'CodeGraph did not return a result. See the job log for the failure.';
+            const limit = 40000;
+            const answer = result.length > limit ? `${result.slice(0, limit)}\n\n[Response truncated]` : result;
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `${answer}\n\n[GitHub Actions run](${run})`,
+            });
