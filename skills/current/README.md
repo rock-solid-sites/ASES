@@ -1,5 +1,13 @@
 # Current ASES operational skills
 
+## Using the index in ChatGPT
+
+Say **"check the skill index"** (or **"list ASES skills"** / **"show available ASES skills"**). The installed ASES Workflow dispatcher should use a **read-only HTTPS GET** of this README, then **display only the skill names, short descriptions, and links** from the list below. An index-only request must **not** fetch individual `SKILL.md` bodies or load unrelated skills.
+
+For an actual task, e.g. **"write a builder prompt using ASES Workflow"**, use the index to choose `compact-prompt/SKILL.md` and fetch only that skill. Additional skills are read only if the task requires them. A request to launch independent reviewers instead selects `review-launch/SKILL.md`.
+
+The frontmatter/description of the installed dispatcher includes the trigger phrases, but **ChatGPT automatic skill selection is not guaranteed**. If this short phrase doesn't invoke ASES Workflow in a fresh chat, explicitly select **ASES Workflow** and repeat it. To share the process, provide this public README URL (a formatted GitHub page) or its raw read-only counterpart below.
+
 This is the **only directory the installed ASES Workflow dispatcher should use for current operational instructions**. Fetch the current public Markdown by **read-only HTTPS GET**, rather than using an authenticated GitHub connector for ordinary instruction retrieval.
 
 **Read-only entry point:** https://raw.githubusercontent.com/rock-solid-sites/ASES/main/skills/current/README.md
