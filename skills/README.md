@@ -1,5 +1,10 @@
 # ASES Skills
 
+**Active ChatGPT dispatcher source (2026-11-17): [`skills/current/`](current/README.md).** The installed ASES Workflow plugin should fetch the relevant current SKILL.md through the GitHub connector on each operational invocation. It is not a live GitHub-mounted skill and does not automatically repackage itself.
+
+The former skill entrypoints listed below are retained for historical provenance and existing repository references. They are **not** the active dispatcher source; do not package their outdated copies into ChatGPT. Prior versions remain in Git history, while published current instructions are under `skills/current/`.
+
+
 Operational skills are stored one skill per directory:
 
 ```text
@@ -10,7 +15,7 @@ skills/
 
 `SKILL.md` is the model-facing operational procedure. Stable project meaning and methodology remain in canonical documentation and are referenced by path rather than duplicated into skills.
 
-Current skills:
+Older source paths (not the current ChatGPT dispatcher):
 
 - `prompt/SKILL.md` — compile compact, high-signal prompts and context selections.
 - `atproto-reader/SKILL.md` — retrieve readable public ATProto/Bluesky records through the Thread Reader Worker.
