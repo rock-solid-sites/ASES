@@ -1,0 +1,27 @@
+name: ASES property-engine pilot
+on:
+  pull_request:
+    paths:
+      - 'research/testing-assurance-pilot/property-engines/**'
+      - '.github/workflows/property-engines-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run equivalent proptest/Hegel controlled experiment
+        run: bash research/testing-assurance-pilot/property-engines/run_matrix.sh
+      - name: Preserve logs and run metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-engines-pilot
+          path: research/testing-assurance-pilot/property-engines/results/
+          retention-days: 30
