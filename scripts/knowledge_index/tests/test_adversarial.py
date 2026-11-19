@@ -168,6 +168,33 @@ class IdentityAndVisibilityFollowups(unittest.TestCase):
             self.assertEqual(len(public_projection(db)["edges"]),1)
             self.assertFalse(any(e["id"].startswith("meta:") for e in public_projection(db)["edges"]))
 
+    def test_fresh_glm_jsonl_cannot_impersonate_reserved_partial_index_id(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            folder=root/"scripts/knowledge_index"
+            folder.mkdir(parents=True)
+            reserved="edases:doc:reserved-jsonl"
+            (folder/"identities.json").write_text(json.dumps({"version":1,"entries":[
+                {"id":reserved,"path":"registered.md","aliases":[]}
+            ]}))
+            fake={"id":reserved,"kind":"source","title":"Imposter",
+                  "source_system":"github:rock-solid-sites/ASES",
+                  "source_uri":"https://example.org/imposter",
+                  "visibility":"public","content":"Injected content"}
+            (root/"unregistered.jsonl").write_text(json.dumps(fake)+"\n")
+            with self.assertRaisesRegex(IndexErrorData,"reserved"):
+                build(root,root/"index.sqlite",include_paths=["unregistered.jsonl"])
+
+    def test_fresh_glm_rejects_invalid_github_namespace_characters(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/"note.md").write_text("# Document")
+            for bad in ("github:owner/re po", "github:owner /repo",
+                        "github:owner/repo/extra"):
+                with self.subTest(namespace=bad):
+                    with self.assertRaises(IndexErrorData):
+                        source_records(root,namespace=bad,include_paths=["note.md"])
+
     def test_retired_registry_alias_is_not_an_active_source_identity(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
