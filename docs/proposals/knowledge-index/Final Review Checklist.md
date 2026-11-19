@@ -124,3 +124,12 @@ An automated reviewer must not fill the operator-approval field. An independent 
 ## Present disposition
 
 The real-repository prototype is a credible **review candidate**: documented code, CI, typed source links, identity registry and generated graph preview exist. The public-source scope was tested; real secured multi-project integration was not. Retain the draft PR and use this checklist as the input to the final review. No conclusion about production integration is justified until the unresolved gates have explicit evidence.
+
+
+## Initial Phoenix Grove adversarial review (2026-11-19)
+
+The [three-model review attempt](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44577774247) examined immutable prototype commit bef2782144ca5553b1632c6f0747169d5933e1ff. **DeepSeek** and **GLM** delivered substantive reports; **MiMo timed out with zero report bytes**, so the independent security review lens remains incomplete. Full execution provenance, curated candidate defects and proposed falsifying tests are recorded in the [ASES adversarial review](../../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md).
+
+The first inspection-supported, high-priority candidates concern forged metadata-derived visibility, out-of-root JSONL imports, partial-index stable-ID impersonation and quote-induced ID corruption. None has yet passed a red-to-green regression test. GLM also highlighted missing-registry fallback, evidence integrity and review-provenance gaps. These are **findings, not verified fixes or integration approval**.
+
+Decision A is still pending review of confirmed findings and experimental merge scope. Decision B remains **NOT APPROVED**. The checklist's final review verdict fields remain open until the missing lens, tests and relevant integration requirements are addressed.
