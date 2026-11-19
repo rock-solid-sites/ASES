@@ -34,7 +34,7 @@ A pass on Decision A must not be interpreted as a pass on Decision B. Merging an
 | --- | --- | --- |
 | Source and diffs | [Draft PR #61](https://github.com/rock-solid-sites/ASES/pull/61) | Code, pilot JSONL, workflow and docs; branch not yet merged |
 | Remote test run | [Actions 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972) | 25 tests passed on remote runner, including real ASES docs |
-| Later successful run | [Actions 44571598117](https://github.com/rock-solid-sites/ASES/actions/runs/44571598117) | Green after test-report document revision; see commit for exact suite |
+| Review-packet validation | [Actions 44574342042](https://github.com/rock-solid-sites/ASES/actions/runs/44574342042) | **28 tests passed**, including documentation metadata and all internal link checks; docs-inclusive snapshot: 196 nodes, 311 candidate edges, 86 diagnostics |
 | Research measurements | [Test record](../../research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) | Selected `docs/`: 194 nodes, 303 **candidate** edges, 84 diagnostics |
 | Public graph | [Graph preview](../../research/knowledge-index/graph-preview.md) | Five nodes, three candidate edges; CI checks regenerated Markdown |
 | Component contracts | [Technical reference](../../../scripts/knowledge_index/TECHNICAL.md) | Interface semantics, tests, known limits, non-goals |
