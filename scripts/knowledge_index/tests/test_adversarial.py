@@ -28,6 +28,18 @@ class AdversarialFindingsTests(unittest.TestCase):
             self.assertEqual(public_projection(db)["edges"],[])
             self.assertEqual(graph(db),[])
 
+    def test_jsonl_cannot_spoof_internal_metadata_derivation(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[-1]["id"]="meta:also-forged"
+            rows[-1]["_derived_metadata"]=True
+            rows[-1].pop("visibility",None)
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            self.assertEqual(public_projection(db)["edges"],[])
+
     def test_pg_ki_02_include_outside_jsonl_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             parent=Path(d)
