@@ -98,6 +98,16 @@ Each entry states a **failure class → changed practice → evidence → transf
 
 **Limit:** These projects demonstrate *applicability*, not statistically measured superiority or production readiness.
 
+### L09 — Runtime identity must match recorded authority
+
+**Failure class:** Paseo's bridge validated the inspected agent ID, workspace, provider and model, but accepted an explicit `Thinking:'low'` report after the role had authorized `thinking:'none'`.
+
+**Changed practice:** When an authorization claim spans configuration, ownership record and observed runtime, independently compare *every relevant authority dimension*. A paired fake-CLI control should vary only the inspected value and assert that no follow-up command is sent. Add the check at the status/control boundary, not merely during configuration validation.
+
+**Evidence:** [Paseo test/fix PR #77](https://github.com/rock-solid-sites/ases-plugins/pull/77), [expected-red CI](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44570572887) (17 pass, 1 missing-rejection failure), [green CI](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44570781671) (18/18 pass and protocol smoke), [experiment card](../experiments/2026-11-paseo-thinking-authority.md).
+
+**Limit:** The repair is draft-only and rejects mismatches only when the runtime `Thinking` field is present; missing-field semantics and actual live CLI behavior remain unverified.
+
 ## Promotion and retirement
 
 A new lesson should specify what an agent will do **differently** on the next project, its simplest test and its evidence. If an experiment produces no transferable change, leave a bounded result in its owner repo without adding a lasting ASES lesson. Work Notes `WNASES-10` decides which findings merit an independently reviewed edit to the **existing** active method; neither this file nor the experimental selection candidate is a second authority.
