@@ -136,6 +136,9 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                 raise IndexErrorData(f'{path}:{lineno}: {exc}') from exc
             if not isinstance(data, dict):
                 raise IndexErrorData(f'{path}:{lineno}: expected a JSON object')
+            # Untrusted JSONL must never claim to be a parser-generated edge.
+            # Only the in-memory metadata derivation pass can set this flag.
+            data.pop('_derived_metadata', None)
             if data.get('record_type') == 'edge' or ('from' in data and 'to' in data):
                 edges.append(data)
             else:
