@@ -149,6 +149,7 @@ supersedes: []
             self.assertEqual(details[0]['evidence_refs'], ['doi:10.1073/pnas.2612825123'])
             self.assertIn('doi.org', details[0]['from_uri'])
             rows[1]['visibility'] = 'private'
+            rows[2]['visibility'] = 'private'  # edge cannot advertise private endpoint publicly
             (root / 'all.jsonl').write_text('\n'.join(map(json.dumps, rows)))
             build(root, db)
             self.assertEqual(graph_details(db), [])
