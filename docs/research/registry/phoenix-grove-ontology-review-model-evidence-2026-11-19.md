@@ -49,9 +49,9 @@ last_updated: 2026-11-19
 
 ## What to do with this evidence
 
-- **Do** use it when designing [Projektor ASES-10's](https://github.com/rock-solid-sites/ASES/pull/62) reviewer-launch metering requirement: distinguish every invocation from the delivered first substantive report, preserve explicit retries and failure costs, record provider/model, prompt/source hashes and result quality.
+- **Do** use it when designing Projektor `ASES-10` reviewer-launch metering requirement: distinguish every invocation from the delivered first substantive report, preserve explicit retries and failure costs, record provider/model, prompt/source hashes and result quality.
 - **Do not** assign numeric 1–5 ratings, alter model-routing recommendations, or claim a model is more economical from this single three-family documentary review.
-- **Do not** treat the pending [WNASES-17] ontology conformance cases as already verified. They must check the actual relation contract separately; the sealed formal P7 six-case benchmark is not complete.
+- **Do not** treat the pending Work Notes `WNASES-17` ontology conformance cases as already verified. They must check the actual relation contract separately; the sealed formal P7 six-case benchmark is not complete.
 - **Follow-up tracking:** human reviewer-service evolution is Projektor `ASES-10`; future crosswalk validation is `ASES-20` / Work Notes `WNASES-17`. Technical detail, source pins and safe-to-publish findings stay in GitHub; private raw reviewer reports remain in the private tool repository.
 
 **Status:** evidence captured for later capability-registry evaluation; not a recommendation, score, model qualification or canonical promotion.
