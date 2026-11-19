@@ -35,7 +35,7 @@ jobs:
       - name: Build and query real-document pilot
         run: |
           python scripts/knowledge_index/indexer.py . /tmp/ases-knowledge-index.sqlite \
-            --default-visibility public \
+            --default-visibility public --require-registry \
             --include "docs/research/LLM Agents and Distributed Systems - Research Topic.md" \
             --include "docs/research/Cross-Project Knowledge Index - Minimal Schema and Integration Boundaries.md" \
             --include "docs/research/Workflow Topology Design and Reasoning Record.md" \
@@ -58,7 +58,7 @@ jobs:
           paths=sorted(p.as_posix() for p in (root/'docs').rglob('*.md'))
           paths += ['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
           with TemporaryDirectory() as d:
-              n,e,w=build(root,Path(d)/'full.sqlite',include_paths=paths,default_visibility='public')
+              n,e,w=build(root,Path(d)/'full.sqlite',include_paths=paths,default_visibility='public',require_registry=True)
               links=graph(Path(d)/'full.sqlite')
               assert n >= 20, f'Unexpectedly few documents: {n}'
               assert e >= 10, f'Unexpectedly few documented relationships: {e}'
@@ -96,7 +96,7 @@ jobs:
           ]
           with TemporaryDirectory() as d:
               db=Path(d)/'graph.sqlite'
-              n,e,w=build(root,db,include_paths=docs,default_visibility='public')
+              n,e,w=build(root,db,include_paths=docs,default_visibility='public',require_registry=True)
               graph=render_mermaid(db,focus=['edases:concept:central-task-assignment',
                   'edases:concept:information-asymmetry-boundary'])
               expected=(root/'docs/research/knowledge-index/graph-preview.md').read_text()
@@ -117,7 +117,7 @@ jobs:
           corpus+=['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
           with TemporaryDirectory() as d:
               n,e,w=build(root,Path(d)/'corpus.sqlite',include_paths=corpus,
-                          default_visibility='public')
+                          default_visibility='public',require_registry=True)
               report=summarize_diagnostics(w,root,corpus)
               print('CLASSIFIED DIAGNOSTICS:',json.dumps(report['counts'],sort_keys=True))
               assert sum(report['counts'].values())==len(w)
