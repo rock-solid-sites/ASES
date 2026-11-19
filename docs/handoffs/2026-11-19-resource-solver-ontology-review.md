@@ -11,7 +11,7 @@ last_updated: 2026-11-19
 
 # Resource Solver ontology — session handoff
 
-**Status:** Research/review packet completed; integration pilot **not run**. No production or canonical ontology changes. This is a routing index, not a state dump. The older [session-end conventions](../../docs/SESSION-END.md) mention Crosslink commands that are superseded by the current GitHub/Projektor/Work Notes split; do not run legacy Crosslink steps.
+**Status:** Research/review packet completed; integration pilot **not run**. No production or canonical ontology changes. This is a routing index, not a state dump. The older [session-end conventions](../SESSION-END.md) mention Crosslink commands that are superseded by the current GitHub/Projektor/Work Notes split; do not run legacy Crosslink steps.
 
 ## Done
 
@@ -20,7 +20,7 @@ last_updated: 2026-11-19
 
 ## Open / authoritative ownership
 
-- **Human decision/priority:** [Projektor ASES-20](https://github.com/rock-solid-sites/ASES/pull/62) (reference is the linked PR; issue key is `ASES-20`), with related ASES-18 (distributed systems), ASES-7 (assurance method), ASES-19 (source evidence index).
+- **Human decision/priority:** Projektor `ASES-20`, with related `ASES-18` (distributed systems), `ASES-7` (assurance method), and `ASES-19` (source evidence index).
 - **Agent-ready next task:** `WNASES-17` — frozen symbolic operation/route/permission/usage/outcome conformance cases; no launch has been authorized and nothing is assigned/running.
 - **Related but distinct:** [PR #60](https://github.com/rock-solid-sites/ASES/pull/60) empirical testing laboratory; `WNASES-14` and `WNASES-10` own method/promotion evaluation. [PR #61](https://github.com/rock-solid-sites/ASES/pull/61) was merged as an **experimental** knowledge-index baseline only (2026-11-19); `ASES-19`/`WNASES-16` own its separately bounded retrieval-value pilot. Neither is a precondition for the Solver's symbolic cases.
 
