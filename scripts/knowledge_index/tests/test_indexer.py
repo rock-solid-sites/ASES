@@ -301,3 +301,43 @@ class GraphProjectionTests(unittest.TestCase):
             self.assertIn('Candidate', view.title())
             self.assertIn('source references',view.lower())
             self.assertTrue(render_html(db).startswith('<!doctype html>'))
+
+
+class BoundaryRegressionTests(unittest.TestCase):
+    def test_unmarked_jsonl_edge_is_private_by_default(self):
+        from graph_view import public_projection
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=[json.loads(x) for x in (FIX/'records.jsonl').read_text().splitlines()]
+            rows[-1].pop('visibility',None)
+            (root/'records.jsonl').write_text('\n'.join(map(json.dumps,rows)))
+            db=root/'db.sqlite'
+            build(root,db)
+            self.assertEqual(graph(db),[])
+            self.assertEqual(public_projection(db)['edges'],[])
+            self.assertEqual(len(graph(db,True)),1)
+
+    def test_registry_rejects_alias_as_string(self):
+        from registry import read_registry,RegistryError
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            folder=root/'scripts/knowledge_index';folder.mkdir(parents=True)
+            (folder/'identities.json').write_text(json.dumps({
+                'version':1,'entries':[{'id':'id:x','path':'doc.md',
+                                         'aliases':'not a list'}]}))
+            with self.assertRaisesRegex(RegistryError,'aliases must be a list'):
+                read_registry(root)
+
+    def test_url_controls_and_csp_hash_correctness(self):
+        from graph_view import safe_url,render_html
+        import base64,hashlib
+        self.assertEqual(safe_url('https://example.org/path\njavascript:alert(1)'), '')
+        self.assertEqual(safe_url('javascript:alert(1)'), '')
+        self.assertEqual(safe_url('https://example.org/test'), 'https://example.org/test')
+        with tempfile.TemporaryDirectory() as d:
+            db=Path(d)/'db.sqlite'
+            build(FIX,db)
+            output=render_html(db)
+            source=output.split('<script>',1)[1].split('</script>',1)[0]
+            sha=base64.b64encode(hashlib.sha256(source.encode()).digest()).decode()
+            self.assertIn("script-src 'sha256-"+sha+"'", output)
