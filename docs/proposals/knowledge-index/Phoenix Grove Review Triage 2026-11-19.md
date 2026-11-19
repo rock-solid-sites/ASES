@@ -31,7 +31,7 @@ These mechanisms are visible in the pinned source, **not yet independently demon
 
 Before merging the **experimental** source, reproduce prioritized cases with minimal negative tests and distinguish genuine defects from intentional prototype limitations and reviewer false positives. Re-run the 28-test suite plus new tests after any repair. A merged experiment must **not** approve a hosted index, ACL enforcement, source revocation or cross-project authoritative relation service. Planning gate: Projektor **ASES-19**.
 
-_All reviewer outcomes are recorded. The next gate is to run minimal falsifying tests and separate genuine source defects, intentionally limited experimental semantics, and reviewer false positives. No repairs, service authorization, or production integrations were made in this review session._
+_Historical reviewer triage: outcomes and original unverified hypotheses are recorded above. Subsequently, the prioritized importer/graph findings were reproduced and repaired. [Run 44585134777](https://github.com/rock-solid-sites/ASES/actions/runs/44585134777) passed 47 tests, including the new adversarial cases; the definitive post-repair test evidence is in the [ASES adversarial review record](../../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md). Production/service integration remains unapproved._
 
 ## Operator-requested additional MiMo invocation — repeated success
 
