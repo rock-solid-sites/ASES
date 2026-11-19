@@ -41,3 +41,14 @@ Date (UTC): 2026-11-19 01:05–01:06. Status: **bounded property trials PASSED; 
 - Record **separate** statuses for method execution, source baseline regression, Clippy, artifacts, and global PR checks.
 - Before performance comparisons, pin generated data seeds, failure persistence paths and lockfile; run repeated trials with controlled caching. Before selecting a framework, test a harder state-history/property with controlled violating cases (without altering production), and inspect shrink results.
 - Preserve null results, link sources, and keep method promotion distinct from prototype correctness. ASES process draft should consume this and the HMS pilot without creating a competing ASES skill or mandatory lifecycle.
+
+
+## Follow-up — cancellation/replay lifecycle extension (2026-11-19 01:16 UTC)
+
+The existing test oracle (not the runtime implementation) was extended at `resource-control/tests/support/resource_properties.rs` to keep admitted plan identities, reopen the actual SQLite store, then cancel each accepted RESERVED plan in reverse order. It checks one terminal event per cancellation, exact-ID cancellation replay with no new event, and restored available allowance/reservation totals after each step. No production code was modified.
+
+- Source/test commit: [2520583cbfbc9d840d9e2ec205f652eba932efec](https://github.com/rock-solid-sites/ASES/commit/2520583cbfbc9d840d9e2ec205f652eba932efec).
+- [Focused CI 44435444808](https://github.com/rock-solid-sites/ASES/actions/runs/44435444808) **passed**: proptest 120 bounded histories, 1.78s observed test time; Hegel 120 histories, 1.62s; existing control suite also executed in the same workflow.
+- [Full evidence artifact 14489256371](https://github.com/rock-solid-sites/ASES/actions/runs/44435444808/artifacts/14489256371), ZIP SHA-256 `7ed09651b1723ad51466e636a59612114a0c3ed97960ce3492703fc0bb81763a`, 30-day retention.
+- Status: **NO_DISCREPANCY** within this extended sequential history fixture; **not** a new proof about concurrent cancellation or user-visible execution termination. The performance ranking remains inconclusive; tests ran under different build caches and generators with different histories.
+- Same separate resource-control Clippy failures on unchanged source persist in the repository-wide verification workflow. These do not invalidate the passed focused tests but prevent claiming an all-green PR.
