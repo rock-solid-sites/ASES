@@ -155,3 +155,10 @@ Security/authority refinements from the review:
 - No source ACL lookup, tenancy, revocation, real trust attestations, or privacy-safe publication of archived conversations was added. CI remains a **read-only disposable experiment**; passing does not approve a service.
 
 The final review gate is still divided: **Decision A**, whether to accept an experimental baseline through PR #61, requires a human scope/merge decision; **Decision B**, a maintained cross-project index/graph service, remains unapproved.
+
+
+## Fresh reviewer delta: registered JSONL IDs and namespace (19 November 2026)
+
+A fresh [three-model Phoenix Grove review](../../adversarial-reviews/knowledge-index/2026-11-19-postrepair-phoenix-grove-review.md) found that previous stable-ID reservation checked Markdown metadata but not JSONL nodes in a partial index, allowing the identity of an excluded registered Markdown source to be impersonated. JSONL nodes now **cannot** use any ID registered to a source document, even if the registered source is not selected. The importer also validates the GitHub namespace with a constrained safe character pattern rather than checking only the prefix and slash count. Invalid namespace examples with embedded spaces are rejected; the no-slash example cited by GLM was already rejected before this change.
+
+The targeted tests failed at [run 44587686163](https://github.com/rock-solid-sites/ASES/actions/runs/44587686163); after repair, [run 44587792625](https://github.com/rock-solid-sites/ASES/actions/runs/44587792625) passed **49/49** tests, with real-document indexing and graph preview verification intact. All three reviewer jobs delivered reports, but **the last two fixes were tested rather than independently re-reviewed by the models**. Future cross-project namespace/provider formats require their own reviewed adapter; this strict rule applies to the current GitHub-only prototype.
