@@ -119,7 +119,7 @@ The current implementation and its tests are described in [Technical Reference](
 | Projektor / Work Notes independence | No connector writes or graph migration | Optional adapters and Project/Work Notes scoping |
 | Maintained implementation selection | Disposable Python prototype only | ASES realization/language/assurance gate |
 
-**Verified test point:** [GitHub Actions run 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972) passed 25 tests. The subsequent source/test report commit also passed CI. The broader selected `docs/` index produced **194 nodes, 303 candidate edges**, and **84 diagnostics**. These are graph records and warnings, **not scientifically reviewed findings**.
+**Verified test points:** [Run 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972) passed 25 implementation tests on the original docs snapshot (194 nodes, 303 candidate edges, 84 diagnostics). [Review-packet run 44574342042](https://github.com/rock-solid-sites/ASES/actions/runs/44574342042) passed **28 tests**, including documentation classification, link integrity and non-approval checks, with **196 nodes, 311 candidate edges and 86 diagnostics** after adding proposal documents. Counts are commit-scoped measurements, **not scientifically reviewed findings**.
 
 ## Recommended integration strategy
 
