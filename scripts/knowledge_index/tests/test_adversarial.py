@@ -152,5 +152,66 @@ class AdversarialFindingsTests(unittest.TestCase):
             self.assertNotIn("<img ",markdown)
             self.assertIn("&lt;img",markdown)
 
+
+class IdentityAndVisibilityFollowups(unittest.TestCase):
+    def test_jsonl_internal_metadata_fields_cannot_create_public_edges(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[0]["_path"]="forged.md"
+            rows[0]["_metadata"]={"related_documents":["Central task assignment"]}
+            rows[0]["_aliases"]=["forged.md"]
+            (root/"records.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            self.assertEqual(len(public_projection(db)["edges"]),1)
+            self.assertFalse(any(e["id"].startswith("meta:") for e in public_projection(db)["edges"]))
+
+    def test_retired_registry_alias_is_not_an_active_source_identity(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            location=root/"scripts/knowledge_index"
+            location.mkdir(parents=True)
+            stable="edases:doc:original"
+            (location/"identities.json").write_text(json.dumps({"version":1,"entries":[
+                {"id":stable,"path":"active.md","aliases":["retired.md"]}
+            ]}))
+            (root/"retired.md").write_text("---\nknowledge_id: "+stable+"\n---\n# New document")
+            with self.assertRaises(IndexErrorData):
+                source_records(root,include_paths=["retired.md"])
+
+    def test_unsupported_frontmatter_cannot_promote_private_to_public(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/"secret.md").write_text("---\nvisibility: private\nnested:\n  property: unsupported\n---\n# Secret")
+            nodes,edges,warnings=source_records(root,default_visibility="public")
+            self.assertTrue(warnings)
+            self.assertEqual(nodes[0]["visibility"],"private")
+
+    def test_unparseable_explicit_identity_fails_instead_of_reassigning(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/"id.md").write_text("---\nknowledge_id: notes:stable\nnested:\n  property: unsupported\n---\n# Something")
+            with self.assertRaises(IndexErrorData):
+                source_records(root)
+
+    def test_missing_mandatory_registry_is_reported(self):
+        from registry import read_registry,RegistryError
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(RegistryError):
+                read_registry(Path(d),required=True)
+
+    def test_registry_symlink_escape_fails(self):
+        from registry import read_registry,RegistryError
+        with tempfile.TemporaryDirectory() as d:
+            parent=Path(d)
+            folder=parent/"root"/"scripts"/"knowledge_index"
+            folder.mkdir(parents=True)
+            outside=parent/"outside.json"
+            outside.write_text(json.dumps({"version":1,"entries":[]}))
+            (folder/"identities.json").symlink_to(outside)
+            with self.assertRaises(RegistryError):
+                read_registry(parent/"root")
+
 if __name__ == "__main__":
     unittest.main()
