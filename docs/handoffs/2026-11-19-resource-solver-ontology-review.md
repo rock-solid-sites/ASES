@@ -17,6 +17,7 @@ last_updated: 2026-11-19
 
 - [ASES draft PR #62](https://github.com/rock-solid-sites/ASES/pull/62): source-first audit, neutral prompt, three independent Phoenix Grove reports, reconciliation and a **candidate** operation→binding/route→authorization→meter→evidence contract. Reviewer baseline `cb27e4de`. [DeepSeek+GLM wave](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44580280375) and [successful MiMo-only retry](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44582509135); original MiMo timeout preserved.
 - [Source-first reconciliation](../research/review-inbox/resource-solver-ontology-source-reconciliation-2026-11-19.md) identifies already-existing semantics, genuine cross-system questions, and the later live-model Corpus-530 evidence that the neutral reviewers did not receive. The original P7 sealed six-case benchmark is still **NOT_RUN**.
+- [Version-specific Phoenix Grove model evidence](../research/registry/phoenix-grove-ontology-review-model-evidence-2026-11-19.md) now records three substantive responses across four invocations, each model's observed lens and limitations, explicit MiMo timeout/retry, and unavailable provider token/billing data. This is **research evidence pending registry consideration**, not an adopted routing score.
 
 ## Open / authoritative ownership
 
