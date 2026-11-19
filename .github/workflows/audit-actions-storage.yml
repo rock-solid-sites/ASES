@@ -1,0 +1,41 @@
+name: Read-only Actions artifact inventory
+on:
+  push:
+    branches: [audit/actions-storage-20261119]
+    paths: ['.github/workflows/audit-actions-storage.yml']
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: List retained artifacts (no deletion or upload)
+        run: |
+          gh api --paginate --jq '.artifacts[] | [.id,.name,.size_in_bytes,.created_at,.expires_at] | @tsv' "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > /tmp/artifacts.tsv
+          python3 - <<'PY'
+          import csv, os
+          from pathlib import Path
+          with open('/tmp/artifacts.tsv',newline='') as f:
+              rows=list(csv.reader(f,delimiter='\t'))
+          items=[]
+          for row in rows:
+              if len(row)==5:
+                  ident,name,size,created,expiry=row
+                  items.append((int(size),ident,name,created,expiry))
+          items.sort(reverse=True)
+          total=sum(r[0] for r in items)
+          summary=['# Read-only Actions artifact inventory',
+                   f'Retained artifacts: {len(items)}',
+                   f'Current total: {total} bytes ({total/1048576:.2f} MiB)', '',
+                   '| Size MiB | ID | Name | Created UTC | Expires UTC |',
+                   '|---:|---|---|---|---|']
+          for size,ident,name,created,expiry in items[:40]:
+              summary.append(f'| {size/1048576:.2f} | {ident} | {name.replace(chr(124),chr(32))} | {created} | {expiry} |')
+          output='\n'.join(summary)+'\n'
+          print(output)
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write(output)
+          PY
