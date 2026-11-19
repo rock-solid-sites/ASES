@@ -9,7 +9,9 @@ from urllib.parse import urlsplit
 def safe_url(value):
     if not isinstance(value, str):
         return ""
-    parts = urlsplit(value.strip())
+    if any(ord(ch) < 33 or ch in '<>"\x27[]' for ch in value):
+        return ""
+    parts = urlsplit(value)
     return value if parts.scheme == "https" and parts.hostname and not parts.username and not parts.password else ""
 
 def public_projection(db):
@@ -65,7 +67,7 @@ def render_mermaid(db, focus=None):
         result.append(f'    {labels[e["from"]]} -->|{e["relation"]} candidate| {labels[e["to"]]}')
     result.extend([fence, "", "## Source references", ""])
     for n in nodes:
-        title = n["title"].replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
+        title = html.escape(n["title"], quote=True).replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
         url = n["source_uri"].replace("(", "%28").replace(")", "%29")
         if url:
             result.append(f"- [{title}]({url}) — {n['kind']}, {n['authority'] or 'unspecified'}")
