@@ -231,6 +231,8 @@ class GraphProjectionTests(unittest.TestCase):
             self.assertIn('doi.org', render_mermaid(db))
             self.assertIn('aria-label', render_html(db))
             self.assertIn('Content-Security-Policy', render_html(db))
+            self.assertIn("script-src 'sha256-", render_html(db))
+            self.assertNotIn("script-src 'unsafe-inline'", render_html(db))
 
     def test_private_edge_and_private_evidence_not_exported(self):
         from graph_view import public_projection, render_mermaid, render_html
@@ -248,6 +250,9 @@ class GraphProjectionTests(unittest.TestCase):
             (root / 'input.jsonl').write_text('\n'.join(map(json.dumps, raw)))
             build(root, db)
             self.assertEqual(public_projection(db)['edges'], [])
+            from indexer import graph, graph_details
+            self.assertEqual(graph(db), [])
+            self.assertEqual(graph_details(db), [])
             self.assertNotIn('secret:archive:uuid', render_html(db))
             self.assertNotIn('secret:archive:uuid', render_mermaid(db))
 
