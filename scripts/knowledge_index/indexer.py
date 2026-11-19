@@ -20,7 +20,7 @@ CREATE TABLE nodes (id TEXT PRIMARY KEY, kind TEXT NOT NULL, title TEXT NOT NULL
  source_uri TEXT NOT NULL, source_system TEXT NOT NULL, visibility TEXT NOT NULL,
  source_revision TEXT, authority TEXT, content TEXT NOT NULL);
 CREATE TABLE edges (id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES nodes(id),
- target_id TEXT NOT NULL REFERENCES nodes(id), relation TEXT NOT NULL,
+ target_id TEXT NOT NULL REFERENCES nodes(id), relation TEXT NOT NULL, visibility TEXT NOT NULL,
  review_status TEXT NOT NULL, assessment TEXT NOT NULL,
  evidence_refs TEXT NOT NULL, explanation TEXT NOT NULL);
 CREATE VIRTUAL TABLE search USING fts5(id UNINDEXED,title,content);
@@ -140,6 +140,17 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                     warnings.append(f'{n["_path"]}: {field} ambiguous: {target} ({len(matching)} matches)')
                 else:
                     warnings.append(f'{n["_path"]}: {field} unresolved/ambiguous: {target}')
+    # Explicit JSONL edges default private. Edges mechanically derived from
+    # two public metadata documents may be marked public automatically.
+    by_id = {n['id']: n for n in nodes if isinstance(n.get('id'), str)}
+    for e in edges:
+        if not e.get('visibility'):
+            a, b = by_id.get(e.get('from')), by_id.get(e.get('to'))
+            public_metadata = (isinstance(e.get('id'), str)
+                and e['id'].startswith('meta:') and a and b
+                and a.get('visibility') == 'public'
+                and b.get('visibility') == 'public')
+            e['visibility'] = 'public' if public_metadata else 'private'
     return nodes, edges, warnings
 
 
@@ -204,6 +215,8 @@ def validate(nodes, edges):
         a, b = e.get('from'), e.get('to')
         if a not in known or b not in known:
             problems.append(f'{identifier}: missing endpoint {a} -> {b}')
+        if e.get('visibility') not in VISIBILITIES:
+            problems.append(f'{identifier}: invalid edge visibility')
         if e.get('relation') not in RELATIONS:
             problems.append(f'{identifier}: invalid relation')
         if e.get('review_status') not in ('candidate', 'reviewed'):
@@ -233,7 +246,7 @@ def build(root, db, namespace='github:rock-solid-sites/ASES', default_visibility
                 con.execute('INSERT INTO nodes VALUES (?,?,?,?,?,?,?,?,?)', tuple(n.get(k, '') for k in ('id', 'kind', 'title', 'source_uri', 'source_system', 'visibility', 'source_revision', 'authority', 'content')))
                 con.execute('INSERT INTO search VALUES (?,?,?)', (n['id'], n['title'], n.get('content', '')))
             for e in sorted(edges, key=lambda x: x['id']):
-                con.execute('INSERT INTO edges VALUES (?,?,?,?,?,?,?,?)', (e['id'], e['from'], e['to'], e['relation'], e['review_status'], e['assessment'], json.dumps(e['evidence_refs'], sort_keys=True), e.get('explanation', '')))
+                con.execute('INSERT INTO edges VALUES (?,?,?,?,?,?,?,?,?)', (e['id'], e['from'], e['to'], e['relation'], e['visibility'], e['review_status'], e['assessment'], json.dumps(e['evidence_refs'], sort_keys=True), e.get('explanation', '')))
             con.commit()
         finally:
             con.close()
@@ -253,7 +266,7 @@ def graph(db, include_private=False):
     with sqlite3.connect(db) as con:
         sql = 'SELECT e.source_id,e.relation,e.target_id,e.review_status FROM edges e JOIN nodes a ON a.id=e.source_id JOIN nodes b ON b.id=e.target_id'
         if not include_private:
-            sql += " WHERE a.visibility='public' AND b.visibility='public'"
+            sql += " WHERE e.visibility='public' AND a.visibility='public' AND b.visibility='public'"
         return con.execute(sql + ' ORDER BY e.id').fetchall()
 
 
@@ -265,7 +278,7 @@ def graph_details(db, include_private=False):
                  FROM edges e JOIN nodes a ON a.id=e.source_id
                               JOIN nodes b ON b.id=e.target_id'''
         if not include_private:
-            sql += " WHERE a.visibility='public' AND b.visibility='public'"
+            sql += " WHERE e.visibility='public' AND a.visibility='public' AND b.visibility='public'"
         return [dict(zip(('id','from','relation','to','review_status','assessment',
                           'evidence_refs','explanation','from_uri','to_uri'),
                          (r[0],r[1],r[2],r[3],r[4],r[5],json.loads(r[6]),r[7],r[8],r[9])))
