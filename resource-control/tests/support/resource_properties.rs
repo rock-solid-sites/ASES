@@ -29,6 +29,7 @@ pub fn verify_claim_sequence(claims: &[u8]) -> Result<(), String> {
     }).map_err(|e| e.to_string())?;
     let revision = store.catalog_version().map_err(|e| e.to_string())?;
     let mut expected_used = 0_i64;
+    let mut admitted: Vec<(String, i64)> = Vec::new();
 
     for (index, &amount_u8) in claims.iter().enumerate() {
         if amount_u8 == 0 || amount_u8 > 80 {
@@ -58,6 +59,7 @@ pub fn verify_claim_sequence(claims: &[u8]) -> Result<(), String> {
                 return Err(format!("step={index} first admission was reported as replay"));
             }
             expected_used += i64::from(amount_u8);
+            admitted.push((job_id.clone(), i64::from(amount_u8)));
             let first_events = store.event_log(None).map_err(|e| e.to_string())?.len();
             let replay = store.reserve(&proposal, revision, at).map_err(|e| format!("step={index} exact-ID replay failed: {e}"))?;
             if !replay.replayed { return Err(format!("step={index} exact-ID replay created another reservation")); }
@@ -101,6 +103,36 @@ pub fn verify_claim_sequence(claims: &[u8]) -> Result<(), String> {
         final_balance.active_reserved_remaining != expected_used {
         return Err(format!("reopened store lost reservations expected_remaining={} actual={}",
             100 - expected_used, final_balance.available));
+    }
+    // Exercise real terminal state and SQLite bookkeeping after reopening.
+    // Cancel the accepted plans in reverse order, preserving the conservation oracle.
+    for (job_id, amount) in admitted.iter().rev() {
+        let before = reopened.event_log(None).map_err(|e| e.to_string())?.len();
+        let state = reopened.finalize(job_id, "cancelled", at)
+            .map_err(|e| format!("cancelling reserved job={job_id} failed: {e}"))?;
+        if state != "CLOSED" {
+            return Err(format!("job={job_id} cancellation returned {state} rather than CLOSED"));
+        }
+        let once = reopened.event_log(None).map_err(|e| e.to_string())?.len();
+        if once != before + 1 {
+            return Err(format!("job={job_id} cancellation should append exactly one terminal event"));
+        }
+        let replay = reopened.finalize(job_id, "cancelled", at)
+            .map_err(|e| format!("cancellation replay failed job={job_id}: {e}"))?;
+        if replay != "CLOSED_REPLAY" ||
+            reopened.event_log(None).map_err(|e| e.to_string())?.len() != once {
+            return Err(format!("job={job_id} cancellation replay was not idempotent"));
+        }
+        expected_used -= amount;
+        let after = reopened.balances(at).map_err(|e| e.to_string())?.into_iter()
+            .find(|b| b.meter_id == "core").ok_or("budget meter missing after cancellation")?;
+        if after.available != 100 - expected_used ||
+            after.active_reserved_remaining != expected_used {
+            return Err(format!("job={job_id} cancellation conservation failure expected_reserved={expected_used} actual_reserved={} actual_available={}", after.active_reserved_remaining, after.available));
+        }
+    }
+    if expected_used != 0 {
+        return Err(format!("model retained {expected_used} units after cancelling all accepted plans"));
     }
     Ok(())
 }
