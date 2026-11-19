@@ -74,10 +74,10 @@ def metadata(raw):
         return {}, f'unsupported frontmatter near: {line[:90]}'
     return result, None
 
-def source_records(root, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None):
+def source_records(root, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None, require_registry=False):
     root = Path(root).resolve()
     nodes, edges, warnings = [], [], []
-    identities = read_registry(root)
+    identities = read_registry(root, required=require_registry)
     registered_ids = {entry['id'] for entry in identities.values()}
     if not namespace.startswith('github:') or namespace.count('/') != 1:
         raise IndexErrorData('prototype source URI requires a github:owner/repo namespace')
@@ -105,12 +105,17 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
         fm, warning = metadata(raw)
         relative = path.relative_to(root).as_posix()
         if warning:
+            # Preserve source searchability only when its identity is not at risk.
+            if re.search(r'(?m)^knowledge_id\s*:', raw):
+                raise IndexErrorData(f'{relative}: cannot safely parse identity-bearing frontmatter: {warning}')
             warnings.append(f'{relative}: {warning}')
         heading = re.search(r'^#\s+(.+)$', raw, re.MULTILINE)
         title = fm.get('title') if isinstance(fm.get('title'), str) else None
         title = title or (heading.group(1) if heading else path.stem)
         declared_id = fm.get('knowledge_id') if isinstance(fm.get('knowledge_id'), str) else None
         registered = identities.get(relative)
+        if registered and relative != registered['path']:
+            raise IndexErrorData(f'{relative}: deprecated identity alias cannot be an active source')
         if registered and declared_id and declared_id != registered['id']:
             raise IndexErrorData(f'{relative}: knowledge_id contradicts identity registry')
         if declared_id in registered_ids and (not registered or registered['id'] != declared_id):
@@ -119,7 +124,8 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
         node_id = node_id or f'{namespace}:doc:{relative}'
         node = {'id': node_id, 'kind': 'source', 'title': title,
                 'source_uri': f'https://github.com/{namespace.removeprefix("github:")}/blob/main/{quote(relative)}',
-                'source_system': namespace, 'visibility': fm.get('visibility') or default_visibility,
+                'source_system': namespace,
+                'visibility': fm.get('visibility') or ('private' if warning else default_visibility),
                 'source_revision': hashlib.sha256(raw.encode('utf-8')).hexdigest(),
                 'authority': fm.get('authority') or '', 'content': raw,
                 '_metadata': fm, '_path': relative,
@@ -136,9 +142,11 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                 raise IndexErrorData(f'{path}:{lineno}: {exc}') from exc
             if not isinstance(data, dict):
                 raise IndexErrorData(f'{path}:{lineno}: expected a JSON object')
-            # Untrusted JSONL must never claim to be a parser-generated edge.
-            # Only the in-memory metadata derivation pass can set this flag.
-            data.pop('_derived_metadata', None)
+            # Strip all importer-owned fields from source-provided JSONL.
+            # Otherwise JSONL nodes can impersonate Markdown and manufacture
+            # auto-public relationships by setting _path/_metadata/_aliases.
+            for internal_key in ('_derived_metadata', '_metadata', '_path', '_aliases'):
+                data.pop(internal_key, None)
             if data.get('record_type') == 'edge' or ('from' in data and 'to' in data):
                 edges.append(data)
             else:
@@ -287,8 +295,8 @@ def validate(nodes, edges):
     if problems:
         raise IndexErrorData('\n'.join(problems))
 
-def build(root, db, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None):
-    nodes, edges, warnings = source_records(root, namespace, default_visibility, include_paths)
+def build(root, db, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None, require_registry=False):
+    nodes, edges, warnings = source_records(root, namespace, default_visibility, include_paths, require_registry=require_registry)
     validate(nodes, edges)
     db.parent.mkdir(parents=True, exist_ok=True)
     # Atomic swap; failed builds do not destroy a prior successful projection.
@@ -367,9 +375,10 @@ if __name__ == '__main__':
     parser.add_argument('--include', action='append', default=None, help='Repository-relative Markdown/JSONL file; repeat for multiple files')
     parser.add_argument('--search')
     parser.add_argument('--diagnostics', action='store_true')
+    parser.add_argument('--require-registry', action='store_true', help='Fail if the reviewed source identity registry is absent')
     parser.add_argument('--graph', action='store_true')
     args = parser.parse_args()
-    n, e, warnings = build(args.source, args.database, args.namespace, args.default_visibility, args.include)
+    n, e, warnings = build(args.source, args.database, args.namespace, args.default_visibility, args.include, require_registry=args.require_registry)
     print(f'indexed {n} nodes, {e} edges; {len(warnings)} metadata warnings')
     for warning in warnings[:30]:
         print('WARNING:', warning)
