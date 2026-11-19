@@ -58,8 +58,11 @@ def neighborhood(projection, focus=None, maximum=36):
 def safe_markdown_metadata(value):
     """Treat authority labels as text, not Markdown/HTML or a new list item."""
     value = html.escape(value, quote=True)
-    value = re.sub(r'[\\r\\n\\t]+', ' ', value)
-    return re.sub(r'([\\\\`*_{}\\[\\]()!|])', r'\\\\\\1', value)
+    value = value.translate({10: 32, 13: 32, 9: 32})
+    slash = chr(92)
+    for marker in (slash, "`", "*", "_", "{", "}", "[", "]", "(", ")", "!", "|"):
+        value = value.replace(marker, slash + marker)
+    return value
 
 
 def render_mermaid(db, focus=None):
