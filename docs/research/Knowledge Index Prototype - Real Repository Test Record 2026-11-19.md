@@ -13,37 +13,52 @@ related_documents:
 last_updated: 2026-11-19
 ---
 
-# Real repository knowledge-index prototype test
+# Cross-project knowledge index — real-source evidence and limits
 
-## Verified execution
-- Remote branch: feature/knowledge-index-prototype-20261119.
-- Last green revision: e6081aa6b96e9a64a487652236deb220979774aa.
-- GitHub Actions run: https://github.com/rock-solid-sites/ASES/actions/runs/44567135467 (success).
-- Fifteen executable tests passed without skips on GitHub Actions, including two that read eight actual ASES Markdown documents from the repository checkout. Fixture-only local runs do not count as real-document tests.
-- Independent broader traversal over the checked-out docs/research and docs/standards directories, plus an explicit three-concept/source candidate graph, produced **146 nodes, 247 candidate edges and 89 warnings**. Count includes the additional JSONL pilot nodes. No CI artifacts were uploaded or retained.
-- In the bounded eight-document test: **8 nodes, 10 candidate edges, 12 warnings**. Search and source-linked edge traversal succeeded. Rebuilding from unchanged inputs reproduced identical indexed node/edge records.
+## Verified source and executable proof
 
-## What is established
-1. EDASES-style Markdown frontmatter can be read from real source files without modifying those files.
-2. Unambiguous, explicit metadata references can create *candidate* graph edges. Citation and design relations can also be declared explicitly in reviewable JSONL.
-3. Full-text lookup and provenance-aware graph queries run against derived SQLite. Default graph queries filter out non-public endpoints.
-4. Malformed metadata and unresolved names are surfaced diagnostically rather than silently treated as verified links.
-5. Duplicate IDs, missing endpoints and a public edge to a private node are rejected. Rebuilds use atomic output replacement.
-6. An additional regression test intentionally failed when it made a node private without lowering the edge's visibility; this exposed **correct validator behavior**, and the test setup was corrected. Final run is green.
+- Remote feature branch: `feature/knowledge-index-prototype-20261119` (draft PR #61).
+- Verified revision: `f4d58fb970ff10fa04b8b70cd0bd34c6541fb692`.
+- [Successful GitHub Actions run](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972): **25/25 tests**, including tests against actual checked-out ASES documents, fixture adversarial cases, registry identity continuity, graph redaction and script integrity. Real-document tests did **not** skip in CI.
+- Full selected `docs/` subtree, plus the explicit literature/design JSONL pilot: **194 nodes, 303 candidate edges, 84 diagnostics**. Includes research, methodology, requirements, architecture and standards. These are not corpus-wide counts for every repository root and not 303 verified semantic claims.
+- Eight-document precision test: 8 nodes, 10 candidate edges and 12 diagnostics, reproducible from unchanged sources.
+- The committed [GitHub-rendered Mermaid preview](knowledge-index/graph-preview.md) was regenerated from source and verified byte-for-byte by the remote workflow. Graph: 5 public nodes, 3 evidence-linked candidate edges. Offline interactive HTML/JSON projections were generated and tested, **not deployed**.
+- CI used sparse checkout and uploaded **no retained artifacts**, so this did not consume artifact storage.
 
-## Warning interpretation
-Eighty-nine warnings are not eighty-nine confirmed source defects. They include unresolved names when intentionally indexing only two documentation subtrees, references to other source paths, legacy Markdown-bullet-style frontmatter, unsupported nested metadata and a record with unterminated frontmatter. Examples: Canonical Terminology, Paseo Role Capability Matrix, combined-verify-server-retrospective. Nothing was auto-rewritten, and unreviewed source assertions remain marked candidate. A subsequent corpus-wide diagnostic pass should classify warnings into true metadata defects, missing-scope references, ambiguous aliases, and intentionally external references.
+## Diagnostic breakdown and interpretation
 
-## Not established
-- No authenticated authorization or cross-workspace confidentiality guarantee; default public/private filtering is not a permission service.
-- No stable ID for legacy documents that lack an explicit knowledge_id (file moves can change fallback IDs).
-- No graph UI or production query API, no live Projektor, Work Notes, or conversation-archive connectors.
-- No claim that the 247 edges are semantically correct, that the PNAS paper validates any ASES design, or that the prototype is production-ready.
-- Python code is a disposable test under the short-experiment exception; maintained multi-project implementation needs a separate assurance/language selection decision.
+| Class | Count | Meaning |
+| --- | ---: | --- |
+| unresolved_unverified | 71 | A name could not be resolved uniquely in the chosen indexed set; **not** proof the target is absent from the repository |
+| outside_index_scope | 5 | A source filename/path exists in the available checkout but was excluded from the indexed set |
+| unsupported_metadata | 7 | Legacy or unsupported metadata syntax; the importer quarantines uncertain relationships |
+| malformed_frontmatter | 1 | Frontmatter delimiter/content cannot safely be parsed |
+| **Total** | **84** | Diagnostic events, **not** 84 confirmed defects |
 
-## Next test frontier
-- Classify the 89 diagnostics against a broader source inventory and add explicit alias resolution with provenance.
-- Test canonical ID continuity under real file moves and contradictory metadata.
-- Define public/internal/private derived projections and prove permission non-disclosure independently of this local CLI.
-- Build a read-only graph projection/view from documented candidate links; keep Projektor's existing issue/wiki graph separate.
-- Extend the metadata extraction pilot to relevant ASES methodology, design and evidence docs, then benchmark incremental indexing.
+No source documents were rewritten, and uncertain relationships remain candidates.
+
+## Mechanisms actually tested
+
+- **Source separation:** EDASES research documents, methodology and other docs are read-only inputs. No conversation archive, Projektor or Work Notes schema, data or workflow was changed.
+- **Identity:** reviewed `identities.json` pins eight selected documents. A rename plus simultaneous content/title edit preserves the ID when the registry path and alias are updated. Conflicting inline IDs, duplicate aliases, invalid alias types and duplicate node IDs are rejected. Other files still have provisional path-derived IDs.
+- **Provenance and evidence:** explicit unambiguous frontmatter relations become candidate edges; JSONL assertions carry assessment and evidence refs. Unresolved and ambiguous names do not create guessed edges. Source content hashes are preserved; rebuilding unchanged input reproduces identical relational records.
+- **Visibility:** JSONL edges default private unless explicitly public. Graph projections omit private nodes, private edges and edges whose evidence references are not present in the public set. Default graph query APIs use the same public-only filtering. Tests cover several private/public cross-boundary cases.
+- **Viewer:** GitHub-rendered Mermaid for immediate read-only retrieval, plus deterministic generated offline interactive HTML with search, node focusing, source links and keyboard-accessible list. Malicious source titles/URLs are tested for HTML/Markdown escaping, script/URL containment and CSP hash correctness. There is no hosted service.
+- **Failure behavior:** malformed syntax and unresolved names produce diagnostics; invalid schema relationships fail. A failed build preserves the prior SQLite projection through atomic replacement.
+
+## What these results do NOT establish
+
+- No authenticated multi-workspace access control, revocation correctness, protection against inference/timing side channels or safe publication of private archived material. The public-only graph is **not** a production authorization API.
+- No validated semantic conclusion from the PNAS paper and no architectural promotion of experimental ASES research. Candidate edges do not establish causation or support for a whole system.
+- Stable identifiers are not yet available for every indexed document; no automatic move detection or cross-repository identity authority.
+- The prototype intentionally uses disposable Python/SQLite under the experimental exception. A maintained service requires the canonical realization/language/assurance gate.
+- No live Projektor graph integration or independent graph server. Those require separate scope and permission decisions.
+
+## Remaining actions
+
+1. Review the 71 unresolved references against a wider source inventory and assign verified aliases where appropriate, retaining negative evidence for truly missing records.
+2. Extend reviewed stable IDs to other repositories and source systems without assigning an independent authority to the index.
+3. Select and test a maintained implementation, including real authentication/visibility, permission revocation, exported-view integrity and update/rebuild behavior.
+4. If hosting a viewer becomes useful, handle deployment authorization separately. Until then the tracked Mermaid view is accessible directly in GitHub.
+
+**Decision:** prototype demonstrated reusable provenance-linked indexing and read-only graph extraction over real ASES docs; cross-project secured service remains experimental and unapproved.
