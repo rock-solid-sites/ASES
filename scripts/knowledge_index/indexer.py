@@ -205,6 +205,21 @@ def graph(db, include_private=False):
             sql += " WHERE a.visibility='public' AND b.visibility='public'"
         return con.execute(sql + ' ORDER BY e.id').fetchall()
 
+
+def graph_details(db, include_private=False):
+    """Source-linked candidate graph; caller must still enforce authorization."""
+    with sqlite3.connect(db) as con:
+        sql = '''SELECT e.id,e.source_id,e.relation,e.target_id,e.review_status,
+                        e.assessment,e.evidence_refs,e.explanation,a.source_uri,b.source_uri
+                 FROM edges e JOIN nodes a ON a.id=e.source_id
+                              JOIN nodes b ON b.id=e.target_id'''
+        if not include_private:
+            sql += " WHERE a.visibility='public' AND b.visibility='public'"
+        return [dict(zip(('id','from','relation','to','review_status','assessment',
+                          'evidence_refs','explanation','from_uri','to_uri'),
+                         (r[0],r[1],r[2],r[3],r[4],r[5],json.loads(r[6]),r[7],r[8],r[9])))
+                for r in con.execute(sql + ' ORDER BY e.id')]
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('source', type=Path)
