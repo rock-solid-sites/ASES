@@ -1,5 +1,7 @@
 """Read-only, public-only projections. Experimental, not an auth service."""
 import html
+import hashlib
+import base64
 import json
 import re
 import sqlite3
@@ -151,6 +153,11 @@ document.getElementById("plus").addEventListener("click",()=>{zoom=Math.min(4,zo
 document.getElementById("minus").addEventListener("click",()=>{zoom=Math.max(.5,zoom/1.3);draw();});
 draw();
 </script></body></html>"""
+    # The embedded JavaScript is pinned by its exact content hash; the
+    # JSON payload is inert and HTML-escaped. No third-party network scripts.
+    script = suffix.split("<script>", 1)[1].split("</script>", 1)[0]
+    digest = base64.b64encode(hashlib.sha256(script.encode("utf-8")).digest()).decode("ascii")
+    prefix = prefix.replace("script-src 'unsafe-inline'", "script-src 'sha256-" + digest + "'")
     return prefix + payload + suffix
 
 def write_views(db, folder, focus=None):
