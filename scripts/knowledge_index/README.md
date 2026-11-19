@@ -26,3 +26,10 @@ The latest verified [red–green repair run 44585134777](https://github.com/rock
 Do not import private archives, Work Notes or authenticated Projektor records into the public repository/CI. Visibility labels and the public projection are **not authorization controls**. No conversation archive or Projektor data is modified or required. Integration requires independent architecture, security, identity and maintained-realization reviews as specified in the proposal.
 
 **Do not ask the operator to run commands.** Agents/CI own prototype execution and testing. The underlying Python/SQLite implementation is a disposable experiment, subject to the existing ASES implementation realization/assurance method before being retained as maintained software.
+
+
+## Fresh independent review and verified follow-up (19 November 2026)
+
+All three fresh Phoenix Grove models reviewed immutable pre-fix source `2c7bdb2a624b53e41f08bf23dffe496e19d7e6e0`: DeepSeek and MiMo found no material defects in their bounded source assignments; GLM identified a JSONL reserved-ID impersonation defect and malformed namespace acceptance. Both were reproduced in [failing run 44587686163](https://github.com/rock-solid-sites/ASES/actions/runs/44587686163), repaired and checked in [green run 44587792625](https://github.com/rock-solid-sites/ASES/actions/runs/44587792625): **49/49 tests passed**. See the [full three-reviewer record and raw outputs](../../adversarial-reviews/knowledge-index/2026-11-19-postrepair-phoenix-grove-review.md).
+
+This does **not** constitute model re-review of the last corrective diff, production security sign-off, or operator authorization to merge. PR #61 remains experimental and draft.
