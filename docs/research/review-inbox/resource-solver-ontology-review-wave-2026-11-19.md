@@ -90,3 +90,28 @@ The general adversarial-review fixed core emphasizes tests and code; P7 distingu
 **Next research operation:** reconcile the two reports against Canonical Terminology, full source declarations and the pre-existing admission/API semantics; classify each issue as already solved, terminology/crosswalk gap, policy decision, or implementation test. Define minimal falsifying examples and sound neighboring cases before changing ontology. A separate bounded MiMo retry may be useful only with explicit authorization and a narrower packet (the cause of timeout was not verified).
 
 **Conclusion:** The evidence supports a *targeted integration contract audit*, not a general ontology replacement or universal-gateway build. This recommendation is preliminary research synthesis, not reviewer consensus as authority.
+
+
+## Addendum — separately authorized MiMo retry delivered a full review
+
+**Status on 2026-11-19 18:01:54 UTC:** The operator explicitly requested a new MiMo attempt after the first failed intermittently. The original three-job wave remains historically **2/3 delivered**; its MiMo timeout is *not* rewritten. The new, **MiMo-only** run [44582509135](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44582509135) / [job 135766611767](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44582509135/job/135766611767) **succeeded**, delivering a substantive 17,913-byte report and **CONDITIONAL** conceptual verdict. Across the two attempts, **all three named model families now delivered one independent first substantive review each**.
+
+- Exact original source `cb27e4de21142c36c634f9130c9591b7912c3dec`, neutral prompt SHA-256 `82466bccd73b8802c7cab7c219994bb30d7468cfb4f4c9494c43e605d2b0e5bd`, and source packet SHA-256 `2f8feec5ccc045869e6609c0d8631dcd7f4fd9c500ca0247c464d0f2ef599e87` were unchanged and verified before the retry. Retry dispatch commit `55af444123a91ed28cb423f9b771df396a6180b4`; explicit model `mimo-v2.6-flash`, route confirmed `pgs2`.
+- One invocation in the retry job, 420-second outer bound, `exit_code=0`, no automatic provider/stream retries and no fallback. CLI aggregate usage `not_exposed`; actual provider usage/billed USD `unknown`. The first timed-out attempt could still have incurred usage; do not treat it as zero-cost.
+- Raw successful MiMo report independently retained privately at [ases-plugins/review/resource-solver-ontology-pgs2-20261119/docs/reviews/results/20261119-resource-solver-ontology/mimo-successful-retry.md](https://github.com/rock-solid-sites/ases-plugins/blob/review/resource-solver-ontology-pgs2-20261119/docs/reviews/results/20261119-resource-solver-ontology/mimo-successful-retry.md). Original zero-output failure retained in `mimo-failed.md` and the original Actions run.
+
+### MiMo findings and convergence
+
+MiMo's delivered report gives **CONDITIONAL** conceptual sufficiency, with five falsifiable documentary/integration issues and no asserted deployed defects:
+
+1. **High:** distinguish callable semantic operation, tool binding, and access route; existing identifier-first research provides most of the likely primitives. This independently reinforces DeepSeek's F1 and GLM's ONT-01/ONT-02, without establishing a universal gateway requirement.
+2. **High:** represent trigger origin and classify whether launch was `controlled / external / observed`; separate trigger identity from execution environment. All three reviewers raised the trigger/lifecycle relationship, but disagree on whether a new first-class Trigger entity is needed.
+3. **Medium:** capability-policy permission and resource authorization must both hold; specify ownership and override authority without collapsing permissions into a single flag.
+4. **Medium:** document source → transformation → cache → model-visible projection provenance. Reinforces DeepSeek's context-cost/provenance concern; Engine Vision still owns context management.
+5. **High for correctness claims:** record output-schema validation separately from successful job completion, archive integrity and provider settlement. This issue is directly supported by the existing capability-schema study's Test C3, rather than evidence of a new runtime defect.
+
+MiMo explicitly reported sources omitted from the compact packet, no implementation tests, no live transport/provider/account verification and unknown deployment behavior. The reported severity is **reviewer-assigned**, not independently confirmed against the full canonical corpus.
+
+### Updated disposition
+
+The **three-provider independent opinion requirement is met at report-delivery level**, after one explicit MiMo retry. All three delivered reports are conditional, and share an integration-crosswalk concern. Nothing is merged or promoted; the P7 private sealed six-case comparative benchmark is still **NOT_RUN**. Next task remains source-first reconciliation, particularly rejecting any duplicate Trigger/gateway/reservation objects and checking the capabilities terminology against the canonical glossary.
