@@ -55,6 +55,13 @@ def neighborhood(projection, focus=None, maximum=36):
     return ([indexed[x] for x in order],
             [e for e in projection["edges"] if e["from"] in allowed and e["to"] in allowed])
 
+def safe_markdown_metadata(value):
+    """Treat authority labels as text, not Markdown/HTML or a new list item."""
+    value = html.escape(value, quote=True)
+    value = re.sub(r'[\\r\\n\\t]+', ' ', value)
+    return re.sub(r'([\\\\`*_{}\\[\\]()!|])', r'\\\\\\1', value)
+
+
 def render_mermaid(db, focus=None):
     nodes, edges = neighborhood(public_projection(db), focus)
     labels = {n["id"]: f"n{i}" for i, n in enumerate(nodes)}
@@ -70,7 +77,7 @@ def render_mermaid(db, focus=None):
     result.extend([fence, "", "## Source references", ""])
     for n in nodes:
         title = html.escape(n["title"], quote=True).replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
-        authority = html.escape(n["authority"] or "unspecified", quote=True)
+        authority = safe_markdown_metadata(n["authority"] or "unspecified")
         url = n["source_uri"].replace("(", "%28").replace(")", "%29")
         if url:
             result.append(f"- [{title}]({url}) — {n['kind']}, {authority}")
