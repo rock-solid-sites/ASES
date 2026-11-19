@@ -215,3 +215,81 @@ class RegistryAndDiagnosticTests(unittest.TestCase):
             self.assertEqual(result['counts']['unsupported_metadata'], 1)
             self.assertEqual(result['counts']['malformed_frontmatter'], 1)
             self.assertEqual(result['counts']['ambiguous_reference'], 1)
+
+
+class GraphProjectionTests(unittest.TestCase):
+    def test_public_projection_and_readonly_mermaid(self):
+        from graph_view import public_projection, render_mermaid, render_html
+        with tempfile.TemporaryDirectory() as d:
+            db = Path(d) / 'graph.sqlite'
+            build(FIX, db)
+            p = public_projection(db)
+            self.assertEqual(len(p['nodes']), 2)
+            self.assertEqual(len(p['edges']), 1)
+            self.assertIn('candidate', render_mermaid(db))
+            self.assertIn('mermaid', render_mermaid(db))
+            self.assertIn('doi.org', render_mermaid(db))
+            self.assertIn('aria-label', render_html(db))
+            self.assertIn('Content-Security-Policy', render_html(db))
+
+    def test_private_edge_and_private_evidence_not_exported(self):
+        from graph_view import public_projection, render_mermaid, render_html
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            raw = [json.loads(x) for x in (FIX / 'records.jsonl').read_text().splitlines()]
+            db = root / 'index.sqlite'
+            raw[-1]['visibility'] = 'private'
+            (root / 'input.jsonl').write_text('\n'.join(map(json.dumps, raw)))
+            build(root, db)
+            self.assertEqual(public_projection(db)['edges'], [])
+            self.assertNotIn('edases:edge:pnas-assignment', render_html(db))
+            raw[-1]['visibility'] = 'public'
+            raw[-1]['evidence_refs'] = ['secret:archive:uuid']
+            (root / 'input.jsonl').write_text('\n'.join(map(json.dumps, raw)))
+            build(root, db)
+            self.assertEqual(public_projection(db)['edges'], [])
+            self.assertNotIn('secret:archive:uuid', render_html(db))
+            self.assertNotIn('secret:archive:uuid', render_mermaid(db))
+
+    def test_html_and_mermaid_escape_untrusted_source(self):
+        from graph_view import render_mermaid, render_html, public_projection
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            entries=[json.loads(x) for x in (FIX / 'records.jsonl').read_text().splitlines()]
+            entries[0]['title']='</script><img src=x onerror=alert(1)>'
+            entries[0]['source_uri']='javascript:alert(1)'
+            (root / 'input.jsonl').write_text('\n'.join(map(json.dumps, entries)))
+            db=root/'graph.sqlite'
+            build(root,db)
+            html=render_html(db)
+            self.assertNotIn('</script><img',html)
+            self.assertIn('\\u003c/script',html)
+            self.assertNotIn('javascript:alert', html)
+            m=render_mermaid(db)
+            self.assertNotIn('onerror',m)
+            self.assertNotIn('javascript:alert',m)
+            self.assertEqual(public_projection(db)['nodes'][0]['source_uri'],'')
+
+    @unittest.skipUnless((REPO / REAL_DOCS[0]).exists(), 'requires ASES checkout')
+    def test_actual_graph_pilot_both_concept_to_design_edges(self):
+        from graph_view import public_projection, render_mermaid, render_html
+        paths=REAL_DOCS + ['docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md',
+                           'docs/research/knowledge-index/pilot-2026-11-19.jsonl']
+        with tempfile.TemporaryDirectory() as d:
+            db=Path(d)/'pilot.sqlite'
+            build(REPO, db, include_paths=paths,default_visibility='public')
+            p=public_projection(db)
+            names={n['id'] for n in p['nodes']}
+            self.assertIn('edases:concept:central-task-assignment',names)
+            self.assertIn('edases:concept:information-asymmetry-boundary',names)
+            links={(e['from'],e['to']) for e in p['edges']}
+            self.assertIn(('edases:concept:central-task-assignment',
+                           'github:rock-solid-sites/ASES:doc:docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md'),links)
+            self.assertIn(('edases:concept:information-asymmetry-boundary',
+                           'github:rock-solid-sites/ASES:doc:docs/research/Workflow Topology Design and Reasoning Record.md'),links)
+            view=render_mermaid(db,focus=['edases:concept:central-task-assignment',
+                                          'edases:concept:information-asymmetry-boundary'])
+            self.assertIn('flowchart LR',view)
+            self.assertIn('Candidate', view.title())
+            self.assertIn('source references',view.lower())
+            self.assertTrue(render_html(db).startswith('<!doctype html>'))
