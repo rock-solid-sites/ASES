@@ -40,6 +40,41 @@ class AdversarialFindingsTests(unittest.TestCase):
             build(root,db)
             self.assertEqual(public_projection(db)["edges"],[])
 
+    def test_pg_ki_01_cannot_spoof_internal_metadata_provenance(self):
+        # A JSONL payload must not be able to opt into the metadata-derived
+        # visibility exception by supplying an implementation-shaped field.
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[-1]["id"]="meta:attacker-shaped"
+            rows[-1]["_derived_metadata"]=True
+            rows[-1].pop("visibility",None)
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            self.assertEqual(public_projection(db)["edges"],[])
+
+    def test_pg_ki_02_malformed_edge_endpoints_are_domain_errors(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[-1]["from"]=[]
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            with self.assertRaises(IndexErrorData):
+                build(root,root/"index.sqlite")
+
+    def test_mimo_authority_markdown_image_syntax_escaped(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[0]["authority"]="Verified\n![pixel](https://tracker.invalid/pixel)"
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            markdown=render_mermaid(db)
+            self.assertNotIn("![pixel]",markdown)
+            self.assertNotIn("\n![pixel]",markdown)
+
     def test_pg_ki_02_include_outside_jsonl_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             parent=Path(d)
