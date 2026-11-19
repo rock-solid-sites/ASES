@@ -7,7 +7,7 @@
 - [Design and Integration Proposal](../../docs/proposals/knowledge-index/Design%20and%20Integration%20Proposal.md) — why this exists, source ownership, relationship model, integration roadmap and architectural boundaries.
 - [Final Review Checklist](../../docs/proposals/knowledge-index/Final%20Review%20Checklist.md) — independent review, required negative tests, findings format, and separate experimental-merge vs production-integration decisions.
 - [Technical Reference](TECHNICAL.md) — exact component responsibilities, input/output schema, identity registry, parser, validation, search, graph views, visibility limitations, CI tests and operating contract.
-- [Initial Phoenix Grove adversarial review](../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md) — 2 substantive model reports, MiMo failed; candidate defects require falsifying tests and independent security coverage.
+- [Initial Phoenix Grove adversarial review](../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md) — all three model reports received after a focused MiMo retry; concrete findings now have red–green regression tests; maintained-service security is still unreviewed.
 - [Real Repository Test Record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) — scope, evidence, exact runs and remaining gaps.
 - [GitHub-rendered read-only graph preview](../../docs/research/knowledge-index/graph-preview.md) — navigable candidate relationships from the literature/ASES pilot.
 
@@ -21,7 +21,7 @@
 
 ## Verification and integration boundaries
 
-The last published extended research baseline indexed **194 nodes, 303 *candidate* edges and 84 diagnostics** from the selected ASES `docs/` tree and pilot assertions, with **25/25 tests passing** at [run 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972). Counts will change as documents are added; the [test record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) pins its observations. No candidate edge is a validated scientific finding.
+The latest verified [red–green repair run 44585134777](https://github.com/rock-solid-sites/ASES/actions/runs/44585134777) passed **47/47 tests**, indexing **197 nodes and 311 *candidate* edges** with **86 diagnostics** from the selected ASES `docs/` tree and pilot assertions. Earlier 25-test and 194/303/84 figures remain historical baseline observations. Counts will change as documents are added; the [test record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) pins its observations. No candidate edge is a validated scientific finding.
 
 Do not import private archives, Work Notes or authenticated Projektor records into the public repository/CI. Visibility labels and the public projection are **not authorization controls**. No conversation archive or Projektor data is modified or required. Integration requires independent architecture, security, identity and maintained-realization reviews as specified in the proposal.
 
