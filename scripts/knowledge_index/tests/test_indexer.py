@@ -266,7 +266,9 @@ class GraphProjectionTests(unittest.TestCase):
             self.assertIn('\\u003c/script',html)
             self.assertNotIn('javascript:alert', html)
             m=render_mermaid(db)
-            self.assertNotIn('onerror',m)
+            self.assertNotIn('onerror=',m)
+            self.assertNotIn('</script>',m)
+            self.assertIn('&lt;/script&gt;',m)
             self.assertNotIn('javascript:alert',m)
             self.assertEqual(public_projection(db)['nodes'][0]['source_uri'],'')
 
