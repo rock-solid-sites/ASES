@@ -23,7 +23,10 @@ def read_registry(root):
         if entry["id"] in identities:
             raise RegistryError(f"duplicate stable identity: {entry['id']}")
         identities.add(entry["id"])
-        candidates = [entry.get("path")] + entry.get("aliases", [])
+        aliases = entry.get("aliases", [])
+        if not isinstance(aliases, list):
+            raise RegistryError(f"aliases must be a list: {entry['id']}")
+        candidates = [entry.get("path")] + aliases
         if not candidates or any(not isinstance(x, str) or not x or
            Path(x).is_absolute() or ".." in Path(x).parts or "\\" in x for x in candidates):
             raise RegistryError(f"invalid path for identity {entry['id']}")
@@ -31,5 +34,5 @@ def read_registry(root):
             if alias in by_path:
                 raise RegistryError(f"duplicate registered path/alias: {alias}")
             by_path[alias] = {"id": entry["id"], "path": entry["path"],
-                              "aliases": list(entry.get("aliases", []))}
+                              "aliases": list(aliases)}
     return by_path
