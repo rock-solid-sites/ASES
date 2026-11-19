@@ -24,3 +24,24 @@ Database build uses an atomic replacement of a disposable SQLite file. Records a
 ## Acceptance evidence
 
 CI results and source commit on the feature branch are the evidence. Unit tests alone do not demonstrate shared-service security, complete repository coverage, semantic truth, or the desired graph UI. Future work: schema validation, full corpus statistics, typed metadata edge coverage, stable identity registry, permission-aware adapters, and read-only graph view.
+
+
+## Extended real-document run (19 November 2026)
+
+The remote CI workflow now traverses **all Markdown under docs/** (research, methodology, requirements, architecture, standards and related documentation), not only the original two subtrees. The last measured corpus sweep at revision d1a0d272 indexed **194 nodes and 303 candidate relationships**, with **84 diagnostic warnings**: 1 malformed frontmatter, 7 unsupported-metadata cases, 5 references outside the selected index, and 71 unresolved/unverified references. These numbers are from the checked-out docs tree, not a full inventory of every repository root.
+
+A selected public research graph is checked into [the GitHub-rendered preview](../../docs/research/knowledge-index/graph-preview.md). CI independently regenerates that graph from Markdown/JSONL and compares it byte-for-byte with the checked-in file. CI also generates offline HTML/JSON views for testing and writes the Mermaid graph to the GitHub Actions job summary; there is no retained Actions artifact. HTML is **not deployed or hosted**.
+
+The identity registry in identities.json explicitly pins eight selected document IDs. Rename/move requires updating the registry's current path and retained aliases; the ID remains unchanged even when text/title changes. Other sources still use provisional path-derived IDs. Duplicate mappings and contradictory IDs fail closed.
+
+Default graph queries and exports use the same public-only projection and omit hidden nodes, private edges and edges whose evidence references are inaccessible. The offline HTML escapes script-bound JSON data and pins its inline JavaScript with a CSP hash. **These are containment tests, not proof of service-level access control.**
+
+The index remains a **separate consumer** of source material. No chat archive, Projektor or Work Notes integrations were changed.
+
+## Remaining gates before promotion
+
+- Apply the canonical realization/language/assurance method to select a maintained implementation; Python here is a disposable experiment.
+- Extend stable IDs and alias migration to every source type, and reconcile provisional path IDs.
+- Review unresolved references against a comprehensive source manifest; do not auto-promote lexical similarity to evidence.
+- Build permission-aware connectors and test existence, relationship, inference and revocation leakage; this prototype is **not** an authorization API.
+- Obtain separate approval for any hosted/deployed graph service. GitHub-rendered Mermaid is the read-only remote interface for now.
