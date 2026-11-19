@@ -263,6 +263,10 @@ def query(db, term, include_private=False):
         return con.execute(sql + ' ORDER BY rank', (term,)).fetchall()
 
 def graph(db, include_private=False):
+    if not include_private:
+        from graph_view import public_projection
+        return [(e['from'], e['relation'], e['to'], e['review_status'])
+                for e in public_projection(db)['edges']]
     with sqlite3.connect(db) as con:
         sql = 'SELECT e.source_id,e.relation,e.target_id,e.review_status FROM edges e JOIN nodes a ON a.id=e.source_id JOIN nodes b ON b.id=e.target_id'
         if not include_private:
@@ -271,7 +275,13 @@ def graph(db, include_private=False):
 
 
 def graph_details(db, include_private=False):
-    """Source-linked candidate graph; caller must still enforce authorization."""
+    """Source-linked candidate graph; raw private access is for trusted local tests only."""
+    if not include_private:
+        from graph_view import public_projection
+        data = public_projection(db)
+        urls = {n['id']: n['source_uri'] for n in data['nodes']}
+        return [dict(e, from_uri=urls[e['from']], to_uri=urls[e['to']])
+                for e in data['edges']]
     with sqlite3.connect(db) as con:
         sql = '''SELECT e.id,e.source_id,e.relation,e.target_id,e.review_status,
                         e.assessment,e.evidence_refs,e.explanation,a.source_uri,b.source_uri
