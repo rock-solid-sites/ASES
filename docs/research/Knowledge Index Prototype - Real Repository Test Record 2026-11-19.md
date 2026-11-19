@@ -62,3 +62,16 @@ No source documents were rewritten, and uncertain relationships remain candidate
 4. If hosting a viewer becomes useful, handle deployment authorization separately. Until then the tracked Mermaid view is accessible directly in GitHub.
 
 **Decision:** prototype demonstrated reusable provenance-linked indexing and read-only graph extraction over real ASES docs; cross-project secured service remains experimental and unapproved.
+
+## Security review verification update (2026-11-19)
+
+After independent Phoenix Grove review, negative tests were written for out-of-root imports and symlinks, unregistered or retired source identity reuse, malicious or malformed JSONL, metadata-derived public-edge spoofing, nonempty evidence types, FTS punctuation, limited YAML quote parsing, unsupported frontmatter, and hostile Markdown authority strings. The separate viewer/browser, authenticated ACL, and cross-project ownership requirements remain outside this experiment.
+
+Reproducible CI checkpoints:
+- [Run 44584279907](https://github.com/rock-solid-sites/ASES/actions/runs/44584279907): **red** — a source authority value could inject a standalone Markdown image link; two other new regression cases passed at the then-current source state.
+- [Run 44584754767](https://github.com/rock-solid-sites/ASES/actions/runs/44584754767): **red** — four identity/visibility/source-registry boundary tests failed and a required-registry API was missing.
+- [Run 44585007924](https://github.com/rock-solid-sites/ASES/actions/runs/44585007924): **green** — 47/47 unit tests passed, real-document import and graph preview regeneration succeeded. At that exact revision the docs corpus contained **197 nodes, 311 candidate edges, and 86 diagnostic events** (71 unresolved/unverified, 7 outside scope, 7 unsupported metadata, 1 malformed frontmatter).
+
+The negative tests establish that the previously observed unsafe cases were reachable and the repaired implementation rejects or neutralizes those exact counterexamples. They do not establish a complete security proof. In particular, explicitly public JSONL remains subject to upstream source trust, and nonempty evidence references are not a determination of research truth. The index is a disposable cache; no private conversation archive was ingested or published.
+
+Detailed case-to-code review: [Phoenix Grove Review Triage](../proposals/knowledge-index/Phoenix%20Grove%20Review%20Triage%202026-11-19.md). Technical behavior: [implementation contract](../../scripts/knowledge_index/TECHNICAL.md). Draft PR #61 remains unmerged pending a human decision on accepting the *experimental* baseline. Production integration remains unapproved.
