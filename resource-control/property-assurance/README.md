@@ -12,6 +12,9 @@ Properties:
 3. Exact-ID exact-payload replays must not consume additional resource or append events.
 4. A stale catalog version must not admit or mutate state.
 5. Balances and reservations must survive reopening the actual SQLite file.
+6. After reopening, cancelling each accepted unlaunched reservation frees exactly its outstanding allowance; replaying cancellation is idempotent and cannot append duplicate terminal events.
+
+The second phase iterates over accepted reservations in reverse admission order. This is a **bounded terminal lifecycle** history, not arbitrary operation interleavings, real process termination or host-crash recovery.
 
 Two harnesses use the same oracle and source: `proptest =1.12.0` and `hegeltest =0.53.1`, 120 generated cases each. A green result is a finite checked sample, NOT proof of provider billing, full Kernel-0, hostile process confinement, crash consistency, remote execution or correct interleavings under concurrency. Input generators and shrinking algorithms are not identical across engines.
 
