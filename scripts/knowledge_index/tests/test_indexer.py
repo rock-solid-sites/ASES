@@ -132,3 +132,24 @@ supersedes: []
             self.assertEqual(source_records(root)[0][0]['id'], 'topic:test')
             old.rename(root / 'new.md')
             self.assertEqual(source_records(root)[0][0]['id'], 'topic:test')
+
+
+    def test_graph_details_preserve_provenance_and_visibility(self):
+        from indexer import graph_details
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            rows = [json.loads(x) for x in (FIX / 'records.jsonl').read_text().splitlines()]
+            (root / 'all.jsonl').write_text('\n'.join(map(json.dumps, rows)))
+            db = root / 'index.sqlite'
+            # Build must not recursively ingest an output index.
+            build(root, db)
+            details = graph_details(db)
+            self.assertEqual(len(details), 1)
+            self.assertEqual(details[0]['review_status'], 'candidate')
+            self.assertEqual(details[0]['evidence_refs'], ['doi:10.1073/pnas.2612825123'])
+            self.assertIn('doi.org', details[0]['from_uri'])
+            rows[1]['visibility'] = 'private'
+            (root / 'all.jsonl').write_text('\n'.join(map(json.dumps, rows)))
+            build(root, db)
+            self.assertEqual(graph_details(db), [])
+            self.assertEqual(len(graph_details(db, True)), 1)
