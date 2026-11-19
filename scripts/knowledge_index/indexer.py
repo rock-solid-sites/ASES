@@ -8,6 +8,8 @@ import sqlite3
 import tempfile
 from pathlib import Path
 from urllib.parse import quote
+from collections import Counter
+from registry import read_registry, RegistryError
 
 KINDS = {'source', 'concept', 'claim', 'design', 'decision', 'experiment', 'evidence'}
 RELATIONS = {'discusses', 'supports', 'challenges', 'tests', 'implements', 'depends_on', 'related_to', 'supersedes'}
@@ -62,6 +64,7 @@ def metadata(raw):
 
 def source_records(root, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None):
     nodes, edges, warnings = [], [], []
+    identities = read_registry(root)
     paths = sorted((root / rel for rel in include_paths)) if include_paths is not None else sorted(root.rglob('*.md'))
     for path in paths:
         if not path.is_file():
@@ -76,14 +79,19 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
         heading = re.search(r'^#\s+(.+)$', raw, re.MULTILINE)
         title = fm.get('title') if isinstance(fm.get('title'), str) else None
         title = title or (heading.group(1) if heading else path.stem)
-        node_id = fm.get('knowledge_id') if isinstance(fm.get('knowledge_id'), str) else None
+        declared_id = fm.get('knowledge_id') if isinstance(fm.get('knowledge_id'), str) else None
+        registered = identities.get(relative)
+        if registered and declared_id and declared_id != registered['id']:
+            raise IndexErrorData(f'{relative}: knowledge_id contradicts identity registry')
+        node_id = declared_id or (registered['id'] if registered else None)
         node_id = node_id or f'{namespace}:doc:{relative}'
         node = {'id': node_id, 'kind': 'source', 'title': title,
                 'source_uri': f'https://github.com/{namespace.removeprefix("github:")}/blob/main/{quote(relative)}',
                 'source_system': namespace, 'visibility': fm.get('visibility') or default_visibility,
                 'source_revision': hashlib.sha256(raw.encode('utf-8')).hexdigest(),
                 'authority': fm.get('authority') or '', 'content': raw,
-                '_metadata': fm, '_path': relative}
+                '_metadata': fm, '_path': relative,
+                '_aliases': registered['aliases'] if registered else []}
         nodes.append(node)
     jsonl_paths = sorted((root / rel for rel in include_paths if rel.endswith('.jsonl'))) if include_paths is not None else sorted(root.rglob('*.jsonl'))
     for path in jsonl_paths:
@@ -104,7 +112,8 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
     for n in nodes:
         if not n.get('_path'):
             continue
-        aliases = {n['title'].casefold(), n['_path'].casefold(), Path(n['_path']).name.casefold(), Path(n['_path']).stem.casefold()}
+        names_for_node = [n['title'], n['_path'], Path(n['_path']).name, Path(n['_path']).stem] + n.get('_aliases', [])
+        aliases = {name.casefold() for name in names_for_node}
         for alias in aliases:
             names.setdefault(alias, set()).add(n['id'])
     for n in nodes:
@@ -127,9 +136,51 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                                   'review_status': 'candidate', 'assessment': 'observed',
                                   'evidence_refs': [n['id']],
                                   'explanation': f'Unreviewed explicit {field} metadata: {target}'})
+                elif len(matching) > 1:
+                    warnings.append(f'{n["_path"]}: {field} ambiguous: {target} ({len(matching)} matches)')
                 else:
                     warnings.append(f'{n["_path"]}: {field} unresolved/ambiguous: {target}')
     return nodes, edges, warnings
+
+
+def summarize_diagnostics(warnings, root=None, include_paths=None):
+    """Classify warnings conservatively without declaring missing repository sources.
+
+    A reference might exist outside the checkout or in a source with a different
+    title. 'unresolved' is NOT a claim that a document does not exist.
+    """
+    indexed = set(include_paths or [])
+    available = set()
+    if root is not None:
+        available = {p.relative_to(root).as_posix() for p in Path(root).rglob('*.md')}
+    stems = {}
+    for path in available:
+        for token in (path.casefold(), Path(path).stem.casefold(), Path(path).name.casefold()):
+            stems.setdefault(token, set()).add(path)
+    counts = Counter()
+    details = []
+    for message in warnings:
+        kind = "other"
+        if "unterminated frontmatter" in message or "frontmatter exceeds" in message:
+            kind = "malformed_frontmatter"
+        elif "unsupported frontmatter" in message:
+            kind = "unsupported_metadata"
+        elif " ambiguous: " in message:
+            kind = "ambiguous_reference"
+        elif " unresolved/ambiguous: " in message:
+            target = message.rsplit(" unresolved/ambiguous: ", 1)[1].strip()
+            matches = stems.get(target.casefold(), set())
+            if matches and not matches.intersection(indexed):
+                kind = "outside_index_scope"
+            elif len(matches) > 1:
+                kind = "ambiguous_reference"
+            else:
+                kind = "unresolved_unverified"
+        elif "unsupported" in message:
+            kind = "unsupported_metadata"
+        counts[kind] += 1
+        details.append({"kind": kind, "message": message})
+    return {"counts": dict(sorted(counts.items())), "details": details}
 
 def validate(nodes, edges):
     problems, known, edge_ids = [], {}, set()
@@ -228,12 +279,15 @@ if __name__ == '__main__':
     parser.add_argument('--default-visibility', choices=sorted(VISIBILITIES), default='private')
     parser.add_argument('--include', action='append', default=None, help='Repository-relative Markdown/JSONL file; repeat for multiple files')
     parser.add_argument('--search')
+    parser.add_argument('--diagnostics', action='store_true')
     parser.add_argument('--graph', action='store_true')
     args = parser.parse_args()
     n, e, warnings = build(args.source, args.database, args.namespace, args.default_visibility, args.include)
     print(f'indexed {n} nodes, {e} edges; {len(warnings)} metadata warnings')
     for warning in warnings[:30]:
         print('WARNING:', warning)
+    if args.diagnostics:
+        print('diagnostics:', json.dumps(summarize_diagnostics(warnings, args.source, args.include), indent=2))
     if args.search:
         print('search:', query(args.database, args.search))
     if args.graph:
