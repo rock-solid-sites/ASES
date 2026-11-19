@@ -264,7 +264,7 @@ def validate(nodes, edges):
         edge_ids.add(identifier)
         a, b = e.get('from'), e.get('to')
         if not isinstance(a, str) or not isinstance(b, str) or a not in known or b not in known:
-            problems.append(f'{identifier}: missing/invalid endpoint {a} -> {b}')
+            problems.append(f'{identifier}: missing endpoint or invalid endpoint id {a} -> {b}')
             continue
         if not isinstance(e.get('visibility'), str) or e['visibility'] not in VISIBILITIES:
             problems.append(f'{identifier}: invalid edge visibility')
