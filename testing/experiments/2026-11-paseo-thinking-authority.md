@@ -40,4 +40,14 @@ The extra test was a *single* targeted state comparison, not a generalized prope
 
 **Limits / WHAT-NOT-TESTED:** The original CLI `run` output may omit thinking mode, and the current patch only checks an explicit non-null inspected mode; absence of the `Thinking` field still cannot establish compliance. No real running Paseo instance, actual remote launch, cross-process race, service trust boundary or production/installation was tested. The broader policy for missing/ambiguous inspect fields requires separately qualified decisions and upstream CLI contract checks. Do **not** label this complete runtime authority enforcement.
 
+## Independent Phoenix Grove review (three attempts, only one valid report)
+
+[Three-job run 44575756540](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44575756540), source SHA `a2eabdf4b8bd0f20617d00db6693280aeae4fa32`, used a frozen clean-room packet and one `pgs2` invocation each of DeepSeek, GLM and MiMo. The [full source-screened synthesis](https://github.com/rock-solid-sites/ases-plugins/blob/review/paseo-thinking-pgs2-20261119/docs/reviews/results/20261119-paseo-thinking-pgs2/SYNTHESIS.md) remains with the code owner.
+
+- **DeepSeek** produced one substantive report. Source screening confirms the explicit missing-thinking-field gate permits unverified mode and `validateLaunch` ignores returned model/mode. These are *source validation gaps*, not proven live CLI substitutions. Activity freshness and external TOCTOU are plausible but remain unexecuted hypotheses.
+- **GLM** reached the provider but its 1,754-byte response failed the substantive review gate and claimed code changes/tests that were not performed. **No valid review verdict.**
+- **MiMo** reached the provider but returned zero review bytes after an SSE idle disconnect, exit 1. **No verdict.** No retries were authorized or performed.
+
+**Method lesson:** Three reviewer *invocations* are not three independent *findings*. The correct accounting is **1 validated report / 3 attempts**, with conclusions additionally screened against source and then requiring executable discrimination. Reuse existing [lesson L05](../lessons/2026-11-cross-project-lessons.md) rather than creating a duplicate rule. Provider billed amount/tokens unknown; read-only sandbox is not independently verified deny-all.
+
 **Next independent assessment:** a reviewer should verify real Paseo inspect-field presence and semantics, decide the appropriate fail-closed behavior for missing values, and test a second authorization dimension with a distinct fixture or real isolated CLI when approved. Method promotion remains gated by Work Notes `WNASES-10`; execution pilot `WNASES-15`.
