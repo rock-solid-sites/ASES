@@ -70,3 +70,56 @@ jobs:
               print(f'CORPUS RESULT: {n} nodes, {e} candidate edges, {len(w)} warnings')
               print('Warning categories (sample):', *w[:20], sep='\n- ')
           PY
+
+      - name: Verify committed Mermaid graph and render offline public view
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from difflib import unified_diff
+          from indexer import build, summarize_diagnostics
+          from graph_view import render_mermaid, render_html, public_projection
+          import os, json
+          root=Path('.')
+          docs=[
+              'docs/research/LLM Agents and Distributed Systems - Research Topic.md',
+              'docs/research/Cross-Project Knowledge Index - Minimal Schema and Integration Boundaries.md',
+              'docs/research/Workflow Topology Design and Reasoning Record.md',
+              'docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md',
+              'docs/research/EDASES Review Methodology.md',
+              'docs/standards/Documentation Standard.md',
+              'docs/standards/Canonical Terminology.md',
+              'docs/standards/Concept - Levels of Abstraction.md',
+              'docs/research/knowledge-index/pilot-2026-11-19.jsonl'
+          ]
+          with TemporaryDirectory() as d:
+              db=Path(d)/'graph.sqlite'
+              n,e,w=build(root,db,include_paths=docs,default_visibility='public')
+              graph=render_mermaid(db,focus=['edases:concept:central-task-assignment',
+                  'edases:concept:information-asymmetry-boundary'])
+              expected=(root/'docs/research/knowledge-index/graph-preview.md').read_text()
+              if graph != expected:
+                  print(''.join(unified_diff(expected.splitlines(True),graph.splitlines(True),
+                      fromfile='committed',tofile='generated')))
+                  raise AssertionError('graph preview is stale or diverged from canonical records')
+              html=render_html(db)
+              public=public_projection(db)
+              assert '<svg id="graph"' in html
+              assert len(public['nodes']) >= 5
+              assert len(public['edges']) >= 3
+              print('GRAPH PREVIEW: matching committed Markdown; offline HTML generated')
+              with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as summary:
+                  summary.write('## Public knowledge graph — pilot\n\n')
+                  summary.write(graph+'\n')
+          corpus=sorted(p.as_posix() for area in ('docs/research','docs/standards')
+                        for p in (root/area).rglob('*.md'))
+          corpus+=['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
+          with TemporaryDirectory() as d:
+              n,e,w=build(root,Path(d)/'corpus.sqlite',include_paths=corpus,
+                          default_visibility='public')
+              report=summarize_diagnostics(w,root,corpus)
+              print('CLASSIFIED DIAGNOSTICS:',json.dumps(report['counts'],sort_keys=True))
+              assert sum(report['counts'].values())==len(w)
+          PY
