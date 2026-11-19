@@ -16,6 +16,7 @@ DOCUMENTS = [
     "scripts/knowledge_index/README.md",
     "docs/proposals/knowledge-index/Design and Integration Proposal.md",
     "docs/proposals/knowledge-index/Final Review Checklist.md",
+    "docs/proposals/knowledge-index/Experimental Pilot Charter and Handoff 2026-11-19.md",
     "docs/research/Knowledge Index Prototype - Real Repository Test Record 2026-11-19.md",
 ]
 HEADERS = [
@@ -68,9 +69,10 @@ class ReviewDocumentationTests(unittest.TestCase):
         design = (REPO / DOCUMENTS[2]).read_text(encoding="utf-8")
         review = (REPO / DOCUMENTS[3]).read_text(encoding="utf-8")
         technical = (REPO / DOCUMENTS[0]).read_text(encoding="utf-8")
-        self.assertIn("not merged", design)
+        self.assertIn("merged as an experimental research pilot", design)
         self.assertIn("Decision A", review)
         self.assertIn("Decision B", review)
+        self.assertIn("ACCEPTED for experimental pilot only", review)
         self.assertIn("UNREVIEWED", review)
         self.assertIn("NOT APPROVED", review)
         self.assertIn("not approved for production integration", technical)

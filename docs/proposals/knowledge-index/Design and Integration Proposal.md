@@ -19,7 +19,7 @@ last_updated: 2026-11-19
 
 # Cross-project knowledge index — design, reasoning and integration proposal
 
-**Status:** proposed design informed by a working, experimentally tested prototype. The implementation remains on [draft PR #61](https://github.com/rock-solid-sites/ASES/pull/61) and is **not merged, deployed, or authorized as a maintained shared service**. ASES-19 tracks this initiative; ASES-18 is its first research use case.
+**Status:** proposed **maintained-service** design remains draft. The code and evidence were **merged as an experimental research pilot** in [PR #61](https://github.com/rock-solid-sites/ASES/pull/61); the prototype is **not deployed or authorized as a maintained shared service**. See the [accepted pilot charter](Experimental%20Pilot%20Charter%20and%20Handoff%202026-11-19.md). ASES-19 tracks its evaluation and ASES-18 remains separate literature research.
 
 This document explains **why the system should exist, why its boundaries are arranged this way, what it has demonstrated and what independent reviewers must decide before integration**. The [implementation reference](../../../scripts/knowledge_index/TECHNICAL.md) gives the exact code/data/test contracts; the [final-review checklist](Final%20Review%20Checklist.md) captures the decision gates without mixing them into project history.
 
@@ -154,4 +154,4 @@ Independent reviewers must have permission to find **blocking failures**. A gree
 
 **Reject/redesign components:** if independent review reveals an unguarded authority/permission boundary or the maintenance overhead exceeds demonstrated value, preserve the research evidence while replacing/discarding the implementation.
 
-**Current recommendation:** the first two outcomes are plausible; production deployment approval is **not** supported by the present evidence. Leave PR #61 in draft until the review is completed and its scope of acceptance is explicitly stated.
+**Recorded decision (2026-11-19):** accept the reviewed code and tests as a *disposable experimental pilot*, with explicit permission to fail and retain reusable lessons. PR #61 was merged as experiment-only evidence; production adoption or integration is **NOT APPROVED**. The existing WNASES-16 retrieval benchmark is the next evaluation gate, not a new engineering launch.

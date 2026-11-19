@@ -1,8 +1,10 @@
 # Knowledge index — experimental prototype
 
-**Status:** read-only experiment on draft [ASES PR #61](https://github.com/rock-solid-sites/ASES/pull/61); tracked in ASES-19. **Not deployed, not an authenticated service, not yet an approved maintained implementation.**
+**Status:** experimental, source-preserving research pilot **merged into ASES** by [PR #61](https://github.com/rock-solid-sites/ASES/pull/61) (commit [`6c7c5a9`](https://github.com/rock-solid-sites/ASES/commit/6c7c5a9973490741cccf53e50c4b1b826df58a6c)). Human pilot owner: Projektor **ASES-19**; bounded agent benchmark: Work Notes **WNASES-16**. **Not deployed, not an authenticated service, not adopted as a canonical methodology or maintained Engine component.**
 
 ## Where to read first
+
+- [Experimental Pilot Charter and Handoff](../../docs/proposals/knowledge-index/Experimental%20Pilot%20Charter%20and%20Handoff%202026-11-19.md) — evaluation objectives, public-source scope, ownership across ASES-19/WNASES-16 and stop/go criteria.
 
 - [Design and Integration Proposal](../../docs/proposals/knowledge-index/Design%20and%20Integration%20Proposal.md) — why this exists, source ownership, relationship model, integration roadmap and architectural boundaries.
 - [Final Review Checklist](../../docs/proposals/knowledge-index/Final%20Review%20Checklist.md) — independent review, required negative tests, findings format, and separate experimental-merge vs production-integration decisions.
@@ -21,7 +23,7 @@
 
 ## Verification and integration boundaries
 
-The latest verified [red–green repair run 44585134777](https://github.com/rock-solid-sites/ASES/actions/runs/44585134777) passed **47/47 tests**, indexing **197 nodes and 311 *candidate* edges** with **86 diagnostics** from the selected ASES `docs/` tree and pilot assertions. Earlier 25-test and 194/303/84 figures remain historical baseline observations. Counts will change as documents are added; the [test record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) pins its observations. No candidate edge is a validated scientific finding.
+The [first main-branch run after the experimental merge](https://github.com/rock-solid-sites/ASES/actions/runs/44604902691) passed **49/49 tests**, indexing **198 nodes and 314 *candidate* edges** with **87 diagnostics** from the selected ASES `docs/` tree and pilot assertions. Earlier 25-test and 194/303/84 figures remain historical baseline observations. Counts will change as documents are added; the [test record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) pins its observations. No candidate edge is a validated scientific finding.
 
 Do not import private archives, Work Notes or authenticated Projektor records into the public repository/CI. Visibility labels and the public projection are **not authorization controls**. No conversation archive or Projektor data is modified or required. Integration requires independent architecture, security, identity and maintained-realization reviews as specified in the proposal.
 
@@ -32,4 +34,4 @@ Do not import private archives, Work Notes or authenticated Projektor records in
 
 All three fresh Phoenix Grove models reviewed immutable pre-fix source `2c7bdb2a624b53e41f08bf23dffe496e19d7e6e0`: DeepSeek and MiMo found no material defects in their bounded source assignments; GLM identified a JSONL reserved-ID impersonation defect and malformed namespace acceptance. Both were reproduced in [failing run 44587686163](https://github.com/rock-solid-sites/ASES/actions/runs/44587686163), repaired and checked in [green run 44587792625](https://github.com/rock-solid-sites/ASES/actions/runs/44587792625): **49/49 tests passed**. See the [full three-reviewer record and raw outputs](../../adversarial-reviews/knowledge-index/2026-11-19-postrepair-phoenix-grove-review.md).
 
-This does **not** constitute model re-review of the last corrective diff, production security sign-off, or operator authorization to merge. PR #61 remains experimental and draft.
+The experiment was accepted into ASES as reproducible research, **not as an adopted or production-ready system**. The final corrective diff was verified by regression tests, not a separate model re-review. The next measurement belongs to existing Work Notes **WNASES-16**; there is no new duplicate tracking issue.

@@ -17,7 +17,7 @@ last_updated: 2026-11-19
 
 # Knowledge index — independent review and decision record
 
-This is a **pre-integration review protocol**, not a self-certified completion checklist. Its owner is **ASES-19**; the technical experiment is draft [ASES PR #61](https://github.com/rock-solid-sites/ASES/pull/61). Read the [proposed design](Design%20and%20Integration%20Proposal.md), [technical contracts](../../../scripts/knowledge_index/TECHNICAL.md), source code, fixtures and the real CI logs **before** filling in verdicts.
+This is a **pre-integration review protocol**, not a self-certified completion checklist. Its owner is **ASES-19**; the technical experiment was merged from [ASES PR #61](https://github.com/rock-solid-sites/ASES/pull/61) **for research use only**. The maintained-service integration checklist remains open. Read the [proposed design](Design%20and%20Integration%20Proposal.md), [technical contracts](../../../scripts/knowledge_index/TECHNICAL.md), source code, fixtures and the real CI logs **before** filling in verdicts.
 
 ## Scope of approval
 
@@ -32,7 +32,7 @@ A pass on Decision A must not be interpreted as a pass on Decision B. Merging an
 
 | Evidence | Artifact | Verified scope |
 | --- | --- | --- |
-| Source and diffs | [Draft PR #61](https://github.com/rock-solid-sites/ASES/pull/61) | Code, pilot JSONL, workflow and docs; branch not yet merged |
+| Source and diffs | [Merged PR #61](https://github.com/rock-solid-sites/ASES/pull/61) | Experimental code, fixtures, review records and design docs on ASES `main`; no production service |
 | Remote test run | [Actions 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972) | 25 tests passed on remote runner, including real ASES docs |
 | Review-packet validation | [Actions 44574342042](https://github.com/rock-solid-sites/ASES/actions/runs/44574342042) | **28 tests passed**, including documentation metadata and all internal link checks; docs-inclusive snapshot: 196 nodes, 311 candidate edges, 86 diagnostics |
 | Research measurements | [Test record](../../research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) | Selected `docs/`: 194 nodes, 303 **candidate** edges, 84 diagnostics |
@@ -114,16 +114,16 @@ For each finding preserve: `id`, `severity`, `source file/line`, `observed resul
 | Retrieval/accessibility verdict | UNREVIEWED |
 | Language/realization verdict | UNREVIEWED |
 | Unresolved and untested areas | Must be itemized |
-| Decision A: merge research/prototype | PENDING |
+| Decision A: merge research/prototype | **ACCEPTED for experimental pilot only**, PR #61 merged on 2026-11-19 |
 | Decision B: production integration | **NOT APPROVED** |
 | Blocking findings and retests | PENDING |
-| Operator approval and scope | PENDING |
+| Operator approval and scope | **Experimental research admission only**; no adoption or production approval |
 
 An automated reviewer must not fill the operator-approval field. An independent reviewer may recommend one of **approve experimental materials**, **conditional integration design only**, **fix and retest**, or **reject/rearchitect**.
 
 ## Present disposition
 
-The real-repository prototype is a credible **review candidate**: documented code, CI, typed source links, identity registry and generated graph preview exist. The public-source scope was tested; real secured multi-project integration was not. Retain the draft PR and use this checklist as the input to the final review. No conclusion about production integration is justified until the unresolved gates have explicit evidence.
+The real-repository prototype is a credible **review candidate**: documented code, CI, typed source links, identity registry and generated graph preview exist. The public-source scope was tested; real secured multi-project integration was not. Retain the experiment on `main` and use this checklist only for later *maintained-service* integration review. No conclusion about production integration is justified until the unresolved gates have explicit evidence.
 
 
 ## Initial Phoenix Grove adversarial review (2026-11-19)
@@ -132,11 +132,11 @@ The [three-model review attempt](https://github.com/rock-solid-sites/ases-plugin
 
 The first inspection-supported, high-priority candidates concern forged metadata-derived visibility, out-of-root JSONL imports, partial-index stable-ID impersonation and quote-induced ID corruption. The high-priority code findings were reproduced in [failing CI](https://github.com/rock-solid-sites/ASES/actions/runs/44583368282), repaired, and verified in [47-test green CI](https://github.com/rock-solid-sites/ASES/actions/runs/44585134777); see the updated [technical review report](../../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md). GLM also highlighted missing-registry fallback, evidence integrity and review-provenance gaps. These are **findings, not verified fixes or integration approval**.
 
-Decision A is still pending review of confirmed findings and experimental merge scope. Decision B remains **NOT APPROVED**. The checklist's final review verdict fields remain open until the missing lens, tests and relevant integration requirements are addressed.
+Historical note: at the earlier review stage Decision A was pending; it was subsequently **accepted for an experimental merge**. Decision B remains **NOT APPROVED**. The checklist's final review verdict fields remain open until the missing lens, tests and relevant integration requirements are addressed.
 
 
 ## Fresh Phoenix Grove re-review and GLM verification (19 November 2026)
 
 [Fresh three-model review run 44586794355](https://github.com/rock-solid-sites/ases-plugins/actions/runs/44586794355) succeeded for DeepSeek, MiMo and GLM on source-pinned PR commit `2c7bdb2a624b53e41f08bf23dffe496e19d7e6e0`. DeepSeek and MiMo found **no material issues within their bounded inspections**. GLM found a still-open partial-index **JSONL registered-ID impersonation** bug and a malformed GitHub namespace validation gap. Both were reproduced by deliberate [failing tests](https://github.com/rock-solid-sites/ASES/actions/runs/44587686163) and fixed in [49-test green CI](https://github.com/rock-solid-sites/ASES/actions/runs/44587792625). [Complete report, original responses and triage](../../../adversarial-reviews/knowledge-index/2026-11-19-postrepair-phoenix-grove-review.md).
 
-These reports examined **the pre-fix** commit, not the latest corrective code. Passing tests do not automatically fill the operator-approval field. **Decision A** remains pending explicit experimental merge review; **Decision B** (maintained cross-project integration) remains **NOT APPROVED**.
+These reports examined **the pre-fix** commit, not the latest corrective code. Passing tests do not automatically fill the operator-approval field. **Decision A** was subsequently accepted for experimental source merge under PR #61; **Decision B** (maintained cross-project integration) remains **NOT APPROVED**.
