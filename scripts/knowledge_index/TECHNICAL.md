@@ -71,7 +71,7 @@ Canonical Markdown + explicitly reviewed JSONL + identities.json
 
 **Provenance:** source records contain title, kind, canonical source URL, `source_system`, visibility, content, authority when known, and a SHA-256 **content digest** in `source_revision`. That digest is not a Git commit ID and does not by itself provide an immutable Git permalink. Links currently target `main`, so draft-branch-only documents may not resolve through that link until merged. Explicit JSONL edges contain stable IDs, relation, `evidence_refs`, assessment, review status and explanation; generated metadata edges cite the source document. Treat all existing graph edges as candidates even when the underlying metadata is explicit.
 
-**Validation:** `validate()` rejects duplicate/missing IDs, missing required node fields, invalid kinds, unsupported relation/status/assessment/visibility, absent endpoints and public edges pointing at private endpoints. The prototype does **not** yet enforce all semantic constraints anticipated by the proposed schema (e.g. citation validity/required nonempty evidence, cycle and abstraction-order checks).
+**Validation:** `validate()` rejects duplicate/missing IDs, missing required node fields, invalid kinds, unsupported relation/status/assessment/visibility, absent endpoints and public edges pointing at private endpoints. Validation now requires evidence references to be nonempty lists of nonempty string IDs and checks required node/edge field types. It **does not** independently verify evidence provenance, relationship truth, cycle and abstraction-order semantics, or source permission grants.
 
 **Projection:** a disposable SQLite database stores nodes, typed edges and an FTS5 virtual table. `build()` creates a temporary database then atomically replaces its destination after successful validation/inserts. Failures preserve the previous database. Identical inputs produce equivalent relational content on repeated builds; cross-environment byte-identical database files are **not** promised. The database is a cache, never a canonical record. External full-text search queries are for trusted local use only and must not be exposed as an unauthenticated API.
 
@@ -122,3 +122,19 @@ The tests cover identity changes and collisions, malformed/unresolved metadata, 
 7. Do CI, accessibility and threat-model tests demonstrate the required guarantees in the **actual integration environment**?
 
 **Disposition:** experimentally verified prototype; **not approved for production integration**. The corresponding [proposal and review gates](../../docs/proposals/knowledge-index/Design%20and%20Integration%20Proposal.md) govern next steps.
+
+
+## Adversarial negative-test verification (2026-11-19)
+
+The [Phoenix Grove triage and red–green record](../../docs/proposals/knowledge-index/Phoenix%20Grove%20Review%20Triage%202026-11-19.md) maps reviewer claims to reproducible cases. [GitHub Actions run 44585007924](https://github.com/rock-solid-sites/ASES/actions/runs/44585007924) passed **47/47 tests**, the real ASES documents traversal, and the checked-in Mermaid preview comparison. The docs-inclusive run observed **197 nodes, 311 candidate relationships, and 86 diagnostic events**. These numbers are tied to the cited run, not permanent corpus invariants.
+
+Security/authority refinements from the review:
+
+- Import paths and registry paths must resolve within the configured root. Out-of-root includes and symlinks are rejected before reading. Active registry paths, not retired aliases, are authoritative for identity attribution. A registry may be explicitly required by a caller; absent registries remain optional for the default disposable-fixture mode.
+- JSONL-supplied internal parser/provenance fields are stripped; generated metadata links alone may inherit public visibility when both endpoints are public. An imported `meta:` ID does **not** make a JSONL edge public. Explicit `visibility: public` from an authorized JSONL source remains a trusted label, not a proof of access permission.
+- Malformed or unsupported frontmatter is not interpreted as a public authority grant: identity-bearing unparseable metadata fails rather than silently allocating a substitute ID; other such source records are conservatively quarantined to private visibility. This is a fail-closed prototype behavior, not general YAML support.
+- Invalid JSONL types and invalid/empty evidence IDs cause a controlled validation failure. Nonempty, well-typed references still require separate *semantic* and provenance review.
+- FTS query input is interpreted as bounded literal word tokens to avoid permitting arbitrary FTS5 operator syntax; callers should not assume support for advanced full-text expressions. Rendered authority strings are neutralized for HTML tags, Markdown images, escapes and line breaks in generated Markdown. The separately generated offline HTML still requires contextual review before any hosting.
+- No source ACL lookup, tenancy, revocation, real trust attestations, or privacy-safe publication of archived conversations was added. CI remains a **read-only disposable experiment**; passing does not approve a service.
+
+The final review gate is still divided: **Decision A**, whether to accept an experimental baseline through PR #61, requires a human scope/merge decision; **Decision B**, a maintained cross-project index/graph service, remains unapproved.
