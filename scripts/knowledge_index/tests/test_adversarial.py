@@ -159,6 +159,7 @@ class IdentityAndVisibilityFollowups(unittest.TestCase):
             root=Path(d)
             rows=records()
             rows[0]["_path"]="forged.md"
+            rows[1]["_path"]="target.md"
             rows[0]["_metadata"]={"related_documents":["Central task assignment"]}
             rows[0]["_aliases"]=["forged.md"]
             (root/"records.jsonl").write_text("\n".join(map(json.dumps,rows)))
