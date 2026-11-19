@@ -1,47 +1,27 @@
-# Knowledge index — experimental, reproducible prototype
+# Knowledge index — experimental prototype
 
-**Status:** experimental read-only proof of concept, **not** an authenticated service, production library or stable schema. Research issue: ASES-19. First pilot: ASES-18.
+**Status:** read-only experiment on draft [ASES PR #61](https://github.com/rock-solid-sites/ASES/pull/61); tracked in ASES-19. **Not deployed, not an authenticated service, not yet an approved maintained implementation.**
 
-## Tests
+## Where to read first
 
-From an ASES checkout, GitHub Actions runs: PYTHONPATH=scripts/knowledge_index python -m unittest discover -s scripts/knowledge_index/tests -v
+- [Design and Integration Proposal](../../docs/proposals/knowledge-index/Design%20and%20Integration%20Proposal.md) — why this exists, source ownership, relationship model, integration roadmap and architectural boundaries.
+- [Final Review Checklist](../../docs/proposals/knowledge-index/Final%20Review%20Checklist.md) — independent review, required negative tests, findings format, and separate experimental-merge vs production-integration decisions.
+- [Technical Reference](TECHNICAL.md) — exact component responsibilities, input/output schema, identity registry, parser, validation, search, graph views, visibility limitations, CI tests and operating contract.
+- [Real Repository Test Record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) — scope, evidence, exact runs and remaining gaps.
+- [GitHub-rendered read-only graph preview](../../docs/research/knowledge-index/graph-preview.md) — navigable candidate relationships from the literature/ASES pilot.
 
-The two RealRepositoryTests use **eight actual repository documents** (full source content, not copied fixture extracts). They must run without skips on CI. Other tests use controlled fixture records.
+## Component map
 
-The importer recognizes a limited subset of EDASES YAML frontmatter (scalar fields, flat dash/star lists, empty lists). It preserves source hashes and titles, produces *candidate* edges only from explicit unambiguous metadata, and reports unresolved/ambiguous or malformed metadata rather than fabricating links.
+- `indexer.py`: read-only Markdown/JSONL ingestion, metadata relationships, validation, SQLite FTS5 and graph queries.
+- `registry.py` + `identities.json`: explicitly reviewed IDs and former-path aliases for eight pilot documents; other IDs remain path-derived and provisional.
+- `graph_view.py`: public-only JSON/Mermaid/offline HTML views. The HTML export is generated in CI but **not hosted**.
+- `fixtures/records.jsonl` + `tests/test_indexer.py`: schema, provenance, identity, visibility, injection and real-document regression tests.
+- [GitHub Actions workflow](../../.github/workflows/knowledge-index-prototype.yml): minimal read-only sparse checkout and tests; no retained artifacts.
 
-Database build uses an atomic replacement of a disposable SQLite file. Records are in Git-tracked Markdown and JSONL, not the generated index. Cross-project adapters and authorization are not implemented.
+## Verification and integration boundaries
 
-## Explicit limitations
+The last published extended research baseline indexed **194 nodes, 303 *candidate* edges and 84 diagnostics** from the selected ASES `docs/` tree and pilot assertions, with **25/25 tests passing** at [run 44571399972](https://github.com/rock-solid-sites/ASES/actions/runs/44571399972). Counts will change as documents are added; the [test record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) pins its observations. No candidate edge is a validated scientific finding.
 
-- Document IDs fall back to repo-relative paths; only an explicit knowledge_id survives renaming.
-- Many legacy research files have no metadata or have nonstandard/malformed frontmatter. They are indexed as source documents but no relationship is inferred; diagnostics are expected. **Do not auto-repair canonical documents.**
-- The source URL is for the tracked GitHub repository main branch, not a source-version immutable permalink; SHA-256 content digest is stored separately.
-- This prototype's include_private Python API can expose all indexed records. It is **not** an access control system. Never serve or publish its private index or expose that API to untrusted users. The CLI only returns public records.
-- This Python/SQLite implementation is for a short disposable experiment. A maintained multi-project system must pass the language/assurance selection process in docs/methodology/Implementation Realization and Assurance Selection Method.md.
-- No live Projektor, Work Notes or chat archive writes. The archive is an independent ingestion boundary.
+Do not import private archives, Work Notes or authenticated Projektor records into the public repository/CI. Visibility labels and the public projection are **not authorization controls**. No conversation archive or Projektor data is modified or required. Integration requires independent architecture, security, identity and maintained-realization reviews as specified in the proposal.
 
-## Acceptance evidence
-
-CI results and source commit on the feature branch are the evidence. Unit tests alone do not demonstrate shared-service security, complete repository coverage, semantic truth, or the desired graph UI. Future work: schema validation, full corpus statistics, typed metadata edge coverage, stable identity registry, permission-aware adapters, and read-only graph view.
-
-
-## Extended real-document run (19 November 2026)
-
-The remote CI workflow now traverses **all Markdown under docs/** (research, methodology, requirements, architecture, standards and related documentation), not only the original two subtrees. The last measured corpus sweep at revision d1a0d272 indexed **194 nodes and 303 candidate relationships**, with **84 diagnostic warnings**: 1 malformed frontmatter, 7 unsupported-metadata cases, 5 references outside the selected index, and 71 unresolved/unverified references. These numbers are from the checked-out docs tree, not a full inventory of every repository root.
-
-A selected public research graph is checked into [the GitHub-rendered preview](../../docs/research/knowledge-index/graph-preview.md). CI independently regenerates that graph from Markdown/JSONL and compares it byte-for-byte with the checked-in file. CI also generates offline HTML/JSON views for testing and writes the Mermaid graph to the GitHub Actions job summary; there is no retained Actions artifact. HTML is **not deployed or hosted**.
-
-The identity registry in identities.json explicitly pins eight selected document IDs. Rename/move requires updating the registry's current path and retained aliases; the ID remains unchanged even when text/title changes. Other sources still use provisional path-derived IDs. Duplicate mappings and contradictory IDs fail closed.
-
-Default graph queries and exports use the same public-only projection and omit hidden nodes, private edges and edges whose evidence references are inaccessible. The offline HTML escapes script-bound JSON data and pins its inline JavaScript with a CSP hash. **These are containment tests, not proof of service-level access control.**
-
-The index remains a **separate consumer** of source material. No chat archive, Projektor or Work Notes integrations were changed.
-
-## Remaining gates before promotion
-
-- Apply the canonical realization/language/assurance method to select a maintained implementation; Python here is a disposable experiment.
-- Extend stable IDs and alias migration to every source type, and reconcile provisional path IDs.
-- Review unresolved references against a comprehensive source manifest; do not auto-promote lexical similarity to evidence.
-- Build permission-aware connectors and test existence, relationship, inference and revocation leakage; this prototype is **not** an authorization API.
-- Obtain separate approval for any hosted/deployed graph service. GitHub-rendered Mermaid is the read-only remote interface for now.
+**Do not ask the operator to run commands.** Agents/CI own prototype execution and testing. The underlying Python/SQLite implementation is a disposable experiment, subject to the existing ASES implementation realization/assurance method before being retained as maintained software.
