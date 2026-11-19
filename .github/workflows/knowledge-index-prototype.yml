@@ -45,3 +45,28 @@ jobs:
             --include "docs/standards/Concept - Levels of Abstraction.md" \
             --include "docs/standards/Canonical Terminology.md" \
             --search coordination --graph
+
+      - name: Traverse full research corpus and cross-source concept/design pilot
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from indexer import build, query, graph
+          root=Path('.')
+          paths=sorted(p.as_posix() for area in ('docs/research','docs/standards') for p in (root/area).rglob('*.md'))
+          paths += ['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
+          with TemporaryDirectory() as d:
+              n,e,w=build(root,Path(d)/'full.sqlite',include_paths=paths,default_visibility='public')
+              links=graph(Path(d)/'full.sqlite')
+              assert n >= 20, f'Unexpectedly few documents: {n}'
+              assert e >= 10, f'Unexpectedly few documented relationships: {e}'
+              assert ('edases:concept:central-task-assignment','related_to',
+                      'github:rock-solid-sites/ASES:doc:docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md','candidate') in links
+              assert ('edases:concept:information-asymmetry-boundary','related_to',
+                      'github:rock-solid-sites/ASES:doc:docs/research/Workflow Topology Design and Reasoning Record.md','candidate') in links
+              assert len(query(Path(d)/'full.sqlite','information')) >= 1
+              print(f'CORPUS RESULT: {n} nodes, {e} candidate edges, {len(w)} warnings')
+              print('Warning categories (sample):', *w[:20], sep='\n- ')
+          PY
