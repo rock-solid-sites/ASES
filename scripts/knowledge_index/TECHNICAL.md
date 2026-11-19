@@ -104,12 +104,29 @@ The tests cover identity changes and collisions, malformed/unresolved metadata, 
 
 ## Failure-handling and audit rules
 
-- Unsupported metadata: emit a diagnostic, quarantine uncertain relationships and keep the source record searchable.
+- Unsupported metadata: emit a diagnostic and quarantine uncertain relationships; index the source **private by default** even when the caller sets a public default. If malformed frontmatter contains an explicit `knowledge_id`, reject the build to avoid silent identity reassignment.
 - Unresolved/ambiguous target: emit a diagnostic, do not choose a likely destination based on string similarity.
 - Registry mismatch or duplicate ID: fail the build, keep the previous database intact.
 - Public edge to nonpublic endpoint: fail validation; private evidence missing from the public projection: suppress the edge.
 - Changes to generated preview: CI fails when the preview diverges; update source assertions first.
 - Reviewer findings must identify a source path, exact violated invariant, reproduction and untested surface. Reviewer agreement alone does not constitute verification.
+
+## Post-review repair contract and verified tests
+
+The first frozen Phoenix Grove reviews were performed against commit `bef2782144ca5553b1632c6f0747169d5933e1ff`; later fixes were **not** model-reviewed. The [red–green repair record](../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md) lists exact failing controls, fixes, residual uncertainty, and [passing CI run 44585134777](https://github.com/rock-solid-sites/ASES/actions/runs/44585134777) (**47 tests**).
+
+**Current implementation rules added after adversarial review:**
+
+- Source include paths are bounded to the configured resolved root before reading; `..`, absolute escapes, and symlinks targeting outside the source root are rejected. Registry reads are also constrained to that root. This is not a credential/permission system.
+- `identities.json` may be optional for disposable fixture work; real ASES CI explicitly supplies `--require-registry` or `require_registry=True`, causing a missing registry to fail. Registered identity IDs are reserved across partial-index builds, so an unregistered document cannot claim one when the registered owner is excluded. Retired path aliases resolve *references* but are not valid active source identities.
+- The bounded YAML scalar parser removes only matched enclosing quote pairs; a trailing apostrophe is not silently discarded. Unsupported frontmatter without an identity is still indexed but defaults private; malformed **identity-bearing** frontmatter fails. General YAML compliance remains out of scope.
+- JSONL input must contain objects with valid string node IDs; importer-private fields (`_metadata`, `_path`, `_aliases`, `_derived_metadata`) are stripped before graph derivation. An explicitly authored `meta:` edge ID cannot impersonate an importer-generated edge. Its visibility remains private unless explicitly specified.
+- Evidence references must be nonempty string IDs; this does not yet prove every external source exists or has passed review. Query input is interpreted as bounded literal lexical tokens, not raw SQLite FTS syntax; malformed punctuation returns an empty result rather than a parser crash.
+- Public Markdown graph text escapes `authority` metadata including raw HTML, Markdown image notation and newlines. The independent HTML graph viewer uses its separate DOM rendering/CSP controls. Real browser-service security remains unverified.
+
+**Observed scope:** the selected ASES `docs/` and literature pilot now index **197 nodes, 311 unreviewed candidate edges and 86 diagnostics**. These numbers include additional review documentation; they do not validate the semantic accuracy of the edges. The published Mermaid preview still matches source-generated output. No archive, Projektor or Work Notes data has been ingested or changed.
+
+**Remaining gates:** stable IDs for all sources, independent review of the repair diff, a maintained realization selection, real source ACL/revocation and inference-leak tests for any authenticated multi-project connector, and separate authorization for hosting/deployment.
 
 ## Review questions before integration
 
