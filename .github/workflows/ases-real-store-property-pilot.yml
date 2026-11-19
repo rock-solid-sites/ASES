@@ -1,0 +1,43 @@
+name: ASES real Store property-engine comparison
+on:
+  pull_request:
+    paths:
+      - 'resource-control/tests/resource_property_*'
+      - 'resource-control/tests/support/resource_properties.rs'
+      - 'resource-control/property-assurance/**'
+      - 'resource-control/Cargo.toml'
+      - '.github/workflows/ases-real-store-property-pilot.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-real-store:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Compare two generators against actual SQLite-backed Store
+        shell: bash
+        run: |
+          set -o pipefail
+          cd resource-control
+          mkdir -p property-assurance/evidence
+          rustc --version | tee property-assurance/evidence/toolchain.txt
+          cargo --version | tee -a property-assurance/evidence/toolchain.txt
+          sha256sum Cargo.toml | tee -a property-assurance/evidence/toolchain.txt
+          cp Cargo.lock property-assurance/evidence/Cargo.lock.before
+          cargo test --test control > property-assurance/evidence/regression.log 2>&1
+          cargo test --test resource_property_proptest -- --nocapture > property-assurance/evidence/proptest.log 2>&1
+          cargo test --test resource_property_hegel -- --nocapture > property-assurance/evidence/hegel.log 2>&1
+          cp Cargo.lock property-assurance/evidence/Cargo.lock.after
+          cat property-assurance/evidence/proptest.log | tail -n 12
+          cat property-assurance/evidence/hegel.log | tail -n 12
+      - name: Upload evidence
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: ases-real-store-pilot
+          path: resource-control/property-assurance/evidence/
+          retention-days: 30
