@@ -1,0 +1,125 @@
+name: Knowledge index prototype — real ASES documents
+
+on:
+  push:
+    branches:
+      - main
+      - feature/knowledge-index-prototype-20261119
+    paths:
+      - scripts/knowledge_index/**
+      - docs/**
+      - .github/workflows/knowledge-index-prototype.yml
+
+permissions:
+  contents: read
+
+jobs:
+  repository-index-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts/knowledge_index
+            docs
+            adversarial-reviews
+            .github/workflows
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Test fixtures and eight real ASES source documents
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python -m unittest discover -s scripts/knowledge_index/tests -v
+      - name: Build and query real-document pilot
+        run: |
+          python scripts/knowledge_index/indexer.py . /tmp/ases-knowledge-index.sqlite \
+            --default-visibility public --require-registry \
+            --include "docs/research/LLM Agents and Distributed Systems - Research Topic.md" \
+            --include "docs/research/Cross-Project Knowledge Index - Minimal Schema and Integration Boundaries.md" \
+            --include "docs/research/Workflow Topology Design and Reasoning Record.md" \
+            --include "docs/research/EDASES Review Methodology.md" \
+            --include "docs/research/Heterogeneous Synthetic Scheduler Comparison 2026-11-01.md" \
+            --include "docs/standards/Documentation Standard.md" \
+            --include "docs/standards/Concept - Levels of Abstraction.md" \
+            --include "docs/standards/Canonical Terminology.md" \
+            --search coordination --graph
+
+      - name: Traverse ASES docs corpus and cross-source concept/design pilot
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from indexer import build, query, graph
+          root=Path('.')
+          paths=sorted(p.as_posix() for p in (root/'docs').rglob('*.md'))
+          paths += ['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
+          with TemporaryDirectory() as d:
+              n,e,w=build(root,Path(d)/'full.sqlite',include_paths=paths,default_visibility='public',require_registry=True)
+              links=graph(Path(d)/'full.sqlite')
+              assert n >= 20, f'Unexpectedly few documents: {n}'
+              assert e >= 10, f'Unexpectedly few documented relationships: {e}'
+              assert ('edases:concept:central-task-assignment','related_to',
+                      'github:rock-solid-sites/ASES:doc:docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md','candidate') in links
+              assert ('edases:concept:information-asymmetry-boundary','related_to',
+                      'github:rock-solid-sites/ASES:doc:docs/research/Workflow Topology Design and Reasoning Record.md','candidate') in links
+              assert len(query(Path(d)/'full.sqlite','information')) >= 1
+              print(f'CORPUS RESULT: {n} nodes, {e} candidate edges, {len(w)} warnings')
+              print('Warning categories (sample):', *w[:20], sep='\n- ')
+          PY
+
+      - name: Verify committed Mermaid graph and render offline public view
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from difflib import unified_diff
+          from indexer import build, summarize_diagnostics
+          from graph_view import render_mermaid, render_html, public_projection
+          import os, json
+          root=Path('.')
+          docs=[
+              'docs/research/LLM Agents and Distributed Systems - Research Topic.md',
+              'docs/research/Cross-Project Knowledge Index - Minimal Schema and Integration Boundaries.md',
+              'docs/research/Workflow Topology Design and Reasoning Record.md',
+              'docs/research/ASES Solver Capabilities and Rust Architecture Review 2026-11-01.md',
+              'docs/research/EDASES Review Methodology.md',
+              'docs/standards/Documentation Standard.md',
+              'docs/standards/Canonical Terminology.md',
+              'docs/standards/Concept - Levels of Abstraction.md',
+              'docs/research/knowledge-index/pilot-2026-11-19.jsonl'
+          ]
+          with TemporaryDirectory() as d:
+              db=Path(d)/'graph.sqlite'
+              n,e,w=build(root,db,include_paths=docs,default_visibility='public',require_registry=True)
+              graph=render_mermaid(db,focus=['edases:concept:central-task-assignment',
+                  'edases:concept:information-asymmetry-boundary'])
+              expected=(root/'docs/research/knowledge-index/graph-preview.md').read_text()
+              if graph != expected:
+                  print(''.join(unified_diff(expected.splitlines(True),graph.splitlines(True),
+                      fromfile='committed',tofile='generated')))
+                  raise AssertionError('graph preview is stale or diverged from canonical records')
+              html=render_html(db)
+              public=public_projection(db)
+              assert '<svg id="graph"' in html
+              assert len(public['nodes']) >= 5
+              assert len(public['edges']) >= 3
+              print('GRAPH PREVIEW: matching committed Markdown; offline HTML generated')
+              with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as summary:
+                  summary.write('## Public knowledge graph — pilot\n\n')
+                  summary.write(graph+'\n')
+          corpus=sorted(p.as_posix() for p in (root/'docs').rglob('*.md'))
+          corpus+=['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
+          with TemporaryDirectory() as d:
+              n,e,w=build(root,Path(d)/'corpus.sqlite',include_paths=corpus,
+                          default_visibility='public',require_registry=True)
+              report=summarize_diagnostics(w,root,corpus)
+              print('CLASSIFIED DIAGNOSTICS:',json.dumps(report['counts'],sort_keys=True))
+              assert sum(report['counts'].values())==len(w)
+          PY
