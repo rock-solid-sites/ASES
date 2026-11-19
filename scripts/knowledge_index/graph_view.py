@@ -70,9 +70,10 @@ def render_mermaid(db, focus=None):
     result.extend([fence, "", "## Source references", ""])
     for n in nodes:
         title = html.escape(n["title"], quote=True).replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
+        authority = html.escape(n["authority"] or "unspecified", quote=True)
         url = n["source_uri"].replace("(", "%28").replace(")", "%29")
         if url:
-            result.append(f"- [{title}]({url}) — {n['kind']}, {n['authority'] or 'unspecified'}")
+            result.append(f"- [{title}]({url}) — {n['kind']}, {authority}")
         else:
             result.append(f"- {title} — no safe public URL")
     result.extend(["", f"Visible subset: {len(nodes)} nodes, {len(edges)} candidate edges.", ""])
