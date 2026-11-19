@@ -154,3 +154,64 @@ supersedes: []
             build(root, db)
             self.assertEqual(graph_details(db), [])
             self.assertEqual(len(graph_details(db, True)), 1)
+
+
+class RegistryAndDiagnosticTests(unittest.TestCase):
+    def test_registry_survives_rename_and_content_edit(self):
+        from registry import read_registry
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            registry = root / 'scripts/knowledge_index'
+            registry.mkdir(parents=True)
+            old = root / 'old.md'
+            old.write_text('---\ntitle: Fixed identity\n---\n# One')
+            stable = 'edases:doc:immutable-test'
+            registry_file = registry / 'identities.json'
+            registry_file.write_text(json.dumps({'version': 1, 'entries': [
+                {'id': stable, 'path': 'old.md', 'aliases': []}]}))
+            self.assertEqual(source_records(root)[0][0]['id'], stable)
+            (root / 'old.md').rename(root / 'new.md')
+            (root / 'new.md').write_text('---\ntitle: New title\n---\n# Two')
+            registry_file.write_text(json.dumps({'version': 1, 'entries': [
+                {'id': stable, 'path': 'new.md', 'aliases': ['old.md']}]}))
+            nodes, edges, warnings = source_records(root)
+            self.assertEqual(nodes[0]['id'], stable)
+            self.assertEqual(nodes[0]['title'], 'New title')
+            self.assertIn('old.md', nodes[0]['_aliases'])
+
+    def test_registry_collision_and_conflicting_inline_id_fail_closed(self):
+        from registry import RegistryError
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            loc = root / 'scripts/knowledge_index'
+            loc.mkdir(parents=True)
+            (root / 'note.md').write_text('---\nknowledge_id: explicit:one\n---\n# Note')
+            reg = loc / 'identities.json'
+            reg.write_text(json.dumps({'version': 1, 'entries': [
+                {'id': 'registered:one', 'path': 'note.md', 'aliases': []}]}))
+            with self.assertRaisesRegex(IndexErrorData, 'contradicts'):
+                source_records(root)
+            reg.write_text(json.dumps({'version': 1, 'entries': [
+                {'id': 'registered:one', 'path': 'note.md', 'aliases': []},
+                {'id': 'registered:two', 'path': 'other.md', 'aliases': ['note.md']}]}))
+            with self.assertRaisesRegex(RegistryError, 'duplicate registered'):
+                source_records(root)
+
+    def test_warning_categories_conservatively_classified(self):
+        from indexer import summarize_diagnostics
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'Available.md').write_text('# available')
+            warnings = [
+                'x.md: related_documents unresolved/ambiguous: Available',
+                'y.md: related_documents unresolved/ambiguous: Unknown source',
+                'z.md: unsupported frontmatter near: bad',
+                'w.md: unterminated frontmatter',
+                'v.md: related_documents ambiguous: Duplicate (2 matches)',
+            ]
+            result = summarize_diagnostics(warnings, root, include_paths=['x.md'])
+            self.assertEqual(result['counts']['outside_index_scope'], 1)
+            self.assertEqual(result['counts']['unresolved_unverified'], 1)
+            self.assertEqual(result['counts']['unsupported_metadata'], 1)
+            self.assertEqual(result['counts']['malformed_frontmatter'], 1)
+            self.assertEqual(result['counts']['ambiguous_reference'], 1)
