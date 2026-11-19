@@ -6,8 +6,7 @@ on:
       - feature/knowledge-index-prototype-20261119
     paths:
       - scripts/knowledge_index/**
-      - docs/research/**
-      - docs/standards/**
+      - docs/**
       - .github/workflows/knowledge-index-prototype.yml
 
 permissions:
@@ -23,8 +22,7 @@ jobs:
           filter: blob:none
           sparse-checkout: |
             scripts/knowledge_index
-            docs/research
-            docs/standards
+            docs
           sparse-checkout-cone-mode: true
           persist-credentials: false
       - name: Test fixtures and eight real ASES source documents
@@ -46,7 +44,7 @@ jobs:
             --include "docs/standards/Canonical Terminology.md" \
             --search coordination --graph
 
-      - name: Traverse full research corpus and cross-source concept/design pilot
+      - name: Traverse ASES docs corpus and cross-source concept/design pilot
         env:
           PYTHONPATH: scripts/knowledge_index
         run: |
@@ -55,7 +53,7 @@ jobs:
           from tempfile import TemporaryDirectory
           from indexer import build, query, graph
           root=Path('.')
-          paths=sorted(p.as_posix() for area in ('docs/research','docs/standards') for p in (root/area).rglob('*.md'))
+          paths=sorted(p.as_posix() for p in (root/'docs').rglob('*.md'))
           paths += ['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
           with TemporaryDirectory() as d:
               n,e,w=build(root,Path(d)/'full.sqlite',include_paths=paths,default_visibility='public')
@@ -113,8 +111,7 @@ jobs:
               with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as summary:
                   summary.write('## Public knowledge graph — pilot\n\n')
                   summary.write(graph+'\n')
-          corpus=sorted(p.as_posix() for area in ('docs/research','docs/standards')
-                        for p in (root/area).rglob('*.md'))
+          corpus=sorted(p.as_posix() for p in (root/'docs').rglob('*.md'))
           corpus+=['docs/research/knowledge-index/pilot-2026-11-19.jsonl']
           with TemporaryDirectory() as d:
               n,e,w=build(root,Path(d)/'corpus.sqlite',include_paths=corpus,
