@@ -29,6 +29,18 @@ CREATE VIRTUAL TABLE search USING fts5(id UNINDEXED,title,content);
 class IndexErrorData(ValueError):
     pass
 
+def yaml_scalar(value):
+    """Bounded scalar subset: strip only a matching outer quote pair.
+
+    This is not a general YAML parser. Unmatched trailing apostrophes remain
+    literal rather than silently altering knowledge identities.
+    """
+    value = value.strip()
+    if len(value) >= 2 and value[0] in ('"', "'") and value[-1] == value[0]:
+        return value[1:-1]
+    return value
+
+
 def metadata(raw):
     """Parse only the deliberately small scalar/flat-list subset of EDASES YAML.
 
@@ -53,19 +65,37 @@ def metadata(raw):
         if match:
             key, val = match.groups()
             val = (val or '').strip()
-            result[key] = [] if not val else ([] if val == '[]' else val.strip('\"\''))
+            result[key] = [] if not val else ([] if val == '[]' else yaml_scalar(val))
             continue
         match = re.fullmatch(r'\s+[-*]\s+(.+?)\s*', line)
         if match and key and isinstance(result.get(key), list):
-            result[key].append(match.group(1).strip().strip('\"\''))
+            result[key].append(yaml_scalar(match.group(1)))
             continue
         return {}, f'unsupported frontmatter near: {line[:90]}'
     return result, None
 
 def source_records(root, namespace='github:rock-solid-sites/ASES', default_visibility='private', include_paths=None):
+    root = Path(root).resolve()
     nodes, edges, warnings = [], [], []
     identities = read_registry(root)
-    paths = sorted((root / rel for rel in include_paths)) if include_paths is not None else sorted(root.rglob('*.md'))
+    registered_ids = {entry['id'] for entry in identities.values()}
+    if not namespace.startswith('github:') or namespace.count('/') != 1:
+        raise IndexErrorData('prototype source URI requires a github:owner/repo namespace')
+    def within_root(path):
+        path = Path(path)
+        if not path.resolve().is_relative_to(root):
+            raise IndexErrorData(f'source outside configured root: {path}')
+        return path
+    if include_paths is not None:
+        selected = []
+        for rel in include_paths:
+            path_rel = Path(rel)
+            if path_rel.is_absolute() or '..' in path_rel.parts:
+                raise IndexErrorData(f'source outside configured root: {rel}')
+            selected.append(within_root(root / path_rel))
+        paths = sorted(selected)
+    else:
+        paths = sorted(within_root(p) for p in root.rglob('*.md'))
     for path in paths:
         if not path.is_file():
             raise IndexErrorData(f'missing source file: {path}')
@@ -83,6 +113,8 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
         registered = identities.get(relative)
         if registered and declared_id and declared_id != registered['id']:
             raise IndexErrorData(f'{relative}: knowledge_id contradicts identity registry')
+        if declared_id in registered_ids and (not registered or registered['id'] != declared_id):
+            raise IndexErrorData(f'{relative}: knowledge_id reserved for another registered source')
         node_id = declared_id or (registered['id'] if registered else None)
         node_id = node_id or f'{namespace}:doc:{relative}'
         node = {'id': node_id, 'kind': 'source', 'title': title,
@@ -93,7 +125,7 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                 '_metadata': fm, '_path': relative,
                 '_aliases': registered['aliases'] if registered else []}
         nodes.append(node)
-    jsonl_paths = sorted((root / rel for rel in include_paths if rel.endswith('.jsonl'))) if include_paths is not None else sorted(root.rglob('*.jsonl'))
+    jsonl_paths = [p for p in paths if p.suffix == '.jsonl'] if include_paths is not None else sorted(within_root(p) for p in root.rglob('*.jsonl'))
     for path in jsonl_paths:
         for lineno, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
             if not line.strip():
@@ -102,9 +134,13 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                 data = json.loads(line)
             except json.JSONDecodeError as exc:
                 raise IndexErrorData(f'{path}:{lineno}: {exc}') from exc
+            if not isinstance(data, dict):
+                raise IndexErrorData(f'{path}:{lineno}: expected a JSON object')
             if data.get('record_type') == 'edge' or ('from' in data and 'to' in data):
                 edges.append(data)
             else:
+                if not isinstance(data.get('id'), str):
+                    raise IndexErrorData(f'{path}:{lineno}: node id must be a string')
                 nodes.append(data)
     # Resolve only unambiguous metadata refs to indexed documents; never assert
     # a semantic relationship from a guessed title or lexical similarity.
@@ -134,6 +170,7 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
                     edges.append({'record_type': 'edge', 'id': f'meta:{edge_id}',
                                   'from': n['id'], 'to': target_id, 'relation': relation,
                                   'review_status': 'candidate', 'assessment': 'observed',
+                                  '_derived_metadata': True,
                                   'evidence_refs': [n['id']],
                                   'explanation': f'Unreviewed explicit {field} metadata: {target}'})
                 elif len(matching) > 1:
@@ -146,8 +183,7 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
     for e in edges:
         if not e.get('visibility'):
             a, b = by_id.get(e.get('from')), by_id.get(e.get('to'))
-            public_metadata = (isinstance(e.get('id'), str)
-                and e['id'].startswith('meta:') and a and b
+            public_metadata = (e.get('_derived_metadata') is True and a and b
                 and a.get('visibility') == 'public'
                 and b.get('visibility') == 'public')
             e['visibility'] = 'public' if public_metadata else 'private'
@@ -196,35 +232,53 @@ def summarize_diagnostics(warnings, root=None, include_paths=None):
 def validate(nodes, edges):
     problems, known, edge_ids = [], {}, set()
     for n in nodes:
+        if not isinstance(n, dict):
+            problems.append('node must be an object')
+            continue
         identifier = n.get('id')
-        if not isinstance(identifier, str) or not identifier or identifier in known:
-            problems.append(f'duplicate/missing node id: {identifier}')
+        if not isinstance(identifier, str) or not identifier:
+            problems.append(f'invalid node id: {identifier}')
+            continue
+        if identifier in known:
+            problems.append(f'duplicate node id: {identifier}')
         known[identifier] = n
         for field in ('title', 'source_uri', 'source_system', 'visibility'):
             if not isinstance(n.get(field), str) or not n[field]:
                 problems.append(f'{identifier}: missing {field}')
-        if n.get('kind') not in KINDS:
+        if not isinstance(n.get('kind'), str) or n['kind'] not in KINDS:
             problems.append(f'{identifier}: invalid kind')
-        if n.get('visibility') not in VISIBILITIES:
+        if not isinstance(n.get('visibility'), str) or n['visibility'] not in VISIBILITIES:
             problems.append(f'{identifier}: invalid visibility')
+        if n.get('authority') is not None and not isinstance(n.get('authority'), str):
+            problems.append(f'{identifier}: authority must be a string')
     for e in edges:
+        if not isinstance(e, dict):
+            problems.append('edge must be an object')
+            continue
         identifier = e.get('id')
-        if not identifier or identifier in edge_ids:
-            problems.append(f'duplicate/missing edge id: {identifier}')
+        if not isinstance(identifier, str) or not identifier:
+            problems.append(f'invalid edge id: {identifier}')
+            continue
+        if identifier in edge_ids:
+            problems.append(f'duplicate edge id: {identifier}')
         edge_ids.add(identifier)
         a, b = e.get('from'), e.get('to')
-        if a not in known or b not in known:
-            problems.append(f'{identifier}: missing endpoint {a} -> {b}')
-        if e.get('visibility') not in VISIBILITIES:
+        if not isinstance(a, str) or not isinstance(b, str) or a not in known or b not in known:
+            problems.append(f'{identifier}: missing/invalid endpoint {a} -> {b}')
+            continue
+        if not isinstance(e.get('visibility'), str) or e['visibility'] not in VISIBILITIES:
             problems.append(f'{identifier}: invalid edge visibility')
-        if e.get('relation') not in RELATIONS:
+        if not isinstance(e.get('relation'), str) or e['relation'] not in RELATIONS:
             problems.append(f'{identifier}: invalid relation')
         if e.get('review_status') not in ('candidate', 'reviewed'):
             problems.append(f'{identifier}: invalid review status')
         if e.get('assessment') not in ('observed', 'inferred', 'hypothesized', 'disputed'):
             problems.append(f'{identifier}: invalid assessment')
-        if not isinstance(e.get('evidence_refs'), list):
-            problems.append(f'{identifier}: evidence_refs must be list')
+        evidence = e.get('evidence_refs')
+        if not isinstance(evidence, list) or not evidence or any(
+            not isinstance(ref, str) or not ref for ref in evidence
+        ):
+            problems.append(f'{identifier}: evidence_refs must contain nonempty string IDs')
         if a in known and b in known and e.get('visibility') == 'public' and (known[a]['visibility'] != 'public' or known[b]['visibility'] != 'public'):
             problems.append(f'{identifier}: public edge exposes non-public endpoint')
     if problems:
@@ -256,11 +310,18 @@ def build(root, db, namespace='github:rock-solid-sites/ASES', default_visibility
     return len(nodes), len(edges), warnings
 
 def query(db, term, include_private=False):
+    """Treat user input as literal terms, not caller-supplied FTS5 grammar."""
+    if not isinstance(term, str) or len(term) > 512:
+        raise IndexErrorData('invalid search text')
+    tokens = re.findall(r'\w+', term, flags=re.UNICODE)
+    if not tokens:
+        return []
+    expression = ' '.join('"' + token + '"' for token in tokens)
     with sqlite3.connect(db) as con:
         sql = 'SELECT n.id,n.title,n.source_uri FROM search s JOIN nodes n ON n.id=s.id WHERE search MATCH ?'
         if not include_private:
             sql += " AND n.visibility='public'"
-        return con.execute(sql + ' ORDER BY rank', (term,)).fetchall()
+        return con.execute(sql + ' ORDER BY rank', (expression,)).fetchall()
 
 def graph(db, include_private=False):
     if not include_private:
