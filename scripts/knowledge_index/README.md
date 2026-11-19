@@ -7,6 +7,7 @@
 - [Design and Integration Proposal](../../docs/proposals/knowledge-index/Design%20and%20Integration%20Proposal.md) — why this exists, source ownership, relationship model, integration roadmap and architectural boundaries.
 - [Final Review Checklist](../../docs/proposals/knowledge-index/Final%20Review%20Checklist.md) — independent review, required negative tests, findings format, and separate experimental-merge vs production-integration decisions.
 - [Technical Reference](TECHNICAL.md) — exact component responsibilities, input/output schema, identity registry, parser, validation, search, graph views, visibility limitations, CI tests and operating contract.
+- [Initial Phoenix Grove adversarial review](../../adversarial-reviews/knowledge-index/2026-11-19-phoenix-grove-review.md) — 2 substantive model reports, MiMo failed; candidate defects require falsifying tests and independent security coverage.
 - [Real Repository Test Record](../../docs/research/Knowledge%20Index%20Prototype%20-%20Real%20Repository%20Test%20Record%202026-11-19.md) — scope, evidence, exact runs and remaining gaps.
 - [GitHub-rendered read-only graph preview](../../docs/research/knowledge-index/graph-preview.md) — navigable candidate relationships from the literature/ASES pilot.
 
