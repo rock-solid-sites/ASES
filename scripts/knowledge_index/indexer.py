@@ -79,8 +79,8 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
     nodes, edges, warnings = [], [], []
     identities = read_registry(root, required=require_registry)
     registered_ids = {entry['id'] for entry in identities.values()}
-    if not namespace.startswith('github:') or namespace.count('/') != 1:
-        raise IndexErrorData('prototype source URI requires a github:owner/repo namespace')
+    if not re.fullmatch(r'github:[A-Za-z0-9-]+/[A-Za-z0-9_.-]+', namespace):
+        raise IndexErrorData('prototype source URI requires a safe github:owner/repo namespace')
     def within_root(path):
         path = Path(path)
         if not path.resolve().is_relative_to(root):
@@ -152,6 +152,11 @@ def source_records(root, namespace='github:rock-solid-sites/ASES', default_visib
             else:
                 if not isinstance(data.get('id'), str):
                     raise IndexErrorData(f'{path}:{lineno}: node id must be a string')
+                # The registry reserves IDs across the whole source repository,
+                # not just sources selected into this particular partial index.
+                # An external JSONL node may not impersonate registered Markdown.
+                if data['id'] in registered_ids:
+                    raise IndexErrorData(f'{path}:{lineno}: JSONL node id reserved for registered source: {data["id"]}')
                 nodes.append(data)
     # Resolve only unambiguous metadata refs to indexed documents; never assert
     # a semantic relationship from a guessed title or lexical similarity.
