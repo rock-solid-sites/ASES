@@ -1,0 +1,109 @@
+"""Red/green reproductions of the 2026-11-19 Phoenix Grove findings.
+
+These are local deterministic tests of code behavior, not a service ACL audit.
+"""
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from indexer import IndexErrorData, build, metadata, query, source_records, graph
+from graph_view import public_projection, render_mermaid
+
+FIX=Path(__file__).resolve().parents[1]/"fixtures/records.jsonl"
+
+def records():
+    return [json.loads(x) for x in FIX.read_text(encoding="utf-8").splitlines() if x.strip()]
+
+class AdversarialFindingsTests(unittest.TestCase):
+    def test_pg_ki_01_jsonl_meta_prefix_cannot_forge_public_edge(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[-1]["id"]="meta:forged-by-jsonl"
+            rows[-1].pop("visibility",None)
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            self.assertEqual(public_projection(db)["edges"],[])
+            self.assertEqual(graph(db),[])
+
+    def test_pg_ki_02_include_outside_jsonl_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            parent=Path(d)
+            root=parent/"repo"
+            root.mkdir()
+            (parent/"outside.jsonl").write_text(json.dumps(records()[0])+"\n")
+            with self.assertRaises(IndexErrorData):
+                source_records(root,include_paths=["../outside.jsonl"])
+
+    def test_pg_ki_02_file_symlink_outside_root_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            parent=Path(d)
+            root=parent/"repo"
+            root.mkdir()
+            external=parent/"outside.jsonl"
+            external.write_text(json.dumps(records()[0])+"\n")
+            (root/"link.jsonl").symlink_to(external)
+            with self.assertRaises(IndexErrorData):
+                source_records(root,include_paths=["link.jsonl"])
+
+    def test_pg_ki_03_partial_index_cannot_impersonate_registered_id(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            registry=root/"scripts/knowledge_index"
+            registry.mkdir(parents=True)
+            reserved="edases:doc:reserved"
+            (registry/"identities.json").write_text(json.dumps({"version":1,"entries":[
+                {"id":reserved,"path":"reserved.md","aliases":[]}
+            ]}))
+            (root/"intruder.md").write_text("---\nknowledge_id: "+reserved+"\n---\n# Intruder")
+            with self.assertRaises(IndexErrorData):
+                source_records(root,include_paths=["intruder.md"])
+
+    def test_pg_ki_04_unquoted_trailing_apostrophe_is_not_removed(self):
+        fields,warning=metadata("---\nknowledge_id: note:O'Brien'\n---\n# Text")
+        self.assertIsNone(warning)
+        self.assertEqual(fields["knowledge_id"],"note:O'Brien'")
+
+    def test_pg_ki_05_bad_jsonl_records_give_domain_error(self):
+        for content in ("42","[]",'{"id": []}'):
+            with self.subTest(payload=content):
+                with tempfile.TemporaryDirectory() as d:
+                    root=Path(d)
+                    (root/"bad.jsonl").write_text(content+"\n")
+                    with self.assertRaises(IndexErrorData):
+                        build(root,root/"out.sqlite")
+
+    def test_pg_ki_06_search_with_fts_syntax_punctuation_is_safe(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            db=root/"index.sqlite"
+            build(FIX,db)
+            for term in ('"', 'a AND','near(', ')'):
+                with self.subTest(term=term):
+                    self.assertIsInstance(query(db,term),list)
+
+    def test_pg_ki_07_non_string_evidence_reference_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[-1]["evidence_refs"]=[None]
+            (root/"bad.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            with self.assertRaises(IndexErrorData):
+                build(root,root/"index.sqlite")
+
+    def test_mimo_authority_markup_is_escaped(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rows=records()
+            rows[0]["authority"]="<img src=//tracker.invalid/p>"
+            (root/"data.jsonl").write_text("\n".join(map(json.dumps,rows)))
+            db=root/"index.sqlite"
+            build(root,db)
+            markdown=render_mermaid(db)
+            self.assertNotIn("<img ",markdown)
+            self.assertIn("&lt;img",markdown)
+
+if __name__ == "__main__":
+    unittest.main()
