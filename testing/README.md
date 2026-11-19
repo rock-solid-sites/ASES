@@ -21,6 +21,8 @@ last_updated: 2026-11-19
 
 ## Authority and navigation
 
+**Next research session:** [Property and Stateful Testing Research — Introduction and Next-Session Route](PROPERTY-TESTING-RESEARCH-INTRO.md). This is a source-linked handoff and the entry point for the knowledge-index retrieval pilot, not a new method.
+
 - **Active authority:** [Constraint-Driven Realization and Assurance Selection Method](../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) and [ASES Bounded Project Build Method](../docs/methodology/ASES%20Bounded%20Project%20Build%20Method.md). Consult relevant VSDD and project-specific acceptance requirements. A passing experiment does not change them.
 - **Research foundation:** [Guarantee-Driven Testing and Goal-Substitution Resistance](../docs/research/Guarantee-Driven%20Testing%20and%20Goal-Substitution%20Resistance.md), still experimental. Its object → attributable claim → evidential criterion → technique ordering remains the starting constraint.
 - **Proposals not adopted:** [Testing and Assurance Method proposal, draft PR #4](https://github.com/rock-solid-sites/ASES/pull/4) and [cross-project property/stateful pilot, draft PR #58](https://github.com/rock-solid-sites/ASES/pull/58). They are evidence to review, not active instructions. Do not copy or install a second skill.
