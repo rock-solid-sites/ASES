@@ -115,3 +115,11 @@ MiMo explicitly reported sources omitted from the compact packet, no implementat
 ### Updated disposition
 
 The **three-provider independent opinion requirement is met at report-delivery level**, after one explicit MiMo retry. All three delivered reports are conditional, and share an integration-crosswalk concern. Nothing is merged or promoted; the P7 private sealed six-case comparative benchmark is still **NOT_RUN**. Next task remains source-first reconciliation, particularly rejecting any duplicate Trigger/gateway/reservation objects and checking the capabilities terminology against the canonical glossary.
+
+## Source-first reconciliation following the completed three-model wave
+
+The [source-first reconciliation and minimal integration-contract proposal](resource-solver-ontology-source-reconciliation-2026-11-19.md) classifies every material reviewer concern against Canonical Terminology, Kernel-0 evidence, Resource Solver requirements, the Role Capability Matrix, and the Task Execution Evidence/MQI model. It rejects a new reservation-substrate concept, billing-cycle object, mandatory Trigger entity and universal Gateway as **not yet justified** by the demonstrated cases, while retaining a narrower operation/binding/authorization/meter/evidence relationship as a research gap.
+
+**Correction to research scope:** The original 14-operation capability-schema report was deterministic, but ASES also contains the later [Corpus 530 live-model A/B report](https://github.com/rock-solid-sites/ASES/blob/cb27e4de21142c36c634f9130c9591b7912c3dec/research/capability-schema-validation/corpus-530/report.md). Its live-model results show 71.0% description-token saving with 23/24 versus 22/24 schema-valid arguments, and a larger strict intent gap (23/24 versus 20/24), on one model and one replication. This fact was not supplied to the independent reviewers; it is additional source-first reconciliation evidence, not retroactively their conclusion. The later multi-model scaffold is not a completed experiment.
+
+**Disposition:** All three first substantive reviews remain independent and unchanged; next work should check the proposed crosswalk with frozen symbolic cases before replacing connectors or selecting an optimizer. Nothing in the reconciliation grants independent launch, modifies Kernel semantics or changes canonical ontology.
