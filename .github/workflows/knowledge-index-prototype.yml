@@ -1,0 +1,47 @@
+name: Knowledge index prototype — real ASES documents
+
+on:
+  push:
+    branches:
+      - feature/knowledge-index-prototype-20261119
+    paths:
+      - scripts/knowledge_index/**
+      - docs/research/**
+      - docs/standards/**
+      - .github/workflows/knowledge-index-prototype.yml
+
+permissions:
+  contents: read
+
+jobs:
+  repository-index-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts/knowledge_index
+            docs/research
+            docs/standards
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Test fixtures and eight real ASES source documents
+        env:
+          PYTHONPATH: scripts/knowledge_index
+        run: |
+          python -m unittest discover -s scripts/knowledge_index/tests -v
+      - name: Build and query real-document pilot
+        run: |
+          python scripts/knowledge_index/indexer.py . /tmp/ases-knowledge-index.sqlite \
+            --default-visibility public \
+            --include "docs/research/LLM Agents and Distributed Systems - Research Topic.md" \
+            --include "docs/research/Cross-Project Knowledge Index - Minimal Schema and Integration Boundaries.md" \
+            --include "docs/research/Workflow Topology Design and Reasoning Record.md" \
+            --include "docs/research/EDASES Review Methodology.md" \
+            --include "docs/research/Heterogeneous Synthetic Scheduler Comparison 2026-11-01.md" \
+            --include "docs/standards/Documentation Standard.md" \
+            --include "docs/standards/Concept - Levels of Abstraction.md" \
+            --include "docs/standards/Canonical Terminology.md" \
+            --search coordination --graph
