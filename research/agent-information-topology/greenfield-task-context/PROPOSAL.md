@@ -16,7 +16,7 @@ last_updated: 2026-11-20
 
 # ASES task-scoped context topology — greenfield proposal
 
-**Proposal, not adopted methodology.** Design the information and workflow topology **without requiring any existing document names, directory structure, CLI, agent role files, or start/end procedures**. Previous artifacts (including root `AGENTS.md`, `SESSION-START.md`, Crosslink and historical skills) are evidence about observed problems, not shape-defining inputs. Do not rename or port them as the default solution. This design is independent of draft PRs #63/#64 and does not overwrite their pilot evidence or production agent instructions.
+**Proposal, not adopted methodology.** Design the information and workflow topology **without requiring any existing document names, directory structure, CLI, agent role files, or start/end procedures**. The companion [candidate task-view contract](TASK-VIEW-CONTRACT.md) consolidates the architecture's information obligations after the [2 × 3 synthetic comparison](comparison/RESULTS-2026-11-20.md) and [observed source-admission failure](field-trial/PROMPT-SOURCE-ADMISSION-2026-11-20.md). **Neither experiment justified a mandatory persisted graph or a new resolver service.** Previous artifacts (including root `AGENTS.md`, `SESSION-START.md`, Crosslink and historical skills) are evidence about observed problems, not shape-defining inputs. Do not rename or port them as the default solution. This design is independent of draft PRs #63/#64 and does not overwrite their pilot evidence or production agent instructions.
 
 ## 1. Start from information flows, not files
 
@@ -46,7 +46,7 @@ operator intent / project objective
                  |
         decision / finding / learning
                  |
-       provenance-linked graph update
+       update owned source / task record
 ```
 
 The resolver is a **logical operation**, not an authorization to build a service or Resource Solver. A human or coordinator may perform it with ordinary references and small deterministic checks. A task's effective view may be a small structured prompt; it **need not be a file**, and it must not implicitly load all source bodies.
@@ -94,13 +94,13 @@ A *context view* is assembled at the **point of use**, with six sections:
 5. **Verification contract:** cheapest falsifying tests, expected evidence, any independent consumption gate, and WHAT-NOT-TESTED.
 6. **Durability/feedback:** where checkpoint and final result land, who can use them next, and how discoveries enter the research/decision loop.
 
-It must carry a **resolution receipt** (source revisions, selected rule IDs, overridden IDs with approving decision refs, conflicts, view digest) outside the model's main prose if possible. Provenance is crucial at producer->consumer boundaries. The receipt can be inspected without loading all source documents.
+Where source identity, approval, override or cross-agent handoff is material, retain a **compact resolution receipt** (selected source revisions, applicable rules/decisions, replaced IDs and unresolved conflicts). It may be a Work Notes comment or metadata alongside the task rather than a new file. A digest is optional and cannot prove that the source selection itself was correct. Provenance matters most at producer–consumer boundaries.
 
 The view must be **small because it is selected**, not small because important requirements were dropped. Missing safety or permission metadata is a blocker, not a reason to use a generic "default agent" profile.
 
 ## 5. No fixed startup or handoff documents are required
 
-The minimum bootstrap for a new task is a **task reference + trusted resolver entrypoint + execution authority**. The resolver can fetch selected current rules, evidence and decisions just in time. Nothing in the semantic model requires an `AGENTS.md`, `SESSION-START.md`, `SESSION-END.md`, agent-name-specific document, continuously loaded skill index or new CMS.
+The minimum bootstrap for a new task is a **task reference + access to the relevant trusted sources + caller-side execution authority**. The coordinator may select sources manually or by a small deterministic procedure at the point of use. Nothing in the semantic model requires an `AGENTS.md`, `SESSION-START.md`, `SESSION-END.md`, agent-name-specific document, continuously loaded skill index or new CMS.
 
 If a particular harness requires a static root instruction file, publish a **thin compatibility adapter** that states only how to access a validated task view. It should not duplicate rules or add an independently maintained policy corpus. If the harness can accept caller-supplied instructions, skip the adapter.
 
@@ -121,14 +121,17 @@ Resolution:
 
 This example illustrates relationships, not the preferred filename, app, framework, data storage backend or live Tripn project implementation.
 
-## 7. Candidate minimal physical serialization
+## 7. Minimal physical representation — no default graph
 
-Do not confuse the semantic graph with its storage representation. The smallest trial uses two **logical outputs**:
+The **logical relationships** above need not map to persisted nodes or another indexing layer. Based on the comparison evidence, the minimal starting representation is:
 
-- A **source/relationship index**: small machine-readable records with stable IDs, typed links, revision and authority pointers; source bodies stay in the documents or task systems that already own them.
-- A **resolved per-task view + receipt**: emitted as a structured payload/Markdown only when a task is dispatched. Position and evidence flow to the existing task tracker and Git commits, not another independent archive.
+- **Compact prose task view** with exact current references and explicit output/verification/stop criteria for a simple bounded task.
+- **Lightweight structured task view** with selected source/override identities, uncertainty and an inline receipt when several sources, roles or authority boundaries interact.
+- **Optional machine-readable source index and renderer**, only where measured repeated omissions, conflict rates or actual scale warrant their maintenance. The `EXAMPLE-GRAPH.json` and `EXAMPLE-VIEWS.json` remain synthetic research fixtures, not required production state.
 
-An example `topology.json` and `task-view.json` in this folder are **synthetic serialization sketches only**. JSON is used for deterministic inspection; YAML, graph DB, or direct typed tool responses remain possible. Do not build a general schema engine before proving resolution and consumption work.
+A task view can be delivered in the caller's message or through an already-owned Work Notes/Git issue. The source bodies stay at their canonical owners. Existing Git/Work Notes records provide durable outcomes, so no mandatory `AGENTS.md`, session-start/end document, database, daemon or new CMS follows from this proposal.
+
+[The task-view contract](TASK-VIEW-CONTRACT.md) specifies **what the consumer must know**, while allowing each interface to choose the smallest safe representation.
 
 ## 8. Cheap falsifiers and decision gate
 
@@ -143,7 +146,7 @@ An example `topology.json` and `task-view.json` in this folder are **synthetic s
 | Harness adapters are optional | Compare caller-supplied view with thin adapter in supported harness | Different rule selection, double loading or hidden global rule precedence |
 | Position/evidence survive session boundaries | Lose current process and reconstruct task state from durable references | Cannot recover last verified state and next step without transcript |
 
-First demonstrate the **source selection + complete override exclusion + evidence provenance** for two synthetic tasks. Compare with a simple manually authored task prompt. Adopt a compiled format only if it reduces errors and retrieval overhead without burying the operator in configuration. No live-model execution is required for this initial design review.
+**Completed:** Two synthetic task types were represented as manual, lightweight structured and graph-derived views. [Results](comparison/RESULTS-2026-11-20.md): all six passed the identical static gate; the graph had no verified correctness advantage and the manual packets were smallest. A later [real coordination incident](field-trial/PROMPT-SOURCE-ADMISSION-2026-11-20.md) exposed missing *source selection* despite source availability, addressed in merged PR #73. A fresh-chat behavior test has been **deferred by operator direction**, not run or passed. No production format should be declared adopted from these results.
 
 ## 9. Explicit non-goals and unresolved choices
 
@@ -155,4 +158,4 @@ First demonstrate the **source selection + complete override exclusion + evidenc
 
 Decisions to test, not assume: what smallest relation vocabulary is sufficient; whether rules and decisions need separate persisted objects; how the caller verifies a view receipt; when local override review is warranted; whether the view can be entirely in-memory; and which harnesses require an adapter.
 
-**Next review focus:** independently examine the semantic graph and its ability to support *task-scoped resolution* and *producer-consumer trust boundaries*. Do **not** ask reviewers whether to preserve historical `AGENTS.md` or session documents as a premise; that is precisely the design constraint being removed.
+**Next architectural decision (Projektor ASES-22):** review the candidate [task-view/source-admission contract](TASK-VIEW-CONTRACT.md), including document authority, selective retrieval and producer–consumer certainty transfer, **without assuming a graph or old startup documents are necessary**. The fresh-chat behavior test is deferred, not a precondition to consolidating documentation. Do not merge this experimental design as canonical methodology before the operator's architectural decision.
