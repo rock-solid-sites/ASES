@@ -31,7 +31,7 @@ To run the tests, invoke Python unittest discovery against this directory. The G
 
 ## Tests
 
-The 13 tests exercise both synthetic project variants, effective replacement without original text, deterministic generation, check/update behavior, tampering, source drift, duplicate IDs and imports, shadowing, invalid substitutions, missing upstream rules, blank overrides and unknown schema/modes.
+The 16 tests exercise both synthetic project variants, effective replacement without original text, deterministic generation, check/update behavior, tampering, source drift, duplicate IDs and imports, shadowing, invalid substitutions, missing upstream rules, blank overrides, unknown schema/modes, ambiguous duplicate JSON object fields in either input and exact whitespace preservation for verbatim rules.
 
 ## Limits
 
@@ -40,3 +40,7 @@ No active AGENTS.md, .opencode, .claude or consumer repository was modified. No 
 This deterministic baseline is separate from WNASES-18's still-blocked independent Codex agent experiment and from WNASES-19's independent OpenCode exposure investigation. If those independent tests resume, do not provide this code to their agents before first-pass findings are frozen.
 
 The next design decision is whether simple hash-pinned generated instructions provide sufficient value to justify future distribution, and which actual harness instruction-loading paths must be removed to eliminate obsolete influence.
+
+## Red–green assurance checkpoint (2026-11-20)
+
+New negative controls caught two silent duplicate JSON object-key acceptances (source and manifest) and loss of literal whitespace under a nominally verbatim import. All three reproduced as failures in [Actions run 44733303084](https://github.com/rock-solid-sites/ASES/actions/runs/44733303084), then passed after repairing the JSON loader with duplicate-key rejection and removing the import text strip. The [green run 44733411686](https://github.com/rock-solid-sites/ASES/actions/runs/44733411686) passed **16/16** standard-library tests. These cover data resolution only, not effective model context or provenance enforcement in a real agent harness.
