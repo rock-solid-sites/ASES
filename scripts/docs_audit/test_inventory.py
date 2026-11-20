@@ -77,6 +77,11 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual(doc["broken_relative_links"],
                          ["missing relative link: ../standards/c.md"])
 
+    def test_code_examples_do_not_count_as_live_relative_links(self):
+        self.put("docs/research/example.md",
+                 "# Samples\n\`[AGENTS.md](AGENTS.md)\`\n```md\n[old](AGENTS.md)\n```\n")
+        doc = self.by_path(inventory(self.root), "docs/research/example.md")
+        self.assertEqual(doc["broken_relative_links"], [])
     def test_index_records_status_unknown_and_source_revision(self):
         self.put("README.md", "# An unclassified intro\n")
         self.put("docs/standards/c.md", self.active(title="Core"))
