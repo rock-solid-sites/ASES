@@ -128,6 +128,31 @@ class Tests(unittest.TestCase):
         self.save_manifest()
         self.assertNotEqual(self.call("--update").returncode, 0)
 
+    def test_verbatim_mode_preserves_exact_whitespace(self):
+        exact = "  Indented upstream instruction.\nRetain trailing whitespace.  \n"
+        self.source["rules"][0]["text"] = exact
+        self.save_source()
+        self.consumer["source_sha256"] = self.digest
+        self.save_manifest()
+        self.assertEqual(self.call("--update").returncode, 0)
+        self.assertIn(exact, self.out.read_text())
+
+    def test_duplicate_json_object_key_is_rejected(self):
+        original = self.man.read_text()
+        duplicate_mode = original.replace('"mode": "verbatim"',
+            '"mode": "override", "mode": "verbatim"', 1)
+        self.man.write_text(duplicate_mode)
+        self.assertNotEqual(self.call("--update").returncode, 0)
+
+    def test_duplicate_json_source_field_is_rejected(self):
+        original = self.src.read_text()
+        duplicate_schema = original.replace('"schema": "ases-policy-source-v1"',
+            '"schema": "unknown", "schema": "ases-policy-source-v1"', 1)
+        self.src.write_text(duplicate_schema)
+        self.consumer["source_sha256"] = hashlib.sha256(self.src.read_bytes()).hexdigest()
+        self.save_manifest()
+        self.assertNotEqual(self.call("--update").returncode, 0)
+
     def test_schema_and_mode_not_silently_ignored(self):
         self.consumer["schema"] = "unknown"
         self.save_manifest()
