@@ -1,0 +1,29 @@
+name: Experimental resource-control v0.1
+on:
+  push:
+    branches: [feature/resource-control-v01-2026-11-02]
+    paths:
+      - 'research/resource_control_v01/**'
+      - '.github/workflows/resource-control-v01.yml'
+  pull_request:
+    paths:
+      - 'research/resource_control_v01/**'
+  workflow_dispatch:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Syntax check
+        run: python -m compileall -q research/resource_control_v01
+      - name: Unit, concurrency, generated-history and replay tests
+        run: python -m unittest discover -s research/resource_control_v01 -p 'test_*.py' -v
+      - name: Targeted mutation qualification
+        run: python research/resource_control_v01/mutation_checks.py
