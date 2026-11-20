@@ -18,7 +18,7 @@ last_updated: 2026-11-20
 
 # ASES task view and source admission — candidate v0.1
 
-**Status: proposal for architectural review, not operational policy.** This describes the smallest *information contract* a coordinator and its workers should satisfy. It does **not** prescribe a root `AGENTS.md`, startup/end document, prompt template, graph database, indexing service, automated resolver, provider launcher or new issue tracker.
+**Status: superseded as a *proposal* by the accepted 2026-11-21 architectural decision.** Its evidence and drafting history remain Experimental. Governing methodology is [ASES Task-Scoped Information and Handoff Method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md); this document is not operational policy.  This describes the smallest *information contract* a coordinator and its workers should satisfy. It does **not** prescribe a root `AGENTS.md`, startup/end document, prompt template, graph database, indexing service, automated resolver, provider launcher or new issue tracker.
 
 The [2 × 3 synthetic comparison](comparison/RESULTS-2026-11-20.md) found that manual, lightweight structured and graph-derived packets could all satisfy the same source and handoff checks; the manual packet was smallest. A [real coordination failure](field-trial/PROMPT-SOURCE-ADMISSION-2026-11-20.md) identified a different problem: the assistant **did not select the method applicable to the requested work**, although the method existed. Therefore **source admission**, rather than a particular serialization format, is the candidate design's load-bearing requirement.
 
