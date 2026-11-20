@@ -163,6 +163,28 @@ class ContextTopologyContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "conflicting override"):
             resolve_fixture(graph, "task:alpha")
 
+    def test_candidate_task_view_contract_is_experimental_not_policy(self):
+        contract = (ROOT / "TASK-VIEW-CONTRACT.md").read_text(encoding="utf-8")
+        self.assertTrue(contract.startswith("---\\n"))
+        frontmatter = contract.split("---", 2)[1]
+        for field in ("program: ASES", "status: Experimental",
+                      "authority: Experimental", "canonical_repository: ases"):
+            self.assertIn(field, frontmatter)
+        self.assertIn("not operational policy", contract)
+        self.assertIn("not mandatory headings or file fields", contract.lower())
+        self.assertIn("The behavioral test is **deferred", contract)
+
+    def test_candidate_contract_references_existing_current_method_sources(self):
+        contract = (ROOT / "TASK-VIEW-CONTRACT.md").read_text(encoding="utf-8")
+        repository = ROOT.parents[2]
+        for source in ("skills/current/compact-prompt/SKILL.md",
+                       "skills/current/workflow-orchestration/SKILL.md",
+                       "skills/current/compile-build/SKILL.md",
+                       "docs/methodology/ASES Bounded Project Build Method.md"):
+            with self.subTest(source=source):
+                self.assertIn(source, contract)
+                self.assertTrue((repository / source).is_file(), source)
+
     def test_proposal_denies_legacy_as_design_constraint(self):
         proposal = (ROOT / "PROPOSAL.md").read_text(encoding="utf-8")
         self.assertIn("without requiring any existing document names", proposal)
