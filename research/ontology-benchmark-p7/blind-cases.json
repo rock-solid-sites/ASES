@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "study": "EDASES-P7",
+  "purpose": "Pilot candidate packets for distinct ontology review tasks; not actual reviewer invocations",
+  "reviewer_answer_key_in_packet": false,
+  "limitations": [
+    "Six deliberately selected cases; insufficient for estimating general accuracy",
+    "Independent model-family routing and clean-room context controls must be verified by caller",
+    "Prompt and evidence packets do not themselves constitute executed review",
+    "Canonical comparators are local frozen exercise claims, not amendments to global ASES policy"
+  ],
+  "reviewer_instructions": {
+    "design": "Read the domain requirements and design rationale. Challenge whether the proposed concepts, identities, lifecycles, ownership, and relationships represent the requirements. Provide a sourced counterexample only if a material conceptual issue exists. If none is found, explicitly say NO_MATERIAL_ISSUE_WITHIN_SCOPE; do not invent another entity to manufacture a finding. Do not implement or change policy.",
+    "conformance": "Treat the supplied definitions as frozen for this exercise. Without reasoning about builder intent or redesigning the ontology, inspect the pinned artifact and try to falsify a specific conceptual invariant. Return a minimal trace or mapping demonstrating a violation, or NO_VIOLATION_OBSERVED_WITHIN_SCOPE. Do not treat any reviewer conclusion as authorization."
+  },
+  "cases": [
+    {
+      "id": "S01",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Do the proposed concepts faithfully capture account allowance and reservation lifecycle?",
+      "context": {
+        "canonical_requirements": [
+          "Resource admission consumes a provisionally reserved allowance before launch.",
+          "Actually consumed units are observed later; provider settlement can arrive later still.",
+          "A job may consume fewer or more units than estimated, may not launch, or may be cancelled.",
+          "No final provider charge is justified solely by the proposed or reserved amount."
+        ],
+        "design_rationale": "To keep the scheduler small, maintain a single running counter for each provider account instead of staging reservation and usage categories."
+      },
+      "candidate": {
+        "entities": [
+          "ProviderAccount {limit_minutes, used_minutes}",
+          "Job {job_id, proposed_minutes, completed}"
+        ],
+        "proposed_mapping": [
+          "On admission, increment ProviderAccount.used_minutes by Job.proposed_minutes.",
+          "When a job finishes, overwrite Job.proposed_minutes with reported actual minutes; leave ProviderAccount.used_minutes unchanged.",
+          "Show ProviderAccount.used_minutes to the Orchestrator as both committed usage and available-allowance depletion.",
+          "A provider invoice can later be attached as a note to the account."
+        ]
+      }
+    },
+    {
+      "id": "S02",
+      "role": "conformance",
+      "artifact_type": "completed_event_mapping",
+      "question": "Does the finished mapping preserve the fixed separation of reviewer evidence from authorization?",
+      "context": {
+        "frozen_concepts": [
+          "ReviewFinding is evidentiary, and may report no violation observed within a stated scope.",
+          "AuthorizationDecision is a separate explicitly empowered actor's action.",
+          "Missing authorization must remain NOT_RECORDED; no review outcome automatically grants approval."
+        ],
+        "specific_invariant": "A reviewer finding may be persisted without creating an AuthorizationDecision."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "recordReviewFinding({claim_id, scope, result:'NO_VIOLATION_OBSERVED_WITHIN_SCOPE', evidence_refs})",
+          "store.review_findings.append(finding)",
+          "if (!store.authorized_decisions.contains(claim_id)) state.authorization = 'NOT_RECORDED'",
+          "return {review_finding: finding, authorization: state.authorization}"
+        ],
+        "observed_trace": [
+          "Review finding stored; authorized decisions list empty",
+          "Returned authorization NOT_RECORDED"
+        ]
+      }
+    },
+    {
+      "id": "S03",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Assess whether the concept decomposition is necessary and sufficient for resource admission and later accounting.",
+      "context": {
+        "canonical_requirements": [
+          "An Orchestrator proposes a Work Unit and requested resource usage; a thin authoritative API decides whether launch is allowed.",
+          "Reservations prevent competing launches from overspending or overallocating.",
+          "Measured usage and provider billing may disagree temporally and must be reconciled, not silently overwritten.",
+          "Job identity survives retries and execution-environment replacement."
+        ],
+        "design_rationale": "Separate durable work identity, admission authority, temporary resource reservation, runtime measurements, and provider settlement because they are different events with different sources."
+      },
+      "candidate": {
+        "entities": [
+          "WorkUnit {id, proposal_revision}",
+          "AdmissionDecision {work_unit_id, allowed, authority, inputs_revision}",
+          "Reservation {work_unit_id, units, expires_at}",
+          "UsageObservation {work_unit_id, source, units, timestamp}",
+          "ProviderSettlement {account_id, provider_ref, settled_units}"
+        ],
+        "relationships": [
+          "One WorkUnit may have multiple proposed attempts; accepted admission can create at most one active capacity commitment per claim under the current version.",
+          "Reservation precedes launch; it is not a provider invoice.",
+          "UsageObservation may arrive asynchronously and never silently overwrites previous observations.",
+          "ProviderSettlement is reported by the provider and reconciled against provisional usage.",
+          "The Orchestrator can query available allowance and pricing but cannot bypass an admission decision."
+        ]
+      }
+    },
+    {
+      "id": "S04",
+      "role": "conformance",
+      "artifact_type": "completed_journal_algorithm",
+      "question": "Under the supplied fixed durability claim, does the artifact preserve the conceptual meaning of acknowledged commit?",
+      "context": {
+        "frozen_concepts": [
+          "Committed means a complete journal entry has been written and a successful fsync call has returned.",
+          "ACK represents a claim that the transaction is already committed and recoverable after process interruption.",
+          "A retry of the same transaction ID after ACK must not create an additional charge."
+        ],
+        "specific_invariant": "The program must not issue ACK before fsync successfully returns for that transaction."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "def reserve(tx):",
+          "  validate_authorization_capacity_and_id(tx)",
+          "  emit('ACK', tx.id)",
+          "  append_journal_line(tx)",
+          "  fsync(journal_fd)",
+          "  return"
+        ],
+        "relevant_trace": [
+          "ACK can be observed before append_journal_line or fsync",
+          "If process terminates at ACK, an inspection process can find no journal entry"
+        ]
+      }
+    },
+    {
+      "id": "S05",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Evaluate whether the proposed concept 'MCPAvailable' correctly captures user-visible tool access.",
+      "context": {
+        "canonical_requirements": [
+          "A reachable service endpoint does not prove the client can invoke a tool.",
+          "Client/plugin registration, permissions, discovery, and invocation results can differ across ChatGPT and other MCP clients.",
+          "An operator needs to distinguish backend health from visible tool exposure when debugging."
+        ],
+        "design_rationale": "A single Boolean simplifies dashboards and avoids requiring every client to report detailed tool state."
+      },
+      "candidate": {
+        "entities": [
+          "MCPService {name, url, healthy}",
+          "MCPAvailable {service_name, available}"
+        ],
+        "proposed_mapping": [
+          "Set MCPAvailable.available = MCPService.healthy.",
+          "If the endpoint responds successfully, mark all configured clients as able to use the tool.",
+          "If a client cannot find the tool, investigate only backend endpoint health since client-side visibility is inferred from it."
+        ]
+      }
+    },
+    {
+      "id": "S06",
+      "role": "conformance",
+      "artifact_type": "completed_event_mapping",
+      "question": "Does the implementation preserve the distinction between a bounded conformance finding and authorized acceptance?",
+      "context": {
+        "frozen_concepts": [
+          "NO_VIOLATION_OBSERVED_WITHIN_SCOPE is a bounded evidence finding.",
+          "Only an authorized operator or governance mechanism can issue ACCEPT.",
+          "A clean review alone must never auto-promote an experimental method."
+        ],
+        "specific_invariant": "Recording a NO_VIOLATION_OBSERVED_WITHIN_SCOPE review must not set the separate authority decision to ACCEPT."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "on_conformance_result(result):",
+          "  record.review = result",
+          "  if result == 'NO_VIOLATION_OBSERVED_WITHIN_SCOPE':",
+          "    record.authority_decision = 'ACCEPT'",
+          "  else:",
+          "    record.authority_decision = 'DEFER'",
+          "  return record"
+        ],
+        "observed_trace": [
+          "Conformance reviewer observed no violation",
+          "Record persisted authority_decision ACCEPT without any operator decision"
+        ]
+      }
+    }
+  ]
+}

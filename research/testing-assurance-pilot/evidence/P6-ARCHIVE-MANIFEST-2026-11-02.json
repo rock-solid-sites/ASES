@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "experiment": "EDASES-P6",
+  "date": "2026-11-02",
+  "source_branch": "research/rust-haskell-admission-2026-11-01",
+  "source_failed_revision": "73b90e62f6b8028511a3a75b0cadfe0d9de8b87d",
+  "source_corrected_revision": "994f685c46b52f9207e3cac3a4649ba99c126207",
+  "plan_sha256": "0628792e73131fe0908eb9539168bc475425da1124620e9ed0ab32b5fbaf17b7",
+  "original_ci_runs": [
+    {
+      "label": "initial_invalid_aggregation",
+      "pipeline": 3016045716,
+      "job": 17652145327,
+      "job_outcome": "failed",
+      "failure_kind": "INSTRUMENT_OR_AGGREGATION_ASSUMPTION",
+      "archive_path": "research/testing-assurance-pilot/evidence/p6-initial_invalid_aggregation-original-artifacts.zip.b64",
+      "original_zip_sha256": "3598d328b2051aca1bbea0e4cdc144c76b94783b1cedb0ed7acebbd07451da40",
+      "original_zip_bytes": 729,
+      "source_files": [
+        "results/environment.txt",
+        "results/p6-summary.log"
+      ],
+      "p6_json_present": false
+    },
+    {
+      "label": "corrected_qualified",
+      "pipeline": 3016049098,
+      "job": 17652164652,
+      "job_outcome": "success",
+      "archive_path": "research/testing-assurance-pilot/evidence/p6-corrected_qualified-original-artifacts.zip.b64",
+      "original_zip_sha256": "f08aefa45784fde481dbc62e7d357a01038241bbce794041dbc97b7d38682274",
+      "original_zip_bytes": 5289,
+      "source_files": [
+        "results/environment.txt",
+        "results/p6-summary.log",
+        "results/p6.json",
+        "results/evidence-manifest.json",
+        "results/evidence-integrity.json"
+      ],
+      "p6_json_present": true
+    }
+  ],
+  "export_job": 17652178686,
+  "export_pipeline": 3016051113,
+  "source_provider": "GitLab CI",
+  "independent_archive_target": "GitHub ASES research branch",
+  "verification_steps": [
+    "Export job acquired each exact provider-native job artifact ZIP via authenticated same-project API",
+    "Exporter checked ZIP CRC and emitted small Base64 chunks and source SHA-256",
+    "Archived Base64 content committed to ASES on GitHub",
+    "Independent verification fetched the GitHub copy, decoded to byte arrays, validated standard SHA-256 test vectors, and recomputed each ZIP SHA-256 and byte length"
+  ],
+  "archive_completeness_scope": "Complete original job-uploaded artifact ZIPs only; not complete original GitLab job traces and all provider metadata",
+  "independent_reviewer": "NOT_RUN",
+  "limitations": [
+    "A hash check proves byte identity, not the factual correctness of an underlying assertion or interpretation",
+    "The initial failed run exited before writing results/p6.json; its native artifact only contains environment and empty summary",
+    "The GitLab job traces contain provider infrastructure data and are not copied into the public repo without review",
+    "Global methodology policy not adopted"
+  ]
+}

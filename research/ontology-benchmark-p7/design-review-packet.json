@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "role": "design",
+  "cases": [
+    {
+      "id": "S01",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Do the proposed concepts faithfully capture account allowance and reservation lifecycle?",
+      "context": {
+        "canonical_requirements": [
+          "Resource admission consumes a provisionally reserved allowance before launch.",
+          "Actually consumed units are observed later; provider settlement can arrive later still.",
+          "A job may consume fewer or more units than estimated, may not launch, or may be cancelled.",
+          "No final provider charge is justified solely by the proposed or reserved amount."
+        ],
+        "design_rationale": "To keep the scheduler small, maintain a single running counter for each provider account instead of staging reservation and usage categories."
+      },
+      "candidate": {
+        "entities": [
+          "ProviderAccount {limit_minutes, used_minutes}",
+          "Job {job_id, proposed_minutes, completed}"
+        ],
+        "proposed_mapping": [
+          "On admission, increment ProviderAccount.used_minutes by Job.proposed_minutes.",
+          "When a job finishes, overwrite Job.proposed_minutes with reported actual minutes; leave ProviderAccount.used_minutes unchanged.",
+          "Show ProviderAccount.used_minutes to the Orchestrator as both committed usage and available-allowance depletion.",
+          "A provider invoice can later be attached as a note to the account."
+        ]
+      }
+    },
+    {
+      "id": "S03",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Assess whether the concept decomposition is necessary and sufficient for resource admission and later accounting.",
+      "context": {
+        "canonical_requirements": [
+          "An Orchestrator proposes a Work Unit and requested resource usage; a thin authoritative API decides whether launch is allowed.",
+          "Reservations prevent competing launches from overspending or overallocating.",
+          "Measured usage and provider billing may disagree temporally and must be reconciled, not silently overwritten.",
+          "Job identity survives retries and execution-environment replacement."
+        ],
+        "design_rationale": "Separate durable work identity, admission authority, temporary resource reservation, runtime measurements, and provider settlement because they are different events with different sources."
+      },
+      "candidate": {
+        "entities": [
+          "WorkUnit {id, proposal_revision}",
+          "AdmissionDecision {work_unit_id, allowed, authority, inputs_revision}",
+          "Reservation {work_unit_id, units, expires_at}",
+          "UsageObservation {work_unit_id, source, units, timestamp}",
+          "ProviderSettlement {account_id, provider_ref, settled_units}"
+        ],
+        "relationships": [
+          "One WorkUnit may have multiple proposed attempts; accepted admission can create at most one active capacity commitment per claim under the current version.",
+          "Reservation precedes launch; it is not a provider invoice.",
+          "UsageObservation may arrive asynchronously and never silently overwrites previous observations.",
+          "ProviderSettlement is reported by the provider and reconciled against provisional usage.",
+          "The Orchestrator can query available allowance and pricing but cannot bypass an admission decision."
+        ]
+      }
+    },
+    {
+      "id": "S05",
+      "role": "design",
+      "artifact_type": "proposed_conceptual_model",
+      "question": "Evaluate whether the proposed concept 'MCPAvailable' correctly captures user-visible tool access.",
+      "context": {
+        "canonical_requirements": [
+          "A reachable service endpoint does not prove the client can invoke a tool.",
+          "Client/plugin registration, permissions, discovery, and invocation results can differ across ChatGPT and other MCP clients.",
+          "An operator needs to distinguish backend health from visible tool exposure when debugging."
+        ],
+        "design_rationale": "A single Boolean simplifies dashboards and avoids requiring every client to report detailed tool state."
+      },
+      "candidate": {
+        "entities": [
+          "MCPService {name, url, healthy}",
+          "MCPAvailable {service_name, available}"
+        ],
+        "proposed_mapping": [
+          "Set MCPAvailable.available = MCPService.healthy.",
+          "If the endpoint responds successfully, mark all configured clients as able to use the tool.",
+          "If a client cannot find the tool, investigate only backend endpoint health since client-side visibility is inferred from it."
+        ]
+      }
+    }
+  ],
+  "scoring_key": "Not included",
+  "review_context": "Explore proposed conceptual design against requirements and rationale; do not infer canonical authority"
+}

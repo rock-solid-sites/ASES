@@ -1,0 +1,590 @@
+{
+  "baseline_summary": {
+    "aggregate_counts": {
+      "false_negative": 2,
+      "false_positive": 0,
+      "true_negative": 2,
+      "true_positive": 2
+    },
+    "case_predictions_redacted": true,
+    "method": "CHEAP_SYNTAX_HEURISTIC",
+    "not_an_independent_model": true,
+    "not_ordinary_review": true
+  },
+  "elapsed_ms": 7.02,
+  "frozen_fixture_arithmetic": {
+    "before_fixture_charge_cents": 50,
+    "before_fixture_exceeds_cap": false,
+    "cap_cents": 80,
+    "classification": "BAD_ORACLE_IN_INITIAL_RUN",
+    "corrected_fixture_charge_cents": 90,
+    "corrected_fixture_exceeds_cap": true,
+    "empty_journal_current_spend": 0
+  },
+  "known_limits": [
+    "Source-first deterministic recomputation by the same assistant is not independently routed model review",
+    "Six authored cases do not estimate real-world reviewer performance",
+    "A syntax heuristic is not equivalent to baseline ordinary code/model review",
+    "Model-family provenance, prompt isolation, token cost and actual clean-room reviewer responses remain NOT_OBSERVED",
+    "Ground truth of benchmark case concepts has not been independently validated"
+  ],
+  "malformed_packet_controls": [
+    {
+      "detected": true,
+      "reason": "Duplicate or invalid case ID",
+      "test": "duplicate_id"
+    },
+    {
+      "detected": true,
+      "reason": "Extra/unapproved case fields or answer leakage",
+      "test": "unexpected_answer_label"
+    },
+    {
+      "detected": true,
+      "reason": "Conformance clean-room context invalid",
+      "test": "no_frozen_claim"
+    },
+    {
+      "detected": true,
+      "reason": "Conformance clean-room context invalid",
+      "test": "conformance_process_history"
+    },
+    {
+      "detected": true,
+      "reason": "Role counts wrong",
+      "test": "wrong_role"
+    },
+    {
+      "detected": true,
+      "reason": "Expected exactly six blind cases",
+      "test": "missing_case"
+    },
+    {
+      "detected": true,
+      "reason": "Packet claims answer key contamination",
+      "test": "answer_key_claim"
+    }
+  ],
+  "original_archives": {
+    "green_corrected": {
+      "raw_result_bytes": 143236,
+      "raw_result_sha256": "c59c098cf0138ac952f75586c670fd0c642055ee609fbd63427b3693e735075d",
+      "source_job": 17650933508,
+      "source_pipeline": 3015833489,
+      "zip_sha256": "b684ec94cb010495a4a88894d1b8b96179c28ef01b54e1941217d9db5c74fd96",
+      "zip_size": 9792
+    },
+    "red_instrument_error": {
+      "raw_result_bytes": 143432,
+      "raw_result_sha256": "68b66cc3a5105dde1eca89ff505552f04c06e1b6532d3d90fb70ec6a1810855a",
+      "source_job": 17650922007,
+      "source_pipeline": 3015831687,
+      "zip_sha256": "d7da4c0deaacb4002be8e747a2f864830c6648a25981b9203b42552db5a492e2",
+      "zip_size": 8667
+    }
+  },
+  "packet_qualification": {
+    "cases": 6,
+    "key_separate": true,
+    "role_counts": {
+      "conformance": 3,
+      "design": 3
+    }
+  },
+  "packet_sha256": "99cc036a026a4d83e9d8394f5b566c81729a6d2f9dac170aa178bc94f45007ff",
+  "plan_sha256": "2e536b534c6eeea4596d7f21bcfbc99f7e30955225f10c710a6b39fa4e0f092c",
+  "private_key_sha256": "2379195b5e85ee8dbf5d90a5dc61916a33385e6d5c87d68bbfea7dc12803f164",
+  "promoted_method": "NO",
+  "result": "PASS_WITH_LIMITS",
+  "review_runs": {
+    "independent_P5_human_or_model_review": "NOT_RUN",
+    "ontology_conformance_reviewer": "NOT_RUN",
+    "ontology_design_reviewer": "NOT_RUN",
+    "ordinary_model_reviewer": "NOT_RUN"
+  },
+  "source_first_p5_reconstruction": {
+    "green_corrected": {
+      "measured_from_per_check": {
+        "haskell": {
+          "correct": {
+            "conventional": {
+              "mismatch_count": 0,
+              "mismatch_names": [],
+              "observations": 10,
+              "status": "PASS",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 0,
+                "mismatch_names": [],
+                "observations": 10,
+                "status": "PASS",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "PASS",
+              "stored_status_matches": true
+            }
+          },
+          "duplicate": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "idempotent_retry",
+                "retry_does_not_duplicate_charge"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "idempotent_retry",
+                  "retry_does_not_duplicate_charge"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "early_ack": {
+            "conventional": {
+              "mismatch_count": 0,
+              "mismatch_names": [],
+              "observations": 10,
+              "status": "PASS",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 0,
+                "mismatch_names": [],
+                "observations": 10,
+                "status": "PASS",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          }
+        },
+        "rust": {
+          "correct": {
+            "conventional": {
+              "mismatch_count": 0,
+              "mismatch_names": [],
+              "observations": 10,
+              "status": "PASS",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 0,
+                "mismatch_names": [],
+                "observations": 10,
+                "status": "PASS",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "PASS",
+              "stored_status_matches": true
+            }
+          },
+          "duplicate": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "idempotent_retry",
+                "retry_does_not_duplicate_charge"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "idempotent_retry",
+                  "retry_does_not_duplicate_charge"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "early_ack": {
+            "conventional": {
+              "mismatch_count": 0,
+              "mismatch_names": [],
+              "observations": 10,
+              "status": "PASS",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 0,
+                "mismatch_names": [],
+                "observations": 10,
+                "status": "PASS",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          }
+        }
+      },
+      "original_aggregate_result": "PASS"
+    },
+    "red_instrument_error": {
+      "measured_from_per_check": {
+        "haskell": {
+          "correct": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "duplicate": {
+            "conventional": {
+              "mismatch_count": 4,
+              "mismatch_names": [
+                "idempotent_retry",
+                "retry_does_not_duplicate_charge",
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 4,
+                "mismatch_names": [
+                  "idempotent_retry",
+                  "retry_does_not_duplicate_charge",
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "early_ack": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          }
+        },
+        "rust": {
+          "correct": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "duplicate": {
+            "conventional": {
+              "mismatch_count": 4,
+              "mismatch_names": [
+                "idempotent_retry",
+                "retry_does_not_duplicate_charge",
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 4,
+                "mismatch_names": [
+                  "idempotent_retry",
+                  "retry_does_not_duplicate_charge",
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          },
+          "early_ack": {
+            "conventional": {
+              "mismatch_count": 2,
+              "mismatch_names": [
+                "spend_cap_exceeded_deny",
+                "spend_cap_exceeded_unchanged"
+              ],
+              "observations": 10,
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            },
+            "qualified": {
+              "conventional": {
+                "mismatch_count": 2,
+                "mismatch_names": [
+                  "spend_cap_exceeded_deny",
+                  "spend_cap_exceeded_unchanged"
+                ],
+                "observations": 10,
+                "status": "BEHAVIOR_FAIL",
+                "stored_status_matches": true
+              },
+              "per_point": {
+                "after_ack": {
+                  "fail": 5,
+                  "pass": 0
+                },
+                "after_sync": {
+                  "fail": 0,
+                  "pass": 5
+                },
+                "before": {
+                  "fail": 0,
+                  "pass": 5
+                }
+              },
+              "status": "BEHAVIOR_FAIL",
+              "stored_status_matches": true
+            }
+          }
+        }
+      },
+      "original_aggregate_result": "FAIL"
+    }
+  },
+  "study": "EDASES-P7"
+}
