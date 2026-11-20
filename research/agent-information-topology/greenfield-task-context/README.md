@@ -8,6 +8,8 @@ This prototype starts from the task, applicable authority and producer-consumer 
 - [EXAMPLE-GRAPH.json](EXAMPLE-GRAPH.json) — two synthetic tasks, two shared rules, one scoped project decision, source references, evidence and a position.
 - [EXAMPLE-VIEWS.json](EXAMPLE-VIEWS.json) — two manually authored expected task views. The scoped override **replaces**, rather than joins, the upstream review text in task alpha; task beta keeps the upstream rule.
 - [test_contract.py](test_contract.py) — standard-library regression checks. A tiny test-only resolver recomputes applicable content from typed relationships; **this is not production infrastructure**.
+- [Preregistered 2×3 comparison](comparison/PRE-REGISTRATION.md) — manual, lightweight structured and graph-derived views on identical synthetic tasks. [Recorded results](comparison/RESULTS-2026-11-20.md): **all 6 pass**, total 24/24 tests. The graph shows no correctness advantage in this small static sample; manual is shortest. This does not test agent consumption.
+
 
 Test:
 
@@ -17,6 +19,6 @@ python3 -m unittest discover -s research/agent-information-topology/greenfield-t
 
 [GitHub Actions](https://github.com/rock-solid-sites/ASES/actions/workflows/context-topology-greenfield.yml) runs the synthetic contract on this research branch. A first run found a mismatched order in the example's source-revision receipt, corrected in the following commit. No model, real agent file, hosted service, or API funding route is involved.
 
-**Future decision:** Compare one truly task-scoped view against a simple human-authored task packet. The format earns adoption only if it improves context selection, conflict reporting and evidence handoff without adding mandatory startup documents or an unnecessary service.
+**Next decision:** The completed static comparison favors task-scoped manual or lightweight structured packets **without a mandatory persisted graph** for routine work. Test the contract on real, non-sensitive work and review its failure modes before accepting the format; graph resolution should remain an optional scale-specific pilot, not an architectural prerequisite.
 
 **Independent evidence remains separate:** WNASES-18/PR #64 is the offline policy-publishing pilot with Codex Cloud Luna blocked; WNASES-19/PR #63 investigates OpenCode runtime exposure. Neither dictates this greenfield format and neither is considered complete because of these fixture tests.
