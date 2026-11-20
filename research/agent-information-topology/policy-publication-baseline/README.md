@@ -2,7 +2,9 @@
 
 **Authority: Experimental, not an active ASES policy or approved runtime component.**
 
-This is a **coordinator-authored deterministic baseline**, not the independent Luna/Codex execution assigned to WNASES-18. Codex Cloud reported that the selected execution environment was neither ready nor starting, and no usable execution environment was available. No Luna code, tests, branch or draft PR were produced.
+This is a **coordinator-authored deterministic baseline**, not the independent Luna/Codex execution assigned to WNASES-18.
+
+**Architecture and document authority:** [Design and Decision Boundaries](DESIGN-AND-DECISION-BOUNDARIES.md) distinguishes canonical document ownership, deterministic publication and actual agent instruction exposure. It reconciles older Tools-distribution research without adopting legacy Crosslink/VPS assumptions. `test_document_contract.py` checks the research document's source references, classification and non-deployment boundary. Codex Cloud reported that the selected execution environment was neither ready nor starting, and no usable execution environment was available. No Luna code, tests, branch or draft PR were produced.
 
 **Source baseline:** ASES main commit 91817f642b1ca88c58df4bb5191d092ec2d2201d.
 
@@ -31,7 +33,7 @@ To run the tests, invoke Python unittest discovery against this directory. The G
 
 ## Tests
 
-The 16 tests exercise both synthetic project variants, effective replacement without original text, deterministic generation, check/update behavior, tampering, source drift, duplicate IDs and imports, shadowing, invalid substitutions, missing upstream rules, blank overrides, unknown schema/modes, ambiguous duplicate JSON object fields in either input and exact whitespace preservation for verbatim rules.
+The 16 publisher tests exercise both synthetic project variants, effective replacement without original text, deterministic generation, check/update behavior, tampering, source drift, duplicate IDs and imports, shadowing, invalid substitutions, missing upstream rules, blank overrides, unknown schema/modes, ambiguous duplicate JSON object fields in either input and exact whitespace preservation for verbatim rules.
 
 ## Limits
 
@@ -44,3 +46,5 @@ The next design decision is whether simple hash-pinned generated instructions pr
 ## Red–green assurance checkpoint (2026-11-20)
 
 New negative controls caught two silent duplicate JSON object-key acceptances (source and manifest) and loss of literal whitespace under a nominally verbatim import. All three reproduced as failures in [Actions run 44733303084](https://github.com/rock-solid-sites/ASES/actions/runs/44733303084), then passed after repairing the JSON loader with duplicate-key rejection and removing the import text strip. The [green run 44733411686](https://github.com/rock-solid-sites/ASES/actions/runs/44733411686) passed **16/16** standard-library tests. These cover data resolution only, not effective model context or provenance enforcement in a real agent harness.
+
+The companion documentation contract suite adds three checks for source-document existence, experimental authority and the explicit separation from runtime integration. Together the suites contain 19 tests when run by the bounded Actions workflow.
