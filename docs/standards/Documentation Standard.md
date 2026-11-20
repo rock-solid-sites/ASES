@@ -1,3 +1,17 @@
+---
+title: Documentation Standard
+version: 2026-11-21.1
+program: EDASES
+layer: Research
+document_type: Standard
+status: Active
+authority: Canonical
+canonical_repository: edases
+depends_on:
+  - docs/standards/Concept - Levels of Abstraction.md
+last_updated: 2026-11-21
+---
+
 # Documentation Standard
 
 ## Document Classification
