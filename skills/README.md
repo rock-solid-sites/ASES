@@ -1,6 +1,6 @@
 # ASES Skills
 
-**Active ChatGPT dispatcher source (2026-11-17): [`skills/current/`](current/README.md).** The installed ASES Workflow plugin should fetch the relevant current SKILL.md through the GitHub connector on each operational invocation. It is not a live GitHub-mounted skill and does not automatically repackage itself.
+**Active ChatGPT dispatcher source: [`skills/current/`](current/README.md).** The installed ASES Workflow plugin uses a **read-only HTTPS GET** of the current index, then retrieves only the task-relevant `SKILL.md` from its published read-only URL. Do not invoke an authenticated, write-capable GitHub connector merely to read instructions. Follow the [current index's retrieval and revision guidance](current/README.md); this navigation page does not define separate operational policy. The installed dispatcher is not a live GitHub mount and does not automatically repackage itself.
 
 The former skill entrypoints listed below are retained for historical provenance and existing repository references. They are **not** the active dispatcher source; do not package their outdated copies into ChatGPT. Prior versions remain in Git history, while published current instructions are under `skills/current/`.
 
