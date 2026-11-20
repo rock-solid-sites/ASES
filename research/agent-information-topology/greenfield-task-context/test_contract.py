@@ -165,7 +165,7 @@ class ContextTopologyContract(unittest.TestCase):
 
     def test_candidate_task_view_contract_is_experimental_not_policy(self):
         contract = (ROOT / "TASK-VIEW-CONTRACT.md").read_text(encoding="utf-8")
-        self.assertTrue(contract.startswith("---\\n"))
+        self.assertEqual(contract.splitlines()[0], "---")
         frontmatter = contract.split("---", 2)[1]
         for field in ("program: ASES", "status: Experimental",
                       "authority: Experimental", "canonical_repository: ases"):
