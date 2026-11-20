@@ -1,0 +1,75 @@
+name: ASES documentation status and indexing inventory
+on:
+  push:
+    branches:
+      - docs/current-source-inventory-and-legacy-closure-20261121
+      - main
+    paths:
+      - 'AGENTS.md'
+      - 'SESSION-START.md'
+      - 'README.md'
+      - 'ORIENTATION.md'
+      - 'ARCHITECTURE.md'
+      - 'docs/**'
+      - 'skills/current/**'
+      - 'scripts/docs_audit/**'
+      - '.github/workflows/docs-status-inventory.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'skills/current/**'
+      - 'scripts/docs_audit/**'
+      - '.github/workflows/docs-status-inventory.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit checks and negative controls
+        run: python -m unittest discover -s scripts/docs_audit -p 'test_*.py' -v
+      - name: Build snapshot without modifying source files
+        env:
+          OUT: ${{ runner.temp }}
+        run: |
+          python scripts/docs_audit/inventory.py --json-out "$OUT/current-documents.json" --index-out "$OUT/CURRENT-DOCUMENTS-INDEX.md" --summary > "$OUT/summary.json"
+          cat "$OUT/summary.json"
+          python - <<'PY'
+          import json, os, pathlib
+          out = pathlib.Path(os.environ["OUT"])
+          data = json.loads((out / "current-documents.json").read_text())
+          s = data["counts"]
+          lines = ["## Documentation inventory (observations, not certification)", "",
+                   f"Source revision: `{data['source_revision']}`", "",
+                   "| In-scope owned docs | Declared active/current | Active without version | Active with warnings | Link-diagnostic records |",
+                   "| ---: | ---: | ---: | ---: | ---: |",
+                   f"| {s['owned_records']} | {s['declared_active']} | {s['active_without_version']} | {s['active_with_warnings']} | {s['broken_link_records']} |",
+                   "", "### High-risk legacy entrypoints", ""]
+          for d in data["documents"]:
+              if d["path"] in {"AGENTS.md", "SESSION-START.md", "docs/SESSION-END.md",
+                               "docs/ORCHESTRATOR.md",
+                               "docs/methodology/Agent Model Launch Routes.md"}:
+                  lines.append(f"- `{d['path']}`: {d['status']} / "
+                               f"{d['authority']}; " + (", ".join(d["warnings"]) or "no targeted marker warning"))
+          lines += ["", "The machine-readable JSON and generated Markdown index are attached as artifacts.",
+                    "Unversioned/contradictory sources require decisions; do not auto-promote them."]
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+              f.write("\n".join(lines) + "\n")
+          PY
+      - name: Preserve read-only audit and complete generated index
+        uses: actions/upload-artifact@v4
+        with:
+          name: ases-current-doc-inventory
+          path: |
+            ${{ runner.temp }}/current-documents.json
+            ${{ runner.temp }}/CURRENT-DOCUMENTS-INDEX.md
+            ${{ runner.temp }}/summary.json
+          retention-days: 30

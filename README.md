@@ -1,4 +1,5 @@
 ---
+version: 2026-11-21.1
 title: Repository Overview
 program: EDASES
 layer: Research
@@ -7,7 +8,10 @@ status: Active
 authority: Derived
 canonical_repository: edases
 supersedes: README.md (previous version)
+last_updated: 2026-11-21
 ---
+
+> **Current ASES documentation:** [documentation navigation and audit index](docs/README.md), [current operational skills](skills/current/README.md) and the [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). This repository also preserves EDASES research and historical material; its presence alone does not make it an active agent instruction.
 # EDASES
 **Epistemically-Driven Agentic Software Engineering System.**
 EDASES is a research programme investigating how non-programmers can safely and effectively use heterogeneous AI systems to engineer software.

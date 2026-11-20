@@ -25,7 +25,9 @@ related_documents:
 
 supersedes: []
 
-## last_updated:
+version: 2026-11-21.1
+last_updated: 2026-11-21
+---
 
 # Documentation Taxonomy
 

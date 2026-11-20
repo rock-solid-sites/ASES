@@ -1,4 +1,5 @@
 ---
+version: 2026-11-21.1
 title: Conceptual Architecture
 program: EDASES
 layer: Research
@@ -7,7 +8,10 @@ status: Active
 authority: Canonical
 canonical_repository: edases
 supersedes: ARCHITECTURE.md (previous version)
+last_updated: 2026-11-21
 ---
+
+> **Scope clarification (2026-11-21):** This EDASES conceptual architecture is **not** a current agent bootstrap or deployment contract. For current ASES task-information architecture consult the [accepted ADR](docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) and [canonical method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). [Documentation index](docs/README.md) records source status independently of the conceptual layering described here.
 # ARCHITECTURE
 
 This document describes the conceptual architecture of the EDASES project and the relationship between its research, methodology and implementation activities.

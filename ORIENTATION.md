@@ -1,4 +1,5 @@
 ---
+version: 2026-11-21.1
 title: Project Orientation
 program: EDASES
 layer: Research
@@ -7,7 +8,10 @@ status: Active
 authority: Derived
 canonical_repository: edases
 supersedes: ORIENTATION.md (previous version)
+last_updated: 2026-11-21
 ---
+
+> **Current execution/navigation notice (2026-11-21):** ASES tasks derive their context from the [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [selective skills index](skills/current/README.md). [Full document status and authority index](docs/README.md). Older instructions to read all root documents or use historical session/Crosslink routing are not current startup requirements. The research layering below remains conceptual background; technical currentness of other linked sources is assessed separately.
 # ORIENTATION
 
 Welcome to the EDASES repository.
