@@ -80,6 +80,13 @@
       "branch": null,
       "status": "conversation_decision_requires_canonical_review",
       "authority": "operator_direction"
+    },
+    {
+      "id": "account-attribution",
+      "location": "research/provider-registry/account_attribution_v1.json",
+      "branch": "research/cloud-execution-provider-registry-20261112",
+      "status": "draft_not_authorized",
+      "authority": "public_account_scope_and_identity_observations_not_live_billing"
     }
   ],
   "proposed_layers": [
@@ -99,7 +106,8 @@
       "responsibility": "known_account_existence_and_claims",
       "consumes": [
         "known-accounts",
-        "potential-offers"
+        "potential-offers",
+        "account-attribution"
       ],
       "produces": [
         "candidate_account_references"
@@ -111,7 +119,8 @@
       "responsibility": "account_specific_entitlements_usage_billing_owner",
       "consumes": [
         "candidate_account_references",
-        "provider_api"
+        "provider_api",
+        "account_attribution"
       ],
       "produces": [
         "scoped_fresh_observations"
@@ -136,7 +145,8 @@
       "responsibility": "independent_validation_atomic_reservation_and_bounded_authorization",
       "consumes": [
         "candidate_plan",
-        "scoped_fresh_observations"
+        "scoped_fresh_observations",
+        "verified_account_ownership_billing_roles"
       ],
       "produces": [
         "one_use_authorization"
@@ -160,7 +170,8 @@
       "responsibility": "local_usage_external_usage_provider_reconciliation",
       "consumes": [
         "lifecycle_evidence",
-        "provider_reports"
+        "provider_reports",
+        "account_attribution"
       ],
       "produces": [
         "reconciled_usage_events"
@@ -277,5 +288,18 @@
       "next_test": "ontology_design_review"
     }
   ],
-  "implementation_status": "no_live_codespaces_adapter_or_approved_paid_launch"
+  "implementation_status": "no_live_codespaces_adapter_or_approved_paid_launch",
+  "account_attribution_v1": {
+    "workstream_identity": "workstream is a beneficiary, not a billing account",
+    "mandatory_roles": [
+      "execution_account_id",
+      "api_actor_account_id",
+      "repository_owner_account_id",
+      "billing_account_id"
+    ],
+    "billing_by_product": "must be verified independently, not inferred from repository owner or workload",
+    "unknown_biller": "unallocated_observation_not_launch_authorization",
+    "future_accounts": "ASES and HMS separate GitHub identities are planned only; no assumed handles",
+    "status": "research_schema_and_observed_identity_map_not_live_accounting"
+  }
 }
