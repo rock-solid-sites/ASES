@@ -31,6 +31,32 @@ class DocumentContractTests(unittest.TestCase):
                 self.assertTrue((ROOT / p).is_file(), p)
                 self.assertIn(p, ARCH.read_text(encoding="utf-8"))
 
+    def test_entrypoint_audit_has_traceable_existing_sources(self):
+        audit = (HERE / "DOCUMENT-ENTRYPOINT-AUDIT-2026-11-20.md").read_text(encoding="utf-8")
+        self.assertTrue(audit.startswith("---\n"))
+        fm = audit.split("---", 2)[1]
+        for field in ("status: Experimental", "authority: Experimental",
+                      "canonical_repository: ases"):
+            self.assertIn(field, fm)
+        for source in ("AGENTS.md", "SESSION-START.md", "docs/ORCHESTRATOR.md",
+                       ".opencode/opencode.json", ".mcp.json",
+                       "skills/current/README.md", "skills/README.md",
+                       "plugins/ases-workflow/sources.json",
+                       "plugins/ases-workflow/check_versions.py",
+                       ".github/workflows/ases-workflow-skill-drift.yml"):
+            with self.subTest(source=source):
+                self.assertTrue((ROOT / source).is_file(), source)
+                self.assertIn(source, audit)
+        self.assertIn("WHAT-NOT-TESTED", audit)
+
+    def test_audit_distinguishes_source_from_loaded_instructions(self):
+        audit = (HERE / "DOCUMENT-ENTRYPOINT-AUDIT-2026-11-20.md").read_text(encoding="utf-8")
+        self.assertIn("runtime instruction loading", audit)
+        self.assertIn("UNVERIFIED", audit)
+        self.assertIn("do not", audit.lower())
+        self.assertIn("not", audit.lower())
+        self.assertIn("source authority", audit)
+
     def test_does_not_depend_on_active_real_project_edits(self):
         doc = ARCH.read_text(encoding="utf-8")
         self.assertIn("No automatic cross-project push yet", doc)
