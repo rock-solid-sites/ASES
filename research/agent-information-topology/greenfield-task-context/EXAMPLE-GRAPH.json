@@ -1,0 +1,147 @@
+{
+  "$schema_id": "ases-context-topology/0.1-experimental",
+  "notice": "Synthetic data only. Every approval/source/version below is illustrative and confers no operational authority.",
+  "nodes": [
+    {
+      "id": "source:shared-r7",
+      "kind": "source",
+      "owner": "synthetic:methodology",
+      "revision": "r7-fixture",
+      "authority": "fixture-only",
+      "sensitivity": "public-synthetic",
+      "location": "synthetic://shared/r7"
+    },
+    {
+      "id": "source:project-alpha",
+      "kind": "source",
+      "owner": "synthetic:project-alpha",
+      "revision": "r3-fixture",
+      "authority": "fixture-only",
+      "sensitivity": "public-synthetic",
+      "location": "synthetic://alpha/r3"
+    },
+    {
+      "id": "rule:checkpoint",
+      "kind": "rule",
+      "text": "SHARED_CHECKPOINT_CANARY: save a remote checkpoint.",
+      "scope": "synthetic:all"
+    },
+    {
+      "id": "rule:review",
+      "kind": "rule",
+      "text": "OLD_UPSTREAM_REVIEW_CANARY: use the previous review route.",
+      "scope": "synthetic:all"
+    },
+    {
+      "id": "decision:alpha-review",
+      "kind": "decision",
+      "decision_type": "override",
+      "replacement_text": "ALPHA_LOCAL_REVIEW_CANARY: use the locally approved review route.",
+      "reason": "Synthetic project requires a different review route.",
+      "authorized_by": "synthetic:operator",
+      "scope_task_id": "task:alpha",
+      "status": "approved-fixture"
+    },
+    {
+      "id": "task:alpha",
+      "kind": "task",
+      "goal": "Verify fixture A without using historical review guidance.",
+      "project": "synthetic:alpha",
+      "required_capabilities": [
+        "read_source"
+      ],
+      "output": "fixture-A report",
+      "model_route": null
+    },
+    {
+      "id": "task:beta",
+      "kind": "task",
+      "goal": "Verify fixture B with unmodified shared guidance.",
+      "project": "synthetic:beta",
+      "required_capabilities": [
+        "read_source"
+      ],
+      "output": "fixture-B report",
+      "model_route": null
+    },
+    {
+      "id": "evidence:fixture-setup",
+      "kind": "evidence",
+      "claim": "Inputs are isolated synthetic examples.",
+      "basis": "This committed example fixture.",
+      "certainty": "observed-source",
+      "what_not_tested": "No model prompt, runtime loader or production context was inspected."
+    },
+    {
+      "id": "position:alpha-planned",
+      "kind": "position",
+      "state": "planned",
+      "task_id": "task:alpha",
+      "next": "Validate example view against graph.",
+      "blocker": null,
+      "artifact_ref": "EXAMPLE-VIEWS.json"
+    }
+  ],
+  "edges": [
+    {
+      "type": "derived_from",
+      "from": "rule:checkpoint",
+      "to": "source:shared-r7"
+    },
+    {
+      "type": "derived_from",
+      "from": "rule:review",
+      "to": "source:shared-r7"
+    },
+    {
+      "type": "derived_from",
+      "from": "decision:alpha-review",
+      "to": "source:project-alpha"
+    },
+    {
+      "type": "overrides",
+      "from": "decision:alpha-review",
+      "to": "rule:review"
+    },
+    {
+      "type": "applies_to",
+      "from": "rule:checkpoint",
+      "to": "task:alpha"
+    },
+    {
+      "type": "applies_to",
+      "from": "rule:checkpoint",
+      "to": "task:beta"
+    },
+    {
+      "type": "applies_to",
+      "from": "rule:review",
+      "to": "task:alpha"
+    },
+    {
+      "type": "applies_to",
+      "from": "rule:review",
+      "to": "task:beta"
+    },
+    {
+      "type": "applies_to",
+      "from": "decision:alpha-review",
+      "to": "task:alpha"
+    },
+    {
+      "type": "supported_by",
+      "from": "task:alpha",
+      "to": "evidence:fixture-setup"
+    },
+    {
+      "type": "supported_by",
+      "from": "task:beta",
+      "to": "evidence:fixture-setup"
+    },
+    {
+      "type": "produces",
+      "from": "task:alpha",
+      "to": "position:alpha-planned"
+    }
+  ]
+}
