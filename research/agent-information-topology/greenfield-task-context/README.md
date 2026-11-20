@@ -1,6 +1,6 @@
 # ASES task-context topology: greenfield format experiment
 
-**Experimental. Not current agent instructions, approved ASES methodology, a live resolver or a new required document layout.**
+**Research evidence, preserved as Experimental.** Its architectural recommendations were ratified in the [canonical Task-Scoped Information and Handoff Method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [accepted architecture decision](../../../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md). This research folder is **not** an alternative source of operational authority, live resolver or required document layout.
 
 This work starts from task, source authority and producer–consumer evidence boundaries. The primary proposed output is an **information contract for task-specific views**, not a mandatory graph. It **does not** make old `AGENTS.md`, `SESSION-START.md`, role documents or a permanent start/end ritual prerequisites.
 
@@ -21,6 +21,6 @@ python3 -m unittest discover -s research/agent-information-topology/greenfield-t
 
 [GitHub Actions](https://github.com/rock-solid-sites/ASES/actions/workflows/context-topology-greenfield.yml) runs the synthetic contract on this research branch. A first run found a mismatched order in the example's source-revision receipt, corrected in the following commit. No model, real agent file, hosted service, or API funding route is involved.
 
-**Architecture decision pending (Projektor ASES-22):** The completed synthetic comparison favors compact manual packets, with optional lightweight structure for complex handoffs, **without a mandatory persisted graph**. The real-world prompt-method omission independently demonstrates the importance of *selecting* applicable sources. Review the candidate contract before promotion; graph resolution remains optional and evidence-dependent. The fresh-chat automatic-invocation test is **deferred by operator direction**.
+**Architecture decision accepted (Projektor ASES-22, 2026-11-21):** The completed synthetic comparison favors compact manual packets, with optional lightweight structure for complex handoffs, **without a mandatory persisted graph**. The real-world prompt-method omission independently demonstrates the importance of *selecting* applicable sources. Review the candidate contract before promotion; graph resolution remains optional and evidence-dependent. The fresh-chat automatic-invocation test is **deferred by operator direction**.
 
 **Separate experiments:** WNASES-18/PR #64 concerns policy publication (no Luna job currently launched or queued); WNASES-19/PR #63 concerns OpenCode instruction exposure. Neither dictates this candidate format. No external model was invoked for this documentation work.
