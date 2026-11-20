@@ -26,6 +26,7 @@ jobs:
           python -m unittest discover -s research/agent-information-topology/greenfield-task-context -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-contract.txt"
           python -m unittest discover -s research/agent-information-topology/greenfield-task-context/comparison -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-comparison-tests.txt"
           python research/agent-information-topology/greenfield-task-context/comparison/evaluate.py > "$RUNNER_TEMP/context-comparison.json"
+          cat "$RUNNER_TEMP/context-comparison.json"
           python - "$RUNNER_TEMP/context-comparison.json" <<'PY'
           import json
           import os
