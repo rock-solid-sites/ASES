@@ -24,6 +24,24 @@ jobs:
         run: |
           set -euo pipefail
           python -m unittest discover -s research/agent-information-topology/greenfield-task-context -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-contract.txt"
+          python -m unittest discover -s research/agent-information-topology/greenfield-task-context/comparison -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-comparison-tests.txt"
+          python research/agent-information-topology/greenfield-task-context/comparison/evaluate.py > "$RUNNER_TEMP/context-comparison.json"
+          python - "$RUNNER_TEMP/context-comparison.json" <<'PY'
+          import json
+          import os
+          import sys
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+              out.write("### Preregistered 2×3 synthetic task-context comparison\n\n")
+              out.write("| Task | Format | Checks | Context bytes | Lines |\n")
+              out.write("| --- | --- | --- | ---: | ---: |\n")
+              for row in report["rows"]:
+                  status = "PASS" if row["ok"] else "FAIL"
+                  out.write(f'| {row["task"]} | {row["format"]} | {status} '
+                            f'({row["required_present"]}/{row["required_total"]})'
+                            f' | {row["bytes"]} | {row["lines"]} |\n')
+              out.write("\nLiteral marker verification only; no model was invoked and human authoring time was not measured.\n")
+          PY
           {
             echo '## Task-context topology greenfield example'
             echo
