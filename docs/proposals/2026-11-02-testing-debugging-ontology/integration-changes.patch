@@ -1,0 +1,109 @@
+# Proposed integration deltas against main, not applied until reconciled
+# Generated 2026-11-02 from PR #4's draft edits to existing files.
+# All affected main-branch documents are subsequently restored on the proposal branch.
+diff --git a/docs/ORCHESTRATOR.md b/docs/ORCHESTRATOR.md
+--- a/docs/ORCHESTRATOR.md
++++ b/docs/ORCHESTRATOR.md
+@@ -276,6 +276,26 @@
+ 
+ ---
+ 
++## Ontology Review — Selectable Specialist Domain (Proposed Integration)
++
++**Proposal for review; not proof of current runtime deployment.** The specialist role is defined at docs/roles/Ontology-Reviewer.md and is already supported as a domain/mode selection by skills/prompt/SKILL.md. This section proposes when the Orchestrator should select it. Do not describe an ontology-review session as executed unless an eligible reviewer actually ran it and its evidence was retained.
++
++**Triage when a task changes project meaning.** Before a bounded build is frozen, or when reviewing a substantive change, ask whether the artifact introduces, redefines, merges, separates, or changes **the identity, relationship, ownership, authority, lifecycle, or abstraction boundary** of a significant concept. Examples include redefining *test execution* as *verified evidence*, conflating *MCP server health* with *client tool availability*, treating *booking acknowledgement* as *settlement*, or conflating an *agent session* with a durable *Work Unit*. Prefer a small deterministic terminology/relationship check when sufficient.
++
++- **Material conceptual uncertainty before build:** select the ontology review domain with **exploratory pre-build review** mode. Use relevant canonical definitions and neighboring concepts; let the reviewer challenge the proposed model. Resolve accepted findings before freezing behavior or the Implementation Packet.
++- **Finished artifact with a material conceptual invariant:** select ontology review with **post-build conformance** mode. Supply the frozen artifact/claim, relevant canonical meaning and explicit assumptions only. Use clean-room independence; withhold builder rationale, prior reviewers' findings and process history.
++- **No material conceptual change or uncertainty:** do not add an ontology reviewer by ritual. Record a brief NOT_APPLICABLE reason only where an audit trail or gate-selection decision is already required; do not create a form for trivial edits.
++- **Unknown or contradictory canonical meaning:** report the ambiguity and affected claims; the reviewer cannot establish or silently change canonical truth. Resolve through existing authorized governance before making an unqualified conformance claim.
++
++This is a **review domain**, not a fifth always-running agent, a replacement Code Reviewer, or a second Auditor. The Code Reviewer continues the pre-consumption readiness check (testability, evidence, calibrated claims). The Auditor continues in-flight divergence checking. Ontology specialists challenge **what the artifact asserts exists and how those things relate**. For a material change, ontology and implementation/behavioral review may both be necessary; choose by distinct failure mode, not a fixed reviewer count.
++
++Formal ontology reviewers are read-only, non-authoritative, appropriately isolated, and from an independent model family relative to the artifact producer as specified by the existing role. The Orchestrator uses caller-side model provenance and approved target routes; it must not ask a receiving model to identify itself, assume a reviewer route exists, or replace a requested independent review with same-family acceptance. If no authorized isolated route is available, record NOT_RUN/BLOCKED and the unverified conceptual claim rather than a fabricated pass. Findings are synthesized before authorized decisions, as in existing EDASES review practice.
++
++The role's independent performance remains to be benchmarked in both modes against defective cases and clean controls. Selective invocation, false-positive rate, model-family routing, and added cost should be studied before promoting this proposal to a universal operational default. See also the proposed ASES testing and debugging methods on this review branch.
++
++---
++
++
+ # Core Principles
+ 
+ ## 1. Stay in Your Role
+diff --git a/docs/methodology/ASES Bounded Project Build Method.md b/docs/methodology/ASES Bounded Project Build Method.md
+--- a/docs/methodology/ASES Bounded Project Build Method.md
++++ b/docs/methodology/ASES Bounded Project Build Method.md
+@@ -75,6 +75,14 @@
+ 
+ Before considering particular realizations, derive **non-negotiable, falsifiable constraints** for safety, correctness, security, performance and relevant operational properties under `docs/methodology/Implementation Realization and Assurance Selection Method.md`. For a short disposable test, use the lightest appropriate experiment. For a maintained small plugin or connector, apply the approved safety-oriented language set (including strict TypeScript for JavaScript integrations) and its targeted safety checks, or document a tightly bounded upstream-reuse exception where retaining existing code is demonstrably safer than rewriting. For anything more ambitious, use the full exclusion-first process: search broadly without a preferred language or architecture shortlist, exclude approaches that fail requirements, hold unverified approaches as UNRESOLVED, and compare only those demonstrated viable. A novel design may be selected when verified project-specific benefits outweigh the risks of limited precedent and support. Do not presume conventional software is required. Verification follows the existing VSDD or project-specific testing method without competing phases. Where UI materially affects behavior, resolve it with the lightest useful artifact appropriate to the requirement.
+ 
++### Ontology-sensitive review selection (proposed integration)
++
++The [Ontology Reviewer role](../roles/Ontology-Reviewer.md) and [Prompt Skill](../../skills/prompt/SKILL.md) already distinguish the **review domain** (conceptual identities, categories, relationships, ownership, authority and lifecycles) from the **review mode** (exploratory pre-build versus post-build conformance). When a bounded change materially affects those meanings, select an ontology review at the existing appropriate review point rather than introducing an extra lifecycle phase.
++
++For an unsettled conceptual design, an exploratory ontology review may challenge conflated categories, missing distinctions, boundaries or unnecessary abstractions **before** the Implementation Packet freezes them. For a completed artifact claiming adherence to fixed canonical concepts, use an independent, minimal-context ontology conformance review under Step 10. Normal code/behavioral review still checks separate correctness claims; the ontology specialist does not substitute for it or for human approval.
++
++If no significant conceptual claim is at stake, omit specialist review. If the canonical conceptual model is missing or contradictory, record UNRESOLVED and route clarification to its authorized owner instead of silently creating an ontology. The proposed operational selection rules are in docs/ORCHESTRATOR.md. This integration is under review in Draft PR #4; it does not change role authority or make it a deployed agent.
++
+ ### 7. Precompute deterministic work
+ 
+ Write and test pure logic before live integration when doing so reduces builder reasoning: state classification, filtering, sorting, transformations, renderers, retry policy, naming, small contracts and similar deterministic work.
+diff --git a/docs/roles/Ontology-Reviewer.md b/docs/roles/Ontology-Reviewer.md
+--- a/docs/roles/Ontology-Reviewer.md
++++ b/docs/roles/Ontology-Reviewer.md
+@@ -1,10 +1,10 @@
+ ---
+ title: Ontology Reviewer Role
++version: 0.3-draft
+-version: 0.2-draft
+ status: Proposed
+ role_type: specialist-reviewer
+ authority: read-only, non-authoritative
++last_updated: 2026-11-02
+-last_updated: 2026-09-22
+ ---
+ 
+ # Ontology Reviewer Role
+@@ -172,6 +172,29 @@
+ 
+ Select exploratory mode before build when the conceptual model itself is under test. Select conformance mode after build when canonical meaning is fixed and the artifact claims to instantiate it.
+ 
++## Integration into ASES reviews (proposed, not yet validated)
++
++This existing specialist role should be selected at the **review-domain level** using the already established ontology-review operation in skills/prompt/SKILL.md. It is not a general-purpose epistemology checker, another implementation verifier, a fourth always-on review gate, or an ontology database.
++
++**Selection trigger:** a change makes a material assertion about identity, categorization, ownership, authority, boundary, lifecycle, or conceptual relationship. If the question is instead whether an executable assertion detects a bug, select assurance/testing; if it asks where a runtime failure occurs, select fault isolation; if it asks whether code works within a settled conceptual model, select behavioral/implementation review. These domains can overlap on one artifact when they protect **different** invariants.
++
++**Pre-build selection:** before freezing a specification or substantial implementation decision, where the relevant conceptual model remains disputed or proposed, send a bounded neighborhood of definitions, design, and uncertainty for **exploratory** review. Multiple revisions can be valuable. Reviewer findings remain proposals until accepted by the proper authority.
++
++**Post-build selection:** if a completed implementation, test plan, diagnostic policy, or documentation claims a fixed conceptual invariant, send it with the specific claim and canonical definitions for **clean-room conformance**. An apparent inconsistency in the canonical source itself must be reported as ambiguity rather than rewritten as part of the review.
++
++**Examples especially relevant to current ASES work:**
++- A testing protocol must not conflate **test execution outcome**, **evidential sufficiency**, and **authorized acceptance**.
++- A debugging record must not conflate **symptom**, **hypothesis**, **mechanism**, **root-cause conclusion**, and **verified user-facing recovery**.
++- A connector review must not equate **server connectivity**, **client tool exposure**, **effective authorization**, and **successful operation**.
++- A resource solver must not treat **estimated allowance**, **provider-reported usage**, **actual settlement**, and **host execution time** as equivalent.
++- An orchestration workflow must not merge **agent session**, **durable Work Unit**, **in-flight position**, and **final finding** into one undifferentiated status.
++
++**Decision and economy:** a cheap deterministic canonical-definition comparison may resolve the risk without another agent. Invoke a specialist only where meaningful semantic disagreement or a nontrivial conceptual claim warrants it. A decision to omit review need not generate redundant paperwork. When formal independent ontology evidence is required but cannot be obtained with correct model-family provenance and isolation, report BLOCKED/UNVERIFIED instead of substituting same-family acceptance.
++
++**Validation:** instantiate and run the historical two-mode benchmark with known conceptual defects **and clean controls**, including false-positive and concept-invention checks. Measure incremental findings, cost and context use compared with ordinary review. Do not declare this proposed integration operationally proven from document edits alone.
++
++For workflow integration see docs/ORCHESTRATOR.md; for development entry points see docs/methodology/ASES Bounded Project Build Method.md. The sibling proposed testing and debugging methods address other evidence questions; all use existing EDASES provenance and authorized decision semantics.
++
+ ## Input contract
+ 
+ The Prompt Skill should normally supply:
+diff --git a/skills/prompt/SKILL.md b/skills/prompt/SKILL.md
+--- a/skills/prompt/SKILL.md
++++ b/skills/prompt/SKILL.md
+@@ -55,6 +55,8 @@
+ 
+ Add new named operations only after repeated use demonstrates a distinct reasoning mode.
+ 
++**Ontology review routing (proposed integration).** Select ontology-review only when a change or claim concerns material conceptual identity, categories, ownership, relationships, authority, lifecycles, or boundaries; pair it with pre-build-review for unsettled conceptual design and post-build-review for independent conformance to fixed canonical definitions. Use docs/roles/Ontology-Reviewer.md and docs/ORCHESTRATOR.md for selection and eligibility rules. Do not dispatch an additional agent when a deterministic canonical-meaning check suffices, and do not imply a dedicated reviewer runtime exists unless its authorized route is verified. Preserve the independent-model-family and clean-room rules for formal reviews.
++
+ ### 2. Preserve task semantics
+ 
+ Preserve task semantics before optimizing execution. Identify the user-selected target, required behavior, and settled constraints. Do not replace them with implementation conveniences or reopen them during planning unless evidence shows they are infeasible.
