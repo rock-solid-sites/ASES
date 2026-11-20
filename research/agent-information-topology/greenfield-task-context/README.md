@@ -9,6 +9,7 @@ This prototype starts from the task, applicable authority and producer-consumer 
 - [EXAMPLE-VIEWS.json](EXAMPLE-VIEWS.json) — two manually authored expected task views. The scoped override **replaces**, rather than joins, the upstream review text in task alpha; task beta keeps the upstream rule.
 - [test_contract.py](test_contract.py) — standard-library regression checks. A tiny test-only resolver recomputes applicable content from typed relationships; **this is not production infrastructure**.
 - [Preregistered 2×3 comparison](comparison/PRE-REGISTRATION.md) — manual, lightweight structured and graph-derived views on identical synthetic tasks. [Recorded results](comparison/RESULTS-2026-11-20.md): **all 6 pass**, total 24/24 tests. The graph shows no correctness advantage in this small static sample; manual is shortest. This does not test agent consumption.
+- [First real coordination field case](field-trial/PROMPT-SOURCE-ADMISSION-2026-11-20.md) — an autonomous launch brief missed task-relevant current prompting methodology despite finding the short current skills. This led to [PR #73](https://github.com/rock-solid-sites/ASES/pull/73), which fixes the **source-admission rule**, not historical root/startup files. Fresh-chat auto-selection and model-visible loading remain unverified.
 
 
 Test:
