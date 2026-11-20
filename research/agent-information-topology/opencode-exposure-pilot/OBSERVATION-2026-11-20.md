@@ -68,3 +68,13 @@ It lists six current ASES skill sources. This is a distinct installed ChatGPT sk
 4. Independently complete WNASES-18's project-local policy publication pilot. Then reconcile both sets of evidence before altering root AGENTS.md or removing historic active discovery trees.
 
 **Boundaries:** No actual ASES policy, production source, provider account, user environment, Work Notes backend or other project repo was changed. Work Notes WNASES-19 owns subsequent execution-state updates. This report is an experimental candidate for the registered final directory, offered in a draft PR; its presence does not authorize a merge or active-config cleanup.
+
+## Independent OpenCode Go source audit, separate invocation
+
+- Run: https://github.com/rock-solid-sites/ases-plugins/actions/runs/44665733656 .
+- Model: opencode-go/mimo-v2.6-flash via one bounded OpenCode CLI call; exit 0, 4,993 report bytes; no retries. Provider cost and token billing remain unknown.
+- This reviewer received a short *textual packet* containing the config, synthetic observation summaries and real ASES skill directory names. It did not execute the probes, receive a live OpenCode system prompt or use the real ASES project as its own automatic configuration.
+- Main useful criticism: the repeated identical debug-skill stdout is not a model-visible context trace. The next decisive test must capture the actual assembled prompt/context (when the harness permits) or use a controlled model-visible behavioral probe, comparing clean and cluttered discovery while holding all else fixed.
+- Its suggested next boundaries were explicit instructions, loaded agent definition, plugins, MCP tool schemas and OpenCode 2.x version differences. These are **test suggestions**, not newly demonstrated injection paths.
+
+**Reviewer fidelity correction:** The reviewer wrote that the synthetic cluttered fixture surfaced 20 pinned .claude/skills entries plus the current skill. That conflates the *actual ASES directory-name list supplied as separate source data* with the *synthetic fixture*, which contained only one current and one retired canary. The executed fixture result is simply current=True and retired=True; the 20 count is not supported by that fixture. Do not repeat that erroneous model claim as measured evidence.
