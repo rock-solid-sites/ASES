@@ -2,9 +2,10 @@
 
 **Experimental. Not current agent instructions, approved ASES methodology, a live resolver or a new required document layout.**
 
-This prototype starts from the task, applicable authority and producer-consumer evidence boundaries. It **does not** make old `AGENTS.md`, `SESSION-START.md`, role documents or a permanent start/end ritual prerequisites.
+This work starts from task, source authority and producer–consumer evidence boundaries. The primary proposed output is an **information contract for task-specific views**, not a mandatory graph. It **does not** make old `AGENTS.md`, `SESSION-START.md`, role documents or a permanent start/end ritual prerequisites.
 
-- [PROPOSAL.md](PROPOSAL.md) — semantic objects, typed edges, resolver/view contract, optional adapters, minimization requirements and falsification criteria.
+- **[TASK-VIEW-CONTRACT.md](TASK-VIEW-CONTRACT.md) — recommended review entrypoint.** Candidate source-admission, authority/conflict, effective task view and handoff obligations without mandatory file format, graph or service.
+- [PROPOSAL.md](PROPOSAL.md) — background semantic topology, typed relationships, optional adapters and falsification criteria, reconciled with evidence favoring a lighter default.
 - [EXAMPLE-GRAPH.json](EXAMPLE-GRAPH.json) — two synthetic tasks, two shared rules, one scoped project decision, source references, evidence and a position.
 - [EXAMPLE-VIEWS.json](EXAMPLE-VIEWS.json) — two manually authored expected task views. The scoped override **replaces**, rather than joins, the upstream review text in task alpha; task beta keeps the upstream rule.
 - [test_contract.py](test_contract.py) — standard-library regression checks. A tiny test-only resolver recomputes applicable content from typed relationships; **this is not production infrastructure**.
@@ -20,6 +21,6 @@ python3 -m unittest discover -s research/agent-information-topology/greenfield-t
 
 [GitHub Actions](https://github.com/rock-solid-sites/ASES/actions/workflows/context-topology-greenfield.yml) runs the synthetic contract on this research branch. A first run found a mismatched order in the example's source-revision receipt, corrected in the following commit. No model, real agent file, hosted service, or API funding route is involved.
 
-**Next decision:** The completed static comparison favors task-scoped manual or lightweight structured packets **without a mandatory persisted graph** for routine work. Test the contract on real, non-sensitive work and review its failure modes before accepting the format; graph resolution should remain an optional scale-specific pilot, not an architectural prerequisite.
+**Architecture decision pending (Projektor ASES-22):** The completed synthetic comparison favors compact manual packets, with optional lightweight structure for complex handoffs, **without a mandatory persisted graph**. The real-world prompt-method omission independently demonstrates the importance of *selecting* applicable sources. Review the candidate contract before promotion; graph resolution remains optional and evidence-dependent. The fresh-chat automatic-invocation test is **deferred by operator direction**.
 
-**Independent evidence remains separate:** WNASES-18/PR #64 is the offline policy-publishing pilot with Codex Cloud Luna blocked; WNASES-19/PR #63 investigates OpenCode runtime exposure. Neither dictates this greenfield format and neither is considered complete because of these fixture tests.
+**Separate experiments:** WNASES-18/PR #64 concerns policy publication (no Luna job currently launched or queued); WNASES-19/PR #63 concerns OpenCode instruction exposure. Neither dictates this candidate format. No external model was invoked for this documentation work.
