@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-18",
+  "as_of_utc": "2026-11-20",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -969,21 +969,24 @@
       "type": "new_customer_trial",
       "advertised_value": 100,
       "value_unit": "USD",
-      "details": "additional $100 subject to qualifying activities",
-      "credit_expiry": "6 months",
+      "details": "Official AWS current Free Tier: $100 initial + up to $100 for Explore AWS activities, new AWS customers only. Free plan runs up to 6 months or credit exhaustion; Paid plan offers broader service access, and existing Free Tier credits continue until expiry. Current AWS FAQ has conflicting wording: general FAQ says Free Tier credits expire at 6 months, Paid-plan section says remaining credits expire 12 months after account creation, and activity credits FAQ says activity credits expire 12 months after account creation. Treat credit-specific expiry as billing-console dependent; never assume 12 months for all credit types. Activities become ineligible after joining AWS Organizations or activating advanced features. No previous AWS account allowed. October 2026 new signup experience noted. EC2 VM eligibility depends on plan/service limits.",
+      "credit_expiry": "6 months Free plan; Paid-plan FAQ indicates remaining credits up to 12 months; confirm individual credit ledger",
       "first_seen_at": null,
-      "last_checked_at": "2026-11-03",
-      "status": "baseline_unverified",
-      "eligible_existing_account": null,
-      "requires_new_account": null,
+      "last_checked_at": "2026-11-20",
+      "status": "official_baseline_verified_expiry_wording_conflict",
+      "eligible_existing_account": false,
+      "requires_new_account": true,
       "minimum_spend_usd": null,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
-      "source_urls": [],
-      "evidence_level": "monitoring_baseline_not_freshly_verified",
-      "alert_state": "notified_or_baseline"
+      "source_urls": [
+        "https://aws.amazon.com/free/",
+        "https://aws.amazon.com/free/free-tier-faqs/"
+      ],
+      "evidence_level": "official_faq_nov20_2026_not_account_verified",
+      "alert_state": "baseline_no_alert"
     },
     {
       "id": "azure-200-30d",
@@ -1213,10 +1216,10 @@
       "type": "discount",
       "advertised_value": 70,
       "value_unit": "percent",
-      "details": "IBM official /products/offers-and-discounts states Sep 30 2026 expiry; IBM official /products/cloud/free (English and localized French/Indonesian) states Dec 31 2026 for the same BUYMAD/BUYSAO/BUYOSA 70% VPC VSI promotion. Previous definitive expired assertion was unjustified. Do not treat as redeemable without actual IBM billing promotional terms; card on file required. Discount applies to Madrid/Sao Paulo/Osaka VSI, block/file storage if accepted.",
+      "details": "IBM official /products/offers-and-discounts states Sep 30 2026 expiry; IBM official /products/cloud/free (English and localized French/Indonesian) states Dec 31 2026 for the same BUYMAD/BUYSAO/BUYOSA 70% VPC VSI promotion. Previous definitive expired assertion was unjustified. Do not treat as redeemable without actual IBM billing promotional terms; card on file required. Discount applies to Madrid/Sao Paulo/Osaka VSI, block/file storage if accepted. Official global IBM offers page reconfirmed Dec 31 2026 on Nov 20; official Spanish and Italian localized pages still list Sep 30 2026. Conflict remains; no checkout verification.",
       "credit_expiry": "unknown",
       "first_seen_at": null,
-      "last_checked_at": "2026-11-18",
+      "last_checked_at": "2026-11-20",
       "status": "conflicting_official_deadlines_redemption_unverified",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1234,7 +1237,7 @@
         "https://www.ibm.com/es-es/products/cloud/free",
         "https://www.ibm.com/jp-ja/products/offers-and-discounts"
       ],
-      "evidence_level": "conflicting_official_pages_rechecked_2026-11-12",
+      "evidence_level": "official_global_and_localized_pages_conflict_rechecked_2026-11-20",
       "alert_state": "notified_or_baseline"
     },
     {
@@ -1441,10 +1444,10 @@
       "type": "general_free_compute",
       "advertised_value": 200,
       "value_unit": "USD",
-      "details": "Official pricing advertises $200 in free compute, no credit card required to start; free balance not applicable to GPU. Exact eligibility, amount granted to existing accounts and expiry require wallet verification. Tier 1 email verified allows 10 vCPU/10 GiB RAM/30 GiB storage per tier table; docs show a contradictory 20GiB in lower limits table.",
+      "details": "Official pricing advertises $200 in free compute, no credit card required to start; free balance not applicable to GPU. Exact eligibility, amount granted to existing accounts and expiry require wallet verification. Tier 1 email verified allows 10 vCPU/10 GiB RAM/30 GiB storage per tier table; docs show a contradictory 20GiB in lower limits table. Official Daytona pricing lists $0.0504/vCPU-hour + $0.0162/GiB-hour + $0.000108/GiB storage-hour after 5 free GiB; example 4 vCPU/8GiB = $0.3312/hour compute, 4 vCPU/16GiB = $0.4608/hour compute, excluding chargeable storage/network/taxes. $200 free compute baseline, no card for initial trial. Tier 1 documented quota 10vCPU/10GiB total resources (limits table also says 20GiB memory); Tier 2 requires linked card and $25 top-up for 100vCPU/200GiB. Therefore 16GB requires paid verification/tier, and free tier 8GB may constrain concurrent builds. No new BF offer.",
       "credit_expiry": null,
       "first_seen_at": "2026-11-05",
-      "last_checked_at": "2026-11-05",
+      "last_checked_at": "2026-11-20",
       "status": "officially_advertised_account_eligibility_unverified",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -2090,6 +2093,18 @@
         "nvhcloud-bf2026-first-month"
       ],
       "summary": "Official dataforest and AVORO Nov23 teasers remain unpriced; LiteKeep BLACK150 remains advertised with $100 minimum deposit, new-account only and unresolved trust/CPU policies. IBM global official offers page now says Dec31 for regional VPC70, but Korean regional official page still says Sep30; redemption conflict remains. NVHCloud BF first-month 20% remains known, not hourly. Surveyed 2026 BF communities, cloud credits, sandbox and lablab remote events: no newly verified actionable 6GB+ hourly credit; CloudCone PREBF26 $2-off discovery is 1GB storage VPS, excluded."
+    },
+    {
+      "at": "2026-11-20",
+      "kind": "targeted_verification_no_alert",
+      "entity_ids": [
+        "aws-2026-free-plan",
+        "ibm-regional-vpc-70-2026",
+        "dataforest-black-week-2026",
+        "avoro-black-week-2026",
+        "daytona-200-free-compute-2026"
+      ],
+      "summary": "Verified AWS current new-customer $100+$100 Free Tier with inconsistent official 6mo vs 12mo credit expiry wording and Oct 2026 signup experience; IBM global Dec31 vs localized Sep30 conflict persists. Daytona $200 sandbox baseline and published $0.0504/vCPU-hour + $0.0162/GiB-hour with Tier2 $25 top-up for larger resource limits; no new credit. Dataforest and AVORO Nov23 offers remain unpriced. Checked current BF community discoveries, hyperscaler baselines and sandbox providers; no new qualifying actionable 6GB+ hourly credit. No notification."
     }
   ],
   "source_policy": {
