@@ -23,6 +23,8 @@ This is the **only directory the installed ASES Workflow dispatcher should use f
 - `compile-build/SKILL.md` — bounded implementation packets.
 - `custom-mcp-connector/SKILL.md` — live connector setup and failure diagnosis.
 
+**Governing cross-task information method:** [ASES Task-Scoped Information and Handoff Method](../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) defines selection, authority and handoff. Retrieve it only when materially applicable; it is **not** an additional mandatory skill or a requirement to load every document for every task. The skills above still define specialized execution guidance.
+
 **Source of truth:** `rock-solid-sites/ASES`, branch `main`, directory `skills/current/`. Git commit history and release tags preserve previous approved versions. Do not copy prior version files or historical redirects into `current/`.
 
 **Publication:** Changes are made in the source repository, preferably through a GitHub pull request; the read-only URLs cannot edit documents. No plugin republish is required for ordinary Markdown edits. These HTTP URLs do not revoke write access that a different tool may separately hold. Repository `main` was not branch-protected as of 2026-11-17; branch protection is not necessary for read-only HTTP retrieval.
