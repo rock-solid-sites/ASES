@@ -61,6 +61,8 @@ Current research investigates questions including:
 This repository contains research, methodology and implementation planning.
 Canonical documentation is organised by abstraction level rather than implementation status.
 
+The [empirical testing laboratory](testing/README.md) contains experimental assurance procedures, cross-project lessons and minimal counterexample pointers. It is **not** an independent canonical method; active methodology remains under `docs/methodology/`.
+
 New contributors should begin with:
 1. `ORIENTATION.md`
 2. `docs/standards/Documentation Standard.md`
