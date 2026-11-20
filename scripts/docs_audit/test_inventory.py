@@ -41,6 +41,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_historical_and_vendored_excluded(self):
         self.put("fork/opencode-src/AGENTS.md", self.active())
+        self.put(".design/reframe-glm52.md", "User supplied an old [AGENTS.md](AGENTS.md) link.\n")
         self.put("docs/historical/AGENTS.md", self.active())
         self.put("docs/methodology/c.md", self.active(title="Current"))
         data = inventory(self.root)
