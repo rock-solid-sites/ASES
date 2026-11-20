@@ -15,7 +15,7 @@ from urllib.parse import unquote
 
 REPO = Path(__file__).resolve().parents[2]
 IGNORED = (
-    "fork/", ".crosslink/", ".crosslink.backup-", "docs/historical/",
+    "fork/", ".crosslink/", ".crosslink.backup-", ".design/", "docs/historical/",
     "handoff-bundle/", "staging/", "to-file/", "session-handoffs/",
     "evaluation-corpus/", "docs/research/retrospectives/",
     "docs/CURRENT-DOCUMENTS-INDEX.md",
