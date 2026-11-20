@@ -43,7 +43,7 @@ For each candidate source, the coordinator answers:
 
 ### Current prompting example (source-level rule already published)
 
-For an ASES autonomous multi-agent assignment, the current `skills/current/compact-prompt/SKILL.md` and `workflow-orchestration/SKILL.md` are applicable. For actual model dispatch, `agent-launch/SKILL.md` supplies launch authorization. **Only when a bounded Implementation Packet is being compiled** do `compile-build/SKILL.md` and the full canonical `docs/methodology/ASES Bounded Project Build Method.md` become mandatory. The older `skills/prompt/SKILL.md` and Strategy-to-Builder *derivation* do not substitute for those current authorities. [PR #73](https://github.com/rock-solid-sites/ASES/pull/73) corrected this current source-selection rule; this research contract does not redeclare or supersede it.
+For an ASES autonomous multi-agent assignment, the current `skills/current/compact-prompt/SKILL.md` and `skills/current/workflow-orchestration/SKILL.md` are applicable. For actual model dispatch, `skills/current/agent-launch/SKILL.md` supplies launch authorization. **Only when a bounded Implementation Packet is being compiled** do `skills/current/compile-build/SKILL.md` and the full canonical `docs/methodology/ASES Bounded Project Build Method.md` become mandatory. The older `skills/prompt/SKILL.md` and Strategy-to-Builder *derivation* do not substitute for those current authorities. [PR #73](https://github.com/rock-solid-sites/ASES/pull/73) corrected this current source-selection rule; this research contract does not redeclare or supersede it.
 
 ## 3. Resolve authority, conflicts and overrides explicitly
 
