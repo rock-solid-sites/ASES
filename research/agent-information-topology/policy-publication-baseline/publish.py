@@ -14,8 +14,22 @@ class PolicyError(ValueError):
     pass
 
 
+def _unique_object(pairs):
+    """Duplicate JSON fields make policy identity and overrides ambiguous."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise PolicyError("duplicate JSON object field: " + key)
+        result[key] = value
+    return result
+
+
+def _parse_json(data):
+    return json.loads(data, object_pairs_hook=_unique_object)
+
+
 def _load(path):
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    return _parse_json(Path(path).read_text(encoding="utf-8"))
 
 
 def _rule_id(rule):
@@ -120,7 +134,7 @@ def render(source_bytes, source, consumer):
     blocks = ["# Generated effective agent instructions", "",
               "<!-- experimental; sha256-of-approved-upstream: " + actual + " -->", ""]
     for rid, text in effective:
-        blocks.extend(("## " + rid, "", text.strip(), ""))
+        blocks.extend(("## " + rid, "", text, ""))
     return "\n".join(blocks).rstrip() + "\n"
 
 
@@ -135,7 +149,7 @@ def main():
     args = p.parse_args()
     try:
         source_bytes = args.source.read_bytes()
-        rendered = render(source_bytes, json.loads(source_bytes),
+        rendered = render(source_bytes, _parse_json(source_bytes),
                           _load(args.manifest))
         if args.check:
             if not args.output.is_file() or args.output.read_text(encoding="utf-8") != rendered:
