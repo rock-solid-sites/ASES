@@ -1,6 +1,6 @@
 ---
 name: review-launch
-version: 1.0.1
+version: 1.0.2
 description: Launch independent AI reviews with the smallest verified execution route, fixed source revision, explicit model and durable evidence.
 status: current
 ---
@@ -9,12 +9,12 @@ status: current
 
 **Authoritative operational recipe (read fresh):**
 `rock-solid-sites/ases-plugins/docs/INDEPENDENT-REVIEWER-WORKING-RECIPE.md` on `main`.
-Historical Phoenix Grove provider configuration (**not current spend authorization**): `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example`.
+Separate Phoenix Grove provider configuration (**route evidence, not unlimited spend authorization**): `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example`.
 Historical route detail: `rock-solid-sites/ASES/docs/methodology/Agent Model Launch Routes.md` (dated; do not assume the old VPS is available).
 
 ## Mandatory model/billing admission
 
-Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** in `skills/current/agent-launch/SKILL.md`. For OpenCode review execution, select only an exact currently verified **OpenCode Go subscription** model or independently verified **zero-price Zen** model. Historical successful Phoenix Grove/paid-provider Actions runs demonstrate technical reachability, **not current spending authorization**. Do not select a default, paid provider, unknown model, free-sounding but unverified model, or fallback. If the subscription/free route is unavailable, stop before dispatch. A model launch is not necessary to test these rules.
+Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** in `skills/current/agent-launch/SKILL.md` and declare the chosen route. **For OpenCode reviews**, choose only a currently verified exact **OpenCode Go subscription** model or independently verified **zero-price Zen** route. This OpenCode entitlement rule **does not ban Phoenix Grove**. **For separately authorized Phoenix Grove/Codex reviews**, pin the independent `pgs2` provider, exact PGS model, supported Codex CLI configuration, host, scoped authorization, runtime/allowance and `fallback: none`; verify provider credential presence and retain usage/cost uncertainty. Historical successful runs establish reachability, not unlimited spending permission. If the chosen route is unverified or unauthorized, stop before dispatch; do not silently switch models/providers. No invocation is necessary merely to test these instructions.
 
 ## Select the execution class
 
