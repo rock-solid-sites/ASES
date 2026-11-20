@@ -9,7 +9,7 @@ status: current
 
 **Authoritative operational recipe (read fresh):**
 `rock-solid-sites/ases-plugins/docs/INDEPENDENT-REVIEWER-WORKING-RECIPE.md` on `main`.
-Provider configuration: `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example`.
+Historical Phoenix Grove provider configuration (**not current spend authorization**): `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example`.
 Historical route detail: `rock-solid-sites/ASES/docs/methodology/Agent Model Launch Routes.md` (dated; do not assume the old VPS is available).
 
 ## Mandatory model/billing admission
