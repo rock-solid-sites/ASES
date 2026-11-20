@@ -42,6 +42,7 @@ class DocumentContractTests(unittest.TestCase):
                        ".opencode/opencode.json", ".mcp.json",
                        "skills/current/README.md", "skills/README.md",
                        "plugins/ases-workflow/sources.json",
+                       "plugins/ases-workflow/README.md",
                        "plugins/ases-workflow/check_versions.py",
                        ".github/workflows/ases-workflow-skill-drift.yml"):
             with self.subTest(source=source):
