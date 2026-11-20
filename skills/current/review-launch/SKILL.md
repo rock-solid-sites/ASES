@@ -1,6 +1,6 @@
 ---
 name: review-launch
-version: 1.0.1
+version: 1.0.2
 description: Launch independent AI reviews with the smallest verified execution route, fixed source revision, explicit model and durable evidence.
 status: current
 ---
@@ -9,12 +9,18 @@ status: current
 
 **Authoritative operational recipe (read fresh):**
 `rock-solid-sites/ases-plugins/docs/INDEPENDENT-REVIEWER-WORKING-RECIPE.md` on `main`.
-Historical Phoenix Grove provider configuration (**not current spend authorization**): `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example`.
+Established Phoenix Grove provider configuration for operator-requested reviews: `rock-solid-sites/ases-plugins/.github/reviewers/phoenix-grove.env.example` (example config only; credentials remain in GitHub Actions secrets).
 Historical route detail: `rock-solid-sites/ASES/docs/methodology/Agent Model Launch Routes.md` (dated; do not assume the old VPS is available).
 
 ## Mandatory model/billing admission
 
-Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** in `skills/current/agent-launch/SKILL.md`. For OpenCode review execution, select only an exact currently verified **OpenCode Go subscription** model or independently verified **zero-price Zen** model. Historical successful Phoenix Grove/paid-provider Actions runs demonstrate technical reachability, **not current spending authorization**. Do not select a default, paid provider, unknown model, free-sounding but unverified model, or fallback. If the subscription/free route is unavailable, stop before dispatch. A model launch is not necessary to test these rules.
+Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** in `skills/current/agent-launch/SKILL.md`.
+
+- **OpenCode Go/Zen routes:** only exact, approved Go-subscription model IDs or independently verified zero-price Zen model IDs; no unknown, paid, unapproved or default Go/Zen model, and no unapproved Extra Usage.
+- **Phoenix Grove route:** **approved when specifically requested by the operator**, using the established `ases-plugins` independent-reviewer workflow and current Phoenix Grove credentials. Confirm the exact requested Phoenix Grove model, configured provider, permission boundary, job budget/allowance and intended output before launch. The CLI used for a Phoenix Grove review (Codex or OpenCode) does **not** turn that reviewer into an unauthorized Go/Zen model. Avoid automatic paid retries or model fallback; record an intermittent transport failure separately from model/prompt defects.
+- **Codex Cloud Luna:** only through the authenticated ChatGPT Plus/Codex subscription, never an OpenCode Luna route or an inferred OpenAI API bill.
+
+Do not invent or silently substitute a model, paid route, provider or host. Existing successful Phoenix Grove runs are useful technical evidence and do not constitute a categorical prohibition; they do not eliminate the need to verify conditions for the specific run. A model invocation is not needed to validate this policy.
 
 ## Select the execution class
 
