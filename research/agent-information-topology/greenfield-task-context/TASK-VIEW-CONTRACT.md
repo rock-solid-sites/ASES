@@ -88,7 +88,7 @@ The smallest meaningful receipt contains: task ID, source IDs with verified revi
 
 The implementation can be **manual coordination plus source links**. Nothing here requires a resident service, full-time knowledge graph, a prescribed role-specific file or an automatic startup ritual.
 
-## 7. Limits and pending architectural decision
+## 7. Evidence limits and subsequent accepted decision
 
 - The six synthetic packets all passed static checks. This supports *format flexibility*, not comparative reliability in real agent execution.
 - The observed missed-prompt-method incident supports the **need for an explicit source-admission decision**, but merged Markdown does not guarantee ChatGPT/plugin automatic selection. The behavioral test is **deferred by operator direction**; do not treat it as a blocker to documenting the format.
@@ -97,4 +97,4 @@ The implementation can be **manual coordination plus source links**. Nothing her
 - This proposal does not assume root `AGENTS.md`, `SESSION-START.md`, `SESSION-END.md` or their replacement must exist. Thin harness adapters are optional, evidence-dependent.
 - ASES-22 in Projektor owns the human architectural decision. WNASES-22 tracks technical evidence. PRs #63/#64 are separate exposure/publication experiments, not dependencies or adopted schema.
 
-**Decision suggested by present evidence:** standardize the **information obligations**, not storage, filenames or model prompts. Use compact manually authored task views by default, optional light structure for complex handoffs and a persistent graph only if actual scale/conflict evidence later justifies one. No live deployment or policy migration is authorized by this candidate.
+**Disposition:** the operator accepted this direction on 2026-11-20, recorded in [canonical methodology](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and the [ADR](../../../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md). This draft is preserved as prior research, not an active policy or pending architecture decision. No runtime deployment is claimed.
