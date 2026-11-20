@@ -18,6 +18,7 @@ IGNORED = (
     "fork/", ".crosslink/", ".crosslink.backup-", "docs/historical/",
     "handoff-bundle/", "staging/", "to-file/", "session-handoffs/",
     "evaluation-corpus/", "docs/research/retrospectives/",
+    "docs/CURRENT-DOCUMENTS-INDEX.md",
 )
 ROOT_ENTRYPOINTS = {
     "README.md", "ORIENTATION.md", "ARCHITECTURE.md", "AGENTS.md",
