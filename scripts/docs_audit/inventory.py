@@ -69,12 +69,12 @@ def reference_check(path: str, text: str, existing: set[str]) -> list[str]:
     visible_lines = []
     fenced = False
     for line in text.splitlines():
-        if line.lstrip().startswith(("\\`\\`\\`", "~~~")):
+        if line.lstrip().startswith(("```", "~~~")):
             fenced = not fenced
             continue
         if not fenced:
-            visible_lines.append(re.sub(r"\\`[^\\`\\n]*\\`", "", line))
-    visible_text = "\\n".join(visible_lines)
+            visible_lines.append(re.sub(r"`[^`\n]*`", "", line))
+    visible_text = "\n".join(visible_lines)
     for value in LINK_RE.findall(visible_text):
         target = unquote(value.split("#", 1)[0])
         if target.startswith(("http:", "https:", "/", "mailto:")):
