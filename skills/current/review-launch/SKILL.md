@@ -1,6 +1,6 @@
 ---
 name: review-launch
-version: 1.0.2
+version: 1.0.3
 description: Launch independent AI reviews with the smallest verified execution route, fixed source revision, explicit model and durable evidence.
 status: current
 ---
@@ -15,6 +15,8 @@ Historical route detail: `rock-solid-sites/ASES/docs/methodology/Agent Model Lau
 ## Mandatory model/billing admission
 
 Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** in `skills/current/agent-launch/SKILL.md` and declare the chosen route. **For OpenCode reviews**, choose only a currently verified exact **OpenCode Go subscription** model or independently verified **zero-price Zen** route. This OpenCode entitlement rule **does not ban Phoenix Grove**. **For separately authorized Phoenix Grove/Codex reviews**, pin the independent `pgs2` provider, exact PGS model, supported Codex CLI configuration, host, scoped authorization, runtime/allowance and `fallback: none`; verify provider credential presence and retain usage/cost uncertainty. Historical successful runs establish reachability, not unlimited spending permission. If the chosen route is unverified or unauthorized, stop before dispatch; do not silently switch models/providers. No invocation is necessary merely to test these instructions.
+
+**Per-model routing rule:** A provider that offers free and paid models (including OpenCode Go/Zen, OpenRouter or Vercel AI Gateway) is never approved wholesale. Admission is for one exact provider/model/account/billing route. Verify the selected entry's current price/allowance and operator authorization; reject defaults, aliases, fallbacks and substitutions before model invocation. Provider-level reachability, a key, credits, and a familiar model name are not proof of the selected route's entitlement. This does **not** revoke explicit authorization to run Phoenix Grove reviewers through PGS2, nor does it newly authorize arbitrary paid models on OpenRouter/Vercel.
 
 ## Select the execution class
 
