@@ -1,16 +1,15 @@
 # ASES documentation inventory (declared status; not an approval)
 
-**Generated from the checked-out ASES source tree.** Source revision: \`ed363e42a594d607721d1e293519092c9662e9c0\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
+**Generated from the checked-out ASES source tree.** Source revision: \`40b2bfaefc07707d0097c47911423801fc5127ff\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
 
 Use the [canonical documentation standard](standards/Documentation%20Standard.md) and [task-scoped information method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) for ownership and authority. [Current operational skills](../skills/current/README.md) are a separate selective-dispatch surface. Experimental [knowledge-index work](../scripts/knowledge_index/README.md) is not a canonical document registry.
 
-Inventory: 441 in-scope Markdown/MDX files, 96 declared active/current, 80 of those lack a declared version; 86 have metadata/route warnings. Diagnostics require review before a document can be certified current.
+Inventory: 408 in-scope Markdown/MDX files, 95 declared active/current, 79 of those lack a declared version; 85 have metadata/route warnings. Diagnostics require review before a document can be certified current.
 
 ## Declared active/current documents
 
 | Source | Declared authority | Version | Diagnostics |
 | --- | --- | --- | --- |
-| [Prior Art Brief - EPIC 423 Support Systems](../.design/prior-art-brief.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [ASES Repository Agent Entry Adapter](../AGENTS.md) | Derived | 1.0.0 | — |
 | [Conceptual Architecture](../ARCHITECTURE.md) | Canonical | 2026-11-21.1 | — |
 | [Project Orientation](../ORIENTATION.md) | Derived | 2026-11-21.1 | — |
