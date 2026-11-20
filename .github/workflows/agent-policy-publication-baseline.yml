@@ -1,0 +1,40 @@
+name: Experimental policy publication baseline
+on:
+  push:
+    branches: [experiment/policy-publication-coordinator-baseline-20261120]
+    paths:
+      - .github/workflows/agent-policy-publication-baseline.yml
+      - research/agent-information-topology/policy-publication-baseline/**
+permissions:
+  contents: read
+jobs:
+  offline-policy-publisher:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic synthetic policy publication controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python -m unittest discover \
+            -s research/agent-information-topology/policy-publication-baseline \
+            -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/policy-tests.log"
+          {
+            echo '## Experimental policy-publication baseline'
+            echo
+            echo "Source revision: \`$GITHUB_SHA\`"
+            echo 'No model invocation, credential route, project policy or real consumer repository involved.'
+            echo
+            echo '### Executed standard-library tests'
+            echo
+            echo '~~~'
+            tail -n 30 "$RUNNER_TEMP/policy-tests.log"
+            echo '~~~'
+          } >>"$GITHUB_STEP_SUMMARY"
