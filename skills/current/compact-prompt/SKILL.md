@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 1.1.0
+version: 1.1.1
 description: Select current task-relevant ASES prompting and preparation methodology before drafting any agent handoff, launch brief, Work Unit packet, or autonomous engineering assignment.
 status: current
 ---
@@ -22,6 +22,8 @@ status: current
 **Composite tasks select the union of applicable current sources.** For example, a five-hour autonomous engineering campaign may need workflow orchestration for the parent and the canonical bounded-build method **only for independently bounded build units** within that campaign. Parent coordination instructions are not a substitute for a worker's implementation packet, and the worker's packet is not a reason to make the parent read code.
 
 `skills/prompt/SKILL.md` (earlier T3/Crosslink-oriented prompting) and `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md` (derivation evidence) are **not active prompting authority**. Historical PRs or packets referring to those paths do not require loading them for a current launch. The canonical bounded-build methodology remains active at the path above; do not confuse it with its non-normative derivation.
+
+**Canonical cross-task information method:** `docs/methodology/ASES Task-Scoped Information and Handoff Method.md` governs source admission, authority/override resolution and evidence transfer across agents. Apply it **when task context spans several governing sources, competing instructions, exceptions or role boundaries**. For a trivial single-source edit, this skill and the exact target ordinarily suffice; do not make reading the full methodology a universal startup ritual. The method defines information obligations, not mandatory files or a graph service.
 
 ## Compilation checks
 
