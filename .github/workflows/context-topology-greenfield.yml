@@ -1,0 +1,36 @@
+name: Greenfield ASES task-context topology (synthetic)
+on:
+  push:
+    branches:
+      - research/greenfield-task-context-topology-20261120
+    paths:
+      - research/agent-information-topology/greenfield-task-context/**
+      - .github/workflows/context-topology-greenfield.yml
+permissions:
+  contents: read
+jobs:
+  synthetic-context-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify non-model task-context example contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s research/agent-information-topology/greenfield-task-context -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-contract.txt"
+          {
+            echo '## Task-context topology greenfield example'
+            echo
+            echo "Revision: `$GITHUB_SHA`"
+            echo 'Fixtures are synthetic; no model route, request capture, or production instruction file is involved.'
+            echo
+            echo '~~~'
+            tail -n 22 "$RUNNER_TEMP/context-contract.txt"
+            echo '~~~'
+          } >>"$GITHUB_STEP_SUMMARY"
