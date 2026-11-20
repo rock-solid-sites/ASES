@@ -15,7 +15,7 @@ from urllib.parse import unquote
 
 REPO = Path(__file__).resolve().parents[2]
 IGNORED = (
-    "fork/", ".crosslink/", ".crosslink.backup-", "docs/historical/",
+    "fork/", ".crosslink/", ".crosslink.backup-", ".design/", "docs/historical/",
     "handoff-bundle/", "staging/", "to-file/", "session-handoffs/",
     "evaluation-corpus/", "docs/research/retrospectives/",
     "docs/CURRENT-DOCUMENTS-INDEX.md",
@@ -65,7 +65,17 @@ def frontmatter(text: str) -> dict[str, str]:
 def reference_check(path: str, text: str, existing: set[str]) -> list[str]:
     """Check only explicit relative Markdown links; don't guess symbolic refs."""
     errors: list[str] = []
-    for value in LINK_RE.findall(text):
+    # Fenced samples and inline code are evidence/examples, not active links.
+    visible_lines = []
+    fenced = False
+    for line in text.splitlines():
+        if line.lstrip().startswith(("```", "~~~")):
+            fenced = not fenced
+            continue
+        if not fenced:
+            visible_lines.append(re.sub(r"`[^`\n]*`", "", line))
+    visible_text = "\n".join(visible_lines)
+    for value in LINK_RE.findall(visible_text):
         target = unquote(value.split("#", 1)[0])
         if target.startswith(("http:", "https:", "/", "mailto:")):
             continue

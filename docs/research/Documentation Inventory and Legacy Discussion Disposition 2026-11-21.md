@@ -54,6 +54,12 @@ The original removed Crosslink/VPS documents remain retrievable at commit `2235d
 
 Other older discussions unrelated to this architectural decision (model streaming diagnostics, Resource Solver ontology, testing methods, browser trials, etc.) should **not** be closed as "resolved" by an ASES documentation decision. They retain their own evidence and owners.
 
+## Frozen-design evidence scope correction
+
+After publishing PR #75, the sole remaining explicit relative-link diagnostic on `main` was traced to `.design/reframe-glm52.md`: a pasted historical conversation contained the string `[AGENTS.md](AGENTS.md)`. Rewriting that frozen source to satisfy a current-document link checker would corrupt the discussion evidence. The audit now **excludes `.design/` in its entirety** as frozen discussion/research inputs, like vendored and archived records. They remain available in the Git repository and can be inspected deliberately; excluding them from the *current operational source index* does not erase or validate their claims.
+
+The earlier 439/441 counts above remain pinned to their original CI runs and are not retroactively overwritten. A refreshed source-pinned inventory and index from the narrowed scope are published separately. The generated index should never be used to infer that a historical conversation is a live instruction.
+
 ## Remaining obligations and limitations
 
 1. **Version/metadata review remains material.** Most declared-active sources in the first snapshot had no explicit version. Do **not** backfill fabricated `1.0.0` versions or silently change Active to Deprecated across broad older research.

@@ -41,6 +41,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_historical_and_vendored_excluded(self):
         self.put("fork/opencode-src/AGENTS.md", self.active())
+        self.put(".design/reframe-glm52.md", "User supplied an old [AGENTS.md](AGENTS.md) link.\n")
         self.put("docs/historical/AGENTS.md", self.active())
         self.put("docs/methodology/c.md", self.active(title="Current"))
         data = inventory(self.root)
@@ -75,6 +76,12 @@ class InventoryTests(unittest.TestCase):
         doc = self.by_path(inventory(self.root), "docs/methodology/a.md")
         self.assertEqual(doc["broken_relative_links"],
                          ["missing relative link: ../standards/c.md"])
+
+    def test_code_examples_do_not_count_as_live_relative_links(self):
+        self.put("docs/research/example.md",
+                 "# Samples\n`[AGENTS.md](AGENTS.md)`\n```md\n[old](AGENTS.md)\n```\n")
+        doc = self.by_path(inventory(self.root), "docs/research/example.md")
+        self.assertEqual(doc["broken_relative_links"], [])
 
     def test_index_records_status_unknown_and_source_revision(self):
         self.put("README.md", "# An unclassified intro\n")
