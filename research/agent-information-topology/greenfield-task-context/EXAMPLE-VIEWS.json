@@ -1,0 +1,106 @@
+{
+  "$schema_id": "ases-effective-task-view/0.1-experimental",
+  "notice": "Hand-authored expected outputs for synthetic graph fixtures; NOT the result of a live resolver or model prompt.",
+  "views": [
+    {
+      "task_id": "task:alpha",
+      "objective": "Verify fixture A without using historical review guidance.",
+      "effective_rules": [
+        {
+          "rule_id": "rule:checkpoint",
+          "origin": "source:shared-r7",
+          "text": "SHARED_CHECKPOINT_CANARY: save a remote checkpoint."
+        },
+        {
+          "rule_id": "rule:review",
+          "origin": "decision:alpha-review",
+          "text": "ALPHA_LOCAL_REVIEW_CANARY: use the locally approved review route."
+        }
+      ],
+      "selected_evidence": [
+        "evidence:fixture-setup"
+      ],
+      "caller_authority": {
+        "model_route": null,
+        "model_launch_authorized": false,
+        "approved_capabilities": [
+          "read_source"
+        ]
+      },
+      "evidence_contract": {
+        "test": "Check whether the effective view excludes the overridden upstream body.",
+        "what_not_tested": "No actual agent load or inference tested."
+      },
+      "receipt": {
+        "source_revisions": [
+          {
+            "id": "source:project-alpha",
+            "revision": "r3-fixture"
+          },
+          {
+            "id": "source:shared-r7",
+            "revision": "r7-fixture"
+          }
+        ],
+        "selected_rule_ids": [
+          "rule:checkpoint",
+          "rule:review"
+        ],
+        "override_decision_ids": [
+          "decision:alpha-review"
+        ],
+        "replaced_upstream_rule_ids": [
+          "rule:review"
+        ],
+        "unresolved_conflicts": [],
+        "status": "illustrative-unverified"
+      }
+    },
+    {
+      "task_id": "task:beta",
+      "objective": "Verify fixture B with unmodified shared guidance.",
+      "effective_rules": [
+        {
+          "rule_id": "rule:checkpoint",
+          "origin": "source:shared-r7",
+          "text": "SHARED_CHECKPOINT_CANARY: save a remote checkpoint."
+        },
+        {
+          "rule_id": "rule:review",
+          "origin": "source:shared-r7",
+          "text": "OLD_UPSTREAM_REVIEW_CANARY: use the previous review route."
+        }
+      ],
+      "selected_evidence": [
+        "evidence:fixture-setup"
+      ],
+      "caller_authority": {
+        "model_route": null,
+        "model_launch_authorized": false,
+        "approved_capabilities": [
+          "read_source"
+        ]
+      },
+      "evidence_contract": {
+        "test": "Check whether the unmodified upstream policy remains in beta.",
+        "what_not_tested": "No actual agent load or inference tested."
+      },
+      "receipt": {
+        "source_revisions": [
+          {
+            "id": "source:shared-r7",
+            "revision": "r7-fixture"
+          }
+        ],
+        "selected_rule_ids": [
+          "rule:checkpoint",
+          "rule:review"
+        ],
+        "override_decision_ids": [],
+        "replaced_upstream_rule_ids": [],
+        "unresolved_conflicts": [],
+        "status": "illustrative-unverified"
+      }
+    }
+  ]
+}

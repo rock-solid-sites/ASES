@@ -1,0 +1,164 @@
+{
+  "schema": "ases-comparison-v0.1-fixture-only",
+  "notice": "Synthetic benchmark; authority claims and revisions are fixture-only, not live ASES policy.",
+  "sources": [
+    {
+      "id": "source:docs",
+      "revision": "docs-r4",
+      "authority": "canonical-fixture"
+    },
+    {
+      "id": "source:doc-observation",
+      "revision": "obs-r2",
+      "authority": "observation-fixture"
+    },
+    {
+      "id": "source:shared",
+      "revision": "shared-r7",
+      "authority": "canonical-fixture"
+    },
+    {
+      "id": "source:project",
+      "revision": "local-r3",
+      "authority": "project-fixture"
+    },
+    {
+      "id": "source:review-observation",
+      "revision": "review-obs-r1",
+      "authority": "observation-fixture"
+    },
+    {
+      "id": "source:marketing",
+      "revision": "market-r1",
+      "authority": "canonical-fixture"
+    },
+    {
+      "id": "source:research",
+      "revision": "research-r0",
+      "authority": "experimental-fixture"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task:docs",
+      "goal": "Correct the synthetic documentation note without affecting unrelated sections.",
+      "output": "docs/study-guide.md",
+      "destination": "git:synthetic-docs-branch",
+      "model_launch": "none",
+      "fallback": "none"
+    },
+    {
+      "id": "task:review",
+      "goal": "Prepare a bounded synthetic review handoff using the approved local review rule.",
+      "output": "reports/review-readiness.md",
+      "destination": "worknotes:synthetic-WNASES-22",
+      "model_launch": "none",
+      "fallback": "none"
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule:docs-verify",
+      "source": "source:docs",
+      "applies_to": [
+        "task:docs"
+      ],
+      "text": "DOC_VERIFY: verify the exact edited section and source revision."
+    },
+    {
+      "id": "rule:checkpoint",
+      "source": "source:shared",
+      "applies_to": [
+        "task:review"
+      ],
+      "text": "REMOTE_CHECKPOINT: record a durable position before handoff."
+    },
+    {
+      "id": "rule:review-route",
+      "source": "source:shared",
+      "applies_to": [
+        "task:review"
+      ],
+      "text": "OLD_ROUTE_CANARY: use the superseded upstream review workflow."
+    },
+    {
+      "id": "rule:marketing",
+      "source": "source:marketing",
+      "applies_to": [],
+      "text": "DISTRACTOR_MARKETING: unrelated marketing campaign details."
+    },
+    {
+      "id": "rule:stale-research",
+      "source": "source:research",
+      "applies_to": [],
+      "text": "STALE_RESEARCH_POLICY: unapproved experiment treated as policy."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "decision:local-review",
+      "type": "override",
+      "target_rule": "rule:review-route",
+      "scope_task": "task:review",
+      "source": "source:project",
+      "status": "approved-fixture",
+      "authorized_by": "synthetic-operator",
+      "reason": "Project-specific replacement",
+      "replacement_text": "LOCAL_REVIEW_ROUTE: route this review through the project-approved workflow."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:doc-note",
+      "source": "source:doc-observation",
+      "applies_to": [
+        "task:docs"
+      ],
+      "certainty": "observed-fixture",
+      "what_not_tested": "DOC_RUNTIME_NOT_TESTED",
+      "claim": "Documentation note inspected at its synthetic source."
+    },
+    {
+      "id": "evidence:review-note",
+      "source": "source:review-observation",
+      "applies_to": [
+        "task:review"
+      ],
+      "certainty": "uncertain-fixture",
+      "what_not_tested": "REVIEW_RUNTIME_NOT_TESTED",
+      "claim": "Reviewer transport and model-visible context are not verified."
+    }
+  ],
+  "expected": {
+    "task:docs": {
+      "rule_ids": [
+        "rule:docs-verify"
+      ],
+      "decision_ids": [],
+      "evidence_ids": [
+        "evidence:doc-note"
+      ],
+      "source_refs": [
+        "source:doc-observation@obs-r2",
+        "source:docs@docs-r4"
+      ]
+    },
+    "task:review": {
+      "rule_ids": [
+        "rule:checkpoint",
+        "rule:review-route"
+      ],
+      "decision_ids": [
+        "decision:local-review"
+      ],
+      "evidence_ids": [
+        "evidence:review-note"
+      ],
+      "source_refs": [
+        "source:project@local-r3",
+        "source:review-observation@review-obs-r1",
+        "source:shared@shared-r7"
+      ]
+    }
+  }
+}

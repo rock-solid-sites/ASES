@@ -1,0 +1,55 @@
+name: Greenfield ASES task-context topology (synthetic)
+on:
+  push:
+    branches:
+      - research/greenfield-task-context-topology-20261120
+    paths:
+      - research/agent-information-topology/greenfield-task-context/**
+      - .github/workflows/context-topology-greenfield.yml
+permissions:
+  contents: read
+jobs:
+  synthetic-context-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify non-model task-context example contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s research/agent-information-topology/greenfield-task-context -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-contract.txt"
+          python -m unittest discover -s research/agent-information-topology/greenfield-task-context/comparison -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/context-comparison-tests.txt"
+          python research/agent-information-topology/greenfield-task-context/comparison/evaluate.py > "$RUNNER_TEMP/context-comparison.json"
+          cat "$RUNNER_TEMP/context-comparison.json"
+          python - "$RUNNER_TEMP/context-comparison.json" <<'PY'
+          import json
+          import os
+          import sys
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+              out.write("### Preregistered 2×3 synthetic task-context comparison\n\n")
+              out.write("| Task | Format | Checks | Context bytes | Lines |\n")
+              out.write("| --- | --- | --- | ---: | ---: |\n")
+              for row in report["rows"]:
+                  status = "PASS" if row["ok"] else "FAIL"
+                  out.write(f'| {row["task"]} | {row["format"]} | {status} '
+                            f'({row["required_present"]}/{row["required_total"]})'
+                            f' | {row["bytes"]} | {row["lines"]} |\n')
+              out.write("\nLiteral marker verification only; no model was invoked and human authoring time was not measured.\n")
+          PY
+          {
+            echo '## Task-context topology greenfield example'
+            echo
+            echo "Revision: `$GITHUB_SHA`"
+            echo 'Fixtures are synthetic; no model route, request capture, or production instruction file is involved.'
+            echo
+            echo '~~~'
+            tail -n 22 "$RUNNER_TEMP/context-contract.txt"
+            echo '~~~'
+          } >>"$GITHUB_STEP_SUMMARY"
