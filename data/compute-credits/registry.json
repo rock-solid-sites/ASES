@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-20",
+  "as_of_utc": "2026-11-22",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -866,6 +866,29 @@
         "cpu_fair_use_verified": false
       },
       "notes": "2026 Black Friday fixed-term VPS; no hourly compute credits verified."
+    },
+    {
+      "id": "tudcloud",
+      "name": "Tudcloud",
+      "category": "periodic_vps",
+      "official_url": "https://www.tudcloud.com/",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "last_verified_at": "2026-11-22",
+      "notes": "Hong Kong and Seattle VPS listings; official BF page shows qualifying 6GB+ SKUs temporarily out of stock; fixed monthly/annual billing only."
     }
   ],
   "compute_offerings": [
@@ -1753,7 +1776,7 @@
       ],
       "credit_expiry": "unknown",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-18",
+      "last_checked_at": "2026-11-22",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1777,7 +1800,7 @@
       ],
       "credit_expiry": "not_applicable_fixed_term_service",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-18",
+      "last_checked_at": "2026-11-22",
       "status": "announced_unpriced_starts_2026-11-23",
       "eligible_existing_account": null,
       "requires_new_account": null,
@@ -1885,6 +1908,30 @@
       "redemption_deadline_utc": "2026-11-30T22:59:00Z",
       "evidence_level": "provider_official_page_not_checkout_verified",
       "alert_state": "research_only_not_hourly"
+    },
+    {
+      "id": "tudcloud-bf2026-topup",
+      "provider_id": "tudcloud",
+      "type": "existing_account_possible_prepaid_topup_bonus",
+      "advertised_value": 20,
+      "value_unit": "percent_bonus_max_tier",
+      "details": "Official Nov20-Nov30 2026 BF: $100-$299.99 USD top-up +10%, $300+ +20%; support ticket after payment required for discretionary review/manual credit. Separate TUD26VPS30 30% annual VPS coupon, not hourly. Existing-account eligibility not explicitly excluded, but not verified. Official BF page lists 6GB+ Hong Kong and Seattle SKUs as temporarily out of stock, with fixed monthly prices: HK 4vCPU/8GB $50/mo; Seattle E5 6vCore/8GB $75/mo; Seattle Ryzen 8vCPU/8GB $59/mo. At $100 top-up effective 8GB HK $45.45/mo equivalent, but no per-hour savings for intermittent builds; $300 top-up effective $41.67/mo equivalent. Not a suitable burst-compute deal. Refundability, credit expiry, tax, CPU policy, provider reliability and region/account eligibility unknown; no purchase or ticket.",
+      "source_urls": [
+        "https://www.tudcloud.com/black-friday/"
+      ],
+      "credit_expiry": "unknown",
+      "first_seen_at": "2026-11-22",
+      "last_checked_at": "2026-11-22",
+      "status": "official_live_but_6gb_plus_out_of_stock_and_monthly_only",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": 100,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Hong Kong and Seattle listed, 6GB+ stock temporarily unavailable",
+      "redemption_deadline_utc": "2026-11-30T23:59:00Z",
+      "evidence_level": "official_provider_page_no_checkout_verification",
+      "alert_state": "research_only_not_actionable"
     }
   ],
   "account_inventory": {
@@ -2105,6 +2152,16 @@
         "daytona-200-free-compute-2026"
       ],
       "summary": "Verified AWS current new-customer $100+$100 Free Tier with inconsistent official 6mo vs 12mo credit expiry wording and Oct 2026 signup experience; IBM global Dec31 vs localized Sep30 conflict persists. Daytona $200 sandbox baseline and published $0.0504/vCPU-hour + $0.0162/GiB-hour with Tier2 $25 top-up for larger resource limits; no new credit. Dataforest and AVORO Nov23 offers remain unpriced. Checked current BF community discoveries, hyperscaler baselines and sandbox providers; no new qualifying actionable 6GB+ hourly credit. No notification."
+    },
+    {
+      "at": "2026-11-22",
+      "kind": "black_friday_targeted_sweep_no_alert",
+      "entity_ids": [
+        "tudcloud-bf2026-topup",
+        "dataforest-black-week-2026",
+        "avoro-black-week-2026"
+      ],
+      "summary": "New Tudcloud BF 10%-20% top-up offer official Nov20-Nov30, but all listed 6GB+ SKUs temporarily out of stock, monthly-only and minimum $100 deposit with manual support approval; not suitable hourly burst credit. dataforest and AVORO Nov23 teaser pages still unpriced as of Nov22. No newly verified actionable 6GB+ hourly credit."
     }
   ],
   "source_policy": {
