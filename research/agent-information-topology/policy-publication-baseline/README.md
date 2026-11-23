@@ -1,0 +1,52 @@
+# Agent information topology — policy-publication baseline
+
+**Authority: Experimental, not an active ASES policy or approved runtime component.**
+
+This is a **coordinator-authored deterministic baseline**, not the independent Luna/Codex execution assigned to WNASES-18.
+
+**Source-pinned entrypoint conflicts:** [Instruction entry-point audit](DOCUMENT-ENTRYPOINT-AUDIT-2026-11-20.md) tracks outdated root instructions, historical launch routes, the installed skills dispatcher discrepancy, and the legacy-only drift monitor without claiming effective model exposure.
+
+**Architecture and document authority:** [Design and Decision Boundaries](DESIGN-AND-DECISION-BOUNDARIES.md) distinguishes canonical document ownership, deterministic publication and actual agent instruction exposure. It reconciles older Tools-distribution research without adopting legacy Crosslink/VPS assumptions. `test_document_contract.py` checks the research document's source references, classification and non-deployment boundary. Codex Cloud reported that the selected execution environment was neither ready nor starting, and no usable execution environment was available. No Luna code, tests, branch or draft PR were produced.
+
+**Source baseline:** ASES main commit 91817f642b1ca88c58df4bb5191d092ec2d2201d.
+
+## Purpose
+
+The prototype renders selected upstream policy rules into one effective project-local instruction file, with four behaviors:
+
+- Verbatim import of approved upstream text
+- Parameterized import with explicitly supplied values
+- Local extension that does not shadow upstream rule IDs
+- Explicit replacement of upstream text, which is **physically absent** from the published output rather than labeled superseded
+
+It is intentionally a small standard-library script, not a new service, registry, model launcher, Resource Solver or cross-repository synchronization job.
+
+## Run locally
+
+The script is publish.py; tests are test_publish.py. Both require only Python 3 standard library.
+
+The upstream JSON file uses schema ases-policy-source-v1, containing a rules array of ID/text entries. A consumer manifest uses schema ases-policy-consumer-v1, source_sha256 of the exact upstream file bytes, imports, and optional extensions.
+
+Run publish.py with --source upstream.json, --manifest consumer.json and --output AGENTS.md, supplying exactly one of --update or --check.
+
+The update command generates an effective file only when the upstream source SHA256 matches the declared pin. Check mode is read-only and fails if the generated file differs or is absent. Nothing silently adopts a new upstream revision.
+
+To run the tests, invoke Python unittest discovery against this directory. The GitHub Actions workflow agent-policy-publication-baseline.yml runs the same tests on the disposable experimental branch and retains test evidence in the run summary.
+
+## Tests
+
+The 16 publisher tests exercise both synthetic project variants, effective replacement without original text, deterministic generation, check/update behavior, tampering, source drift, duplicate IDs and imports, shadowing, invalid substitutions, missing upstream rules, blank overrides, unknown schema/modes, ambiguous duplicate JSON object fields in either input and exact whitespace preservation for verbatim rules.
+
+## Limits
+
+No active AGENTS.md, .opencode, .claude or consumer repository was modified. No model was invoked for these tests. No cross-repository rollout, approval workflow, nested instruction precedence, security boundary or task-quality measurement is claimed.
+
+This deterministic baseline is separate from WNASES-18's still-blocked independent Codex agent experiment and from WNASES-19's independent OpenCode exposure investigation. If those independent tests resume, do not provide this code to their agents before first-pass findings are frozen.
+
+The next design decision is whether simple hash-pinned generated instructions provide sufficient value to justify future distribution, and which actual harness instruction-loading paths must be removed to eliminate obsolete influence.
+
+## Red–green assurance checkpoint (2026-11-20)
+
+New negative controls caught two silent duplicate JSON object-key acceptances (source and manifest) and loss of literal whitespace under a nominally verbatim import. All three reproduced as failures in [Actions run 44733303084](https://github.com/rock-solid-sites/ASES/actions/runs/44733303084), then passed after repairing the JSON loader with duplicate-key rejection and removing the import text strip. The [green run 44733411686](https://github.com/rock-solid-sites/ASES/actions/runs/44733411686) passed **16/16** standard-library tests. These cover data resolution only, not effective model context or provenance enforcement in a real agent harness.
+
+The companion documentation contract suite adds five checks for source-document existence, experimental authority and the explicit separation from runtime integration. Together the suites contain 21 tests when run by the bounded Actions workflow.
