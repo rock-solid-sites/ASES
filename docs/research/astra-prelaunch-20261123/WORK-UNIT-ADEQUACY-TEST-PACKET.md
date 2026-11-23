@@ -1,6 +1,6 @@
 ---
 title: Kernel-0 / Work Unit adequacy — bounded evidence packet
-version: 0.1.0
+version: 0.1.1
 program: ASES
 layer: Research
 document_type: Evidence and Test Packet
@@ -51,9 +51,17 @@ Against the two pinned source references, classify each requirement as **demonst
 
 Do not search the entire historical conversation archive unless a particular requirement remains ambiguous. Existing canonical evidence and current code come first.
 
-## Bounded local falsifiers (deliverable 2)
+## Evidence-first bounded falsifiers (deliverable 2)
 
-Use only existing fixed-worker, disposable test fixtures and existing source APIs. Prefer existing regression targets before creating a new harness. Capture exact source pin, commands/exit codes and event/state/balance readbacks.
+**Do not spend a worker round rerunning existing, source-pinned W1–W4 tests by default.** The experimental PR #42 stack already includes direct histories for those distinctions. First cite the precise checked source/test and prior raw evidence. Re-run a focused existing test only when its prior evidence is incomplete, the source changed or an actual interface dependency makes a new result necessary. Use only fixed-worker disposable fixtures and existing source APIs; capture precise commands/exit codes and event/state/balance readbacks for anything new.
+
+Existing checks at pinned PR #42:
+
+- **W1:** `resource-control/tests/control.rs`: `launch_intent_is_one_use_durable_and_observations_are_idempotent`, `independent_begin_launch_contenders_receive_one_dispatch_capability`; `resource-control/src/lib.rs::Store.begin_launch`.
+- **W2–W3:** `resource-control/tests/native_local_cold.rs`: `actual_gateway_loss_preserves_unknown_and_capacity` and its `cold_finalize_after_hot_exit` helper; `resource-control/src/local.rs::LocalSupervisor.resume`; `resource-control/tests/resume_view.rs` checks read-only interpretation.
+- **W4:** `resource-control/tests/native_unlaunched_cancel.rs`: `preflight_failure_cancel_replay_and_later_launch_denial`, `actual_client_loses_committed_cancel_reply_then_exact_retry_replays`, `reserved_unlaunched_job_can_be_canceled_and_replayed`, and `launched_live_exited_and_closed_jobs_refuse_unlaunched_cancel_unchanged`; historical PR #42 report records 78 selected tests passing, **not** a fresh test in this packet.
+
+These prove only their specific local/ledger claims, not Work Unit replacement or fencing.
 
 | ID | History | What counts as evidence |
 | --- | --- | --- |
@@ -61,14 +69,14 @@ Use only existing fixed-worker, disposable test fixtures and existing source API
 | W2 | Real local gateway/Child custody disappears while an owned worker may still run; reopen Store and inspect resume | Liveness remains `unknown`; no unjustified PID adoption, capacity release, automatic relaunch or fabricated exit |
 | W3 | Genuine started-process and matching exit evidence recorded; interrupted/restarted gateway then exact finalization | Finalization remains possible only against matching retained evidence. Mismatch/missing exit leaves capacity held; no inferred completion |
 | W4 | AUTHORIZED or RESERVED job with no launch history follows atomic `cancel-unlaunched`; replay and attempt later launch | One terminal cancellation, exact replay and no new dispatch; already launched job refuses this route |
-| W5 | Attempt to model **same Work Unit, same Attachment Point, Execution X replaced by Y** with authoritative exclusion of stale X | If existing public mechanisms cannot express both *authorized Y* and *denied stale X* while preserving the same work, report **NOT REPRESENTED**, not a passing replacement test. Never fake it by treating a new job as continuation or by killing X and assuming stale authority is revoked |
-| W6 | Two would-be executors race a mutation/authorization around a replacement boundary | Specify the expected permitted ordering and stale refusal. Run only if an actual relevant authority seam exists; otherwise document the minimal missing atomic check as an architectural decision |
+| W5 | Attempt **same Work Unit W, same Attachment Point P, Execution X superseded by Y**: an authority change invalidates X; Y may act on continuing W/P; historical X evidence remains readable | Require a demonstrated authoritative check that accepts Y while denying *all* new X mutations after the supersession decision. If APIs cannot express it, report **NOT REPRESENTED**, not a passing test. A new job ID, an untrusted execution-supplied epoch, a process kill, or a read-only resume view alone cannot prove replacement authority |
+| W6 | X attempts a mutation concurrently with the authoritative X→Y supersession; Y attempts a mutation afterward | Define two allowed serializations: (1) X mutation commits *before* supersession and then X loses authority, or (2) supersession commits first and X is refused without mutation. Y may act only after obtaining current authority. Show atomic ordering from the owner, not from transcript timestamps. Run only if a genuine authority seam exists; otherwise report missing atomic check |
 
 A red result in W5/W6 is valuable evidence; this is an **adequacy test**, not a requirement to retrofit replacement semantics inside the local resource ledger.
 
 ## Required interpretation and next decision
 
-Produce a small crosswalk plus raw proof/negative evidence for W1–W4. For W5/W6 either show a genuinely existing native authority transition and run a bounded case, or identify the **smallest missing state distinction and atomic authorization check** needed to enforce the requirement. Do not select new Kernel primitives, a language, store, event bus, identity registry or distributed protocol by preference.
+Produce a small crosswalk and **evidence pointers** for already-covered W1–W4, with selective new raw proof only when necessary. For W5/W6 either show a genuinely existing native authority transition and run a bounded case, or identify the **smallest missing state distinction and atomic authorization check** needed to enforce the requirement. Do not select new Kernel primitives, a language, store, event bus, identity registry or distributed protocol by preference.
 
 Consider at least these competing interpretations without silently choosing one:
 
@@ -80,7 +88,7 @@ The expected result is **a justified next minimal vertical test**, not a blanket
 
 ## Completion and restrictions
 
-Stop when the crosswalk and W1–W4 test records (or explicit environment/test blockers) exist, W5/W6 are shown with evidence or classified **NOT REPRESENTED/UNRESOLVED** with a discriminating next test, and a concise `PASS / FAIL / UNKNOWN / WHAT-NOT-TESTED` handoff is committed.
+Stop when the crosswalk and verified W1–W4 evidence references (or precise gaps) exist, W5/W6 are shown with evidence or classified **NOT REPRESENTED/UNRESOLVED** with a discriminating next test, and a concise `PASS / FAIL / UNKNOWN / WHAT-NOT-TESTED` handoff is committed.
 
 Work on a fresh isolated branch of the relevant **PR #42 pinned source** when runtime tests or additional evidence are needed. Preserve existing stacked PRs and evidence; no main merge, deployment, authority redesign or provider operation. Follow the project's documented fixed-worker cleanups.
 
