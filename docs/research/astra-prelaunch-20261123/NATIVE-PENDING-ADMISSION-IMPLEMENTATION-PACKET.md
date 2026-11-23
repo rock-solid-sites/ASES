@@ -1,6 +1,6 @@
 ---
 title: Native pending-effect admission — compiled implementation packet
-version: 0.1.0
+version: 0.1.1
 program: ASES
 layer: Research
 document_type: Implementation Packet
@@ -36,6 +36,8 @@ The original `docs/research/phase-ii-native-pending-admission/REPORT.md` at the 
 - Preserve the owner guard's current F1 `BEGIN IMMEDIATE`, L5 writer flock and L6 `BEGIN IMMEDIATE` ordering, rather than a separate check-then-use path. Confirm rejection is immutable by reading the owner, F1, journal and witness states before/after.
 - `docs/research/phase-ii-native-pending-admission/baseline_probe.py` is a reusable native process fixture. Existing #35/#36 explicit recovery probes and #38 UID custody report are regression sources. Do not copy their huge evidence directories into a new PR.
 
+The new bound is intentionally **fail-closed**: an eventless `reserved` A without a matching journal event has no current recovery path and may block fresh IDs indefinitely within this owner. Record this as an explicit availability cost, not a claim that the effect can be timed out or erased. Preserve the reserved record and escalate any proposed release protocol separately.
+
 If live observation contradicts any claim above, preserve the contradictory evidence and return the minimum decision to the technical owner instead of redesigning the model.
 
 ## Falsifiable acceptance histories
@@ -46,7 +48,7 @@ If live observation contradicts any claim above, preserve the contradictory evid
 | A2 | With A pending, fresh B is refused *before reservation*; owner `effects` count, owner selection, F1, L6, journal bytes, witness cut/revision unchanged. No `native-effect-requires-reconciliation` or false `owner_reservation_committed` claim for B. |
 | A3 | Repeated B and fresh C cannot grow pending effects; duplicate/refusal classification remains accurate without owner mutation. |
 | A4 | From a fresh clean fixture, normal sequential A then B publish two distinct effects; neither blocks the next once the prior effect is actually `published`. |
-| A5 | A genuinely journaled, published-but-unsettled original effect is settled by existing explicit #35/#36 recovery (incl. fsync-gap/local observation where supported); exact old replay/lookup works and new current B can subsequently be admitted. No second append for the old effect. |
+| A5 | Recover a genuine **journaled** A whose owner is still `reserved` (fsync-before-callback) or `local` (post-append/pre-settlement): where actual journal + witness evidence supports it, use existing #36 observation and/or #35 publication reconciliation to move owner A to `published`, without a second append. Exact old A replay remains observational. Test fresh B admission only while its **current native L5/F1/L6 authority remains eligible**. In a separate moved-source history, preserve the existing denial of fresh B (`native-current-path-denied`) and successful historical old-A lookup. |
 | A6 | With an eventless pending A, `seal` remains allowed; `dispose_child` / applicable content/domain disposal refuse without destroying A or owner/source evidence; strict reconcile/observe do not invent an A event. |
 | A7 | Rerun affected #35/#36 parent histories once against repaired code; retain their precise positive/negative evidence. Include at least one altered-evidence control that the independent checker rejects. |
 
