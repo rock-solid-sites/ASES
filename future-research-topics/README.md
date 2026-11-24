@@ -1,1 +1,41 @@
+---
+title: Early Research Topics and Plan Disposition
+program: ASES
+layer: Research
+document_type: Guide
+status: Active
+authority: Derived
+canonical_repository: ases
+version: 2026-11-24.1
+last_updated: 2026-11-24
+---
+
 # Future Research Topics
+
+This directory contains earlier research ideas, references and implementation proposals. It is **not** the canonical topic registry, an active implementation queue, or a list of required investigations. The [source scratchpad](topics-scratchpad.md) is retained unchanged. A later topic-registration or relationship projection should preserve source identity and distinguish a topic from an investigation task, finding or decision. Projektor **PJDEV-6** owns the selective topic-register projection pilot; **ASES-5** owns the separate optional documentation relationship projection. Do not bulk-import this scratchpad, create issues for every link, or claim current tool capabilities from its historical links.
+
+## Earlier architecture validation programme
+
+The [Architecture Validation Plan v1](../architecture-validation-plans/Architecture%20Validation%20Plan%20v1.md) preserves the earlier hypotheses, candidate comparisons, metrics and proposed thresholds. The plan's broad empirical ambition remains useful. Its particular foundation strategy, execution programme, status taxonomy and numeric targets are not current requirements. The following is a research-question crosswalk, not a replacement topic registry or an adoption record.
+
+| Earlier research question | Current relationship and disposition |
+| --- | --- |
+| F-001–F-004: OpenCode, OpenClaudia, CodeWhale or greenfield as one foundation | Superseded as a single-foundation selection programme. The [Execution Engine Vision](../docs/architecture/Execution%20Engine%20Vision.md) and [Kernel-0 Evidence Packet](../docs/research/kernel-0/Kernel-0-Evidence-Packet.md) separate methodology, substrate and realization. Reuse suitable mechanisms on evidence; a comparative harness study may still be useful for a specific task, not to reopen the former foundation competition. |
+| C-001–C-003; E-002; M-002: capability routing, cost, cross-project and cross-version prediction | Live research question. [Model Routing Matrix](../docs/research/registry/Model-Routing-Matrix.md) preserves cumulative qualitative observations; ASES-14 covers connecting actual reviewer outcomes, cost and reliability, ASES-12 covers metering evidence. [Resource Solver reconciliation](../docs/research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md) and ASES-20/WNASES-17 cover distinct allocation/authorization concepts. Neither historic 20% target nor claimed current capability rankings are adopted. |
+| B-001–B-003; G-001–G-003: role specialization, behavioral modes, authority and runtime confinement | ASES-6 remains the comparative role/permission research; [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) and current [skills](../skills/current/README.md) govern operational separation and approved dispatch. The particular fixed constitution, Claude-derived modes, Crosslink/RTK hooks and universal sandbox mandate are not adopted. Verify actual denied and allowed effects. The optimal role set and comparative benefit remain research questions. |
+| V-001–V-004; E-001: adversarial, mutation, conformance and formal methods, verification economics | [Testing and Assurance Source Map](../docs/research/Testing%20and%20Assurance%20Source%20Map.md) separates adopted practices, candidate methods and observed results. ASES-7, WNASES-10 and WNASES-14 retain their own review/decision scope; no universal test sequence, formal-method mandate or measured cost advantage is inferred. |
+| K-001–K-003; E-003; M-003: persistent knowledge, retrieval, cross-project learning and context cost | [Task-scoped method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [accepted ADR](../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) settle current coordination architecture (ASES-22 closed), not superiority of structured storage. ASES-19/WNASES-16 separately compare index retrieval with ordinary search; ASES-23 evaluates continuity/capture of evolving ideas; cross-project learning and cost remain empirical questions. |
+| Coordination, extensibility, human oversight; M-001: measurable engineering and evidence-driven decisions | [Bounded Build Method](../docs/methodology/ASES%20Bounded%20Project%20Build%20Method.md), [Realization and Assurance Selection](../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md), [upstream compatibility method](../docs/methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md), and [distributed-systems research](../docs/research/LLM%20Agents%20and%20Distributed%20Systems%20-%20Research%20Topic.md) (ASES-18) provide more specific current questions and methods. Retain micro/workflow/project benchmark scales as useful design alternatives, not compulsory tiers or the historical 90% coverage target. |
+
+Evidence and project-specific tests remain with their owners. Some old questions are still unmeasured; no unmeasured hypothesis is closed merely by pointing to related work. The [provenance synthesis](../docs/research/syntheses/Research%20Synthesis%20-%20Architectural%20Pivot.md) links the earlier assumption-register iterations and explains their present status.
+
+## Historical agent setup proposals
+
+- [Original discussion](project-setup.md), [short implementation prompt](project-setup-summary.md), [five-role implementation blueprint](project-setup-final.md): preserved earlier designs, not executable setup instructions. The former fixed global OpenCode configuration, role-file layout, RTK policy, Crosslink knowledge ownership and universal phase/approval-state machine are not current operational contracts. Retain the motivating distinctions between authority and capability, delegation versus implementation, independent review, escalation, explicit scope and recoverable decisions. Current authorities are the [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md), [task-scoped method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md), and [current skills](../skills/current/README.md). ASES-6 owns comparative role/permission research.
+- [Historical harness design and evidence](../docs/historical/Harness%20Setup%20and%20Permission%20Design%20History.md) preserves later decisions, failure evidence and rejected controls, including the July [session audit and database recovery plan](../docs/research/session-audit-plan.md), now historical only. No deletion or archive mutation is authorized by that plan.
+
+## Scratchpad and related research
+
+The original scratchpad is a source list, not a set of verified current recommendations. Harness/tool references relate to role and permission research and bounded reuse decisions; context tools relate to prompt/context selection and measured retrieval; operations research/integer programming relate to resource allocation; knowledge-graph references relate to the optional retrieval and derived topic-projection studies. Individual links have not been freshly evaluated in this reconciliation. Preserve them for selective inspection in the relevant investigation, not as a requirement to run a comprehensive survey.
+
+This local disposition reflects the reviewed source revision [782d537a](https://github.com/rock-solid-sites/ASES/tree/782d537a9cf626e580f4a6989372985aace3486a). Recheck the exact current source, decision and owner before resuming any proposal. The current document navigation is [here](../docs/README.md).

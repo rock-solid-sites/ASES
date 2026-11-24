@@ -1,5 +1,7 @@
 # Architecture Validation Plan v1
 
+> **Historical plan (local disposition 2026-11-24).** The original validation hypotheses and proposed thresholds are retained as research history. This is not an active programme or a mandatory validation procedure. See the [research-topic and plan disposition](../future-research-topics/README.md) for connections to current research, accepted decisions and unresolved questions. The earlier single-harness foundation competition is superseded; applicable empirical questions survive. Do not infer adoption of numerical targets or recreate the old work queue.
+
 ## Evidence-Driven Autonomous Software Engineering System (EDASES)
 
 ### Purpose

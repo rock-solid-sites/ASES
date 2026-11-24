@@ -1,6 +1,6 @@
 ---
 title: Harness Setup and Permission Design History
-version: 2026-11-24.1
+version: 2026-11-24.2
 program: ASES
 layer: Research
 document_type: Synthesis
@@ -48,3 +48,7 @@ The archive's former skill entrypoints are named `SKILL.md.txt` so they are not 
 ## Current execution boundary
 
 For a real launch select the actual host, launcher, model and approved funding route with current skills. The independent review recipe in [ases-plugins](https://github.com/rock-solid-sites/ases-plugins/blob/main/docs/INDEPENDENT-REVIEWER-WORKING-RECIPE.md) operates independently of this old bundle. A new OpenCode or Claude workspace must verify effective configuration and role restrictions rather than assuming either the historical guard stack or permissive defaults are approved. WNASES-19 owns actual instruction exposure and role permission checks, WNASES-23 fresh-chat skill selection. No runtime test, provider call, security guarantee, or activation follows from archival relocation.
+
+## Early blueprints and session audit disposition
+
+The [earlier five-role project-setup discussion, summary and implementation blueprint](../../future-research-topics/README.md#historical-agent-setup-proposals) are historical, including their global config and exclusive Crosslink knowledge-ownership rules. The [early validation programme](../../future-research-topics/README.md#earlier-architecture-validation-programme) maps still-useful questions to existing research. The July [session audit and DB recovery plan](../research/session-audit-plan.md) concerned a particular historical database; its staged export/deletion/backup cleanup was proposed, not verified complete, and confers no current mutation authority. Retain its risks and triage reasoning without using its historical deletion commands or title/count heuristics as authorization.

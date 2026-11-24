@@ -4,8 +4,8 @@ title: Session Audit and DB Recovery Plan
 program: EDASES
 layer: Research
 document_type: Guide
-status: Active
-authority: Operational
+status: Historical
+authority: Finding
 canonical_repository: edases
 
 depends_on:
@@ -27,6 +27,8 @@ supersedes: []
 last_updated: 2026-07-20
 
 # Session Audit and DB Recovery Plan
+
+> **Historical operational plan (local disposition 2026-11-24).** This July 2026 plan describes a dated OpenCode database and VPS situation, not the current environment or permission to delete sessions, backups, or other data. Its original staged audit, export and cleanup instructions are preserved as evidence of the proposed approach. Completion of this old audit is unverified. Current preservation and recovery are governed by the [task-scoped method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md); see the [historical harness guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md). Treat titles, event counts and cost as historical triage heuristics, not proof that a session is disposable. Do not execute historical deletion or backup-removal commands.
 
 ## Purpose
 
