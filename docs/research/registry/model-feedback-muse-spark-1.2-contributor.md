@@ -3,7 +3,7 @@ title: "Model Feedback: opencode/muse-spark-1.2-contributor-free (Zen) / opencod
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -28,6 +28,8 @@ last_updated: 2026-08-31
 ---
 
 # Model Feedback: opencode/muse-spark-1.2-contributor-free (Zen) / opencode-go/muse-spark-1.2-contributor (paid)
+
+> **Historical local observation (August 2026; scope reviewed 2026-11-24).** Distinguish proxy/corpus token compression results, observed model outputs, and live-route checks. The later same-run Go no-text outcome is additional evidence, not a contradiction of the earlier successful sessions or proof of model failure. The body below is preserved as originally recorded, including historical scores, interpretations and recommendations; local status does not change EDASES ownership or verify its upstream revision. For present dispatch use the [current agent-launch skill](../../../skills/current/agent-launch/SKILL.md). See the [capability observation and failure-attribution history](../../historical/Capability%20Observation%20and%20Failure%20Attribution%20History.md) for subsequent evidence and limits. The [original snapshot](https://github.com/rock-solid-sites/ASES/blob/dfe4941048fc8f2dab5e37ea3b35db6f2a5f644a/docs/research/registry/model-feedback-muse-spark-1.2-contributor.md) retains the original metadata.
 
 ## Identification
 - Model: muse-spark-1.2-contributor (1.2-contributor variant; free Zen `opencode/muse-spark-1.2-contributor-free` and paid Go `opencode-go/muse-spark-1.2-contributor`)
