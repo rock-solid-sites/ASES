@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.12
+version: 1.0.13
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -63,6 +63,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Capability/schema validation research:** The [existing research index](../research/capability-schema-validation/README.md) now distinguishes #498 proxy and loopback experiments, the single-model live Corpus 530 report, and preserved prospective next-wave scaffolding. The 71.0% description-token reduction is not equivalent to preserved task intent: strict expected-argument accuracy fell outside the five-point threshold even though harness-valid arguments remained within it. Frozen experimental files remain unchanged; no runtime adoption or model dispatch follows.
 
 **Earlier research plans and proposals:** The [early research-topic and plan disposition](../future-research-topics/README.md) connects the Architecture Validation Plan hypotheses and early five-role setup designs to current research, existing owners and superseded implementation assumptions. The scratchpad is not the canonical topic registry or a task queue. Proposals remain subject to their own evidence and adoption decisions; preserve unresolved questions, do not revive outdated mechanisms. The July [session audit plan](research/session-audit-plan.md) is historical only, not permission to delete archived sessions or backups.
+
+**Shared tooling ownership and distribution:** The [distribution review synthesis](research/Tools%20Distribution%20Architecture%20Synthesis.md) now records the surviving authority/drift question separately from the August warehouse and migration proposals. Its [amended test framework](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md) preserves the historical operator decision and unverified forward-distribution test. Shared tooling maintenance is a cross-project subject, not an automatic ASES Engine requirement; owner repositories retain implementation authority. Provider visibility and specific migration/fix evidence remain separately scoped for reconciliation.
 
 ## Legacy and supersession
 

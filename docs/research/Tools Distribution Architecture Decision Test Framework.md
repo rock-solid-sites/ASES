@@ -22,6 +22,8 @@ last_updated: 2026-08-15
 
 # Amendment — Tools Distribution Architecture Decision Test Framework
 
+> **Local applicability, 2026-11-24 (ownership/direction only):** This records operator decisions and prospective tests for the August tooling fleet, not a current operational launch, copy, reverse-sync or permission contract. The [research synthesis's current ownership disposition](Tools%20Distribution%20Architecture%20Synthesis.md) separates the durable authority question from the historical warehouse topology. Amendment 1 supersedes the original D1 direction-selection test: forward direction was operator-settled for that environment; the forward convergence and consumer-local edit detection test was not run at its recorded cutoff. D5's retrospective friction comparison was also removed. Do not interpret the old historical audit or planned thresholds as current fleet verification. Current ASES instruction retrieval follows the [current skills index](../../skills/current/README.md); current software adaptation follows the [upstream compatibility method](../methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md). Other amendments, provider visibility and correctness experiments retain their distinct scopes pending individual reconciliation. Original record preserved.
+
 Status: Active. Supersedes: the original D1 and D5 sections of
 `docs/research/Tools Distribution Architecture Decision Test Framework.md`.
 Operator direction 2026-08-15.
