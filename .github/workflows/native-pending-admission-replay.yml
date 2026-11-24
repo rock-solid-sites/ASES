@@ -1,0 +1,141 @@
+name: Native pending-admission replay (PR #84)
+
+on:
+  push:
+    branches:
+      - ci/pr84-native-pending-admission-replay
+    paths:
+      - '.github/workflows/native-pending-admission-replay.yml'
+      - 'docs/research/phase-ii-native-pending-admission/**'
+      - 'docs/research/phase-ii-native-ownership/**'
+      - 'docs/research/phase-ii-native-local-observation/**'
+      - 'docs/research/phase-ii-native-publication-reconcile/**'
+      - 'docs/research/phase-i-effect-admission/**'
+      - 'docs/research/phase-i-continuation-stack/**'
+      - 'docs/research/phase-i-sol-integration/evidence/sources/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-pending-admission-replay-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    name: Pinned A1–A7 native replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact PR #84 source
+        uses: actions/checkout@v4
+        with:
+          ref: bfabf1d95a1f51052679ff4855a2ccc147b97584
+          path: source
+          persist-credentials: false
+
+      - name: Select Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Record runner, pinned source and source hashes
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/native-pending-admission"
+          mkdir -p "$E"
+          {
+            echo "workflow_commit=$GITHUB_SHA"
+            echo "workflow_ref=$GITHUB_REF"
+            echo "source_commit=$(git -C source rev-parse HEAD 2>/dev/null || echo unavailable)"
+            echo "expected_source_commit=bfabf1d95a1f51052679ff4855a2ccc147b97584"
+            echo "source_base_commit=e91fb4b14875487dee9c19cc764e72655ba534c0"
+            echo "runner_image=ubuntu-24.04"
+            echo "kernel=$(uname -srmo)"
+            echo "python=$(python3 --version 2>&1 || echo unavailable)"
+            echo "sqlite=$(python3 -c 'import sqlite3; print(sqlite3.sqlite_version)' 2>&1 || echo unavailable)"
+            echo "online_processors=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo unavailable)"
+            echo "job_timeout_minutes=40"
+            echo "per_history_timeout_seconds=900"
+          } > "$E/environment.txt"
+          if [[ -d source/docs ]]; then
+            sha256sum \
+              source/docs/research/phase-ii-native-pending-admission/verify_probe.py \
+              source/docs/research/phase-ii-native-local-observation/probe.py \
+              source/docs/research/phase-ii-native-publication-reconcile/probe.py \
+              source/docs/research/phase-ii-native-ownership/native_owner.py \
+              source/docs/research/phase-ii-native-ownership/native_sink.py \
+              > "$E/source-sha256.txt"
+          fi
+
+      - name: Run A1–A6, including A5 reconciliation/replay histories
+        id: admission
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -uo pipefail
+          E="$RUNNER_TEMP/native-pending-admission"
+          started=$SECONDS
+          timeout --signal=TERM --kill-after=15s 900s \
+            python3 source/docs/research/phase-ii-native-pending-admission/verify_probe.py \
+              "$E/a1-a6-a5" > "$E/admission.stdout" 2> "$E/admission.stderr"
+          result=$?
+          printf 'exit_code=%s\nelapsed_seconds=%s\n' "$result" "$((SECONDS - started))" > "$E/admission.result"
+          exit "$result"
+
+      - name: Run A7 parent recovery histories
+        id: parent
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -uo pipefail
+          E="$RUNNER_TEMP/native-pending-admission"
+          started=$SECONDS
+          timeout --signal=TERM --kill-after=15s 900s \
+            python3 source/docs/research/phase-ii-native-local-observation/probe.py \
+              --out "$E/a7-parent-regression" > "$E/parent.stdout" 2> "$E/parent.stderr"
+          result=$?
+          printf 'exit_code=%s\nelapsed_seconds=%s\n' "$result" "$((SECONDS - started))" > "$E/parent.result"
+          exit "$result"
+
+      - name: Summarize outcomes and hash evidence
+        if: always()
+        shell: bash
+        env:
+          ADMISSION_OUTCOME: ${{ steps.admission.outcome }}
+          PARENT_OUTCOME: ${{ steps.parent.outcome }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/native-pending-admission"
+          {
+            echo "A1-A6 execution outcome: $ADMISSION_OUTCOME"
+            echo "A7 execution outcome: $PARENT_OUTCOME"
+            echo "See environment.txt and source-sha256.txt for the runner and exact source."
+          } > "$E/summary.txt"
+          cat "$E/summary.txt" >> "$GITHUB_STEP_SUMMARY"
+          (cd "$E" && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 -r sha256sum) > "$E/SHA256SUMS"
+
+      - name: Retain raw replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-pending-admission-${{ github.run_id }}
+          path: ${{ runner.temp }}/native-pending-admission/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Fail if either replay failed or timed out
+        if: always()
+        shell: bash
+        env:
+          ADMISSION_OUTCOME: ${{ steps.admission.outcome }}
+          PARENT_OUTCOME: ${{ steps.parent.outcome }}
+        run: |
+          test "$ADMISSION_OUTCOME" = success
+          test "$PARENT_OUTCOME" = success
