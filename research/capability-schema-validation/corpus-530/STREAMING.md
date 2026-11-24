@@ -3,13 +3,15 @@ title: Streaming & Strict Git Boundary — #530 Phase 1
 program: EDASES
 layer: Research
 document_type: Note
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 issue: 530
 ---
 
 # Streaming & Strict Git Boundary (530 Phase 1)
+
+> **Historical only (local disposition 2026-11-24).** This note records the former Crosslink checkpoint, issue and Git-boundary conventions during Corpus 530 construction. It is not an instruction for current checkpoints, Git permissions or streaming diagnostics. Current [task-scoped information and handoff method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) governs continuity. The [parent research index](../README.md) describes the actual corpus evidence. Original body retained.
 
 ## Streaming
 

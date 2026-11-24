@@ -3,13 +3,15 @@ title: Next-Wave Scaffolding — Corpus-530 Multi-Rep / Multi-Model + Second-Ret
 program: EDASES
 layer: Research
 document_type: Guide
-status: Active
+status: Experimental
 authority: Derived
 canonical_repository: edases
 issue: 530
 ---
 
 # Next-Wave Scaffolding — Corpus-530 (strict freeze, no live run)
+
+> **Experimental prospective record (local scope reviewed 2026-11-24).** The plan and templates below do not contain completed multi-model/multi-repetition, live second-retry or EDASES-runtime comparison measurements. The previous live baseline remains [the actual report](../report.md); see the [parent research index](../../README.md) for strict versus harness argument and recovery outcomes. Keep all frozen inputs and original plans intact. The historical model routes, fallback suggestions and commands do not authorize any invocation under current policy. The wave is retained for possible later evaluation, not an automatically scheduled task.
 
 **Issue:** #530 · **Branch:** `feature/pp3g-uqy5-prepare-next-test-wave-for-530-corpus-530-scaffolding`
 **Corpus frozen:** `research/capability-schema-validation/corpus-530/` (17-op schemas 0.1.0, 24 tasks in 6×4, 12 malformed, 4 adversarial D1-D4, prompts/prompt-full.md + prompt-minimal.md) — **DO NOT MODIFY**.

@@ -11,6 +11,8 @@ issue: 530
 
 # Corpus 530 — Real-Model Minimal Tool-Calling Corpus
 
+> **Local scope clarification (2026-11-24):** The original scaffold below predates the [completed single-model live report](report.md) and [actual summary](measurements/summary.json). The claim of no live calls applies to the original scaffolding commit, not to the subsequent corpus research. The [parent research index](../README.md) reconciles proxy and live measurements, harness-valid versus strict expected arguments, manual output validation and the later unexecuted plans. Preserve the [frozen corpus](next-wave/NO_MODIFY_CORPUS.md) unchanged. This is experimental evidence, not current launch authorization or an adopted architecture; historical commands are reproduction references only.
+
 **Issue:** #530 · **Branch:** `feature/pp3g-squu-phase-1-lay-out-correct-530-tool-calling-corpus-under`
 **Status:** Scaffolding (no live model run) — reusable verbatim for EDASES A/B
 **Authoritative:** `schemas/authoritative.json` (17 ops, 0.1.0, extends 14-op set 17ed2631)
