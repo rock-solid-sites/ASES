@@ -1,5 +1,5 @@
 ---
-version: 2026-11-21.1
+version: 2026-11-24.1
 title: Repository Overview
 program: EDASES
 layer: Research
@@ -8,7 +8,7 @@ status: Active
 authority: Derived
 canonical_repository: edases
 supersedes: README.md (previous version)
-last_updated: 2026-11-21
+last_updated: 2026-11-24
 ---
 
 > **Current ASES documentation:** [documentation navigation and audit index](docs/README.md), [current operational skills](skills/current/README.md) and the [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). This repository also preserves EDASES research and historical material; its presence alone does not make it an active agent instruction.
@@ -70,12 +70,11 @@ New contributors should begin with:
 2. `docs/standards/Documentation Standard.md`
 3. The foundational documents referenced from the orientation guide
 
-AI contributors should additionally read:
-* `AGENTS.md`
+AI contributors select the applicable sources through the [current documentation index](docs/README.md) and [current skills](skills/current/README.md). AGENTS.md is a compatibility adapter, not an additional mandatory read.
 
 ## Current Status
 
-The project is currently transitioning from exploratory research toward the design of a methodology execution engine.
+The project combines current methodology, experimental component engineering and continuing research. The [Execution Engine Vision](docs/architecture/Execution%20Engine%20Vision.md) distinguishes established Kernel/Work Unit requirements from the separate November native authority and Rust execution experiments. These draft experiments are not a deployed integrated engine. [Historical architecture and experiment evidence](docs/historical/Engine%20Architecture%20and%20Experiment%20History.md) explains the earlier designs and current work pointers.
 
 Recent work has established:
 * a separation between research (EDASES), methodology (ASES) and implementation
@@ -90,7 +89,7 @@ Contributions should follow the project's documentation standards and methodolog
 
 Please read `ORIENTATION.md` before making architectural, methodological or implementation changes.
 
-AI agents should additionally follow the instructions contained within `AGENTS.md`.
+AI agents should select relevant current sources and verify task-specific authorization using the task-scoped method; do not load historical instructions as active policy.
 
 ## License
 

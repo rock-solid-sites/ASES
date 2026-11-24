@@ -1,299 +1,62 @@
 ---
 title: Execution Engine Vision
-program: Tooling
+version: 2026-11-24.1
+program: ASES
 layer: Architecture
 document_type: Architecture Vision
 status: Active
 authority: Canonical
-canonical_repository: ases-engine
-# Mirror/placeholder: this document is canonical to the ases-engine repository;
-# it is filed here in edases as a mirror until the ases-engine repository is established.
-
+canonical_repository: ases
 depends_on:
-  - Concept: Levels of Abstraction
-  - AI Orchestration Guide
-  - Methodology to Requirements Mapping Specification
-
+  - docs/methodology/AI Orchestration Guide.md
+  - docs/requirements/Methodology to Requirements Mapping Specification.md
+  - docs/research/kernel-0/Kernel-0-Evidence-Packet.md
 related_documents:
-  - AI Capability Registry
-  - Evaluation Framework
-
-supersedes: []
-last_updated: 2026-08-10
+  - docs/historical/Engine Architecture and Experiment History.md
+  - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
+last_updated: 2026-11-24
 ---
 
 # Execution Engine Vision
 
-## Purpose
+## Purpose and current boundary
 
-This document describes the architectural vision for the software system responsible for executing the ASES methodology.
+ASES defines how engineering should be performed; the execution engine supports and mechanically enforces the applicable requirements where justified. It is not a replacement for the human operator, model judgment, development tools, or the methodology itself. This document describes the intended responsibilities and boundaries, **not a deployed architecture or a frozen implementation design**.
 
-It defines what the execution engine is intended to achieve rather than how individual implementation decisions should be realised.
+The engine should coordinate durable work, enforce authority at the actual effect boundary, preserve verifiable evidence and allow continuation despite disposable executors. It should minimize unnecessary reasoning, repeated context, resource consumption and operator intervention. Human approval and engineering judgment remain outside the mechanical substrate.
 
-Specific technologies, programming languages and implementation details remain outside the scope of this document.
+## Established authority and continuity requirements
 
----
+The [Kernel-0 Evidence Packet](../research/kernel-0/Kernel-0-Evidence-Packet.md) is the realization-neutral source for substrate requirements and their unresolved semantic questions. It is intentionally not expanded with November implementation findings: it remains suitable as neutral input to open derivation.
 
-# Vision
+- **Kernel:** governs authoritative state and permitted authoritative change. An executor's identity, instructions, declared role or claims do not confer authority. An invalid request must not cause partial or different authoritative mutation; stale or revoked execution authority must not remain usable.
+- **Work Unit → Attachment Point → Execution:** durable work, durable executor-facing continuity position, replaceable execution. These are consumer requirements on the substrate, not an assertion that all three are Kernel objects. Replacing an execution must preserve continuing work identity while excluding superseded execution authority.
+- **Verification:** distinguish semantic adequacy of a model from implementation conformance and evidence of real behavior. Formal claims are conditional on explicit trusted assumptions. Local process histories, synthetic property tests and a correctly functioning ledger each establish only their tested properties.
 
-ASES should eventually be executable rather than procedural.
+Single/sequential/concurrent execution, resource sharing/isolation, and higher-level role profiles are configurations, not separate Kernel modes. Keep orchestration, semantic judgment, observation, resource management, issue tracking, review and project knowledge outside the Kernel unless a necessary authoritative guarantee demonstrates otherwise. No language, database, workflow engine, graph store, scheduler or hosting platform is selected by this vision.
 
-Instead of relying upon users to remember methodological rules, the execution engine should understand the methodology, manage engineering state and mechanically enforce methodological correctness wherever practical.
+## Responsibilities above the substrate
 
-The engine exists to reduce cognitive burden while increasing consistency, traceability and engineering quality.
+| Responsibility | Intended boundary |
+| --- | --- |
+| Execution coordination | Thin, replaceable execution API; bounded dispatch and observable outcomes, durable continuation and explicit cancellation/stop authority. No blind duplicate launch when outcomes are unknown. Model harnesses and providers remain replaceable. |
+| Resource planning and admission | Advisory planning is distinct from authoritative admission and bounded resource reservation, launch, observation and settlement. The [Resource Solver reconciliation](../research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md) records the experimental subsystem design; it is not the Kernel or a deployed control plane. |
+| Methodology and assurance | Apply the relevant workflow and verification criteria rather than a universal pipeline. Mechanically enforce authorized gates only where the governing rule and effect boundary are established. Support independent review and human acceptance without transferring judgment to the Kernel. |
+| Context and evidence | Select task-relevant current information; preserve decisions, reasoning, rejected alternatives and source-bound evidence at their existing durable homes. Follow the [accepted task-scoped architecture](Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md); no mandatory graph, resolver, service or session ritual. |
+| Human planning and visibility | Expose meaningful status, dependencies, uncertainty and interventions. Git retains technical artifacts; Work Notes retains operational position; Projektor retains planning and adoption decisions. Do not assume a new global state database or UI must replace them. |
 
----
+Recoverability means recovering authoritative state and the actual disposition of effects, not guessing that a process completed, that an unseen response meant no effect, or that a recorded job is the continuing Work Unit. Separate launch intent, observed execution, effect acceptance, publication, observation and finalization where their distinction matters.
 
-# Objectives
+## Current implementation and assurance position
 
-The execution engine should:
+The November research has native authority/ownership and local Rust execution/custody experiments on **separate unmerged PR stacks**. They demonstrate specific bounded mechanisms and counterexamples, not an integrated Kernel, production launcher, universal security boundary or completed Work Unit model. The [engine architecture and experiment history](../historical/Engine%20Architecture%20and%20Experiment%20History.md) records source-pinned reports, earlier alternatives and current work pointers.
 
-- execute the ASES methodology
-- minimise predictable human error
-- minimise predictable AI error
-- coordinate heterogeneous AI capabilities
-- preserve engineering reasoning
-- maintain methodological state
-- reduce unnecessary token consumption
-- improve engineering throughput
-- remain independent of individual AI providers
+The latest prepared handoffs in [experimental PR #77](https://github.com/rock-solid-sites/ASES/pull/77) address a confirmed native pending-effect admission defect and Work Unit adequacy against the Rust prototype. They are preparation, not evidence of a repaired implementation or newly passing tests. In particular, native replacement of an execution for the same Work Unit and Attachment Point, with atomic exclusion of the old authority, remains a discriminating adequacy question. Neither a durable job ID nor a process exit check is sufficient.
 
----
+Human integration planning is ASES-8; current technical continuation is WNASES-4, with dependency inventory and independent replay tracked separately. Consult current work records and pinned source before dispatching. Do not merge experimental components or revive the retired Crosslink/VPS setup on the strength of this vision.
 
-# Core Principle
+## Rationale and history
 
-The execution engine is not a software development environment.
+The original architecture vision emphasized traceable reasoning, recoverable state and mechanical enforcement. Earlier state-gated engine proposals and technology surveys explored many concrete mechanisms; adversarial reviews challenged prematurely selected stacks, insufficient falsifiers and overlapping lifecycle ownership. The present boundaries retain the useful goals while refusing to elevate implementation convenience or historical labels into authoritative semantics.
 
-It is a methodology execution system.
-
-Its purpose is to coordinate software engineering rather than perform software engineering itself.
-
----
-
-# Responsibilities
-
-The execution engine is responsible for:
-
-- maintaining methodological state
-- coordinating workflows
-- enforcing methodology
-- preserving epistemic relationships
-- recording engineering evidence
-- orchestrating AI capabilities
-- supporting human oversight
-- validating workflow progression
-
-It is not responsible for determining software architecture or writing software autonomously.
-
----
-
-# The Object of Management
-
-Traditional development systems primarily manage files, commits or tasks.
-
-The execution engine manages reasoning.
-
-Engineering artefacts remain important, but they derive their meaning from the reasoning that produced them.
-
-Consequently, the execution engine should treat relationships between observations, assumptions, findings, decisions, challenges and validations as first-class entities.
-
----
-
-# Methodology Execution
-
-The execution engine should understand the current methodological state of every engineering activity.
-
-Examples include:
-
-- awaiting review
-- awaiting validation
-- blocked by missing evidence
-- conflicting findings
-- promotion ready
-
-Users should not be required to infer methodological state manually.
-
----
-
-# Mechanical Enforcement
-
-Methodological rules should be enforced automatically wherever practical.
-
-Examples include:
-
-- preventing unsupported promotion
-- detecting incomplete reviews
-- identifying missing evidence
-- preventing invalid state transitions
-- detecting unresolved conflicts
-- identifying orphaned reasoning
-
-Mechanical enforcement should replace procedural discipline whenever possible.
-
----
-
-# Knowledge Model
-
-The execution engine should maintain explicit relationships between engineering concepts.
-
-Examples include:
-
-- observation supports finding
-- finding challenges assumption
-- decision depends upon evidence
-- validation approves promotion
-- requirement derives from methodology
-
-Knowledge should remain queryable throughout the project lifecycle.
-
----
-
-# Orchestration
-
-The execution engine should coordinate heterogeneous capabilities.
-
-Responsibilities include:
-
-- selecting appropriate capabilities
-- assigning functional roles
-- coordinating independent reasoning
-- managing review workflows
-- recording collaboration
-- supporting escalation
-
-Capability selection should remain evidence-driven through integration with the AI Capability Registry.
-
----
-
-# Human Interaction
-
-The execution engine exists to augment human decision-making.
-
-Humans remain responsible for:
-
-- defining objectives
-- accepting engineering risk
-- resolving ambiguity
-- approving significant decisions
-- evolving the methodology
-
-Automation should increase capability rather than reduce human understanding.
-
----
-
-# Context Management
-
-Context should become an explicit resource managed by the execution engine.
-
-Responsibilities may include:
-
-- constructing task-specific context
-- recovering previous reasoning
-- minimising redundant context
-- preserving long-term knowledge
-- reducing unnecessary token usage
-
-Context management should support both efficiency and reasoning quality.
-
----
-
-# State Management
-
-The execution engine should maintain a complete representation of project state.
-
-State should be:
-
-- explicit
-- recoverable
-- auditable
-- consistent
-- methodology-aware
-
-Projects should resume from state rather than reconstructed conversation history.
-
----
-
-# Validation
-
-Validation should become a continuous activity.
-
-The execution engine should continuously evaluate:
-
-- methodological compliance
-- missing evidence
-- unresolved assumptions
-- incomplete reviews
-- conflicting conclusions
-- promotion readiness
-
-Validation should occur throughout engineering rather than only at project completion.
-
----
-
-# Extensibility
-
-The execution engine should support:
-
-- multiple AI providers
-- evolving methodologies
-- additional capability types
-- new orchestration strategies
-- future research findings
-
-Methodological evolution should require minimal architectural change.
-
----
-
-# Architecture Principles
-
-The implementation architecture should favour:
-
-- explicit state
-- composable services
-- traceable reasoning
-- deterministic workflows
-- modular capability integration
-- implementation independence
-
-Architectural decisions should support methodology rather than constrain it.
-
----
-
-# Relationship to EDASES
-
-EDASES investigates improved approaches to AI-assisted software engineering.
-
-Validated findings produced by EDASES inform revisions to ASES.
-
-Those revisions become executable through the execution engine.
-
-The execution engine therefore operationalises current methodological knowledge while remaining capable of evolving alongside future research.
-
----
-
-# Relationship to ASES
-
-ASES defines how software engineering should proceed.
-
-The execution engine provides the mechanisms through which those methodological rules are executed, enforced and supported.
-
-It is an implementation of the methodology rather than an extension of it.
-
----
-
-# Long-Term Vision
-
-As EDASES matures, increasing portions of ASES should become mechanically executable.
-
-Ultimately, the execution engine should function as a methodology operating system that:
-
-- understands engineering state
-- coordinates specialised capabilities
-- preserves engineering knowledge
-- enforces methodological correctness
-- supports continuous research
-- improves through evidence
-
-The methodology remains the source of truth.
-
-The execution engine provides its execution.
+See [Engine Architecture and Experiment History](../historical/Engine%20Architecture%20and%20Experiment%20History.md) for the original vision, proposal, reviews, UI/system surveys, neutral derivation packet and November evidence. The [methodology-to-requirements mapping](../requirements/Methodology%20to%20Requirements%20Mapping%20Specification.md) defines the higher-level requirement boundary. Revise implementation requirements through evidence and explicit decisions, not silent promotion of an experiment.
