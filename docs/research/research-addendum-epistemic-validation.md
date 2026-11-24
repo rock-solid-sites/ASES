@@ -29,6 +29,8 @@ last_updated: 2026-08-10
 
 # Research Addendum: Epistemic Validation as a Distinct Architectural Layer
 
+> **Local applicability clarification (2026-11-24):** The distinction between retrieving/reconstructing information and validating its adequacy for an authorized action remains useful research. The proposed dedicated validation layer and four-layer implementation are hypotheses, not adopted architecture. The [accepted task-scoped ADR](../architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) and [current method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) require selection, evidence and authority appropriate to the task without prescribing a separate layer or graph. The reconstruction incident does not establish the cause of the subsequent output corruption. See the [provenance pivot and subsequent disposition](syntheses/Research%20Synthesis%20-%20Architectural%20Pivot.md). The original research body and ownership are preserved.
+
 ## Background
 
 Recent experiments suggest that documentation quality, project memory systems, and knowledge retrieval mechanisms are insufficient on their own to guarantee safe autonomous operation.
