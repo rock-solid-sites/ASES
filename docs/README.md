@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.11
+version: 1.0.12
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -61,6 +61,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Knowledge, provenance and terminology:** The [provenance-pivot synthesis](research/syntheses/Research%20Synthesis%20-%20Architectural%20Pivot.md) preserves the original reasoning, early research drafts, historical assumption-register iterations and fresh-session failure evidence, with links to the current conceptual and task-scoped decisions. [Canonical Terminology](standards/Canonical%20Terminology.md) and [Levels of Abstraction](standards/Concept%20-%20Levels%20of%20Abstraction.md) retain their conceptual role; neither prescribes storage or deployed enforcement. The [knowledge-index prototype](../scripts/knowledge_index/README.md) is merged experimental research only (ASES-19/WNASES-16 benchmark pending), distinct from the documentation inventory, chat archive and current source ownership.
 
 **Capability/schema validation research:** The [existing research index](../research/capability-schema-validation/README.md) now distinguishes #498 proxy and loopback experiments, the single-model live Corpus 530 report, and preserved prospective next-wave scaffolding. The 71.0% description-token reduction is not equivalent to preserved task intent: strict expected-argument accuracy fell outside the five-point threshold even though harness-valid arguments remained within it. Frozen experimental files remain unchanged; no runtime adoption or model dispatch follows.
+
+**Earlier research plans and proposals:** The [early research-topic and plan disposition](../future-research-topics/README.md) connects the Architecture Validation Plan hypotheses and early five-role setup designs to current research, existing owners and superseded implementation assumptions. The scratchpad is not the canonical topic registry or a task queue. Proposals remain subject to their own evidence and adoption decisions; preserve unresolved questions, do not revive outdated mechanisms. The July [session audit plan](research/session-audit-plan.md) is historical only, not permission to delete archived sessions or backups.
 
 ## Legacy and supersession
 

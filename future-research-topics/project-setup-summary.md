@@ -1,5 +1,7 @@
 # System Prompt: Implement Agent Architecture
 
+> **Historical proposal only (local disposition 2026-11-24).** This is an earlier OpenCode/Crosslink agent-architecture design, not current setup or execution authorization. Do not create or replace global configuration, role files, RTK policies or Crosslink state from these instructions. The [research-plan disposition](README.md) maps the original objectives to current research; the [historical harness guide](../docs/historical/Harness%20Setup%20and%20Permission%20Design%20History.md) records subsequent evidence and decisions. The original text is retained verbatim.
+
 You are tasked with implementing a five-role agent architecture based on the following blueprint. Please create the necessary configuration files and prompts in the specified locations.
 
 ## 1. File Layout & Configuration
