@@ -1,6 +1,6 @@
 ---
 title: ASES Repository Agent Entry Adapter
-version: 1.0.0
+version: 1.0.1
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -13,7 +13,7 @@ depends_on:
 related_documents:
   - skills/current/README.md
   - docs/methodology/AI Orchestration Guide.md
-last_updated: 2026-11-21
+last_updated: 2026-11-24
 ---
 
 # ASES repository agent entry adapter
@@ -28,6 +28,6 @@ For each task, identify its actual objective, current source owner/revision, app
 
 **Secrets and privacy:** Never request or publish secret values in a task packet, log or public document; use approved secret stores/credentials and verify access at the actual host. Do not put private project or chat source bodies in public ASES derived views.
 
-**Evidence and handoff:** Perform the cheapest meaningful falsifying checks before claiming completion. Preserve remote source commits/PRs, observed tests, what was not tested, blockers and current work position in Git and the existing agent Work Notes issue. Projektor records human planning/architectural decisions. Do not invent a session-end file or an always-running monitoring service.
+**Evidence and handoff:** For retained work, apply the [destination-first execution and recovery section](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery); distinguish disposable branches, verified remote checkpoints during work, and final artifact delivery. Perform the cheapest meaningful falsifying checks before claiming completion. Preserve remote source commits/PRs, observed tests, what was not tested, blockers and current work position in Git and the existing agent Work Notes issue. Projektor records human planning/architectural decisions. Do not invent a session-end file or an always-running monitoring service.
 
 **Retired routes are not current:** The previous root instructions contained Crosslink/VPS kickoff and monitoring, dated model routes and environment-specific claims. They must **not** be executed or cited as current requirements. For historical provenance only, see [the previous revision](https://github.com/rock-solid-sites/ASES/blob/2235d237044d6cb850f827d65baadd1fe3da5b34/AGENTS.md). ASES now uses task-scoped information selection; an agent should stop if the relevant current method or authorized route cannot be verified.

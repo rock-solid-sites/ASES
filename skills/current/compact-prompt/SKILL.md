@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 1.1.1
+version: 1.1.2
 description: Select current task-relevant ASES prompting and preparation methodology before drafting any agent handoff, launch brief, Work Unit packet, or autonomous engineering assignment.
 status: current
 ---
@@ -27,7 +27,7 @@ status: current
 
 ## Compilation checks
 
-1. Identify the operation (orchestrate, recon, implement, verify, review, synthesize), exact target/source revision, receiver role, settled user constraints, source ownership, completion condition and evidence destination.
+1. Identify the operation (orchestrate, recon, implement, verify, review, synthesize), exact target/source revision, receiver role, settled user constraints, source ownership, completion condition and evidence destination. For retained artifacts, establish the final home, authority/status and any temporary workspace/disposition before work; include the latest verified remote checkpoint/resume pointer when handing off ongoing work. Apply the canonical method's destination-first section when these obligations need elaboration.
 2. Check whether the task is exploratory or sufficiently bounded for pre-build compilation. If compilation applies, actually read the canonical method; reduce the builder's remaining design choices, reuse known mechanisms, preserve exact behavior and specify verification. If it does not apply, do not manufacture a packet.
 3. Select only relevant governing rules and evidence. A source link, existing file or historical title is **not proof it was read**, current or authoritative. Expand context only where it could materially change execution.
 4. Specify caller-side capabilities, approved provider/model/account/funding route and stop conditions for actual launches, using `skills/current/agent-launch/SKILL.md`. Never put the receiver's model identity in its prompt or delegate model choice to the receiver.
