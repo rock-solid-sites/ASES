@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import sys
@@ -15,6 +16,14 @@ sys.path.insert(0, str(HERE.parent / "phase-ii-native-ownership"))
 sys.path.insert(0, str(HERE))
 import baseline_probe as baseline
 import probe
+
+def load_publication_probe():
+    path = REPO / "docs/research/phase-ii-native-publication-reconcile/probe.py"
+    spec = importlib.util.spec_from_file_location("native_publication_probe", path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 def need(condition, message):
@@ -98,6 +107,31 @@ def case_pending_bound(out):
          before["f1"] == after["f1"] and before["l6"] == after["l6"],
          "A2: rejected admission mutated protected readbacks")
     case.update({"before_rejections": before, "replies": replies, "after_rejections": after})
+    owner_proc = probe.OwnerProcess(fx["owner_root"])
+    case["seal"] = owner_proc.call({"op": "seal"})
+    case["dispose_child"] = owner_proc.call({"op": "dispose_child", "unit": "D"})
+    owner_proc.close()
+    case["owner_process"] = owner_proc.meta
+    need(case["seal"]["reply"].get("result") == "COMMITTED", "A6: pending reservation unexpectedly blocked seal")
+    need(case["dispose_child"]["reply"].get("result") == "DENY" and
+         "pending-in-domain-effect" in str(case["dispose_child"]["reply"].get("reason")),
+         "A6: pending reservation did not block child disposal")
+    fx["f4"].sink.close(True)
+    case["strict_reconcile"] = baseline.cli(baseline.RECONCILE, fx["owner_root"], aid)
+    case["observe_local"] = baseline.cli(baseline.OBSERVE, fx["owner_root"], aid)
+    case["after_recovery_refusals"] = {"owner": read_owner(fx["owner_root"]),
+                                       "journal": probe.native.blob(fx["f4"].journal),
+                                       "witness": fx["f4"].witness_call("/status")}
+    need(case["strict_reconcile"]["frame"].get("status") == "refused" and
+         case["observe_local"]["frame"].get("status") == "refused",
+         "A6: strict recovery invented an event for the eventless reservation")
+    need(set(case["after_recovery_refusals"]["owner"]["effects"]) == {aid} and
+         case["after_recovery_refusals"]["owner"]["effects"][aid]["status"] == "reserved" and
+         case["after_recovery_refusals"]["journal"]["sha256"] == before["journal"]["sha256"],
+         "A6: recovery refusal altered the pending owner record or journal")
+    case["final_cut"] = {"owner": case["after_recovery_refusals"]["owner"],
+                         "journal": case["after_recovery_refusals"]["journal"],
+                         "witness": case["after_recovery_refusals"]["witness"]}
     fx["f4"].close(True)
     return case
 
@@ -119,6 +153,37 @@ def case_sequential(out):
             "journal_events": events}
 
 
+def case_recovered_then_fresh(out):
+    publication = load_publication_probe()
+    case = publication.prepare(out, "a5-recovered-current-path")
+    eof = publication.append_eof(case)
+    _proc, reconcile = publication.run_reconcile(case["owner_root"], case["request_id"])
+    need(reconcile.get("result", {}).get("status") == "published", "A5: actual journaled A did not reconcile")
+    ready = case["f4"].cold_restart()
+    reopen = [case["f4"].call("/replace", {"holder": "pending-admission-a5"}),
+              case["f4"].call("/activate", {"authority_version": 2})]
+    bid = case["witness_root"] + ":fresh-after-reconciliation"
+    envelope, owner_before, _ = baseline.refresh_envelope(case["owner_root"], bid)
+    fresh = case["f4"].submit(envelope, authority_version=2)
+    owner_after_b = read_owner(case["owner_root"])
+    replay = case["f4"].submit(case["envelope"], authority_version=2)
+    events = [json.loads(line) for line in case["f4"].journal.read_text().splitlines()]
+    need(fresh["response"]["status"] == 201 and
+         owner_after_b["effects"][bid]["status"] == "published",
+         "A5: fresh B blocked after A settled under eligible authority: " + json.dumps(fresh, sort_keys=True))
+    need(replay["response"]["body"].get("outcome") == "already-accepted" and
+         len([e for e in events if e.get("event") == "effect_accepted"]) == 2,
+         "A5: exact historical A retry appended a second event or lost lookup")
+    result = {"append_eof": eof, "reconcile": reconcile, "cold_ready": ready,
+              "reopen": reopen, "fresh_id": bid, "fresh_envelope": envelope,
+              "owner_before_fresh": owner_before, "fresh_B": fresh,
+              "historical_A_replay": replay, "effects": {case["request_id"]: owner_after_b["effects"][case["request_id"]],
+                                                            bid: owner_after_b["effects"][bid]},
+              "journal_events": events}
+    case["f4"].close(True)
+    return result
+
+
 def main():
     if len(sys.argv) != 2:
         raise SystemExit("usage: verify_probe.py OUTPUT_DIRECTORY")
@@ -129,6 +194,7 @@ def main():
     try:
         raw["cases"]["A1-A3"] = case_pending_bound(out)
         raw["cases"]["A4"] = case_sequential(out)
+        raw["cases"]["A5"] = case_recovered_then_fresh(out)
         raw["status"] = "PASS"
     except BaseException as error:
         raw["status"] = "FAIL"
