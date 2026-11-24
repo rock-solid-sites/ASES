@@ -1,13 +1,12 @@
 ---
 title: AI Orchestration Guide
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
 status: Active
 authority: Canonical
 canonical_repository: ases
-# Mirror/placeholder: this document is canonical to the ASES repository (ases);
-# it is filed here in edases as a mirror until the ases repository is established.
 
 depends_on:
   - Concept: Levels of Abstraction
@@ -19,9 +18,11 @@ consumed_by:
 
 related_documents:
   - Evaluation Framework
+  - docs/methodology/ASES Task-Scoped Information and Handoff Method.md
+  - docs/historical/Harness Setup and Permission Design History.md
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-11-24
 ---
 
 # AI Orchestration Guide
@@ -57,7 +58,11 @@ This document defines:
 - escalation strategies
 - validation responsibilities
 
-Specific implementation mechanisms are outside the scope of this document.
+Specific implementation mechanisms are outside the scope of this document. This is the current general orchestration methodology, not a harness configuration or universal startup prompt. For task preparation and operational routing, use the [task-scoped handoff method](ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and select only applicable [current skills](../../skills/current/README.md).
+
+## Current reasoning principles
+
+The earlier EDASES core prompt iterations are consolidated here as methodological principles, not instructions that must be injected into every session. Distinguish observation, inference, hypothesis and unknown. Prefer measured, verified outcomes to plausible explanations; state confidence limits, missing evidence and plausible alternative explanations. Test important assumptions with the cheapest meaningful falsifier. Evaluate proposals against risks, dependencies, trade-offs and operational implications; do not defend a particular tool, technology, model or method by default. Explain material reasoning clearly to technical and nontechnical participants. Learn from successful and failed work, including recurring operator corrections; retain the evidence and rationale for later reuse.
 
 ---
 
@@ -107,7 +112,9 @@ AI systems assist decision-making but do not replace engineering accountability.
 
 Where methodology can be enforced automatically, automation should replace procedural compliance.
 
-Automation should reduce opportunities for predictable error rather than simply reducing effort.
+Automation should reduce opportunities for predictable error rather than simply reducing effort. Verify permissions at the actual effect boundary, including indirect shell, filesystem and connector paths. A prompt convention, model-picker label, or accumulation of guards is not proof of containment; distinguish accidental-error prevention from protection against an adversarial agent. In particular, read-only review means no mutation of the target under review, not an inability to preserve a verdict through a separately authorized durable reporting channel. Select controls for the actual host and role; test denied effects and necessary allowed effects. Do not infer present enforcement from a historical harness configuration.
+
+**Rationale:** Earlier OpenCode/Crosslink experiments exposed write-path bypasses, conflicting allowlists, drift across configuration layers, reviewer relay bottlenecks, and repeated instruction violations. Those results justify verifying actual boundaries, not reviving the obsolete guards. See the [historical harness decision and evidence guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for source snapshots, review disagreements, rejected approaches and limits.
 
 ---
 
@@ -156,7 +163,7 @@ ASES augments rather than replaces human judgement.
 
 # Core Orchestration Pattern
 
-Most engineering activities should follow a structured progression.
+The following progression illustrates separable engineering functions; it is not a mandatory pipeline. Choose the smallest relevant evidence-to-decision loop, repeat stages when evidence requires it, and omit stages that add no value for a bounded task.
 
 ```text
 Objective
@@ -301,7 +308,7 @@ Every significant engineering decision should preserve:
 - validation
 - rationale
 
-Evidence preservation enables future review, learning and methodology improvement.
+Evidence preservation enables future review, learning and methodology improvement. Official current documents state the selected rule or decision, its concise rationale and the evidence limits; historical records retain the fuller reasoning, alternatives rejected by discussion or tests, source revisions and results. Do not treat those earlier alternatives as governing instructions. Follow the task-scoped method for final artifact homes and verified remote checkpoints.
 
 ---
 
