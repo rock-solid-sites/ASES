@@ -1,6 +1,6 @@
 ---
 title: AI Orchestration Guide
-version: 2026-11-24.1
+version: 2026-11-24.2
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -229,6 +229,19 @@ Typical review objectives include:
 - unnecessary complexity
 
 Successful adversarial review strengthens rather than delays progress.
+
+## Review modes and provenance
+
+Choose the **review domain** (implementation, conceptual/ontology, security, necessity, abstraction or another relevant lens) independently of the **review mode**:
+
+- **Exploratory design review:** challenge a still-fluid proposal, hidden assumptions, conceptual boundaries, unnecessary elements and alternative decompositions. Iterative critique and accumulated design context may be useful.
+- **Post-build conformance/falsification:** test a frozen claim or invariant using the artifact, governing definitions/specification and explicit assumptions. Do not anchor reviewers with the builder's reasoning, prior defects, peer conclusions or expected weak points. Use structurally fresh contexts and withhold peer outputs until independent findings exist; see the [Clean Room Execution Guide](Clean%20Room%20Execution%20Guide.md).
+
+Formal independent review evidence in either mode requires verified provenance from a model family different from the artifact-producing family. This reduces correlated blind spots, but family difference alone does not establish contextual independence or correctness. Same-family task acceptance and mechanical verification remain useful and must not be counted as formal independent judgment. The caller determines eligibility using actual dispatch provenance; unknown provenance is unverified, and reviewers do not self-identify. Synthesize independent outputs against evidence, not votes.
+
+A conceptual review asks whether the right entities, distinctions, boundaries, ownership, lifecycle and relationships are represented. Use the smallest applicable canonical neighborhood. Exploratory critique may challenge canonical meaning; conformance uses the established definitions as the comparison baseline. Findings do not silently redefine them or grant mutation authority. This is a review lens, not adoption of the historical proposed specialist role or a requirement for a separate agent.
+
+The [historical skill and review design record](../historical/Skill%20and%20Review%20Design%20History.md) preserves the two-mode derivation, rejected single-mode approach and benchmarking questions. Panel size and model strengths are empirical routing questions, not fixed policy. Current launch mechanics and funding/permission gates live in the [review-launch skill](../../skills/current/review-launch/SKILL.md).
 
 ---
 

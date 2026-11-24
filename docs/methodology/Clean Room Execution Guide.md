@@ -1,24 +1,25 @@
 ---
 title: Clean Room Execution Guide
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Guide
 status: Active
 authority: Derived
-canonical_repository: edases
+canonical_repository: ases
 
 depends_on:
   - AI Orchestration Guide
   - Documentation Standard
 
 consumed_by:
-  - AGENTS.md
+  - skills/current/review-launch/SKILL.md
 
 related_documents:
   - AI Capability Registry
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-11-24
 ---
 
 # Clean Room Execution Guide
@@ -27,7 +28,7 @@ last_updated: 2026-08-10
 
 This guide describes how to obtain independent AI analysis when isolation from an existing conversational context is required.
 
-A clean room execution ensures that an AI model performs reasoning without influence from prior discussion, intermediate conclusions or repository history beyond the information explicitly provided.
+A clean room execution aims to isolate reasoning from prior discussion, intermediate conclusions and unrelated repository history. This is an evidence obligation, not a guarantee from the name of a session or a prompt. Use the [current review modes and provenance](AI%20Orchestration%20Guide.md#review-modes-and-provenance) to choose when it applies.
 
 ---
 
@@ -70,7 +71,7 @@ Every clean room execution should define:
 * any evaluation criteria;
 * any constraints.
 
-Only these materials should be available to the reviewing model.
+Only task-defining material should be available to the reviewing model. For frozen-claim review this means the artifact, concrete claim, minimal canonical definitions/specification and assumptions. Zero process-history context does not mean zero task-defining context. Prefer structural isolation over instructions to ignore visible information; document any residual exposure.
 
 ---
 
@@ -98,7 +99,7 @@ Examples include:
 * invoking a model through a provider API;
 * executing an external orchestration workflow.
 
-The implementation mechanism is less important than preserving contextual independence.
+The implementation mechanism is less important than preserving contextual independence. Verify actual context exposure, available tools, repository scope and the authorized route. A fresh chat, new process or sandbox label alone is not proof of independence or confinement. Use the current review-launch and agent-launch skills before actual dispatch.
 
 ---
 
@@ -108,8 +109,8 @@ If the preferred execution mechanism fails:
 
 1. Report the failure.
 2. Preserve any completed work.
-3. Explain why the failure occurred.
-4. Request further instruction.
+3. Classify the observed failure and what remains unknown; make only a bounded retry if authorized and informative.
+4. Escalate a material unresolved blocker; do not invent an explanation or silently change model, funding, host or isolation.
 
 Do not silently substitute an execution that violates clean room isolation.
 
@@ -117,7 +118,7 @@ Do not silently substitute an execution that violates clean room isolation.
 
 # Native API Execution
 
-Where repository tooling cannot provide isolated execution, direct invocation of an AI provider's API may be used.
+Where repository tooling cannot provide isolated execution, direct invocation of an AI provider's API may be used only through an explicitly authorized route and within its verified funding and capability limits.
 
 Typical workflow:
 
@@ -144,7 +145,7 @@ Each execution should record:
 * generated output;
 * reviewer observations.
 
-This information supports reproducibility and later evaluation.
+This information supports reproducibility and later evaluation. Record artifact-producing and reviewer family provenance from trusted caller-side evidence, actual isolation/permission checks, source revision, report completeness and limitations. Preserve the verdict in the approved durable result channel; a nonempty final message alone does not establish durable delivery.
 
 ---
 

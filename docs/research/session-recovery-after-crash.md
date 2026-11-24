@@ -4,7 +4,7 @@ title: Session Recovery After VPS Crash
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Finding
 canonical_repository: edases
 
@@ -35,6 +35,7 @@ Document what survives, what is lost, and how to assess session state after a VP
 
 ---
 
+> **Historical evidence — not current configuration or operational guidance.** This record describes the dated OpenCode/Crosslink investigation, including what was observed, inferred, proposed, rejected or left untested. Its historical commands, role labels, enforcement claims and expected mitigations do not apply automatically to current agents. See the [historical harness decision guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for disposition and current-source links; [exact original](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/session-recovery-after-crash.md). The original body is retained below.
 ## Incident Reference
 
 **Date:** 2026-07-13, ~17:46 UTC

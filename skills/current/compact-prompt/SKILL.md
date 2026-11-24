@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 1.1.2
+version: 1.2.0
 description: Select current task-relevant ASES prompting and preparation methodology before drafting any agent handoff, launch brief, Work Unit packet, or autonomous engineering assignment.
 status: current
 ---
@@ -21,7 +21,7 @@ status: current
 
 **Composite tasks select the union of applicable current sources.** For example, a five-hour autonomous engineering campaign may need workflow orchestration for the parent and the canonical bounded-build method **only for independently bounded build units** within that campaign. Parent coordination instructions are not a substitute for a worker's implementation packet, and the worker's packet is not a reason to make the parent read code.
 
-`skills/prompt/SKILL.md` (earlier T3/Crosslink-oriented prompting) and `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md` (derivation evidence) are **not active prompting authority**. Historical PRs or packets referring to those paths do not require loading them for a current launch. The canonical bounded-build methodology remains active at the path above; do not confuse it with its non-normative derivation.
+The [earlier prompting variants and reasoning record](../../../docs/historical/Skill%20and%20Review%20Design%20History.md) and `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md` are historical evidence, **not active prompting authority**. Historical PRs or packets referring to those paths do not require loading them for a current launch. The canonical bounded-build methodology remains active at the path above; do not confuse it with its non-normative derivation.
 
 **Canonical cross-task information method:** `docs/methodology/ASES Task-Scoped Information and Handoff Method.md` governs source admission, authority/override resolution and evidence transfer across agents. Apply it **when task context spans several governing sources, competing instructions, exceptions or role boundaries**. For a trivial single-source edit, this skill and the exact target ordinarily suffice; do not make reading the full methodology a universal startup ritual. The method defines information obligations, not mandatory files or a graph service.
 
@@ -33,5 +33,13 @@ status: current
 4. Specify caller-side capabilities, approved provider/model/account/funding route and stop conditions for actual launches, using `skills/current/agent-launch/SKILL.md`. Never put the receiver's model identity in its prompt or delegate model choice to the receiver.
 5. Render the smallest independently reviewable task: goal, selected context, boundaries, observable result, verification, durability and stop/escalation conditions. Use references to pinned canonical/project sources rather than transcribing unrelated history.
 6. **Readiness gate:** If a task-relevant current source was not retrieved or a prerequisite decision remains unresolved, label the brief **PRELIMINARY / NOT READY TO DISPATCH** and name that specific gap. Do not claim the prompt is ASES-compiled merely because it is concise or because an obsolete source was consulted.
+
+## Compress only after selecting the right context
+
+Preserve the user's chosen target, behavior and established execution path before optimizing. Distinguish required, preferred and already authorized fallback routes when that affects execution; verify the selected route before proposing another. A failed lookup in the wrong environment does not establish absence in the intended one. Resolve consequential operator-known intent with one useful question only if not already known and cheaper than investigation; verify live-state claims with the smallest relevant test.
+
+Prefer the desired operation and acceptance condition over lists of unrelated forbidden alternatives. Omit restrictions only when enforcement is verified, and omit facts only when supplied or reliably retrievable by the receiver. Avoid implementation anchors unless established evidence or the task itself requires them. Do not ask an agent to verify its own model, reasoning effort or subscription/session allowance. Caller-only metadata belongs in the dispatch record; include a time/resource limit in the brief only when it changes the assigned work. Do not reopen settled design merely to make a prompt self-contained.
+
+For reviews select domain and epistemic mode using the [AI Orchestration Guide](../../../docs/methodology/AI%20Orchestration%20Guide.md#review-modes-and-provenance). A frozen implementation claim needs the artifact and minimal defining evidence, not the builder's story; exploratory design criticism can legitimately use broader context. Formal eligibility and isolation are established by the caller, not the reviewer.
 
 **Verification limit:** These are caller-followed source-selection rules, not a guaranteed automatic skill invocation or prompt-loader hook. Keep a brief source/revision receipt in the coordinating issue or launch record; do not clutter the receiving agent's prompt with all routing metadata.

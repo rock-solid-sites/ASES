@@ -3,7 +3,7 @@ title: Crosslink DB Rollback Incident
 program: EDASES
 layer: Research
 document_type: Incident Record
-status: Active
+status: Historical
 authority: Finding
 canonical_repository: edases
 
@@ -19,6 +19,7 @@ consumed_by:
 last_updated: 2026-08-03
 ---
 
+> **Historical evidence — not current configuration or operational guidance.** This record describes the dated OpenCode/Crosslink investigation, including what was observed, inferred, proposed, rejected or left untested. Its historical commands, role labels, enforcement claims and expected mitigations do not apply automatically to current agents. See the [historical harness decision guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for disposition and current-source links; [exact original](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/crosslink-db-rollback-incident.md). The original body is retained below.
 ## Primary Source
 
 Primary source: tripn-astro .crosslink/.knowledge-cache/crosslink-db-rollback-incident.md (contributor 4Adb). This record converged on ASES issue #125 (Crosslink hydration/sync state-integrity) — same failure family: sync.fetch() rehydrating SQLite from a stale hub checkpoint, dropping local-only issues.

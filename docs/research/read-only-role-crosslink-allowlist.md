@@ -3,7 +3,7 @@ title: Read-Only Role Crosslink Allowlist — Repository Role-Permission Change 
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Finding
 canonical_repository: edases
 
@@ -26,6 +26,7 @@ supersedes: []
 last_updated: 2026-08-10
 ---
 
+> **Historical evidence — not current configuration or operational guidance.** This record describes the dated OpenCode/Crosslink investigation, including what was observed, inferred, proposed, rejected or left untested. Its historical commands, role labels, enforcement claims and expected mitigations do not apply automatically to current agents. See the [historical harness decision guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for disposition and current-source links; [exact original](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/read-only-role-crosslink-allowlist.md). The original body is retained below.
 # Read-Only Role Crosslink Allowlist — Repository Role-Permission Change (2026-08-09)
 
 > **Purpose.** This record documents a permission change made 2026-08-09 in the

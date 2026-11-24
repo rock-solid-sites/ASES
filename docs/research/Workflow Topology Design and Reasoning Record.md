@@ -3,7 +3,7 @@ title: Workflow Topology Design and Reasoning Record
 program: EDASES
 layer: Research
 document_type: Synthesis
-status: Active
+status: Historical
 authority: Experimental
 canonical_repository: edases
 
@@ -31,6 +31,7 @@ supersedes: []
 last_updated: 2026-08-08
 ---
 
+> **Historical evidence — not current configuration or operational guidance.** This record describes the dated OpenCode/Crosslink investigation, including what was observed, inferred, proposed, rejected or left untested. Its historical commands, role labels, enforcement claims and expected mitigations do not apply automatically to current agents. See the [historical harness decision guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for disposition and current-source links; [exact original](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/Workflow%20Topology%20Design%20and%20Reasoning%20Record.md). The original body is retained below.
 > **STATUS NOTE.** This document is the consolidated record of the workflow-topology
 > design and the reasoning that produced it, as of the 2026-08-08 operator-directed
 > consolidation (issue #254). It synthesizes the finalized design decision posted on

@@ -5,6 +5,7 @@ This is a navigation point for **historical evidence, not current instructions**
 - [Harness Setup and Permission Design History](Harness%20Setup%20and%20Permission%20Design%20History.md): retired OpenCode/Claude/Crosslink configuration, permission and workflow rationale, rejected alternatives, tests and remaining evidence limits.
 - [Earlier repository overview](https://github.com/rock-solid-sites/ASES/blob/dc001af09d57050b5234ca794996950dd9e83c0d/docs/historical/README.md): original layout, traceability rationale and version conventions, preserved unchanged at the pre-reorganization revision.
 - [Historical AGENTS.md](AGENTS.md): previous agent instructions, not current policy.
+- [Skill and Review Design History](Skill%20and%20Review%20Design%20History.md): prompt variants, review-mode reasoning, specialist-role proposals, old packaging and connector examples.
 - [Historical skills](skills/): earlier Claude-era skill/style documents, not active procedure.
 
 For current general methodology, use [AI Orchestration Guide](../methodology/AI%20Orchestration%20Guide.md) and the [task-scoped method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md); only select sources applicable to the task.
