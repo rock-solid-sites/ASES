@@ -1,5 +1,5 @@
 ---
-version: 2026-11-21.1
+version: 2026-11-24.1
 title: Project Orientation
 program: EDASES
 layer: Research
@@ -8,7 +8,7 @@ status: Active
 authority: Derived
 canonical_repository: edases
 supersedes: ORIENTATION.md (previous version)
-last_updated: 2026-11-21
+last_updated: 2026-11-24
 ---
 
 > **Current execution/navigation notice (2026-11-21):** ASES tasks derive their context from the [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [selective skills index](skills/current/README.md). [Full document status and authority index](docs/README.md). Older instructions to read all root documents or use historical session/Crosslink routing are not current startup requirements. The research layering below remains conceptual background; technical currentness of other linked sources is assessed separately.
@@ -188,7 +188,7 @@ The objective is to reduce predictable human and AI error.
 
 # Repository Navigation
 
-A typical reading order is:
+For a human studying the research programme, a conceptual reading order is (not an agent startup sequence):
 
 1. README.md
 2. Documentation Standard
@@ -220,7 +220,7 @@ When in doubt, resolve uncertainty by moving upward through the abstraction hier
 
 # Guidance for AI Contributors
 
-AI contributors should additionally read `AGENTS.md`.
+AI contributors select applicable current sources using the task-scoped method linked above. `AGENTS.md` is a harness compatibility adapter where automatically loaded, not a mandatory additional read.
 
 AI-generated contributions should:
 

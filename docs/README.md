@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.1
+version: 1.0.2
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -24,6 +24,7 @@ last_updated: 2026-11-24
 | Scope | Source | Governs |
 | --- | --- | --- |
 | Documentation metadata | [Documentation Standard](standards/Documentation%20Standard.md) and [Documentation Taxonomy](standards/Documentation%20Taxonomy.md) | Authority, classification, relationship metadata |
+| General orchestration and reasoning | [AI Orchestration Guide](methodology/AI%20Orchestration%20Guide.md) | Evidence-based reasoning, role boundaries, review and validation principles |
 | ASES coordination | [Task-Scoped Information and Handoff Method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Current source admission, effective task views, evidence/provenance |
 | Architecture decision | [Accepted Task-Scoped Information ADR](architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Agreed format-independent choices and non-goals |
 | Bounded builds | [ASES Bounded Project Build Method](methodology/ASES%20Bounded%20Project%20Build%20Method.md) | Applied only when an Implementation Packet is genuinely compiled |
@@ -47,13 +48,13 @@ An entry reading `Active` in a historical file is **not a certificate of current
 
 **First explicit reviewed revisions:** The four ASES-owned methods for bounded builds, realization selection, state-model applicability and upstream customization have dated document revisions `2026-11-24.1`. These are newly declared versions of the reviewed documents, not reconstructed historical release numbers or new validation of every referenced research claim. The state-model method explicitly separates current applicability guidance from unresolved adoption of the historical derived VSDD artifacts.
 
-**Remaining authority conflict:** The EDASES Core System Prompt v1 and v2 both declare Active/Canonical, but v2 declares supersession of v1 and both retain old `AGENTS.md` consumer references. Their shared-source ownership and supersession require reconciliation; neither is a mandatory ASES startup prompt. This local navigation notice does not silently change the EDASES source metadata.
+**Core prompt consolidation:** The two earlier EDASES core prompt iterations are historical. Their still-useful reasoning principles are consolidated in the current AI Orchestration Guide. Neither historical prompt is an operational startup requirement.
 
 ## Legacy and supersession
 
 The old root `AGENTS.md` is now a **thin compatibility adapter** with active current links. Mandatory `SESSION-START.md`, `docs/SESSION-END.md`, and `docs/ORCHESTRATOR.md` have been retired as operational instructions. The dated `docs/methodology/Agent Model Launch Routes.md` is a deprecated redirect to the current launch skill.
 
-These paths remain stable for inbound links, but do **not** authorize old Crosslink commands, IT3812/VPS routes, paid model substitutions or mandatory session rituals. Historical text is preserved at pinned Git revisions in each redirect. Runtime auto-loading of any file is separately measurable; neither this index nor the architecture decision asserts it has been tested.
+These paths remain stable for inbound links, but do **not** authorize old Crosslink commands, IT3812/VPS routes, paid model substitutions or mandatory session rituals. The old repository-local OpenCode, Claude and Crosslink configuration bundle has been moved outside auto-discoverable root paths into the historical archive as a unit, not selectively stripped of permission controls for use. No default launcher is thereby authorized. See the [historical harness decision and evidence guide](historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for why it was built, source snapshots, rejected approaches and unresolved questions. Current execution uses explicitly verified task-specific routes. Historical text is preserved at pinned Git revisions in each redirect. Runtime auto-loading of any file is separately measurable; neither this index nor the architecture decision asserts it has been tested.
 
 ## Ownership of decisions and state
 
