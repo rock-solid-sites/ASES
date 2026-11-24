@@ -1,0 +1,40 @@
+name: B2 GitHub artifact transport smoke test
+on:
+  push:
+    branches: [audit/b2-artifacts-smoke-20261125]
+    paths: ['.github/workflows/audit-b2-artifacts-smoke.yml']
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.B2_ARTIFACTS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_ARTIFACTS_APP_KEY }}
+      B2_BUCKET: ${{ vars.B2_ARTIFACTS_BUCKET }}
+      B2_REGION: ${{ vars.B2_ARTIFACTS_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ARTIFACTS_ENDPOINT }}
+      AWS_PAGER: ''
+      AWS_MAX_ATTEMPTS: '1'
+    steps:
+      - name: Upload and restore synthetic evidence; compare hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$AWS_ACCESS_KEY_ID" && test -n "$AWS_SECRET_ACCESS_KEY" && test -n "$B2_BUCKET" && test -n "$B2_REGION" && test -n "$B2_ENDPOINT" || { echo "::error::Missing B2 artifact configuration"; exit 1; }
+          [[ "$B2_ENDPOINT" =~ ^https://s3[.][a-z0-9-]+[.]backblazeb2[.]com/?$ ]] || { echo "::error::Expected HTTPS Backblaze S3 endpoint"; exit 1; }
+          test "$B2_BUCKET" = rss-github-artifacts || { echo "::error::Expected dedicated artifact bucket"; exit 1; }
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+          key="smoke-tests/ASES/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
+          printf 'ASES synthetic transport test\nrun=%s\nattempt=%s\nsource=%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" "$GITHUB_SHA" > "$work/source.txt"
+          digest="$(sha256sum "$work/source.txt" | cut -d' ' -f1)"
+          args=(--endpoint-url "$B2_ENDPOINT" --region "$B2_REGION" --no-cli-pager --cli-connect-timeout 15 --cli-read-timeout 30)
+          aws s3api put-object --bucket "$B2_BUCKET" --key "$key" --body "$work/source.txt" --metadata "sha256=$digest" "${args[@]}" > "$work/put.json"
+          aws s3api get-object --bucket "$B2_BUCKET" --key "$key" "${args[@]}" "$work/restored.txt" > "$work/get.json"
+          actual="$(sha256sum "$work/restored.txt" | cut -d' ' -f1)"
+          test "$actual" = "$digest"
+          cmp "$work/source.txt" "$work/restored.txt"
+          printf 'B2_SMOKE_PASS bucket=%s object=%s bytes=%s sha256=%s\n' "$B2_BUCKET" "$key" "$(wc -c < "$work/source.txt")" "$actual"
+          echo 'Synthetic evidence retained for later read verification; no other objects changed.'
