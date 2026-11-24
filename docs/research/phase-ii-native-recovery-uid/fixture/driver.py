@@ -182,6 +182,51 @@ def run_case(kind, request_id):
     return case
 
 
+def run_two_worker_seam_case():
+    """Two real workers issue the same fixed write shape through one owner."""
+    kind = "worker-seam"
+    root = CASE_ROOT / kind
+    bootstrap_id = "uid-worker-seam-bootstrap"
+    controller_child, ready = start_controller(kind, bootstrap_id, root)
+    controller = ControllerProxy(controller_child)
+    workers = {"x": base.role_worker(), "y": base.role_worker()}
+    request_ids = {"x": "uid-worker-seam-x-20261124",
+                   "y": "uid-worker-seam-y-20261124"}
+    case = {"case_kind": kind, "bootstrap_request_id": bootstrap_id,
+            "manager_ready": ready, "manager_process": process_record(controller_child),
+            "owner_start_snapshot": final_snapshot(controller), "writes": []}
+    try:
+        for label in ("x", "y"):
+            worker = workers[label]
+            request_id = request_ids[label]
+            shape = {"op": "write", "payload": request_id}
+            route = base.mediate(worker, controller, shape)
+            controller_frame = controller.forwarded_records[-1]
+            case["writes"].append({
+                "label": label, "request_id": request_id,
+                "request_shape": shape, "worker_pid": worker.pid,
+                "worker_status_at_start": worker.status,
+                "route": route, "controller_frame": controller_frame,
+                "owner_snapshot_after": final_snapshot(controller),
+            })
+        case["owner_final_snapshot"] = final_snapshot(controller)
+    finally:
+        for worker in workers.values():
+            worker.stop(kill=False)
+        case["worker_processes"] = {label: process_record(worker)
+                                    for label, worker in workers.items()}
+        controller_child.send({"op": "stop"})
+        try:
+            stopped = frame(controller_child, "STOPPED")
+            case["manager_cleanup"] = stopped.get("cleanup")
+        except BaseException as exc:
+            case["manager_cleanup_error"] = type(exc).__name__ + ":" + str(exc)
+        controller_child.stop(kill=False)
+        case["manager_process_final"] = process_record(controller_child)
+        case["controller_forwarded_operations"] = controller.forwarded_records
+    return case
+
+
 def main():
     os.umask(0o077)
     if os.getuid() != 0:
@@ -194,6 +239,7 @@ def main():
     try:
         raw["cases"]["local"] = run_case("local", "uid-recovery-local")
         raw["cases"]["reserved"] = run_case("reserved", "uid-recovery-reserved")
+        raw["cases"]["worker_seam"] = run_two_worker_seam_case()
         raw["status"] = "PASS"
     except BaseException as error:
         raw["failure"] = {"type": type(error).__name__, "message": str(error),
