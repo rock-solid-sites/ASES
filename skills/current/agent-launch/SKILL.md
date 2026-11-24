@@ -1,13 +1,13 @@
 ---
 name: agent-launch
-version: 1.0.5
+version: 1.0.6
 description: Resolve and verify ASES agent execution routes across GitHub Actions, Codespaces, Modal, and authorized model providers before launching.
 status: current
 ---
 
 # Agent launch and route selection
 
-Resolve **controller**, **execution host**, **launcher**, **target provider/model**, **permissions**, **source revision**, **resource/time budget** and **durable result location** before launch. Model identity belongs in trusted caller-side settings, not in the recipient's self-identification prompt. Never silently substitute models or execution hosts.
+Resolve **controller**, **execution host**, **launcher**, **target provider/model**, **permissions**, **source revision**, **resource/time budget** and **durable result location** before launch. For retained artifacts, establish the final home/status separately from any temporary workspace and its disposition; apply the [canonical destination-first handoff method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery). Model identity belongs in trusted caller-side settings, not in the recipient's self-identification prompt. Never silently substitute models or execution hosts.
 
 ## ChatGPT coordination launch convention (active)
 
@@ -46,4 +46,4 @@ For independent reviews, use `skills/current/review-launch/SKILL.md` and the cur
 
 The old IT3812/VPS and Crosslink environment mentioned in `docs/methodology/Agent Model Launch Routes.md` is **historical** and must not be assumed connected or executable. Use that document only for model-provider compatibility details explicitly corroborated in current runs. Phoenix Grove reviewer routes and credentials are documented separately; a successful prior test establishes feasibility, while each new PGS2 review needs explicit scoped authorization and limits **independent of the Go/free-Zen restriction**.
 
-Check the actual connected tools before claiming a remote launch can happen. Prefer the smallest approved test. On missing tool, route, account, secret or authorisation, report the precise blocker; no silent fallback. For long-running tasks, preserve durable commits/position records and validate progress rather than treating a live process as proof of work.
+Check the actual connected tools before claiming a remote launch can happen. Prefer the smallest approved test. On missing tool, route, account, secret or authorisation, report the precise blocker; no silent fallback. During execution, commit/push and verify recoverable remote checkpoints; verify retained outputs at their intended final destination before reporting delivery. Validate progress rather than treating a live process as proof of work.

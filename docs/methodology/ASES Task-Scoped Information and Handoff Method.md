@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.0.0
+version: 1.1.0
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -18,7 +18,7 @@ related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
   - research/agent-information-topology/greenfield-task-context/TASK-VIEW-CONTRACT.md
   - research/agent-information-topology/greenfield-task-context/comparison/RESULTS-2026-11-20.md
-last_updated: 2026-11-21
+last_updated: 2026-11-24
 ---
 
 # ASES Task-Scoped Information and Handoff Method
@@ -58,7 +58,7 @@ Deliver the smallest reliable view containing:
 | **Applicable meaning** | Current relevant rules, settled decisions, necessary project facts and explicit unresolved assumptions |
 | **Authority and limits** | Permitted operations, access/secret boundaries, escalation/stop conditions, and verified caller-side execution authorization when dispatch is intended |
 | **Evidence obligation** | Cheapest relevant falsifying check, what result counts as evidence and which claims remain untested |
-| **Durable destination** | Existing Git/issue/work-unit location for outputs, evidence, blockers and current position |
+| **Durable destination** | Intended final home of retained artifacts and evidence; distinct temporary workspace and disposition where used; existing execution record for blockers and current position |
 
 These are **semantic obligations, not required headings, JSON keys or separate files**. A simple task may use a few lines of prose with direct links. A complex or cross-role task may use an explicitly structured packet. Only introduce machine-readable records, a context resolver or additional persistent storage when recurring empirical failures justify the overhead.
 
@@ -71,6 +71,18 @@ Preserve a **small receipt when material** to authority, overrides, independence
 A producer's claim crossing to another agent carries **claim, basis/source, confidence, cheapest falsifier and WHAT-NOT-TESTED**. Reviewers receive the artifact and independent claim, not necessarily the builder's whole process packet; use the applicable clean-room review rules. The coordinator retains acceptance authority. Research findings become traceable observations until formally approved as methodology.
 
 Checkpoint the current position in the existing work record: completed verified work, current blocker, next transition and supporting commits/tests. **No universal session-start or session-end file is required** to preserve state.
+
+### Destination-first execution and recovery
+
+**Branches are temporary and disposable.** Before creating a branch or starting work that produces retained artifacts, identify the source repository/revision, intended final repository and discoverable path (normally on its default branch), artifact status/authority, temporary workspace if used, and expected disposition. A temporary branch, local checkout or PR is a checkpoint, not the final home. The destination may be an existing document, directory, issue, or other authorized durable store; a task that produces no retained files needs no invented Git destination. Record a material change of destination or disposition with its reason and authority.
+
+For agent work, the existing Work Notes packet carries the source and final destination, disposable workspace, active owner or unclaimed status, material blocking dependencies, latest verified remote checkpoint and resume pointer when relevant. These are information obligations, not a prescribed YAML template or database schema. Git retains substantive code, documents, reasoning, evidence and meaningful historical states; Work Notes retains operational state and pointers; Projektor retains human-facing priorities, dependencies and adoption decisions. Do not duplicate canonical technical content in either tracker.
+
+Commit and push substantive progress at short recoverable intervals (aim for five minutes or meaningful checkpoints as appropriate), before long or interruption-prone operations, and at handoff. Independently verify the remote ref/commit or equivalent durable checkpoint and record the latest recoverable position. An unpushed local commit or reported push is not proof of recoverability. If remote publication is blocked, report the missing durability and preserve authorized evidence where possible; do not claim delivery.
+
+Isolate concurrent or risky changes and replacement comparisons as needed. Clearly classified experimental or work-in-progress artifacts may be published to an appropriate default-branch location without activating them or approving their adoption. Preserve useful findings from rejected experiments. Do not preserve noisy intermediate Git history for its own sake; retain current state, meaningful historical state, source identities and reproducibility evidence as needed. Publication does not authorize production activation, bypass review, or expose private material.
+
+At completion, verify retained outputs are readable at the intended authorized remote destination, including their source/authority status and relevant navigation. Record final pointers and explicitly identify branch-only remainder as unfinished or intentionally temporary. A branch becomes disposable only after its retained outputs and necessary evidence are independently verified at their intended home and no active dependency requires it. Do not delete branches or rewrite shared history without applicable authority. Keep the final handoff proportional to the task.
 
 ## Readiness and exceptions
 
