@@ -1,0 +1,42 @@
+{
+  "schema": "ases4-two-worker-seam-host-variant-check-v1",
+  "status": "NOT_RUN",
+  "reason": "Host cannot provide the UID-separated #38 custody boundary without its exact pinned image and required container capabilities. A same-UID host process run would not test worker identity or authority exclusion.",
+  "source_refs": {
+    "worker_seam_source_commit": "130e760d26020d93534c1235cd09ac4728a73638",
+    "worker_seam_source_parent": "0bd51a34700164a5eb77efe98158fa37d1a74e23",
+    "native_pending_admission_pr84_head": "bfabf1d95a1f51052679ff4855a2ccc147b97584"
+  },
+  "host_identity": {
+    "uid": 1000,
+    "gid": 1000,
+    "uid_map": "1000 0 1",
+    "gid_map": "1000 0 1",
+    "CapEff": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "NoNewPrivs": 1
+  },
+  "uid_namespace_probe": {
+    "argv": ["unshare", "-Ur", "true"],
+    "exit": 1,
+    "stderr": "unshare: cannot open /proc/self/uid_map: Read-only file system"
+  },
+  "docker": {
+    "server": "28.4.0",
+    "storage_driver": "vfs",
+    "required_image_id": "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335",
+    "image_inspect_exit": 1,
+    "image_inspect_stdout": "[]",
+    "image_inspect_stderr": "Error response from daemon: No such image: sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335\n",
+    "image_inventory": []
+  },
+  "pr84_route_review": {
+    "ref": "bfabf1d95a1f51052679ff4855a2ccc147b97584",
+    "path": "docs/research/phase-ii-native-pending-admission/verify_probe.py",
+    "route": "direct native owner/F4 process fixture",
+    "uid_separation": false,
+    "notes": "OwnerProcess/subprocess.Popen and subprocess.run inherit caller credentials; this route verifies native admission and recovery semantics, not the #38 UID2000-manager/UID2001-worker custody path."
+  },
+  "container_created": false,
+  "worker_requests_sent": false
+}
