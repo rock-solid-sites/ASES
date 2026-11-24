@@ -10,7 +10,7 @@ depends_on:
   - AGENTS.md
   - docs/standards/Documentation Standard.md
   - docs/methodology/Implementation Realization and Assurance Selection Method.md
-  - skills/custom-mcp-connector/SKILL.md
+  - skills/current/custom-mcp-connector/SKILL.md
 related_documents:
   - plugins/README.md
   - research/testing-assurance-pilot/scheduler-clock/EVIDENCE-CLASSIFICATION.md
@@ -38,7 +38,7 @@ last_updated: 2026-11-03
 1. [DIAGNOSIS.md](DIAGNOSIS.md) — observation/interpretation boundary, precise GitLab failure surface, prior verified controls, unresolved schedule existence, discriminating tests.
 2. [CAPABILITY-AND-OPTIONS.md](CAPABILITY-AND-OPTIONS.md) — requirements, MCP semantics and candidate architectures, security constraints, tool/API contracts, falsifiable acceptance tests, research decision gates.
 3. [scheduler experiment evidence](../../research/testing-assurance-pilot/scheduler-clock/EVIDENCE-CLASSIFICATION.md) — definition of `CONFIGURATION_UNVERIFIED`, unobserved run, slot attribution, evidence quality.
-4. [ASES connector diagnostic skill](../../skills/custom-mcp-connector/SKILL.md) — real ChatGPT client capability, registration, transport, identity, tool discovery, actual invocation and backend corroboration.
+4. [ASES connector diagnostic skill](../../skills/current/custom-mcp-connector/SKILL.md) — real ChatGPT client capability, registration, transport, identity, tool discovery, actual invocation and backend corroboration.
 5. [canonical realization-selection method](../../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) — exclude unsafe or unqualified realizations, minimize privileged authority/trusted base.
 
 ## Required outcome

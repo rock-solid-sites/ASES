@@ -6,7 +6,7 @@ This directory contains the active inputs for the Kernel-0 reasoning program.
 
 1. [Kernel-0 Evidence Packet](./Kernel-0-Evidence-Packet.md) — neutral requirements and boundaries. This is the primary context for the first open Astra reasoning pass.
 2. [Kernel-0 Reasoning Session Decision Record](./Kernel-0-Reasoning-Session-Decision-Record.md) — orchestration/routing decisions for Sol. Do **not** include this in the first Astra pass.
-3. [Compact Prompt Skill](../../../skills/prompt/SKILL.md) — prompt construction rules used for Sol/Astra task prompts.
+3. [Compact Prompt Skill](../../../skills/current/compact-prompt/SKILL.md) — prompt construction rules used for Sol/Astra task prompts.
 
 ## Relationship to older work
 
