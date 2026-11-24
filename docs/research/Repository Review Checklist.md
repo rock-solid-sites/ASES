@@ -23,6 +23,8 @@ last_updated: 2026-08-10
 
 # Repository Review Checklist
 
+> **Local applicability clarification (2026-11-24):** This EDASES-owned repository-review checklist is retained for its conceptual, traceability and evidence questions. Upstream currency is unverified. Its original fixed orientation-file sequence and mandatory completion language reflect an earlier repository convention, not a current ASES startup or review gate. For ASES work, select relevant sources and review modes via the [current task-scoped method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [AI Orchestration Guide](../methodology/AI%20Orchestration%20Guide.md#review-modes-and-provenance). Use the questions selectively, without biasing an independent broad review through a list of expected defects. The original body and EDASES ownership remain intact. See [testing and assurance source map](Testing%20and%20Assurance%20Source%20Map.md).
+
 Complete this checklist before submitting a repository review.
 
 ## Orientation
