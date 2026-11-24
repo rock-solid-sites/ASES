@@ -28,7 +28,7 @@ def emit(value):
 
 class NativeManager:
     def __init__(self, kind: str, request_id: str):
-        if kind not in ("local", "reserved"):
+        if kind not in ("local", "reserved", "worker-seam"):
             raise ValueError("unsupported-fixed-case")
         if not isinstance(request_id, str) or not request_id or len(request_id.encode()) > 128:
             raise ValueError("bounded-request-id-required")
@@ -123,6 +123,24 @@ class NativeManager:
         self.forwarded_operations.append(result)
         return result
 
+    def worker_seam_write(self, request_id):
+        """Use the existing mediated write path without recovery gates or new authority state."""
+        if self.kind != "worker-seam":
+            raise ValueError("worker-seam-write-requires-fixed-seam-case")
+        if not isinstance(request_id, str) or not request_id or len(request_id.encode()) > 128:
+            raise ValueError("bounded-request-id-required")
+        before = self.snapshot()
+        owner_input = self.owner.call({"op": "read"})
+        envelope = probe.native_envelope(owner_input["reply"]["snapshot"], request_id)
+        submission = self.f4.submit(envelope)
+        after = self.snapshot()
+        result = {"request_id": request_id, "owner_request": {"op": "read"},
+                  "owner_input": owner_input,
+                  "envelope": envelope, "f4_submission": submission,
+                  "before": before, "after": after}
+        self.forwarded_operations.append(result)
+        return result
+
     def recover(self):
         if not self.first_write:
             raise ValueError("recovery-requires-gated-native-effect")
@@ -182,6 +200,9 @@ class NativeManager:
         if op == "snapshot" and set(request) == {"op"}:
             return {"event": "RESPONSE", "op": op, "snapshot": self.snapshot()}
         if op == "write" and set(request) == {"op", "payload"}:
+            if self.kind == "worker-seam":
+                return {"event": "RESPONSE", "op": op,
+                        "worker_seam_write": self.worker_seam_write(request["payload"])}
             if self.first_write is None:
                 return {"event": "RESPONSE", "op": op,
                         "first_write": self.gated_first_write(request["payload"])}

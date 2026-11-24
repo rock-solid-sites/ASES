@@ -1,0 +1,119 @@
+{
+  "cases": {},
+  "outer": {
+    "cleanup": null,
+    "cleanup_preflight_inspection": {
+      "argv": [
+        "docker",
+        "--host=unix:///var/run/docker.sock",
+        "container",
+        "inspect",
+        "ases4-native-recovery-uid-9423-1795493827085554929"
+      ],
+      "cleared_docker_env": [],
+      "exit": 1,
+      "finished_ns": 1795493827138101956,
+      "started_ns": 1795493827123182404,
+      "stderr": "Error response from daemon: No such container: ases4-native-recovery-uid-9423-1795493827085554929\n",
+      "stdout": "[]\n"
+    },
+    "container_constraints": {
+      "cap_add": [
+        "CHOWN",
+        "DAC_OVERRIDE",
+        "SETUID",
+        "SETGID"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "cpus": 1,
+      "memory": "512m",
+      "mounts": [],
+      "network": "none",
+      "no_new_privileges": true,
+      "pids_limit": 32,
+      "ports": [],
+      "user": "0:0"
+    },
+    "container_id": null,
+    "container_inspection": null,
+    "container_name": "ases4-native-recovery-uid-9423-1795493827085554929",
+    "docker_commands": [
+      {
+        "argv": [
+          "docker",
+          "--host=unix:///var/run/docker.sock",
+          "image",
+          "inspect",
+          "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335"
+        ],
+        "cleared_docker_env": [],
+        "exit": 1,
+        "finished_ns": 1795493827118431534,
+        "started_ns": 1795493827085643432,
+        "stderr": "Error response from daemon: No such image: sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335\n",
+        "stdout": "[]\n"
+      },
+      {
+        "argv": [
+          "docker",
+          "--host=unix:///var/run/docker.sock",
+          "container",
+          "inspect",
+          "ases4-native-recovery-uid-9423-1795493827085554929"
+        ],
+        "cleared_docker_env": [],
+        "exit": 1,
+        "finished_ns": 1795493827138101956,
+        "started_ns": 1795493827123182404,
+        "stderr": "Error response from daemon: No such container: ases4-native-recovery-uid-9423-1795493827085554929\n",
+        "stdout": "[]\n"
+      }
+    ],
+    "docker_environment_cleared": [
+      "DOCKER_HOST",
+      "DOCKER_CONTEXT",
+      "DOCKER_TLS",
+      "DOCKER_TLS_VERIFY",
+      "DOCKER_CERT_PATH"
+    ],
+    "docker_socket": "unix:///var/run/docker.sock",
+    "driver_result": null,
+    "driver_stderr": "",
+    "driver_stdout": "",
+    "ended_ns": 1795493827138111239,
+    "image_id": "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335",
+    "image_inspection_command": {
+      "argv": [
+        "docker",
+        "--host=unix:///var/run/docker.sock",
+        "image",
+        "inspect",
+        "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335"
+      ],
+      "cleared_docker_env": [],
+      "exit": 1,
+      "finished_ns": 1795493827118431534,
+      "started_ns": 1795493827085643432,
+      "stderr": "Error response from daemon: No such image: sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335\n",
+      "stdout": "[]\n"
+    },
+    "label_key": "org.ases4.uid-recovery-task",
+    "label_value": "ases4-native-recovery-uid-9423-1795493827085554929",
+    "runner_error": {
+      "message": "pinned base image inspect failed",
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/native-worker-sparse-Uo1HuQ/docs/research/phase-ii-native-recovery-uid/run_uid_recovery.py\", line 211, in run\n    outer[\"image\"] = parse_image_inspection(image_inspect)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/native-worker-sparse-Uo1HuQ/docs/research/phase-ii-native-recovery-uid/run_uid_recovery.py\", line 158, in parse_image_inspection\n    raise RuntimeError(\"pinned base image inspect failed\")\nRuntimeError: pinned base image inspect failed\n",
+      "type": "RuntimeError"
+    },
+    "runner_status": "FAIL",
+    "schema": "ases4-native-recovery-uid-runner-v1",
+    "source_commit": null,
+    "staged_directories": [],
+    "staged_sources": {},
+    "started_ns": 1795493827085556000,
+    "task": "ases4-native-recovery-uid-9423-1795493827085554929"
+  },
+  "schema": "ases4-native-recovery-uid-v1",
+  "status": "FAIL"
+}

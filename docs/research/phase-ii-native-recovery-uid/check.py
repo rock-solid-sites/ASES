@@ -328,6 +328,120 @@ def validate_transition_and_history(case, name, event):
          name + " exact historical replay appended journal bytes")
 
 
+def validate_two_worker_seam(case):
+    name = "worker-seam"
+    need(case.get("case_kind") == name, "two-worker fixture identity missing")
+    writes = case.get("writes")
+    need(isinstance(writes, list) and len(writes) == 2,
+         "two distinct mediated worker writes are required")
+    ids = [item.get("request_id") for item in writes]
+    pids = [item.get("worker_pid") for item in writes]
+    need(len(set(ids)) == 2 and all(isinstance(value, str) and value for value in ids),
+         "worker requests must use distinct fresh IDs")
+    need(len(set(pids)) == 2 and all(type(value) is int for value in pids),
+         "requests must come from distinct worker processes")
+    need(len(case.get("controller_forwarded_operations", [])) == 2,
+         "exactly two writes reached the UID-2000 controller")
+
+    start = case.get("owner_start_snapshot")
+    start_owner = owner_snapshot(start, name + " initial")
+    start_native = start_owner["state"]["native_owner"]
+    need(start_native.get("effects") == {}, "fresh worker-seam owner already has effects")
+    need(record_bytes(start.get("journal"), name + " initial journal") == b"",
+         "worker-seam journal was not empty before the first worker")
+
+    envelopes = []
+    expected_prior = b""
+    for item in writes:
+        label = item["label"]
+        request_id = item["request_id"]
+        expected_shape = {"op": "write", "payload": request_id}
+        need(item.get("request_shape") == expected_shape,
+             label + " request shape differs from the fixed D-write interface")
+        route = item.get("route", {})
+        need(route.get("input", {}).get("request") == expected_shape,
+             label + " worker did not emit the recorded request shape")
+        decision = route.get("driver_decision", {})
+        frame = item.get("controller_frame", {})
+        need(decision == frame and frame.get("event") == "RESPONSE"
+             and frame.get("op") == "write",
+             label + " owner response did not return through the mediated route")
+        status_identity(item.get("worker_status_at_start"), 2001, label + " worker")
+        final_process = case.get("worker_processes", {}).get(label, {})
+        need(final_process.get("pid") == item["worker_pid"] and final_process.get("exit") == 0,
+             label + " worker was not cleanly reaped")
+
+        record = frame.get("worker_seam_write", {})
+        need(record.get("request_id") == request_id
+             and record.get("owner_request") == {"op": "read"},
+             label + " manager owner-read input is missing or mismatched")
+        owner_before = owner_snapshot(record.get("before", {}), label + " owner before")
+        owner_after = owner_snapshot(record.get("after", {}), label + " owner after")
+        before_native = owner_before["state"]["native_owner"]
+        after_native = owner_after["state"]["native_owner"]
+        need(before_native.get("selected") == after_native.get("selected") == start_native.get("selected")
+             and before_native.get("epoch") == after_native.get("epoch") == start_native.get("epoch"),
+             label + " owner selection or epoch changed during a mediated write")
+        need(owner_before["state"].get("current_ingress") == owner_after["state"].get("current_ingress")
+             == start_owner["state"].get("current_ingress"),
+             label + " current ingress changed during a mediated write")
+
+        envelope = record.get("envelope", {})
+        envelopes.append(envelope)
+        submission = record.get("f4_submission", {})
+        request = submission.get("request", {})
+        need(set(request) == {"authority_version", "request_id", "payload"}
+             and request.get("authority_version") == 1
+             and request.get("request_id") == request_id,
+             label + " exact F4 owner input differs from the fixed current-write request")
+        payload = json.loads(request.get("payload", "null"))
+        need(payload == envelope and payload.get("request_id") == request_id,
+             label + " F4 payload differs from the manager-derived current envelope")
+        need(not ({"worker_pid", "execution_id", "attachment_id", "execution"} & set(payload)),
+             label + " current envelope unexpectedly contains execution identity")
+        response = submission.get("response", {})
+        body = response.get("body", {})
+        need(response.get("status") == 201
+             and body.get("owner_effect", {}).get("status") == "published"
+             and body.get("outcome") in ("accepted", "published"),
+             label + " actual native effect was not accepted and published")
+
+        before = record_bytes(submission.get("before"), label + " F4 journal before")
+        after = record_bytes(submission.get("after"), label + " F4 journal after")
+        need(before == expected_prior and len(after) > len(before),
+             label + " did not append after the prior durable journal cut")
+        events = [json.loads(line) for line in after.splitlines() if line]
+        matching = [event for event in events
+                    if event.get("event") == "effect_accepted" and event.get("request_id") == request_id]
+        need(len(matching) == 1, label + " journal lacks one actual accepted event for its fresh ID")
+        event = matching[0]
+        need(body.get("event_seq") == event.get("seq")
+             and body.get("owner_effect", {}).get("seq") == event.get("seq"),
+             label + " owner result is not bound to the durable journal sequence")
+        effect = after_native.get("effects", {}).get(request_id, {})
+        need(effect.get("status") == "published" and effect.get("seq") == event.get("seq"),
+             label + " owner readback does not retain the published effect")
+        witness = record.get("after", {}).get("witness", {}).get("body", {}).get("current", {})
+        need(witness.get("journal_sha256") == hashlib.sha256(after).hexdigest(),
+             label + " durable append lacks the matching current witness cut")
+        need(record.get("after", {}).get("f1", {}).get("integrity") == "ok",
+             label + " F1 readback integrity is not okay")
+        expected_prior = after
+
+    need(all(set(envelope) == {"kind", "import_id", "epoch", "pair", "l5", "request_id"}
+             for envelope in envelopes), "manager-derived envelope shape changed")
+    need({key: value for key, value in envelopes[0].items() if key != "request_id"}
+         == {key: value for key, value in envelopes[1].items() if key != "request_id"},
+         "the two workers were not evaluated against the same current authority inputs")
+    final = owner_snapshot(case.get("owner_final_snapshot", {}), name + " final")
+    final_effects = final["state"]["native_owner"].get("effects", {})
+    need(all(final_effects.get(request_id, {}).get("status") == "published" for request_id in ids),
+         "final durable owner readback does not contain both published IDs")
+    return {"case": name, "distinct_worker_processes": 2,
+            "distinct_published_effects": 2,
+            "execution_specific_authority": "not represented by captured request/envelope"}
+
+
 def check_outer(outer):
     need(isinstance(outer, dict), "bounded Docker outer record missing")
     base_id = "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335"
@@ -423,7 +537,8 @@ def item_success(command):
 
 def check(raw):
     need(isinstance(raw, dict) and raw.get("status") == "PASS", "native recovery driver did not pass")
-    need(set(raw.get("cases", {})) == {"local", "reserved"}, "both native recovery histories required")
+    need(set(raw.get("cases", {})) == {"local", "reserved", "worker_seam"},
+         "native recovery histories and two-worker seam case are required")
     check_outer(raw.get("outer"))
     for name in ("local", "reserved"):
         case = raw["cases"][name]
@@ -445,8 +560,9 @@ def check(raw):
         event = validate_initial_effect(case, name)
         validate_recovery(case, name)
         validate_transition_and_history(case, name, event)
-    return {"status": "PASS", "checked_cases": ["local", "reserved"],
-            "checked_direct_worker_audits": 2}
+    worker_seam = validate_two_worker_seam(raw["cases"]["worker_seam"])
+    return {"status": "PASS", "checked_cases": ["local", "reserved", "worker_seam"],
+            "checked_direct_worker_audits": 2, "worker_seam": worker_seam}
 
 
 def fake_success_with_pending_owner(value):
