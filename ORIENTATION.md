@@ -1,5 +1,5 @@
 ---
-version: 2026-11-24.1
+version: 2026-11-24.2
 title: Project Orientation
 program: EDASES
 layer: Research
@@ -64,7 +64,7 @@ This preserves conceptual independence throughout the project.
 
 # Canonical Documents
 
-The following documents define the current state of the project.
+The following foundational documents explain the conceptual layers. For current task-specific governing sources and historical dispositions, use the [documentation index](docs/README.md); this list is not a complete operational contract.
 
 ## Documentation Standard
 
@@ -234,7 +234,7 @@ AI-generated contributions should:
 
 # Current Project Phase
 
-The project is transitioning from exploratory research to methodology execution.
+The project now combines continuing research, current methodology and experimental implementation. See the [Execution Engine Vision](docs/architecture/Execution%20Engine%20Vision.md) for the current distinction between Kernel/Work Unit requirements and demonstrated bounded prototypes. November experimental PR stacks are not a deployed integrated engine; the [architecture and experiment history](docs/historical/Engine%20Architecture%20and%20Experiment%20History.md) provides their evidence and limitations.
 
 Current priorities are:
 

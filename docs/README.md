@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.3
+version: 1.0.4
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -27,6 +27,7 @@ last_updated: 2026-11-24
 | General orchestration and reasoning | [AI Orchestration Guide](methodology/AI%20Orchestration%20Guide.md) | Evidence-based reasoning, role boundaries, review and validation principles |
 | ASES coordination | [Task-Scoped Information and Handoff Method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Current source admission, effective task views, evidence/provenance |
 | Architecture decision | [Accepted Task-Scoped Information ADR](architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Agreed format-independent choices and non-goals |
+| Execution requirements and architecture | [Methodology to Requirements Mapping](requirements/Methodology%20to%20Requirements%20Mapping%20Specification.md) and [Execution Engine Vision](architecture/Execution%20Engine%20Vision.md) | Current intended authority/continuity and higher-level responsibility boundaries; not deployment claims |
 | Bounded builds | [ASES Bounded Project Build Method](methodology/ASES%20Bounded%20Project%20Build%20Method.md) | Applied only when an Implementation Packet is genuinely compiled |
 | Implementation choice | [Realization and Assurance Selection Method](methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) | Requirements-first selection, language constraints, bounded upstream-reuse exception |
 | State modeling | [State-Model Applicability and Reuse Method](methodology/State-Model%20Applicability%20and%20Reuse%20Method.md) | Task-specific model suitability; verify separately adopted VSDD sources |
@@ -52,6 +53,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Core prompt consolidation:** The two earlier EDASES core prompt iterations are historical. Their still-useful reasoning principles are consolidated in the current AI Orchestration Guide. Neither historical prompt is an operational startup requirement.
 
 **Skill consolidation:** Current operational skills retain the applicable prompt and review principles. The old skill variants, proposed ontology-review role variants and v0.1.0 pinned-copy packaging machinery are preserved in [Skill and Review Design History](historical/Skill%20and%20Review%20Design%20History.md), not active discovery. The old pinned-copy drift workflow was retired because the current dispatcher retrieves selected current sources at use time; actual automatic invocation remains unverified.
+
+**Engine research navigation:** [Kernel-0 neutral requirements](research/kernel-0/Kernel-0-Evidence-Packet.md) constrain substrate research without freezing a realization. The [Engine Architecture and Experiment History](historical/Engine%20Architecture%20and%20Experiment%20History.md) separates earlier proposals and reviews from the current November prototype stacks and prepared test packets. Experimental reports are evidence, not adopted architecture.
 
 ## Legacy and supersession
 

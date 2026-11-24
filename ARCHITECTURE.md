@@ -1,5 +1,5 @@
 ---
-version: 2026-11-21.1
+version: 2026-11-24.1
 title: Conceptual Architecture
 program: EDASES
 layer: Research
@@ -8,7 +8,7 @@ status: Active
 authority: Canonical
 canonical_repository: edases
 supersedes: ARCHITECTURE.md (previous version)
-last_updated: 2026-11-21
+last_updated: 2026-11-24
 ---
 
 > **Scope clarification (2026-11-21):** This EDASES conceptual architecture is **not** a current agent bootstrap or deployment contract. For current ASES task-information architecture consult the [accepted ADR](docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) and [canonical method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). [Documentation index](docs/README.md) records source status independently of the conceptual layering described here.
@@ -16,7 +16,7 @@ last_updated: 2026-11-21
 
 This document describes the conceptual architecture of the EDASES project and the relationship between its research, methodology and implementation activities.
 
-It does **not** describe the implementation architecture of the execution engine. That vision is documented separately.
+It does **not** describe the implementation architecture of the execution engine. The [current Execution Engine Vision](docs/architecture/Execution%20Engine%20Vision.md) provides the applicable authority/continuity boundaries and research position; the [historical architecture and experiment record](docs/historical/Engine%20Architecture%20and%20Experiment%20History.md) preserves earlier designs. The conceptual layers below are not a mandatory physical repository structure or engine module decomposition.
 
 ---
 
@@ -115,7 +115,7 @@ Its responsibilities include:
 * maintaining engineering state
 * preserving reasoning
 * coordinating AI capabilities
-* enforcing methodological correctness
+* enforcing applicable mechanically expressible requirements; preserving human judgment and the minimal Kernel boundary
 
 Implementation decisions should always trace back to methodological requirements.
 
@@ -241,7 +241,7 @@ The architecture therefore preserves reasoning as the project's primary asset.
 
 # Knowledge Architecture
 
-Knowledge within the project is represented through explicit relationships.
+Knowledge within the project is represented through explicit relationships where material to the task. As ratified by the task-scoped information decision, this does not require a universal graph, store, service, or mandatory relationship schema.
 
 Examples include:
 
@@ -321,7 +321,7 @@ These principles apply throughout the project regardless of future implementatio
 
 `ORIENTATION.md` explains how to navigate the repository.
 
-`AGENTS.md` defines operational guidance for AI contributors.
+`AGENTS.md` is a thin compatibility adapter; the current skills index and task-scoped method own operational source selection.
 
 This document explains why the repository is structured as it is.
 

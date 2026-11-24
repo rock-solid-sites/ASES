@@ -1,13 +1,12 @@
 ---
 title: Methodology to Requirements Mapping Specification
+version: 2026-11-24.1
 program: ASES
 layer: Requirements
 document_type: Requirements Specification
 status: Active
 authority: Canonical
 canonical_repository: ases
-# Mirror/placeholder: this document is canonical to the ASES repository (ases);
-# it is filed here in edases as a mirror until the ases repository is established.
 
 depends_on:
   - Concept: Levels of Abstraction
@@ -20,7 +19,7 @@ related_documents:
   - Evaluation Framework
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-11-24
 ---
 
 # Methodology → Requirements Mapping
@@ -33,7 +32,7 @@ ASES specifies *what* should occur during software engineering.
 
 Implementations determine *how* those behaviours are realised.
 
-This document forms the contractual boundary between the methodology and its implementations.
+This document forms the high-level requirements boundary between the methodology and its implementations. It is not the complete Kernel specification, a frozen build packet or proof of a deployed engine. The applicable current requirements come from the methodology and explicit accepted decisions, not from old implementation proposals.
 
 ---
 
@@ -71,7 +70,7 @@ Requirements are grouped according to the responsibilities required to execute A
 
 ## Methodology Enforcement
 
-The execution system shall enforce the rules defined by ASES.
+The execution system shall enforce applicable, authorized and mechanically expressible rules defined by ASES. Semantic engineering judgment and rule adoption remain with the appropriate participants; a mechanism must not treat a model's assertion or mere successful API call as proof of validity.
 
 Examples include:
 
@@ -102,7 +101,7 @@ Workflow management should reflect methodology rather than implementation conven
 
 ## Knowledge Management
 
-The execution system shall preserve the reasoning underlying software engineering activities.
+The execution system shall support preservation of material reasoning underlying software engineering activities at authorized durable destinations. Relationships must be traceable where they matter; this does not require a single knowledge database, universal graph, or copying every source into one store.
 
 Capabilities include maintaining relationships between:
 
@@ -182,7 +181,7 @@ Validation should be performed consistently regardless of project size.
 
 ## State Management
 
-The execution system shall maintain the current methodological state of all managed artefacts.
+The execution system shall maintain or retrieve the current methodological state of the artefacts it is authorized to manage, distinguishing retained authoritative state from derived views and unknown observations.
 
 State should be:
 
@@ -191,7 +190,7 @@ State should be:
 - consistent
 - traceable
 
-State transitions should only occur when permitted by the methodology.
+State transitions should only occur when permitted by the methodology and actual granted authority. The [Kernel-0 Evidence Packet](../research/kernel-0/Kernel-0-Evidence-Packet.md) states the established substrate constraints: external bounded authority; durable Work Unit and Attachment Point; disposable Execution; stale-authority exclusion; and separately verified model adequacy and realization correspondence. These constraints do not freeze primitive vocabulary or assign all higher-level concepts to the Kernel.
 
 ---
 
@@ -259,7 +258,7 @@ Methodological state should remain internally consistent.
 
 ## Recoverability
 
-Projects should recover cleanly after interruption.
+Projects should recover authoritative work state after interruption. Preserve unknown effect/launch outcomes rather than silently repeating work or fabricating completion. The [task-scoped handoff method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) defines current durable destinations and evidence obligations; the execution engine need not replace those stores.
 
 ---
 
@@ -308,6 +307,6 @@ The Concept: Levels of Abstraction defines the abstraction boundary represented 
 
 The AI Orchestration Guide defines the methodological behaviours from which these requirements are derived.
 
-The Execution Engine Vision describes one possible architectural approach to satisfying these requirements.
+The [Execution Engine Vision](../architecture/Execution%20Engine%20Vision.md) summarizes the current architectural intent, role boundaries and research status. It does not adopt a particular realization. The [historical architecture and experiment record](../historical/Engine%20Architecture%20and%20Experiment%20History.md) preserves the earlier mappings, proposals and evidence.
 
 Implementations should trace their behaviour back through this document to the underlying methodology.

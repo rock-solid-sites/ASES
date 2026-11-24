@@ -1,19 +1,7 @@
-# Kernel-0 Research
+# Kernel-0 research
 
-This directory contains the active inputs for the Kernel-0 reasoning program.
+**Current requirements input:** [Kernel-0 Evidence Packet](Kernel-0-Evidence-Packet.md). This is the deliberately neutral requirements/adequacy packet, not a complete Kernel ontology, primitive vocabulary or implementation. Its contents remain unchanged during the November documentation reconciliation.
 
-## Read first
+For current architectural intent and non-goals, see the [Execution Engine Vision](../../architecture/Execution%20Engine%20Vision.md). For implementation history, November experimental PRs, remaining Work Unit adequacy tests and original rejected designs, see the [Engine Architecture and Experiment History](../../historical/Engine%20Architecture%20and%20Experiment%20History.md).
 
-1. [Kernel-0 Evidence Packet](./Kernel-0-Evidence-Packet.md) — neutral requirements and boundaries. This is the primary context for the first open Astra reasoning pass.
-2. [Kernel-0 Reasoning Session Decision Record](./Kernel-0-Reasoning-Session-Decision-Record.md) — orchestration/routing decisions for Sol. Do **not** include this in the first Astra pass.
-3. [Compact Prompt Skill](../../../skills/current/compact-prompt/SKILL.md) — prompt construction rules used for Sol/Astra task prompts.
-
-## Relationship to older work
-
-Earlier EDASES kernel, Work Unit, state-machine, and formal-verification research remains provenance. The Evidence Packet consolidates the settled requirements needed for the current derivation without requiring the first frontier pass to ingest the historical implementation path.
-
-Historical material should be pulled back in only when the current reasoning produces a concrete question that it can help answer.
-
-## Current objective
-
-Derive the smallest defensible Kernel-0 consistent with the evidence, test it as the authority substrate needed by the Work Unit architecture, and defer realization selection until the semantic candidate survives adequacy and adversarial reasoning.
+The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Decision-Record.md) explains the historical open-derivation protocol; it is not a current launch assignment. Preserve clean-room separation for new open derivations: do not include candidate designs, reviewer conclusions or historical implementation paths unless necessary to the requested task. Actual dispatch requires the current task-relevant skills and authorization, not September model/host assumptions.
