@@ -3,7 +3,7 @@ title: Harness Capability Matrix
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -22,6 +22,8 @@ last_updated: 2026-08-10
 ---
 
 # Harness Capability Matrix
+
+> **Historical local snapshot (June–August 2026; scope reviewed 2026-11-24).** The product versions, strategic status, framework feature claims and layer mapping below are dated research, not a current comparison or adoption decision. The original [source snapshot](https://github.com/rock-solid-sites/ASES/blob/19b38545d88bac8bc072ef9547d1dbd97e050f3b/docs/research/registry/Harness-Capability-Matrix.md) retains its original metadata. This local classification does not change EDASES upstream ownership. Apply the [current orchestration methodology](../../methodology/AI%20Orchestration%20Guide.md) and [current agent-launch skill](../../../skills/current/agent-launch/SKILL.md) for present task decisions; verify actual harness version, host, route and required effects separately. The matrix remains useful as evidence of previous evaluation dimensions; no claim of present runtime capability follows from it.
 
 **Date:** 2026-06-23
 **Source:** Fulfilling Addendum 01 §6 (Harness Capability Matrix) incrementally. First row: Microsoft AutoGen (see `docs/research/harness-evaluations/Microsoft-AutoGen.md`).

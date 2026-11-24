@@ -1,6 +1,6 @@
 ---
 name: agent-launch
-version: 1.0.6
+version: 1.0.7
 description: Resolve and verify ASES agent execution routes across GitHub Actions, Codespaces, Modal, and authorized model providers before launching.
 status: current
 ---
@@ -10,6 +10,8 @@ status: current
 Resolve **controller**, **execution host**, **launcher**, **target provider/model**, **permissions**, **source revision**, **resource/time budget** and **durable result location** before launch. For retained artifacts, establish the final home/status separately from any temporary workspace and its disposition; apply the [canonical destination-first handoff method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery). Model identity belongs in trusted caller-side settings, not in the recipient's self-identification prompt. Never silently substitute models or execution hosts.
 
 ## ChatGPT coordination launch convention (active)
+
+**Operator model exclusion:** Do not invoke xAI/Grok models through any provider, launcher or funding route. The permanent operator exclusion is recorded in the [historical routing matrix](../../../docs/research/registry/Model-Routing-Matrix.md#routing-principles-distilled-from-evidence) (former issues #249/#347). This is a specific exclusion, not a ban inferred for other providers. Historical matrix recommendations are observations or former policy, not present authorization; do not infer eligibility, cost, reliability or fallback from them.
 
 **No inferred model selection, no default models, no delegated model selection.** Before authoring a manual-launch task or calling a tool/workflow that can invoke any model, the coordinator must establish the exact caller-side `provider/model` ID, execution host, entitlement/billing route, and `fallback: none`. Display a compact launch declaration in chat (one line is enough), for example: `OpenCode Go | <exact verified opencode-go/model> | Go subscription allowance | limit verified | this route's paid overflow: disabled | fallback: none`. For an approved API-credit route, explicitly identify the provider/account, prepaid or promotional wallet, current available balance, maximum permitted debit and paid overflow policy. Do not place model choice in the receiving agent's discretion.
 

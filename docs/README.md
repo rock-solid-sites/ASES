@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.4
+version: 1.0.5
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -55,6 +55,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Skill consolidation:** Current operational skills retain the applicable prompt and review principles. The old skill variants, proposed ontology-review role variants and v0.1.0 pinned-copy packaging machinery are preserved in [Skill and Review Design History](historical/Skill%20and%20Review%20Design%20History.md), not active discovery. The old pinned-copy drift workflow was retired because the current dispatcher retrieves selected current sources at use time; actual automatic invocation remains unverified.
 
 **Engine research navigation:** [Kernel-0 neutral requirements](research/kernel-0/Kernel-0-Evidence-Packet.md) constrain substrate research without freezing a realization. The [Engine Architecture and Experiment History](historical/Engine%20Architecture%20and%20Experiment%20History.md) separates earlier proposals and reviews from the current November prototype stacks and prepared test packets. Experimental reports are evidence, not adopted architecture.
+
+**Capability evaluation and routing:** The EDASES [Evaluation Framework](research/frameworks/Evaluation%20Framework.md), [AI Evaluation Protocol](research/protocols/AI%20Evaluation%20Protocol.md) and [AI Capability Registry Specification](research/registry/AI%20Capability%20Registry%20Specification.md) address distinct questions: outcomes, evidence generation, and descriptive observations. These are locally retained EDASES-owned sources; upstream currency/version has not been verified and their bodies are preserved. The [historical Model Routing Matrix](research/registry/Model-Routing-Matrix.md) and [historical Harness Capability Matrix](research/registry/Harness-Capability-Matrix.md) retain dated evidence and former recommendations, not current route selection or deployment claims. Apply the current agent-launch and review-launch skills; verify present exact route, authorization and entitlement independently. The [Resource Solver reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md) is experimental control-plane research, not an adopted gate or a second account registry. Remaining model feedback and failure/assurance records require separate semantic review.
 
 ## Legacy and supersession
 

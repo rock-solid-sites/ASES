@@ -3,7 +3,7 @@ title: Model Routing Matrix
 program: EDASES
 layer: Research
 document_type: Registry
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -22,6 +22,8 @@ last_updated: 2026-08-31
 ---
 
 # Model Routing Matrix — DIMENSIONED
+
+> **Historical local snapshot (August 2026; scope reviewed 2026-11-24).** The profiles, routing recommendations, cost labels, backup/fallback rules, old launcher and maintenance instructions below are retained evidence and former policy, not current dispatch authority. The original [source snapshot](https://github.com/rock-solid-sites/ASES/blob/19b38545d88bac8bc072ef9547d1dbd97e050f3b/docs/research/registry/Model-Routing-Matrix.md) retains its original metadata. This local classification does not change EDASES upstream ownership. For a present invocation use the [current agent-launch skill](../../../skills/current/agent-launch/SKILL.md) and [review-launch skill](../../../skills/current/review-launch/SKILL.md). In particular, the historical OpenCode Luna and paid fallback recommendations do not authorize those routes. Model capability, service availability, and account/funding authorization are distinct. The recorded permanent operator xAI/Grok exclusion is retained in the current launch skill. Treat per-model feedback as dated observations with their original task, harness and evidence limitations; no profile or catalog entry is live entitlement or proof of general capability.
 
 **Date:** 2026-08-06
 **Source:** evidence-gathering draft #190 — sessions documented in issues #128-#153, #173, #144/#145/#154 design rounds, existing model-feedback docs, docs/project-completion-report-crosslink-model-agnostic.md, model-discipline.md.
