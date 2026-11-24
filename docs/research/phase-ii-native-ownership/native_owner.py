@@ -303,6 +303,7 @@ class Session:
 
     def reserve_effect(self, request_id, payload_sha256):
         require(request_id not in self.native["effects"], "native-effect-already-reserved")
+        require(not self.pending(), "pending-in-domain-effect")
         self.native["effects"][request_id] = dict(payload_sha256=payload_sha256, status="reserved")
         self.commit(dict(op="native-effect-reserved", request_id=request_id))
 

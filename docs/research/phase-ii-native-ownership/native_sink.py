@@ -117,6 +117,11 @@ class NativeAdmission(legacy.Admission):
                         raw = (self.owner.root / "protected/objects" / item).read_bytes()
                         legacy.require(sha(raw) == digest and len(raw) == size,
                                        "native-live-material-integrity")
+                # A known refusal for a fresh ID is not an uncertain reservation.
+                # Check under the existing owner/F1/L5/L6 guard before setting
+                # the uncertainty flag, while preserving the duplicate-ID path.
+                if effect["request_id"] not in owner["effects"]:
+                    legacy.require(not session.pending(), "pending-in-domain-effect")
                 # Publication may fail after selecting its durable reservation.
                 # From this attempt onward, never report a no-effect denial.
                 reserved = True
