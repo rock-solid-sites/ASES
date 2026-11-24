@@ -3,7 +3,7 @@ title: "Failed Conversation — Gemini 3.1 Pro Preview Session Transcript (Raw E
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Finding
 canonical_repository: edases
 
@@ -25,6 +25,8 @@ superseded_by: []
 
 last_updated: 2026-08-10
 ---
+
+> **Historical raw evidence (scope reviewed 2026-11-24):** This is the original June fresh-session incident, not instructions to execute, a current launch recipe, or a validated account of its root cause. Read the [failure analysis](handoff-failure-analysis.md), [challenged assumption](assumption-register-candidate.md) and [epistemic validation addendum](research-addendum-epistemic-validation.md) for interpretation; use current methodology for operations. The original transcript below is unchanged.
 
 I was having a chat with with Pro 3.1 Preview earlier and it went insane. This is what happened:
 

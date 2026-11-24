@@ -32,11 +32,13 @@ related_documents:
 
 supersedes: []
 
-version: 2026-11-21.1
-last_updated: 2026-11-21
+version: 2026-11-24.1
+last_updated: 2026-11-24
 ---
 
 # Canonical Terminology
+
+> **Local applicability clarification (2026-11-24):** Shared conceptual definitions remain authoritative within their EDASES scope; upstream currency is unverified. The definition of State describes the methodological condition, not a claim that a deployed engine owns all state or that every knowledge concept is a Kernel primitive. Apply the [current Execution Engine Vision](../architecture/Execution%20Engine%20Vision.md) and [Kernel-0 evidence](../research/kernel-0/Kernel-0-Evidence-Packet.md) for actual architectural boundaries. Epistemic relationships describe meaning and evidence; the [accepted task-scoped ADR](../architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) explicitly does not require a persistent graph or fixed physical object schema. This clarification does not redefine the shared terms or adopt a new ontology.
 
 ## Purpose
 
