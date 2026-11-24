@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.2
+version: 1.0.3
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -31,6 +31,7 @@ last_updated: 2026-11-24
 | Implementation choice | [Realization and Assurance Selection Method](methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) | Requirements-first selection, language constraints, bounded upstream-reuse exception |
 | State modeling | [State-Model Applicability and Reuse Method](methodology/State-Model%20Applicability%20and%20Reuse%20Method.md) | Task-specific model suitability; verify separately adopted VSDD sources |
 | Upstream customization | [Software Customization and Upstream Compatibility Method](methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) | Preserve upstream compatibility, use the smallest supported local difference |
+| Review methods | [AI Orchestration Guide: review modes and provenance](methodology/AI%20Orchestration%20Guide.md#review-modes-and-provenance) and [Clean Room Execution Guide](methodology/Clean%20Room%20Execution%20Guide.md) | Distinct exploratory and conformance modes; verified review provenance and isolation |
 | Operational agent tasks | [Current skills index](../skills/current/README.md) | Selectively retrieved task-specific prompting, orchestration, launch and review instructions |
 | Execution authorization | [Current agent-launch skill](../skills/current/agent-launch/SKILL.md) | Exact provider/model/account/funding route; no unauthorized fallback |
 | Research evidence | [Agent information topology research](../research/agent-information-topology/greenfield-task-context/README.md) | Accepted decision's evidence; remains non-normative |
@@ -49,6 +50,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **First explicit reviewed revisions:** The four ASES-owned methods for bounded builds, realization selection, state-model applicability and upstream customization have dated document revisions `2026-11-24.1`. These are newly declared versions of the reviewed documents, not reconstructed historical release numbers or new validation of every referenced research claim. The state-model method explicitly separates current applicability guidance from unresolved adoption of the historical derived VSDD artifacts.
 
 **Core prompt consolidation:** The two earlier EDASES core prompt iterations are historical. Their still-useful reasoning principles are consolidated in the current AI Orchestration Guide. Neither historical prompt is an operational startup requirement.
+
+**Skill consolidation:** Current operational skills retain the applicable prompt and review principles. The old skill variants, proposed ontology-review role variants and v0.1.0 pinned-copy packaging machinery are preserved in [Skill and Review Design History](historical/Skill%20and%20Review%20Design%20History.md), not active discovery. The old pinned-copy drift workflow was retired because the current dispatcher retrieves selected current sources at use time; actual automatic invocation remains unverified.
 
 ## Legacy and supersession
 

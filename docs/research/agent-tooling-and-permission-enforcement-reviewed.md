@@ -3,7 +3,7 @@ title: Agent Tooling and Permission Enforcement — Reviewed (Merged Claims + 8 
 program: EDASES
 layer: Research
 document_type: Report
-status: Active
+status: Historical
 authority: Experimental
 canonical_repository: edases
 
@@ -21,6 +21,7 @@ supersedes: []
 last_updated: 2026-08-09
 ---
 
+> **Historical evidence — not current configuration or operational guidance.** This record describes the dated OpenCode/Crosslink investigation, including what was observed, inferred, proposed, rejected or left untested. Its historical commands, role labels, enforcement claims and expected mitigations do not apply automatically to current agents. See the [historical harness decision guide](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for disposition and current-source links; [exact original](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/agent-tooling-and-permission-enforcement-reviewed.md). The original body is retained below.
 # Agent Tooling and Permission Enforcement — Reviewed
 
 > **Purpose.** This document is the **merged, resolution-bearing successor** to

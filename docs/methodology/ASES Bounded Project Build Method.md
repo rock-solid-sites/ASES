@@ -1,6 +1,6 @@
 ---
 title: ASES Bounded Project Build Method
-version: 2026-11-24.1
+version: 2026-11-24.2
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -105,7 +105,7 @@ The builder integrates and verifies rather than repeating research or product de
 
 ### 10. Verify independently
 
-Operational acceptance may use the packet. Formal post-build review follows clean-room rules: the packet is process history and should not be supplied wholesale. Provide the artifact, concrete claim/invariant, explicit assumptions and the minimum canonical definitions needed to judge it.
+Operational acceptance may use the packet. Formal post-build review follows the [current review modes and provenance](AI%20Orchestration%20Guide.md#review-modes-and-provenance) and [clean-room rules](Clean%20Room%20Execution%20Guide.md): the packet is process history and should not be supplied wholesale. Provide the artifact, concrete claim/invariant, explicit assumptions and the minimum canonical definitions needed to judge it.
 
 ### 11. Preserve reusable results
 

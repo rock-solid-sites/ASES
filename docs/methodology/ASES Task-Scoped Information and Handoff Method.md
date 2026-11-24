@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.0
+version: 1.1.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -46,7 +46,7 @@ Possible outcomes for each candidate source are **read/apply**, **reference**, *
 
 [The current Skills index](../../skills/current/README.md) identifies the current operational skill for each task. The task-relevant current skills, not old packages with similar names, govern prompt selection, orchestration, build compilation and launches. In particular, **substantial bounded Implementation Packets** require the full canonical [ASES Bounded Project Build Method](ASES%20Bounded%20Project%20Build%20Method.md) before being called compiled; a long-running orchestration assignment alone is **not** a reason to apply that compilation method to every worker. Use the actual [current prompting skill](../../skills/current/compact-prompt/SKILL.md) for the task-dependent admission rules.
 
-The older `skills/prompt/SKILL.md` and Strategy-to-Builder research derivation remain historical/derivative material, not replacement current prompting authority. They may be cited as evidence when relevant but are not mandatory reads.
+The [earlier prompting variants](../historical/Skill%20and%20Review%20Design%20History.md) and Strategy-to-Builder research derivation remain historical/derivative material, not replacement current prompting authority. They may be cited as evidence when relevant but are not mandatory reads.
 
 ## Effective task view
 

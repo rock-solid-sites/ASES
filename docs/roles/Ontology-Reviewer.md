@@ -1,12 +1,13 @@
 ---
 title: Ontology Reviewer Role
 version: 0.2-draft
-status: Proposed
+status: Historical
 role_type: specialist-reviewer
 authority: read-only, non-authoritative
 last_updated: 2026-09-22
 ---
 
+> **Historical design proposal (2026-09-22), not an adopted role or current operating procedure.** The transferable review-mode and conceptual-lens principles are consolidated in the [AI Orchestration Guide](../methodology/AI%20Orchestration%20Guide.md#review-modes-and-provenance). The full prior proposal and routing hypotheses remain below for research; old Crosslink paths are not executable guidance. [Original source](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/roles/Ontology-Reviewer.md).
 # Ontology Reviewer Role
 
 ## Purpose

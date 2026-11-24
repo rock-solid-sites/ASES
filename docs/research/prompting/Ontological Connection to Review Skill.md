@@ -3,12 +3,13 @@ title: Ontological Connection to Review Skill
 program: EDASES
 layer: Research
 document_type: Design Note
-status: Proposed
+status: Historical
 authority: Derived
 canonical_repository: ases
 last_updated: 2026-09-22
 ---
 
+> **Historical design proposal (2026-09-22), not an adopted role or current operating procedure.** The transferable review-mode and conceptual-lens principles are consolidated in the [AI Orchestration Guide](../../methodology/AI%20Orchestration%20Guide.md#review-modes-and-provenance). The full prior proposal and routing hypotheses remain below for research; old Crosslink paths are not executable guidance. [Original source](https://github.com/rock-solid-sites/ASES/blob/129761e20d70baba3090946e7acb55904d01ceb9/docs/research/prompting/Ontological%20Connection%20to%20Review%20Skill.md).
 # Ontological Connection to Review Skill
 
 ## Purpose
