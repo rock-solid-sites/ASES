@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-22",
+  "as_of_utc": "2026-11-24",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -791,18 +791,18 @@
         "usage_usd": null
       },
       "billing": {
-        "hourly_cpu_available": false,
-        "stopped_instance_billed": null,
-        "storage_extra": null,
-        "network_extra": null
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": true,
+        "storage_extra": true,
+        "network_extra": true
       },
       "reliability": {
         "operating_history_verified": false,
         "cpu_fair_use_verified": false
       },
       "official_url": "https://cloud.dataforest.net/en/black-friday",
-      "last_verified_at": "2026-11-13",
-      "notes": "Germany pay-per-hour Seed cloud; Black Week discount terms not yet published. AVORO is a dataforest GmbH brand and may advertise related infrastructure or an overlapping deal."
+      "last_verified_at": "2026-11-24",
+      "notes": "Hourly postpaid; card, PayPal, SEPA; account activation may require credited advance payment. Included disk and prorated pooled outbound allowance; additional storage, IPv4 and excess traffic billed. Provider claims 16 years hosting experience; independent reliability and sustained CPU policy unverified."
     },
     {
       "id": "avoro",
@@ -983,6 +983,32 @@
       "source_url": "https://litekeep.com/pricing/",
       "evidence_level": "provider_advertised_not_checkout_verified",
       "last_checked_at": "2026-11-07"
+    },
+    {
+      "id": "dataforest-bw16-60",
+      "provider_id": "dataforest-cloud",
+      "vcpu": 4,
+      "ram_gb": 16,
+      "storage_gb": 60,
+      "price_eur_per_hour": 0.019052,
+      "monthly_cap_eur": 11.89,
+      "storage_included": true,
+      "source_url": "https://cloud.dataforest.net/en/black-friday",
+      "evidence_level": "provider_advertised_not_checkout_verified",
+      "last_checked_at": "2026-11-24"
+    },
+    {
+      "id": "dataforest-bw16-500",
+      "provider_id": "dataforest-cloud",
+      "vcpu": 4,
+      "ram_gb": 16,
+      "storage_gb": 500,
+      "price_eur_per_hour": 0.035852,
+      "monthly_cap_eur": 22.37,
+      "storage_included": true,
+      "source_url": "https://cloud.dataforest.net/en/black-friday",
+      "evidence_level": "provider_advertised_not_checkout_verified",
+      "last_checked_at": "2026-11-24"
     }
   ],
   "promotions": [
@@ -1767,41 +1793,43 @@
     {
       "id": "dataforest-black-week-2026",
       "provider_id": "dataforest-cloud",
-      "type": "black_friday_teaser_hourly_vm",
+      "type": "black_friday_hourly_vm",
       "advertised_value": null,
       "value_unit": "unknown",
-      "details": "Official dataforest cloud Black Week Nov 23 through Cyber Monday; discount not yet disclosed. Cloud Seed instances advertised with hourly rates, but no 2026 promotional price or eligible configuration. Related AVORO brand may have overlapping deal; do not double count without distinct terms.",
+      "details": "Nov23–30 live limited capacity. 4 vCPU/16GB/60GB/5TB €0.019052/h cap €11.89/month; 4 vCPU/16GB/500GB/10TB €0.035852/h cap €22.37/month; German 19% VAT included, local tax may differ. IPv4 €0.002380/h cap €1.19/month extra. Existing Seeds can resize subject to storage constraint. Discount persists only while same Seed size retained; deletion ends billing and promotional price. Shutdown billed. CPU sustained-use rights unverified. Separate BW2026 credit record.",
       "source_urls": [
-        "https://cloud.dataforest.net/en/black-friday"
+        "https://cloud.dataforest.net/en/black-friday",
+        "https://cloud.dataforest.net/en/faq",
+        "https://cloud.dataforest.net/en/products/seeds"
       ],
       "credit_expiry": "unknown",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-22",
-      "status": "announced_unpriced_starts_2026-11-23",
-      "eligible_existing_account": null,
-      "requires_new_account": null,
+      "last_checked_at": "2026-11-24",
+      "status": "official_live_capacity_limited",
+      "eligible_existing_account": true,
+      "requires_new_account": false,
       "minimum_spend_usd": null,
       "deposit_refundable": null,
-      "eligible_cpu_vm": null,
-      "region_restrictions": null,
-      "redemption_deadline_utc": null,
-      "evidence_level": "official_provider_teaser_not_active_offer",
-      "alert_state": "watch_no_alert_until_terms_qualify"
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Frankfurt Germany",
+      "redemption_deadline_utc": "2026-11-30T22:59:00Z",
+      "evidence_level": "official_provider_page_no_checkout",
+      "alert_state": "material_new_terms"
     },
     {
       "id": "avoro-black-week-2026",
       "provider_id": "avoro",
-      "type": "black_friday_teaser_fixed_term_vps",
+      "type": "black_friday_fixed_term_vps",
       "advertised_value": null,
       "value_unit": "unknown",
-      "details": "Brand of dataforest GmbH announces three limited VPS specials with prices/specifications revealed 23 Nov 2026 00:00 Berlin. Runs through 30 Nov; not yet priced, prepaid VPS (not hourly credit). Ensure not double-counting dataforest Cloud Black Week.",
+      "details": "Live Nov23–30, 4 vCPU/16GB/60GB €10.92/month excl VAT; 4 vCPU/16GB/500GB €19.75/month excl VAT; prepaid monthly, same underlying dataforest platform, not hourly credit.",
       "source_urls": [
         "https://avoro.eu/en/black-friday"
       ],
       "credit_expiry": "not_applicable_fixed_term_service",
       "first_seen_at": "2026-11-13",
-      "last_checked_at": "2026-11-22",
-      "status": "announced_unpriced_starts_2026-11-23",
+      "last_checked_at": "2026-11-24",
+      "status": "official_live_periodic_only",
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": null,
@@ -1809,8 +1837,8 @@
       "eligible_cpu_vm": true,
       "region_restrictions": "Frankfurt Germany",
       "redemption_deadline_utc": "2026-11-30T22:59:00Z",
-      "evidence_level": "official_provider_teaser_not_live_offer",
-      "alert_state": "watch_no_alert_until_terms_qualify"
+      "evidence_level": "official_provider_page_no_checkout",
+      "alert_state": "research_only"
     },
     {
       "id": "hostpro-bf2026-20pct",
@@ -1932,6 +1960,56 @@
       "redemption_deadline_utc": "2026-11-30T23:59:00Z",
       "evidence_level": "official_provider_page_no_checkout_verification",
       "alert_state": "research_only_not_actionable"
+    },
+    {
+      "id": "dataforest-bw2026-credit",
+      "provider_id": "dataforest-cloud",
+      "type": "signup_credit",
+      "advertised_value": 30,
+      "value_unit": "EUR",
+      "details": "BW2026 doubles €15 welcome baseline. New customers once per team, redeem in billing by Nov30, valid 90 days; offset invoices. Activation may require advance payment credited in full; amount/refundability unknown. Stacking unverified. At €0.019052/h plus IPv4 €0.002380/h, nominal €30 covers ~1400 uncapped VM hours; monthly caps can improve this, capacity and retention conditions apply.",
+      "source_urls": [
+        "https://cloud.dataforest.net/en/black-friday",
+        "https://cloud.dataforest.net/en/faq",
+        "https://cloud.dataforest.net/en/products/seeds"
+      ],
+      "credit_expiry": "90 days from redemption",
+      "first_seen_at": "2026-11-24",
+      "last_checked_at": "2026-11-24",
+      "status": "official_live_not_checkout_verified",
+      "eligible_existing_account": false,
+      "requires_new_account": true,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Frankfurt Germany; signup geography unverified",
+      "redemption_deadline_utc": "2026-11-30T22:59:00Z",
+      "evidence_level": "official_provider_page_no_checkout",
+      "alert_state": "material_new_offer"
+    },
+    {
+      "id": "digitalocean-secret-ai-100-2026",
+      "provider_id": "digitalocean",
+      "type": "partner_startup_credit",
+      "advertised_value": 100,
+      "value_unit": "USD",
+      "details": "Oct19–Jan17 first 50 approved new AI startup customers, active Secret membership, registered business and public website required. Droplets eligible; 90 days or Jan17 whichever earlier; no stacking unless authorized. Remaining slots and user eligibility unknown.",
+      "source_urls": [
+        "https://www.digitalocean.com/legal/promotional-offer-100-in-digitalocean-credits-for-50-ai-startups-on-secret"
+      ],
+      "credit_expiry": "90 days capped Jan17 2027",
+      "first_seen_at": "2026-11-24",
+      "last_checked_at": "2026-11-24",
+      "status": "official_conditional_availability_unknown",
+      "eligible_existing_account": false,
+      "requires_new_account": true,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "sanctions exclusions",
+      "redemption_deadline_utc": "2027-01-17T23:59:00Z",
+      "evidence_level": "official_terms_no_checkout",
+      "alert_state": "research_only"
     }
   ],
   "account_inventory": {
@@ -2162,6 +2240,17 @@
         "avoro-black-week-2026"
       ],
       "summary": "New Tudcloud BF 10%-20% top-up offer official Nov20-Nov30, but all listed 6GB+ SKUs temporarily out of stock, monthly-only and minimum $100 deposit with manual support approval; not suitable hourly burst credit. dataforest and AVORO Nov23 teaser pages still unpriced as of Nov22. No newly verified actionable 6GB+ hourly credit."
+    },
+    {
+      "at": "2026-11-24",
+      "kind": "material_black_week_launch",
+      "entity_ids": [
+        "dataforest-black-week-2026",
+        "dataforest-bw2026-credit",
+        "avoro-black-week-2026",
+        "digitalocean-secret-ai-100-2026"
+      ],
+      "summary": "Dataforest revealed hourly 16GB offers and €30 signup credit; AVORO monthly offers revealed; discovered conditional DigitalOcean Secret partner credit. CPU policy and account eligibility remain unverified."
     }
   ],
   "source_policy": {
