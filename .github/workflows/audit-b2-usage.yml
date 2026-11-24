@@ -1,0 +1,52 @@
+name: Read-only B2 storage inventory
+on:
+  push:
+    branches: [audit/b2-usage-20261124]
+    paths: ['.github/workflows/audit-b2-usage.yml']
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    environment: codegraph-b2
+    timeout-minutes: 5
+    env:
+      B2_BUCKET: ${{ vars.B2_BUCKET }}
+      B2_REGION: ${{ vars.B2_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+      AWS_PAGER: ''
+      AWS_MAX_ATTEMPTS: '1'
+    steps:
+      - name: List existing objects and versions, no mutations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$B2_BUCKET" && test -n "$B2_REGION" && test -n "$B2_ENDPOINT" && test -n "$AWS_ACCESS_KEY_ID" && test -n "$AWS_SECRET_ACCESS_KEY" || { echo 'B2 configuration not available on this branch'; exit 1; }
+          aws --version
+          aws s3api list-objects-v2 --bucket "$B2_BUCKET" --endpoint-url "$B2_ENDPOINT" --region "$B2_REGION" --output json --no-cli-pager > "$RUNNER_TEMP/objects.json"
+          if aws s3api list-object-versions --bucket "$B2_BUCKET" --endpoint-url "$B2_ENDPOINT" --region "$B2_REGION" --output json --no-cli-pager > "$RUNNER_TEMP/versions.json"; then
+            echo 'VERSION_LIST_OK=true'
+          else
+            rm -f "$RUNNER_TEMP/versions.json"
+            echo 'VERSION_LIST_OK=false'
+          fi
+          python3 - <<'PY'
+          import json, os, pathlib, collections
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])
+          objs=json.loads((p/'objects.json').read_text()).get('Contents',[])
+          groups=collections.defaultdict(lambda:[0,0])
+          for o in objs:
+              key=o['Key'].split('/')
+              group='/'.join(key[:min(len(key),4)]) if key[0]=='codegraph' else key[0]
+              groups[group][0]+=1
+              groups[group][1]+=o['Size']
+          out={'scope':'configured bucket only','bucket':os.environ['B2_BUCKET'],'live_objects':len(objs),'live_bytes':sum(o['Size'] for o in objs),'groups':dict(groups)}
+          if (p/'versions.json').exists():
+              v=json.loads((p/'versions.json').read_text())
+              versions=v.get('Versions',[])
+              out.update({'file_versions':len(versions),'all_version_bytes':sum(o['Size'] for o in versions),'delete_markers':len(v.get('DeleteMarkers',[]))})
+          else:out['all_version_bytes']=None
+          print('B2_INVENTORY='+json.dumps(out,sort_keys=True))
+          PY
