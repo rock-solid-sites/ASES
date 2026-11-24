@@ -1,5 +1,6 @@
 ---
 title: Constraint-Driven Realization and Assurance Selection Method
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -14,7 +15,7 @@ related_documents:
 consumed_by:
   - project verification architectures
   - project implementation decision records
-last_updated: 2026-10-30
+last_updated: 2026-11-24
 ---
 
 # Constraint-Driven Realization and Assurance Selection Method
@@ -82,7 +83,7 @@ For a **small, bounded plugin or connector** intended for actual use, select fro
 - **Dart** — sound typing and null safety, particularly for Dart/Flutter integrations.
 - **Gleam** — static typing for suitable BEAM/JavaScript integrations; scrutinize external untyped bindings.
 
-This is a **practical default set for a narrow work class**, not a claim of equal formal assurance, an absolute catalog of safe languages, or a shortlist to seed open-ended research for larger architectures. A platform that only supports another implementation language is a material constraint. Apply the bounded reuse exception below when justified; otherwise escalate rather than silently violating the gate.
+This is a **practical default set for a narrow work class**, not a claim of equal formal assurance, an absolute catalog of safe languages, or a shortlist to seed open-ended research for larger architectures. A platform that only supports another implementation language is a material constraint. Apply the bounded reuse exception above when justified; otherwise escalate rather than silently violating the gate.
 
 The shortcut requires: a bounded scope, no unresolved critical trust-boundary assumptions, a documented reason for the choice, explicit safety/resource requirements, dependency inspection, and discriminating tests of failures and external boundaries. Adding arbitrary remote command execution, multiple service identities or durable agent authority can raise verification obligations even when delivered as a connector. The shortcut reduces *language research*, not safety checks.
 

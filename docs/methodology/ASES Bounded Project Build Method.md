@@ -1,5 +1,6 @@
 ---
 title: ASES Bounded Project Build Method
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -9,13 +10,15 @@ canonical_repository: ases
 depends_on:
   - docs/methodology/AI Orchestration Guide.md
 consumed_by:
-  - skills/prompt/SKILL.md
+  - skills/current/compact-prompt/SKILL.md
+  - skills/current/compile-build/SKILL.md
   - bounded project build workflows
 related_documents:
   - docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md
   - docs/research/prompting/Ontological Connection to Review Skill.md
   - docs/methodology/Clean Room Execution Guide.md
-last_updated: 2026-09-22
+  - docs/methodology/ASES Task-Scoped Information and Handoff Method.md
+last_updated: 2026-11-24
 ---
 
 # ASES Bounded Project Build Method
@@ -106,7 +109,7 @@ Operational acceptance may use the packet. Formal post-build review follows clea
 
 ### 11. Preserve reusable results
 
-Feed durable findings, reusable mechanisms, new constraints and corrected canonical meaning back into the appropriate project knowledge so later work does not repeat the same inference.
+Feed durable findings, reusable mechanisms, new constraints and corrected canonical meaning back into the appropriate project knowledge so later work does not repeat the same inference. Apply the [destination-first execution and recovery section](ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery) for retained artifacts and evidence; do not treat a temporary build branch as the final home.
 
 ## Relationships
 

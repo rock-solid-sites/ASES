@@ -1,5 +1,6 @@
 ---
 title: State-Model Applicability and Reuse Method
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -16,7 +17,7 @@ consumed_by:
   - project behavioral specifications
   - project verification architectures
   - project conformance suites
-last_updated: 2026-10-30
+last_updated: 2026-11-24
 ---
 
 # State-Model Applicability and Reuse Method
@@ -25,7 +26,7 @@ last_updated: 2026-10-30
 
 Evaluate **whether**, **where**, and **how** state-based modeling improves a project's specification, construction, testing and verification. Assess the suitability of a state machine before selecting implementation technology. A project may be described as a state-transition system without that description determining how, or whether, the behavior is implemented as conventional software.
 
-State machines are a useful representation, not a mandated universal architecture or a competing methodology. VSDD supplies test-first and verification gates where adopted; the existing state-based VSDD adaptation profile and universal conformance checklist supply the detailed conformance dimensions. Do not duplicate or weaken them here.
+State machines are a useful representation, not a mandated universal architecture or a competing methodology. VSDD supplies test-first and verification gates where adopted. The named August 29 state-based adaptation profile and universal conformance checklist are historical derived drafts, not verified current canonical obligations. Verify the applicable project-approved VSDD source and any adopted adaptation/checklist revision before treating detailed gates as governing; do not duplicate or weaken adopted requirements here. The [repository checklist draft](../../to-file/ASES%20Universal%20Conformance%20Checklist.md) is supporting historical material, not an approval or a substitute for the authoritative VSDD source.
 
 ## Applicability assessment
 
@@ -62,7 +63,7 @@ If these do not clarify material behavior or provide discriminating verification
 
 ## Verification and reuse
 
-When applicable, instantiate the existing state-based VSDD adaptation and conformance checklist. Derive model-based tests or proof obligations for critical guards, transitions, concurrency, failures, forbidden states and external settlement. Separately demonstrate model correctness and *implementation/realization conformance*. A proof of abstract state legality does not prove that processes have stopped, credentials are isolated, or hardware complies.
+When applicable, instantiate the project-adopted state-based VSDD adaptation and conformance checklist after verifying their authority and revision. If no adopted version is verified, use the project's actual approved specification and verification obligations, record the unresolved reference, and do not claim compliance with an unverified draft. Derive model-based tests or proof obligations for critical guards, transitions, concurrency, failures, forbidden states and external settlement. Separately demonstrate model correctness and *implementation/realization conformance*. A proof of abstract state legality does not prove that processes have stopped, credentials are isolated, or hardware complies.
 
 Projects should compare reusable mechanisms such as state representations, invariant checkers, model exploration, counterexample traces, property-based test generation, fault injection, model-to-implementation adapters and evidence reports. Share mechanisms whose reuse is supported by repeated successful application; leave domain-specific transitions and authority decisions within each project. Avoid installing a DSL or heavyweight orchestration engine unless necessity is demonstrated.
 
