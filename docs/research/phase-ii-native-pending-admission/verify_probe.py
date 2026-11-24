@@ -44,6 +44,19 @@ def read_owner(root):
     return frame["reply"]["snapshot"]["state"]["native_owner"]
 
 
+def complete_readback(fx, ids):
+    return baseline.readback(fx, ids)
+
+
+def immutable_cut(before, after):
+    before_native = before["owner"]["reply"]["snapshot"]["state"]["native_owner"]
+    after_native = after["owner"]["reply"]["snapshot"]["state"]["native_owner"]
+    return (before_native == after_native and before["owner_tree"] == after["owner_tree"] and
+            before["f1"] == after["f1"] and before["journal"] == after["journal"] and
+            before["witness"]["body"]["current"] == after["witness"]["body"]["current"] and
+            before["witness"]["body"]["revision"] == after["witness"]["body"]["revision"])
+
+
 def guarded_eof(f4, owner_root, request_id):
     envelope, before, _ = baseline.refresh_envelope(owner_root, request_id)
     journal = probe.native.blob(f4.journal)
@@ -73,40 +86,32 @@ def guarded_eof(f4, owner_root, request_id):
 def case_pending_bound(out):
     fx = baseline.fixture(out, "a1-a3", gate=True)
     aid = fx["witness_root"] + ":A"
-    bids = [fx["witness_root"] + ":B", fx["witness_root"] + ":C"]
+    bid = fx["witness_root"] + ":B"
+    cid = fx["witness_root"] + ":C"
     case = {"a1": guarded_eof(fx["f4"], fx["owner_root"], aid)}
     case["old_sink_stopped"] = fx["f4"].sink.close(True)
     case["cold_ready"] = fx["f4"].cold_restart()
     case["reopen"] = [fx["f4"].call("/replace", {"holder": "pending-admission-test"}),
                       fx["f4"].call("/activate", {"authority_version": 2})]
-    before = {"owner": read_owner(fx["owner_root"]),
-              "journal": probe.native.blob(fx["f4"].journal),
-              "witness": fx["f4"].witness_call("/status"),
-              "f1": probe.f1_raw(Path(fx["prepared"]["f1_root"]) / "store.sqlite"),
-              "l6": probe.tree(Path(fx["owner_root"]) / "protected")}
-    replies = []
-    for request_id in bids:
+    rejection_histories = []
+    for label, request_id in (("fresh-B", bid), ("same-B-retry", bid), ("fresh-C", cid)):
+        before = complete_readback(fx, [aid, bid, cid])
         envelope, _, _ = baseline.refresh_envelope(fx["owner_root"], request_id)
-        replies.append(fx["f4"].submit(envelope, authority_version=2))
-    after = {"owner": read_owner(fx["owner_root"]),
-             "journal": probe.native.blob(fx["f4"].journal),
-             "witness": fx["f4"].witness_call("/status"),
-             "f1": probe.f1_raw(Path(fx["prepared"]["f1_root"]) / "store.sqlite"),
-             "l6": probe.tree(Path(fx["owner_root"]) / "protected")}
-    need(all(r["response"]["status"] == 409 and
-             r["response"]["body"].get("outcome") == "admission-denied" and
-             r["response"]["body"].get("local_control_committed") is False and
-             "pending" in r["response"]["body"].get("reason", "") for r in replies),
-         "A2/A3: fresh IDs were not truthfully denied before reservation")
-    need(set(before["owner"]["effects"]) == {aid} == set(after["owner"]["effects"]),
-         "A2/A3: pending effects grew on rejected IDs")
-    need(before["owner"]["selected"] == after["owner"]["selected"] and
-         before["journal"] == after["journal"] and
-         before["witness"]["body"]["current"] == after["witness"]["body"]["current"] and
-         before["witness"]["body"]["revision"] == after["witness"]["body"]["revision"] and
-         before["f1"] == after["f1"] and before["l6"] == after["l6"],
-         "A2: rejected admission mutated protected readbacks")
-    case.update({"before_rejections": before, "replies": replies, "after_rejections": after})
+        response = fx["f4"].submit(envelope, authority_version=2)
+        after = complete_readback(fx, [aid, bid, cid])
+        body = response["response"]["body"]
+        need(response["response"]["status"] == 409 and body.get("outcome") == "admission-denied" and
+             body.get("local_control_committed") is False and "pending" in body.get("reason", ""),
+             f"A2/A3 {label}: refusal classification/attribution was not truthful: {response}")
+        need(immutable_cut(before, after), f"A2/A3 {label}: protected readback changed after refusal")
+        need(after["effects"][aid] is not None and after["effects"][bid] is None and
+             after["effects"][cid] is None,
+             f"A2/A3 {label}: owner added an effect for the refused ID")
+        rejection_histories.append({"case": label, "request_id": request_id, "envelope": envelope,
+                                    "response": response, "before": before, "after": after,
+                                    "same_id_as_previous": label == "same-B-retry"})
+    case["rejection_histories"] = rejection_histories
+    case["independent_owner_control"] = case_independent_owner(out, fx, aid)
     owner_proc = probe.OwnerProcess(fx["owner_root"])
     case["seal"] = owner_proc.call({"op": "seal"})
     case["dispose_child"] = owner_proc.call({"op": "dispose_child", "unit": "D"})
@@ -134,6 +139,34 @@ def case_pending_bound(out):
                          "witness": case["after_recovery_refusals"]["witness"]}
     fx["f4"].close(True)
     return case
+
+
+def case_independent_owner(out, pending_fx, pending_id):
+    """A pending effect in one owner must not deny another owner's new effect."""
+    independent = baseline.fixture(out, "a3-independent-owner", gate=False)
+    request_id = independent["witness_root"] + ":independent-B"
+    pending_before = complete_readback(pending_fx, [pending_id])
+    independent_before = complete_readback(independent, [request_id])
+    envelope, _, _ = baseline.refresh_envelope(independent["owner_root"], request_id)
+    response = independent["f4"].submit(envelope)
+    independent_after = complete_readback(independent, [request_id])
+    pending_after = complete_readback(pending_fx, [pending_id])
+    pending_effect = pending_after["effects"][pending_id]
+    independent_effect = independent_after["effects"][request_id]
+    need(pending_effect is not None and pending_effect["status"] == "reserved" and
+         independent_before["owner"]["reply"]["snapshot"]["state"]["native_owner"]["domain_id"] !=
+         pending_before["owner"]["reply"]["snapshot"]["state"]["native_owner"]["domain_id"],
+         "A3 scope control did not use a distinct owner while A remained pending")
+    need(response["response"]["status"] == 201 and independent_effect["status"] == "published",
+         "A3 scope control: one owner's pending effect blocked a separate owner")
+    need(immutable_cut(pending_before, pending_after),
+         "A3 scope control: separate owner admission mutated the pending owner's state")
+    independent["f4"].close(True)
+    return {"pending_owner_id": pending_before["owner"]["reply"]["snapshot"]["state"]["native_owner"]["domain_id"],
+            "pending_owner_effect": pending_effect,
+            "independent_owner_before": independent_before, "independent_request_id": request_id,
+            "independent_envelope": envelope, "independent_response": response,
+            "independent_owner_after": independent_after, "pending_owner_after": pending_after}
 
 
 def case_sequential(out):
