@@ -1,6 +1,6 @@
 ---
 title: Capability Observation and Failure Attribution History
-version: 2026-11-24.1
+version: 2026-11-24.2
 program: ASES
 layer: Research
 document_type: Research Record
@@ -13,6 +13,8 @@ last_updated: 2026-11-24
 # Capability observation and failure attribution history
 
 The August 2026 EDASES model profiles record particular tasks, provider routes, configurations, outcomes and contemporaneous interpretations. They are useful for generating hypotheses about assignment, review strengths and reliability, not for establishing current availability, authorization or intrinsic model capability. The original bodies and owner are preserved. The [Evaluation Framework](../research/frameworks/Evaluation%20Framework.md), [AI Evaluation Protocol](../research/protocols/AI%20Evaluation%20Protocol.md) and [AI Capability Registry Specification](../research/registry/AI%20Capability%20Registry%20Specification.md) remain separate research sources; upstream currency is unverified.
+
+**Operator clarification (2026-11-24):** These profiles often summarize larger series of observations; their qualitative judgments remain useful cumulative evidence for matching model capabilities and tasks. The following qualifications address the limits of particular claims and causal attribution, not a replacement scoring of the original profiles or an instruction to disregard their broader evidence. A new failure can qualify a reliability estimate without negating previous demonstrated task capability. The Model Routing Matrix remains an active derived capability-tracking register with dated observations; it is neither a definitive selection guide nor dispatch authorization.
 
 ## Earlier observations and qualifications
 
@@ -28,7 +30,7 @@ The August 2026 EDASES model profiles record particular tasks, provider routes, 
 - [nemotron](../research/registry/model-feedback-nemotron.md): The two recorded 502 upstream errors establish failures on that route at that time, not current unavailability or model deficiency. The historical paid-fallback recommendation is not authorization.
 - [north-mini-code](../research/registry/model-feedback-north-mini-code.md): Retain the observed concise verification results; zero false positives in a small historical sample does not establish general correctness or current service availability.
 
-The [historical model routing matrix](../research/registry/Model-Routing-Matrix.md) consolidates earlier recommendations. Neither it nor this record authorizes a route: use the [current launch skill](../../skills/current/agent-launch/SKILL.md) and [review-launch skill](../../skills/current/review-launch/SKILL.md).
+The [Model Routing Matrix](../research/registry/Model-Routing-Matrix.md) tracks cumulative capability evidence for tentative job routing, including its dated historical assessments. Neither it nor this record authorizes a route: use the [current launch skill](../../skills/current/agent-launch/SKILL.md) and [review-launch skill](../../skills/current/review-launch/SKILL.md).
 
 ## November diagnostic evidence
 

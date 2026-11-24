@@ -3,7 +3,7 @@ title: Hookability Matrix
 program: EDASES
 layer: Research
 document_type: Registry
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -25,6 +25,8 @@ last_reviewed: 2026-08-24
 ---
 
 # Hookability Matrix
+
+> **Historical only — operator disposition 2026-11-24.** This is the August 2026 hookability audit of the former Agent Orchestration Playbook and Crosslink/OpenCode/Claude setup. Preserve it to understand what interventions were sought, which rules were considered mechanically enforceable, the mechanisms investigated, their surface-specific limitations and historical priorities. None of the old implementation priorities, hook counts, feasibility classifications, maintenance instructions or enforcement assertions are current requirements or evidence of present runtime enforcement. Do not continue this matrix as an implementation backlog or revive former hooks on its authority. Current requirements and verification must be derived independently from applicable current methodology and actual realization. Original [source snapshot](https://github.com/rock-solid-sites/ASES/blob/00b7d23954e66dd731ea431e40e09deb564d81a5/docs/research/registry/Hookability-Matrix.md) retains the original body and metadata. This local historical classification does not change EDASES ownership.
 
 **Date:** 2026-08-24 (extended per #440; original 2026-08-18)
 **Source:** Agent Orchestration Playbook hookability audit, corrected per #404 verdict. Covers all 13 playbook sections plus Summary. Every rule classified as hookable (a/b/c/d) or not hookable (e), with mechanism details and feasibility assessment. The #440 extension adds (1) per-surface validity re-classification of every enforcement row against the S1/S2 divergence established by #425, and (2) classification rows for the 2026-08-23/24 doctrine batch (fetch-method-selection, push-cadence, task-length atomization, never-assume-model, quota-parking failure class).
