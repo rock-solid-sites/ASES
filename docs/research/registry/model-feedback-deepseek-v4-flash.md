@@ -3,7 +3,7 @@ title: "Model Feedback: opencode-go/deepseek-v4-flash"
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -22,6 +22,8 @@ last_updated: 2026-08-18
 ---
 
 # Model Feedback: opencode-go/deepseek-v4-flash
+
+> **Historical local observation (August 2026; scope reviewed 2026-11-24).** Historical no-output hangs and the non-SSE timeout-bypass reproduction are distinct observations. Provider-side attribution is not established merely by silence, and the old reproduction does not establish the cause of later stalls. The body below is preserved as originally recorded, including historical scores, interpretations and recommendations; local status does not change EDASES ownership or verify its upstream revision. For present dispatch use the [current agent-launch skill](../../../skills/current/agent-launch/SKILL.md). See the [capability observation and failure-attribution history](../../historical/Capability%20Observation%20and%20Failure%20Attribution%20History.md) for subsequent evidence and limits. The [original snapshot](https://github.com/rock-solid-sites/ASES/blob/dfe4941048fc8f2dab5e37ea3b35db6f2a5f644a/docs/research/registry/model-feedback-deepseek-v4-flash.md) retains the original metadata.
 
 ## Identification
 - Model: deepseek-v4-flash
