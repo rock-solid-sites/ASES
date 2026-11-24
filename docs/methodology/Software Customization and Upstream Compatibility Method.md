@@ -1,5 +1,6 @@
 ---
 title: Software Customization and Upstream Compatibility Method
+version: 2026-11-24.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -13,10 +14,9 @@ related_documents:
   - docs/standards/Documentation Standard.md
   - docs/methodology/State-Model Applicability and Reuse Method.md
 consumed_by:
-  - AGENTS.md
   - third-party software integration and upgrade workflows
   - forks, plugins, extensions and connectors maintained under ASES
-last_updated: 2026-11-13
+last_updated: 2026-11-24
 ---
 
 # Software Customization and Upstream Compatibility Method
