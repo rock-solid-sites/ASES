@@ -16,6 +16,8 @@ consumed_by:
 
 > **Current research navigation (2026-11-24).** This is a retained EDASES-derived research series, not a current execution architecture, capability authorization or mandatory test program. Upstream EDASES currency has not been verified. The original setup description below is preserved for reproducibility; its historical branch, harness, launch and orchestration instructions are not current operating instructions.
 
+> **Related identifier-first question (2026-11-25):** The [original research framework's interface-axis reconciliation](../../docs/research/Identifier-First%20Tool%20Calling.md) maps #498/#530 to the earlier proposed baseline, identifier-only and augmentation experiments. Both tested full/minimal arms use stable IDs, and minimal retains parameter shape information; the results do not isolate stable-ID effects, test identifier-only sufficiency, establish namespace/version authority, or compare against compiled CLI. The optional temporal filter omission is a concrete semantic failure despite validation; wording variation alone need not be. Treat minimum intent-preserving disclosure as open, independent of connector lifecycle and Resource Solver admission.
+
 ## Experimental sequence and present evidence
 
 The two experiments address a common question: how much tool information must be shown to a model, when validation and authorization are enforced at the actual runtime boundary? The earlier experimental architecture is an object of investigation, not an imposed realization of the current ASES Kernel.

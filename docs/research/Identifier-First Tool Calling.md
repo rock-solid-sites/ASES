@@ -29,6 +29,37 @@ last_updated: 2026-08-08
 
 # Project: Identifier-First Tool Calling for Token- and Resource-Efficient AI Agents
 
+> **Local research reconciliation (2026-11-25) — operation identity, description compression and task intent.** The original EDASES research framework and its two independent axes are retained below. This note reconciles the interface-description axis with later experimental evidence; it does not adopt the proposed ToolRegistry/Lexicon realization, establish current landscape novelty or settle connector lifecycle, drift and retry questions.
+
+## Interface-description axis — what the later experiments actually establish
+
+The original Phases 1–4 distinguish comparative baselines, an identifier-only representation, incremental augmentation and compiled-CLI comparison. The [capability/schema validation research index](../../research/capability-schema-validation/README.md) preserves later #498 and #530 experiments addressing part of that question.
+
+| Original question | Evidence and current disposition |
+| --- | --- |
+| Phase 1 — raw/progressive MCP, CLI and compiled-CLI baseline | No matched comparison across these four baselines recovered in the reviewed sources. The later experiments compare representations within their own harness; description-block token savings do not establish proximity to a CLI baseline or a whole-task cost advantage. |
+| Phase 2 — identifiers with summary/search hint only | The precise `nsid`, `cid`, `summary`, `search_hint` representation remains untested in the recovered series. Both #498 and #530 use stable operation IDs in their full and compressed arms, and retain parameter shape information in the compressed arm. Their results cannot isolate the causal contribution of an identifier or validate NSID ownership/CID resolution. |
+| Phase 3 — minimal sufficient augmentation | #498 tests full, short and concise descriptions with names/types and enum literals across 14 operations/22 tasks (198 deterministic harness trials). Its 73.3% description reduction and 98.4% proxy argument accuracy versus 100% full are not live model results. #530 adds one actual model comparison on a 17-operation corpus with 24 tasks per arm, one repetition, temperature 0. Its minimal representation retains names/types, required/optional and enum literals, omitting some authoritative constraints. This is partial evidence for an augmented payload, not a sweep identifying the minimum sufficient interface. |
+| Phase 4 — comparison against compiled CLI | No head-to-head outcome recovered; no comparative superiority claim. Dynamic resolution, namespace consistency and version pinning remain candidate properties to demonstrate independently of token counts. |
+
+### Live evidence: the success condition matters
+
+The [#530 report](../../research/capability-schema-validation/corpus-530/report.md) and [measurement summary](../../research/capability-schema-validation/corpus-530/measurements/summary.json) record 8,915 → 2,588 description-block tokens (71.0% reduction); selection 24/24 in both arms; full/minimal harness-valid arguments 23/24 versus 22/24 (4.2 percentage-point loss, inside 5pp); strict expected arguments 23/24 versus 20/24 (12.5-point loss, outside 5pp). The summary JSON uses strict equality; the report uses harness validity for its primary tolerance. These results are not contradictory once the measured property is identified. The model was GPT-4o-mini via OpenRouter, issuing JSON in prompt-directed calls rather than a native function-calling API; the experiment did not exercise ToolRegistry/Lexicon discovery or lifecycle.
+
+The lost optional `filter.since` in C3-T11 is concrete intent loss even though authoritative schema validation succeeded. The C3-T10 wording variation is an exact-match difference, not necessarily a semantic failure. C5-T18's invalid enum illustrates a different, schema-detectable failure. Recovery likewise distinguishes 8/12 harness-valid repairs from 4/12 expected-argument matches. A structurally valid repair may change the intended value; neither successful validation nor exact equality alone is a complete measure of task fidelity.
+
+The defensible unresolved research question is therefore **what task-relevant information and progressive disclosure are sufficient to preserve intended effects at the lowest practical context and execution cost?** A later study would need an independent semantic/task oracle, valid alternatives, explicit coverage of optional but intent-bearing inputs, and separate measures of selection, validation, effect, repair, total tokens, latency and cost. It would need representative tasks and repeated model comparisons before generalization. This is an analytical research direction, not an approved experiment, new benchmark queue or requirement to extend the frozen corpus.
+
+### Operation identity, authority and realization
+
+Keep the logical operation identity, interface/schema revision, governing authority, actual invocation and observable effect distinct. A compact identifier or content hash can refer to a definition, but neither supplies permission, proves semantic suitability, or guarantees that the live implementation matches that definition. The original internal NSID authority/collision convention remains unresolved in this framework. Whether to use Lexicon, another schema/identifier system or direct native interfaces is a realization question, not implied by stable IDs. The current [ASES task-scoped information method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) already requires task-relevant authoritative information and source identity; it does not mandate a universal resolver/gateway. The [Resource Solver operation-to-route ontology research](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md) is a separate admission/resource question, not a consequence of compression results.
+
+**Ownership and status:** interface representation, progressive discovery, semantic fidelity and comparative tool-calling efficiency are broadly applicable independent/shared software and agent-tooling research subjects; grouping and primary ownership beyond the retained EDASES record remain unresolved. ASES owns its adopted task-context method and its own realization decisions. Actual protocol/library changes belong to their implementation owners. The original August landscape/novelty claims are dated hypotheses and survey findings, not current verification. Keep connector activation, resource scaling, typed drift/retry and RPC/namespace/authority choices separate for subsequent reconciliation. Do not infer Phase 5/6 completion, production adoption or authorization to rerun #530 from this interface evidence.
+
+Source cutoff: [1c4e12ee](https://github.com/rock-solid-sites/ASES/tree/1c4e12ee5f464254ca185ab2a3ae1719303b9366). No experiment or external landscape survey was performed in this review; original reports, corpora and measurements remain unchanged.
+
+## Preserved original research framework
+
 **Status:** Revised investigation; foundational lazy-proxy and validate-before-spawn claims empirically validated (stdio only); connector-lifecycle policy surface (idle timeout, pooling) and a ToolRegistry-internals scope decision remain open
 **Target environment:** Model-agnostic, open-source agent harnesses (e.g. OpenCode) using MCP as the primary connector protocol
 

@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.15
+version: 1.0.16
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -69,6 +69,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Provider visibility and launch authority:** The [D6 decision and current scope](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-3--d6-decision-note-whitelist-policy-policy-a--b-watchdog-provider-list-policy) preserve the earlier catalog-discovery spike and dated manifest; they do not authorize current provider/model use. Current dispatch remains governed by agent-launch; catalog freshness, entitlement, capability fit, admission and billing are distinct questions. Shared discovery tooling remains a separate subject from ASES dispatch and Resource Solver research.
 
 **Historical distribution experiments:** The [decision framework's migration and correctness-test disposition](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-2--tools-distribution-architecture-decision-test-framework) separates the superseded D1 audit, D6 scratch visibility result and prospective tests without recovered execution evidence. It preserves reusable checks for propagation, runtime loading, precedence, duplicate application, cache identity/freshness and maintenance friction, without reviving the former migration. These are shared-tooling research examples, not current deployment gates.
+
+**Identifier-first interface research:** The [original research framework](research/Identifier-First%20Tool%20Calling.md) now separates identifier identity and description compression from semantic task fidelity. #498/#530 test augmented compact interfaces, not identifier-only sufficiency or a matched CLI baseline. Preserve the negative intent result and scoped accuracy/cost evidence; no mandated registry, gateway or protocol choice follows. This is shared/independent interface research, distinct from current ASES task-context methodology and connector lifecycle.
 
 ## Legacy and supersession
 
