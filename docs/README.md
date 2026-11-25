@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.16
+version: 1.0.17
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -71,6 +71,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Historical distribution experiments:** The [decision framework's migration and correctness-test disposition](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-2--tools-distribution-architecture-decision-test-framework) separates the superseded D1 audit, D6 scratch visibility result and prospective tests without recovered execution evidence. It preserves reusable checks for propagation, runtime loading, precedence, duplicate application, cache identity/freshness and maintenance friction, without reviving the former migration. These are shared-tooling research examples, not current deployment gates.
 
 **Identifier-first interface research:** The [original research framework](research/Identifier-First%20Tool%20Calling.md) now separates identifier identity and description compression from semantic task fidelity. #498/#530 test augmented compact interfaces, not identifier-only sufficiency or a matched CLI baseline. Preserve the negative intent result and scoped accuracy/cost evidence; no mandated registry, gateway or protocol choice follows. This is shared/independent interface research, distinct from current ASES task-context methodology and connector lifecycle.
+
+**Identifier-first connector lifecycle:** The [lifecycle-axis reconciliation](research/Identifier-First%20Tool%20Calling.md#connector-lifecycle-axis--scoped-validation-and-remaining-questions-2026-11-25) connects the original Phase 5 hypothesis to the [catalog-scale report](../research/toolregistry-lazy-mcp/catalog-scale/report.md). Unused connectors left zero resident processes in 20/20 scoped stdio sweep conditions, but discovery still had substantial transient cost and owner-death orphaning was observed. Explicit close is not crash-safe supervision or a tested idle-timeout/pooling policy. Preserve the independent/shared infrastructure research without making the old runtime design mandatory.
 
 ## Legacy and supersession
 
