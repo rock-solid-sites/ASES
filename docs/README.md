@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.19
+version: 1.0.20
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -77,6 +77,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Identifier-first contract drift and recovery:** The [reconciliation](research/Identifier-First%20Tool%20Calling.md#schema-drift-typed-failure-and-safe-recovery--scoped-evidence-2026-11-25) connects the historical schema-drift and retry reports to the later C2 comparison and #498/#530 boundary evidence. Scoped mitigation of retry amplification and contract convergence are different from safe replay or proof of effects. Preserve the independent/shared contract and connector recovery research; no ToolRegistry override or runtime design is adopted.
 
 **Identifier-first RPC, namespace and authority:** The [final reconciliation of the identifier-first research group](research/Identifier-First%20Tool%20Calling.md#rpc-schema-identity-and-transport-authority--research-disposition-2026-11-25) distinguishes candidate Lexicon/XRPC resolution, historical #441 enforcement proposal, scoped loopback transport tests and present ASES Work Unit authority requirements. The in-memory reconnect probe is not process-loss durability; old exclusions are scope-specific. Documentation reconciliation is complete; research questions remain open.
+
+**Paseo and conversation-workspace research:** The [October roadmap's local reconciliation](research/Paseo%20Conversation-First%20Integration%20Roadmap%202026-10-31.md#current-applicability-of-the-earlier-roadmap) preserves the live-original-chat and relationship requirements while separating the independent browser-native workspace, optional Paseo supervision, scoped ASES-specific adapter/role evidence and Resource Solver. Former VPS/daemon prerequisites and dated provider inventories are not active instructions. Reuse the later investigations rather than restart the historical programme.
 
 ## Legacy and supersession
 

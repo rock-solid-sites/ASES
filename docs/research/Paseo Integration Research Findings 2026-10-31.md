@@ -18,6 +18,8 @@ last_updated: 2026-10-31
 
 # Research findings: live original conversations, Paseo and cloud environments
 
+> **Local applicability (2026-11-25):** The [roadmap reconciliation](Paseo%20Conversation-First%20Integration%20Roadmap%202026-10-31.md#current-applicability-of-the-earlier-roadmap) records later workspace, adapter and environment decisions. This dated source review is retained as October evidence, not a current product survey or deployment gate. The proposed original-chat browser tests and live integration acceptance remain unverified here; subsequent source-checked adapter and role observations are distinct. Do not repeat the historical survey or infer current provider availability from it. The independent conversation-workspace research owns further UI/communication investigations.
+
 **Evidence scope.** Dated source/doc/public-issue review as of 2026-10-31, plus earlier ASES/Paseo studies. This research did **not** test the current Paseo desktop installation, authenticate to ChatGPT/DeepSeek through Paseo, attach a cloud worker or measure the user's current quota balances. A vendor's public API/feature page is **documented**, not **observed in the user's account**. Unavailable services remain in the registry for audit history but not in eligible routing capacity.
 
 ## Main findings
