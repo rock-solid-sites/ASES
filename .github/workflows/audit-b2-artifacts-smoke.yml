@@ -8,13 +8,14 @@ permissions:
 jobs:
   smoke:
     runs-on: ubuntu-24.04
+    environment: rss-github-artifacts
     timeout-minutes: 4
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.B2_ARTIFACTS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_ARTIFACTS_APP_KEY }}
       B2_BUCKET: ${{ vars.B2_ARTIFACTS_BUCKET }}
-      B2_REGION: ${{ vars.B2_ARTIFACTS_REGION }}
-      B2_ENDPOINT: ${{ vars.B2_ARTIFACTS_ENDPOINT }}
+      B2_REGION: ${{ vars.B2_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
       AWS_PAGER: ''
       AWS_MAX_ATTEMPTS: '1'
     steps:
