@@ -1,0 +1,103 @@
+{
+  "cleared_docker_environment": [],
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "--host=unix:///var/run/docker.sock",
+        "info",
+        "--format",
+        "{{.ServerVersion}}|{{.Driver}}"
+      ],
+      "exit": 0,
+      "finished_ns": 1795571062187865087,
+      "started_ns": 1795571062101015427,
+      "stderr": "",
+      "stdout": "28.4.0|vfs\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "--host=unix:///var/run/docker.sock",
+        "image",
+        "inspect",
+        "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335"
+      ],
+      "exit": 1,
+      "finished_ns": 1795571062199687329,
+      "started_ns": 1795571062187876485,
+      "stderr": "Error response from daemon: No such image: sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335\n",
+      "stdout": "[]\n"
+    }
+  ],
+  "constraints": {
+    "cap_add": [
+      "CHOWN",
+      "DAC_OVERRIDE",
+      "SETUID",
+      "SETGID"
+    ],
+    "cap_drop": [
+      "ALL"
+    ],
+    "cpus": 1,
+    "memory": "512m",
+    "mounts": [],
+    "network": "none",
+    "no_new_privileges": true,
+    "pids_limit": 32,
+    "ports": [],
+    "user": "0:0"
+  },
+  "created_utc": "2026-11-25T01:44:22.097274+00:00",
+  "docker_info": {
+    "argv": [
+      "docker",
+      "--host=unix:///var/run/docker.sock",
+      "info",
+      "--format",
+      "{{.ServerVersion}}|{{.Driver}}"
+    ],
+    "exit": 0,
+    "finished_ns": 1795571062187865087,
+    "started_ns": 1795571062101015427,
+    "stderr": "",
+    "stdout": "28.4.0|vfs\n"
+  },
+  "docker_server": "28.4.0",
+  "docker_socket": "unix:///var/run/docker.sock",
+  "docker_storage_driver": "vfs",
+  "gate_passed": false,
+  "image_gate": {
+    "passed": false
+  },
+  "image_inspect": {
+    "argv": [
+      "docker",
+      "--host=unix:///var/run/docker.sock",
+      "image",
+      "inspect",
+      "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335"
+    ],
+    "exit": 1,
+    "finished_ns": 1795571062199687329,
+    "started_ns": 1795571062187876485,
+    "stderr": "Error response from daemon: No such image: sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335\n",
+    "stdout": "[]\n"
+  },
+  "limits": [
+    "No image pull, build, import, or substitution was attempted.",
+    "The UID probe, if run, validates the constrained runtime credential transition only; #85 is a separate source-bound experiment.",
+    "PR #85 may run only if both exact image and UID gates pass."
+  ],
+  "required_image_id": "sha256:b5ba49a53a9c5ad0d0fc3c2c925773589e0d8912cd8077eca91af0bb4ab5e335",
+  "run_pr85": false,
+  "schema": "ases-round25-custody-preflight-v1",
+  "source_branch": "research/native-two-worker-seam-20261124",
+  "source_commit": "7cb443821659ad7606b906ba601952afde028d66",
+  "status": "BLOCKED",
+  "uid_gate": {
+    "attempted": false,
+    "passed": false
+  }
+}

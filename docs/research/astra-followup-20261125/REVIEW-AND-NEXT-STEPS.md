@@ -16,6 +16,8 @@ This is a coordination checkpoint, not a Kernel design decision or an implementa
 
 ## Verified state
 
+- **Round 25 evidence record:** [Work Unit authority, native admission and custody evidence](round25/README.md). The cross-family-reviewed decision packet keeps the authority owner unresolved and W5–W6 NOT REPRESENTED. The #98 follow-up run is preserved but not accepted yet because review found four assertion gaps; a corrected test-only revision and rerun are in progress. The #85 custody preflight remains blocked on the exact image; the original DeepSeek #84 Step Summary report remains unretrieved.
+
 - [PR #84](https://github.com/rock-solid-sites/ASES/pull/84), head `bfabf1d95a1f51052679ff4855a2ccc147b97584`, base `e91fb4b14875487dee9c19cc764e72655ba534c0`: A1–A7 and parent regressions passed independent operational replay and [hosted CI](https://github.com/rock-solid-sites/ASES/actions/runs/45326641417). [Evidence preserved in B2](https://github.com/rock-solid-sites/ASES/pull/84#issuecomment-7148415116).
 - MiMo [raw report](https://github.com/rock-solid-sites/ASES/pull/84#issuecomment-7142524796) and [coordinator source triage](https://github.com/rock-solid-sites/ASES/pull/84#issuecomment-7148494828): no confirmed #84 regression; duplicate eventless A is existing unresolved reservation, not a fresh-ID denial. Remaining tests concern real exception reachability, coverage of same-A eventless retry, and simultaneous lifecycle/admission ordering.
 - DeepSeek [run summary](https://github.com/rock-solid-sites/ases-plugins/actions/runs/45408696041): delivered, full report not retrieved by coordinator; findings NOT TRIAGED. Keep #84 assurance gate open. Do not repeat just to recover the existing report.
