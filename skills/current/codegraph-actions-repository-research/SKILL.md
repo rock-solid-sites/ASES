@@ -2,7 +2,7 @@
 name: codegraph-actions-repository-research
 version: 1.1.1
 status: current
-description: Use for structural code research and tracing symbols, callers, dependencies, architecture or blast radius in PUBLIC GitHub repositories from ChatGPT. Default to the verified rock-solid-sites/ASES GitHub Actions CodeGraph issue-trigger workflow with Backblaze B2 cache,  Activate when the user asks to inspect a public GitHub repository using CodeGraph, 
+description: Structural code research for public GitHub repositories using the verified ASES issue-triggered GitHub Actions workflow and Backblaze B2 cache. Use for symbol, caller, dependency, architecture and blast-radius questions.
 ---
 
 # CodeGraph research: ChatGPT → GitHub Actions → Backblaze B2 → ChatGPT
@@ -34,7 +34,7 @@ description: Use for structural code research and tracing symbols, callers, depe
 - The index key is commit-specific. A new default-branch HEAD generates a new index; older indexes remain reusable for their original commits but the workflow does not currently support requesting arbitrary historical SHAs. GitHub is the source of truth, B2 stores the derived cache, and the disposable Actions runner performs the computation.
 - Current job time limit: **25 minutes**. There may be failure or delay on unusually large repositories, incompatible source, corrupt B2 objects, or provider/network errors. B2 validation fails closed; do not bypass hash, manifest, path or database integrity checks.
 - The workflow already has a confirmed end-to-end test: [fresh issue #51](https://github.com/rock-solid-sites/ASES/issues/51) → [Actions 43992280610](https://github.com/rock-solid-sites/ASES/actions/runs/43992280610), and [cache-restored issue #52](https://github.com/rock-solid-sites/ASES/issues/52) → [Actions 43992502470](https://github.com/rock-solid-sites/ASES/actions/runs/43992502470). Both completed and returned answers.
-- Technical security review and improvements are separate. Independent reviewer notes about B2 credential scope, cache error recovery and resource limits are on [ASES PR #46](https://github.com/rock-solid-sites/ASES/pull/46); these are not a license to weaken controls. No direct CodeGraph MCP call or universal auto-selection has been established by the Actions tests.
+- Technical security review and improvements are separate. Independent reviewer notes about B2 credential scope, cache error recovery and resource limits are on [ASES PR #46](https://github.com/rock-solid-sites/ASES/pull/46); these are not a license to weaken controls. Automatic fresh-chat selection has not been established by the Actions tests.
 
 ## Discovery and acceptance
 
