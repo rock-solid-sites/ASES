@@ -835,6 +835,8 @@ blocking-gap discipline (L1397), and Qwen's link-script/manifest refinement
 
 ## 6. WHAT-NOT-TESTED
 
+> **Migration/test disposition (2026-11-25):** The [framework's amended test evidence review](Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-2--tools-distribution-architecture-decision-test-framework) distinguishes the superseded D1 audit, operator direction, D6 scratch result, and other proposed verification. D2–D5/D7 and Phase-0 precedence/plugin/cache fix outcomes remain unverified in the reviewed sources. Preserve the questions and fault/test-design reasoning, not an active fleet-migration checklist. Actual current loading, authority, drift, cache coherence and consumer effects need their own scoped evidence if relevant. The original synthesis and its dated gaps remain intact.
+
 The following claims in the reviews and this synthesis were **not
 executed-tested** as of 2026-08-15 (compiled from every reviewer's
 verification-gap list):
