@@ -6,6 +6,8 @@ Say **"check the skill index"** (or **"list ASES skills"** / **"show available A
 
 **For an actual task, select by the work product and its governing context, not by trigger words alone.** Any request to **write an ASES prompt, agent brief, Work Unit packet, autonomous-run assignment, builder/reviewer handoff or launch instructions** begins with `compact-prompt/SKILL.md`—even if the request does not use the word "prompt". Read its task-dependent source-admission table **before writing the brief**. Then retrieve only the additional applicable **current** skills: `workflow-orchestration` for autonomous multi-agent assignments, `compile-build` **plus the canonical bounded-build methodology** for genuinely bounded implementation preparation, `review-launch` for an independent review, and `agent-launch` before actual dispatch. Complex tasks can legitimately require more than one; trivial ones do not.
 
+**CodeGraph requests:** for public repository structural exploration, retrieve `codegraph-actions-repository-research/SKILL.md` directly or through this index. The GitHub issue-trigger route is independent of any CodeGraph plugin. Never select the superseded `cgrmcp-current` MCP merely because its tools remain exposed.
+
 A standalone request to **list skills** remains index-only: do not fetch skill bodies. Historical prompting variants and the Strategy-to-Builder *derivation* are not substitutes for the current prompting skill or canonical bounded-build method. A source being linked in another PR or packet does not make it the current authority. If a necessary current method was not read, the resulting brief must be marked **preliminary/not ready to dispatch**.
 
 The frontmatter/description of the installed dispatcher includes the trigger phrases, but **ChatGPT automatic skill selection is not guaranteed**. If this short phrase doesn't invoke ASES Workflow in a fresh chat, explicitly select **ASES Workflow** and repeat it. To share the process, provide this public README URL (a formatted GitHub page) or its raw read-only counterpart below.
@@ -22,6 +24,7 @@ This is the **only directory the installed ASES Workflow dispatcher should use f
 - `workflow-orchestration/SKILL.md` — choose smallest effective execution loop.
 - `compile-build/SKILL.md` — bounded implementation packets.
 - `custom-mcp-connector/SKILL.md` — live connector setup and failure diagnosis.
+- `codegraph-actions-repository-research/SKILL.md` — public GitHub structural code research via the existing GitHub connector, Actions and B2; no dedicated CodeGraph plugin or MCP.
 
 **Governing cross-task information method:** [ASES Task-Scoped Information and Handoff Method](../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) defines selection, authority and handoff. Retrieve it only when materially applicable; it is **not** an additional mandatory skill or a requirement to load every document for every task. The skills above still define specialized execution guidance.
 
