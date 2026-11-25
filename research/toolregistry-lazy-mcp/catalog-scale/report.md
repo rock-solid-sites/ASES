@@ -26,6 +26,8 @@ last_updated: 2026-08-08
 
 # Research Finding: Catalog Scale vs Connector Residency (Phase-5 completion, identifier-first line)
 
+> **Local applicability and evidence qualification (2026-11-25):** See the [identifier-first lifecycle reconciliation](../../../docs/research/Identifier-First%20Tool%20Calling.md#connector-lifecycle-axis--scoped-validation-and-remaining-questions-2026-11-25) for the distinction between completed bounded catalog-residency evidence and the broader Phase 5 agenda. The original report is preserved, including its historical completion label. Its N=50 concurrent-off raw record reports transient peak RSS and one shared async-runtime thread in the async-labelled sweep; the separate fresh-process async-only thread check records zero. Do not generalize the latter to every sweep run. Owner-death raw evidence is a bounded 5.11-second observation followed by explicit reclamation; the longer observations in the report remain reported observations, not a proof of indefinite persistence. Idle timeout, cross-session pooling, generalized memory/cost comparison and other transports are untested. This is not a deployment or an implementation instruction.
+
 ## 1. Purpose and research question
 
 This is an **evidence-only validation task** — a measurement, not a system to
