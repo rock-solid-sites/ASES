@@ -1,5 +1,7 @@
 # Provider onboarding and reality-model audit — 2026-11-01
 
+> **Local applicability (2026-11-25):** This November 1 documentation survey and onboarding model are retained as dated research. Reuse the product/account/payer/route/configuration/meter distinctions, not historical provider prices, quotas, configurations or claims of availability. The [account/funding reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-account-entitlement-and-funding-identity-2026-11-25) incorporates later inventory, launch policy and scoped experimental evidence. No current live provider or account eligibility check was performed here. The manifest-first build sequence is a proposed historical experiment, not a new instruction.
+
 **Status: provisional research design.** No scheduler or provider integration is declared production ready.
 
 ## Core correction
