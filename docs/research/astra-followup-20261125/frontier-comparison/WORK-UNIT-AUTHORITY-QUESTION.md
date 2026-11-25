@@ -1,47 +1,51 @@
 ---
-title: Matched reasoning task — Work Unit authority and replacement
-version: 0.1.0
+title: Matched reasoning task — Kernel-0 and Work Unit continuity
+version: 0.2.0
 status: Experimental
 authority: Derived
 last_updated: 2026-11-25
 ---
 
-# Work Unit authority and replacement
+# Kernel-0 and Work Unit continuity
 
 ## Question
 
-Determine the minimum semantic and trusted-interface distinctions necessary to support Work Unit continuity and execution replacement, and whether the existing experimental mechanisms can supply them. Give a justified architectural disposition and the smallest decisive experiment. This is reasoning, not implementation. Do not seek or read previous reviewers' or comparison participants' conclusions.
+We are designing a custom minimal authoritative Kernel-0 and a Work Unit architecture. Derive the smallest substrate requirements necessary for durable work, replaceable execution and safe authoritative change. What must the kernel distinguish and enforce, and what can remain outside it?
+
+This is open architectural derivation, not selection, integration or repair of previous experimental implementations.
 
 ## Established requirements
 
-- Authoritative state changes must satisfy the substrate's invariants; execution authority is external to the executor. Prompt instructions do not confer authority.
-- A Work Unit is durable independently of execution. An Attachment Point supplies durable executor-facing continuity. An Execution is temporary and replaceable. Loss of an executor must not destroy work, and replacement must not create new work.
-- Superseded execution cannot make new authoritative mutations merely because it retains old access. Where exclusivity is required, incompatible authority states cannot coexist.
-- Single/sequential/concurrent operation and shared/isolated/hybrid resources are configurations, not distinct kernel modes. Work Unit, Attachment Point and Execution are adequacy constraints, not presumed intrinsic Kernel-0 objects. Do not assume any language, store, IPC, capability representation or new primitive.
-- Kernel responsibility is limited to authoritative state and permitted change; semantic work judgment, orchestration, resource budgeting and observation are separate concerns.
-- W5: same W/P, X superseded by Y; Y can mutate continuing work, new X mutations are denied and historical X outcomes remain readable.
-- W6: X mutation races with replacement. Either X commits before replacement and subsequently becomes ineligible, or replacement commits first and X is denied without mutation. Y acts only after current eligibility is granted. Ordering comes from authority, not transcript timestamps.
+- The kernel governs authoritative state and permitted authoritative change. A caller may request a change; its identity, instructions or declared role do not themselves confer authority. Invalid changes must not silently produce partial or different authoritative mutations.
+- Execution authority is external to the executor. Authority that has ceased to be valid cannot remain usable merely because an executor or its representation still exists. Incompatible authoritative states must not coexist where exclusivity is required.
+- Work Unit → Attachment Point → Execution: durable work, durable executor-facing continuity position, temporary and replaceable execution. Loss of an executor must not destroy authoritative work required for continuation. Replacement must preserve work identity while excluding superseded execution authority.
+- Work Unit, Attachment Point and Execution are adequacy constraints on Kernel-0, not necessarily its intrinsic objects, state variables or primitives.
+- Single, sequential and concurrent execution; shared, isolated and hybrid resources; and higher-level role profiles are configurations of the same substrate, not distinct kernel modes.
+- Semantic judgment, orchestration, observation, resource planning, review, issue tracking and other higher-level functions remain outside the kernel unless a necessary authoritative guarantee demonstrates otherwise. Inactive work and attachment positions must not inherently require resident processes.
+- The formal model must represent materially distinct orderings and expose relevant external facts and trusted assumptions. Model adequacy and realization conformance are separate obligations.
 
-## Experimental evidence (not a merged architecture)
+No language, OS, processor, database, scheduler, capability representation, persistence representation, IPC, primitive vocabulary or prior prototype is prescribed. Do not retrieve previous proposed designs, implementation branches or other participants' conclusions.
 
-1. Rust resource-control at PR #42: a job has one durable launch intent, same launch ID observes, different launch ID is refused while active; actual child custody is in memory. Cold loss yields unknown, no blind PID adoption, relaunch or capacity release. Exact matching exit observation is required before finalization. Unlaunched cancellation is atomic and replayable but is not replacement. Historical W1-W4 evidence supports narrow local ledger/custody claims; no fresh rerun this round. Neither job/launch identity nor PID implements durable W/P or X/Y eligibility. W5/W6 not represented.
-2. Native owner at PR #38: selected protected CURRENT records ownership, registrations, selected content, epoch, lifecycle, pending effects; Session.commit publishes a new CURRENT. Owner.locked obtains F1 BEGIN IMMEDIATE, L5 writer flock, L6 BEGIN IMMEDIATE; native effect guard checks current registration, selector, material and path, reserves before journal append. These are native content/lifecycle mechanisms, not demonstrated Work Unit attachment or execution identity. The UID-2000 manager derives a current envelope from a fresh owner read and a request ID; worker route carries only {"op":"write","payload":request_id}. ControllerProxy forwards requests without a trusted per-execution identity receipt. No current owner-visible X/Y proof. Two-worker UID custody probe #85 blocked on exact image, no runtime result.
-3. Native admission PR #84 adds pending-effect exclusion for fresh request IDs under the existing owner guard. Eventless A can remain durably reserved after guarded EOF; journal/witness unchanged; fresh B/C are denied ordinarily. Exact journaled A can be reconciled with validated journal/witness and historical replay does not append. Distinct owners can progress. Seal remains allowed after reservation, disposal denied while pending. A1-A7 passed earlier fixed-head CI. Test-only PR #98: stale-selector same-A retry denied 409; refreshed same-A retry returns reconciliation-required 503, one unresolved reservation, no new journal event. One simultaneous seal attempt refused while the guard was held, not generalized seal denial. A7 not rerun in #98. No cancellation/timeout rule for eventless A. No demonstrated execution replacement or full integration of the stacks.
+## Discriminating histories
+
+Use these as adequacy tests, not as a proposed state representation or transition API:
+
+1. Work W and its attachment P persist when execution X disappears. A replacement Y continues W/P without recreating work.
+2. After X is superseded, X retains access to its old representation and attempts a new mutation. Y is eligible; X must not be able to mutate current authoritative state merely because it previously had authority. Historical X outcomes remain accessible as history.
+3. X's new mutation races with supersession. Show the admissible orderings and why an invalid interleaving cannot produce an authoritative mutation. Do not infer authoritative order from wall-clock or transcript ordering.
+4. X makes an authorized request before supersession, but an external effect or its outcome is unresolved when Y becomes eligible. Determine what guarantees can and cannot be required, how the histories differ, and which distinctions or assumptions are needed. Do not assume external exactly-once behavior or infer failure from a missing response.
+5. Multiple eligible executions and different attachment positions coexist where allowed. Replacement in one position must not accidentally imply global revocation or global exclusivity unless required.
 
 ## Deliverable
 
-Using only the supplied evidence, give:
-- A minimal realization-neutral authority/continuity model and trust boundary; identify necessary versus derived distinctions and why.
-- A concrete counterexample to any weaker design you reject, including a stale request racing with supersession and an in-flight effect with unresolved publication/settlement.
-- Whether an existing owner is a plausible experimental seam, what it would need to verify and which guarantees remain unsupported; distinguish authorization, custody, history and external effects.
-- A recommendation and cheapest discriminating acceptance histories, including what would falsify the recommendation. Separate known facts, inferences and unresolved choices.
+Return one concise independent reasoning report:
+- Derive the minimal necessary semantic distinctions, invariants and authoritative transitions (or explain why the requirements cannot be satisfied under stated assumptions).
+- Show how the Work Unit architecture can be expressed over that substrate without prematurely making its concepts kernel primitives. Identify which responsibilities belong outside the kernel.
+- Give counterexamples to insufficient models and an explicit trust/external-effect boundary. Distinguish necessary guarantees from policy choices and unproven assumptions.
+- Give the smallest abstract falsifying histories or model-adequacy checks that would discriminate your proposal from plausible alternatives. Identify the most consequential remaining uncertainty.
 
-Return one concise reasoning report. No edits, tests, agent launches or additional retrieval. A missing fact should be stated as an uncertainty, not invented. Do not choose a production implementation or add a new Kernel primitive without showing necessity.
+Do not implement, delegate, launch agents, run tests or seek additional sources. Do not select a realization by familiarity or convenience. Treat any proposed ontology or transition relation as a hypothesis; state its necessity and limits. Stop after the bounded reasoning report.
 
-## Evidence provenance (coordinator receipt; no additional retrieval required)
+## Requirements provenance
 
-- Kernel-0 Evidence Packet at a02df749b4b3da88d3f88c1712623cec6ad5d963, docs/research/kernel-0/Kernel-0-Evidence-Packet.md.
-- Adequacy packet at 38a61d2c28c68bb6bc43c3d0d42d2b76a575a50f, docs/research/astra-prelaunch-20261123/WORK-UNIT-ADEQUACY-TEST-PACKET.md.
-- W1-W6 result at 8de559c78272bf639a82d284572e218a14cc1269, docs/research/kernel-0/work-unit-adequacy-result-2026-11-24.md; Rust #42 27bcc552cecb8bbb456b9db3a0a77da1513b31ab.
-- #38 0bd51a34700164a5eb77efe98158fa37d1a74e23: native_owner.py Owner.locked/Session.commit/reserve_effect; native_sink.py NativeAdmission.guard; phase-ii-native-recovery-uid/fixture/driver.py ControllerProxy and owner_controller.py NativeManager.current_write.
-- #84 bfabf1d95a1f51052679ff4855a2ccc147b97584; #98 2358354c86a2b15e6ddbe81480d4c783a46e5a56; published research record at bb66ef80881cbcb430354c72c5c36c19ef8aaabd, docs/research/astra-followup-20261125/round25/README.md.
+The supplied requirements are derived from the current Kernel-0 Evidence Packet (blob d88b807fb54fd380c8c13b2425ff98f2589d3597) and Execution Engine Vision v2026-11-24.1 (blob 2d410a86213664242e395c2bd1aaf6a4051fe1af). The histories are prospective adequacy questions derived from those requirements, including the W5/W6 replacement distinction; none is asserted to be a completed implementation test. This packet is self-contained.
