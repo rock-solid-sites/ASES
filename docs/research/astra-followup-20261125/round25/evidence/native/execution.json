@@ -1,0 +1,43 @@
+{
+  "acceptance": {
+    "concurrent_seal_result": "DENY",
+    "exact_same_A_retry": {
+      "local_control_committed": false,
+      "outcome": "admission-denied",
+      "reason": "stale-native-selector"
+    },
+    "owner_effect_after_retries": {
+      "domain-83635683f49b48669ae47b4059fcbfab:A": {
+        "payload_sha256": "31cb733b4a5074446cf166c522b90f7cba01e240680c4d8caf0af09bb14ad6d8",
+        "status": "reserved"
+      }
+    },
+    "owner_state_unchanged_at_lifecycle_gate": true,
+    "refreshed_same_A_retry": {
+      "local_control_committed": null,
+      "local_event_seq": null,
+      "outcome": "native-effect-requires-reconciliation",
+      "owner_reservation_committed": true,
+      "reason": "native-effect-requires-reconciliation:native-effect-already-reserved"
+    }
+  },
+  "command": "python docs/research/phase-ii-native-pending-admission/verify_probe.py /tmp/ases-round25-launch/native/followup-run-7ed5e10-01",
+  "diff_from_pinned_source_sha256": "99cd384c499febb85f7d99aeda6e8e6d5a77e4c8fee80fbce642e740b9d77a43",
+  "exit_code": 0,
+  "kind": "independent-pinned-native-regression-run",
+  "raw_bytes": 3873376,
+  "raw_file": "raw.json",
+  "raw_sha256": "d2d811bbb88801967d28f1bee5e285f101be8ebf0b1628fba48d353cac103cbd",
+  "result": "PASS",
+  "source_base_sha": "bfabf1d95a1f51052679ff4855a2ccc147b97584",
+  "source_hashes": {
+    "docs/research/phase-i-effect-admission/admission.py": "3c950d3ba9481e0997aae52b91aa5ea77558f501c3c0d8b7224f5fc9e3f544c5",
+    "docs/research/phase-i-effect-admission/admission_sink.py": "e2c92f4de026934fefcc4d91f06efe64fd5072f68837ffa2fd94858902d197fd",
+    "docs/research/phase-ii-native-ownership/native_owner.py": "341a4f6239aa43ed57f6d9d3067d2e6e8b509b452a267ae716fe4edf47e25544",
+    "docs/research/phase-ii-native-ownership/native_sink.py": "d96e125bf40c3ecf3750c05bf46742de60463cd28195511c58e49bb03d610717"
+  },
+  "test_branch": "round25/native-admission-followup",
+  "test_commit_sha": "7ed5e10baf752499b6eeef6cbb8c6905782dd15d",
+  "test_file": "docs/research/phase-ii-native-pending-admission/verify_probe.py",
+  "test_file_sha256": "afaca9853a301d0dce9b6f29909597d2aeb3a7f912c5c82eccd7700617f73243"
+}
