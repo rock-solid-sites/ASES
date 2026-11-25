@@ -20,6 +20,8 @@ last_updated: 2026-10-31
 
 # Paseo: live strategy conversations, linked sessions and resource planning
 
+> **Local applicability (2026-11-25):** Read the [roadmap reconciliation](Paseo%20Conversation-First%20Integration%20Roadmap%202026-10-31.md#current-applicability-of-the-earlier-roadmap) before treating the October design as a current plan. The live-original-conversation and relationship requirements survive, but the independent browser-native workspace research owns the user-facing realization; Paseo is optional execution supervision. The former VPS/daemon prerequisite and phase ordering are historical. The advisory resource-planning problem belongs to separate Resource Solver research. The original design is preserved; no live integration or implementation acceptance is implied.
+
 ## Status and priority
 
 This is an **operator-directed design record**, not an implementation claim or a change to canonical ASES methodology. The first user-facing outcome is access to **original, live conversations from this ChatGPT account inside Paseo**, with a compatible approach to DeepSeek conversations. **Do not substitute imported transcript copies or exported archives for this requirement.**

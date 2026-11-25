@@ -17,6 +17,8 @@ last_updated: 2026-10-31
 
 # Cloud execution, toolchain and storage candidates for Paseo/ASES
 
+> **Local applicability (2026-11-25):** This October inventory is preserved as dated resource research, not a current provider selection, quota, account balance, permission or integration register. The former persistent VPS/Paseo prerequisite is no longer the governing topology. Later work separates the independent conversation workspace, optional interactive execution surface and ASES resource admission/placement research. Check actual current resource/account identity, allowance, authorization and provider lifecycle when needed; no new survey, deployment or available-capacity claim is made here. See [roadmap reconciliation](Paseo%20Conversation-First%20Integration%20Roadmap%202026-10-31.md#current-applicability-of-the-earlier-roadmap) and [Resource Solver specification reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md). Original inventory retained for historical provenance.
+
 **Scope:** Complete working inventory of cloud environments and associated infrastructure considered in the October 2026 discussions, including confirmed accounts, low-cost possibilities, historical/deprecated options and *non-compute* adjacent tools. This is a research registry **not** a declaration of available balance, supported integration or provider approval. Last public verification: 2026-10-31. Check per-account dashboards, live order pages and current terms before including anything in a plan.
 
 ## Status, accounting and placement schema
