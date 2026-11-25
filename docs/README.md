@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.23
+version: 1.0.24
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -85,6 +85,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Resource Solver feasibility, language and admission research:** The [reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) links original exact/synthetic optimization, independent feasibility and local transaction results to Rust–Haskell comparative evidence (original report and trace extraction retained on main), mock-only Python and later Rust/SQLite experiments. Haskell remains a candidate; no optimizer/language selected, no provider enforcement implied. The later relation/telemetry research remains separate.
 
 **Resource Solver observation, accounting and MQI:** The [reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-monitoring-metering-forecasts-and-evaluation-2026-11-25) connects older monitoring and metering proposals to actual bounded controller tests and M5-8/M5-9 observations; separate reservation, actual usage, conservative availability, liability, forecast, terminal outcome and verified quality. The [MQI research framework](research/Task%20Execution%20Evidence%20and%20Model%20Quality%20Index%20Integration%202026-11-01.md) remains exploratory; no new formula, ledger or live-provider assurance adopted.
+
+**Resource Solver integration relations:** The [operation/route reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-operation-route-permission-trigger-and-evidence-relations-2026-11-25) relates the draft PR #62 source-first review to later capability, admission and metering evidence. Existing identities retained, cross-system joins remain candidates; independent symbolic conformance and real route comparison not executed. No new gateway, Trigger service or adopted ontology.
 
 ## Legacy and supersession
 
