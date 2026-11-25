@@ -21,7 +21,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-11-03
+last_updated: 2026-11-25
 ---
 
 # GitLab Pipeline Schedule Control — machine-oriented entry
@@ -32,6 +32,12 @@ last_updated: 2026-11-03
 - `operator_decision`: GitLab pipelines and recurring schedules must be manageable from an ordinary ChatGPT conversation; using the GitLab web dashboard repeatedly is unacceptable. A website visit is permitted as a one-time discriminating diagnostic or irreducible identity/consent step.
 - `repository_exception`: the operator explicitly directed these **planning documents** into `rock-solid-sites/ASES/plugins/gitlab-schedule-control/`. `plugins/README.md` states that canonical custom MCP source, connector records, and runtime documentation have moved to [rock-solid-sites/rss-tools/mcp](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp). Therefore **do not implement, duplicate, or deploy runtime connector source in this ASES folder**; use it for reasoning provenance and place eventual connector source/operational records in the canonical tools repository.
 - `current_state`: design-only; no new credentials, schedules, pipelines, plugin registrations, MCP servers, infrastructure, or production settings are authorized by this dossier.
+
+## Operational clarification — 2026-11-25
+
+**On-demand GitLab CI is already operational directly from ordinary ChatGPT.** The existing authenticated connector provides pipeline creation, typed inputs, job status and traces, retries and pipeline cancellation. Live provider readback confirmed API-triggered pipeline [3020598705](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3020598705) and its successful job [17685585990](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/jobs/17685585990). The group reports a 400-minute monthly shared-runner limit; remaining consumption is not verified. Do not postpone bounded on-demand workloads pending this extension. Only schedule-object management (and other distinct missing operations) remains blocked through the existing connector. A schedule-filtered pipeline query returned no results; schedule existence is still unverified.
+
+Current operational reference: [connector capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md). Minimal upstream-first extension and related gaps: [rss-tools #9](https://github.com/rock-solid-sites/rss-tools/issues/9). The dossier remains a requirements record, not a deployed schedule connector.
 
 ## Read in order
 
