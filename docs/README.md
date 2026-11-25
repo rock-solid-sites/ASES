@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.17
+version: 1.0.18
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -73,6 +73,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Identifier-first interface research:** The [original research framework](research/Identifier-First%20Tool%20Calling.md) now separates identifier identity and description compression from semantic task fidelity. #498/#530 test augmented compact interfaces, not identifier-only sufficiency or a matched CLI baseline. Preserve the negative intent result and scoped accuracy/cost evidence; no mandated registry, gateway or protocol choice follows. This is shared/independent interface research, distinct from current ASES task-context methodology and connector lifecycle.
 
 **Identifier-first connector lifecycle:** The [lifecycle-axis reconciliation](research/Identifier-First%20Tool%20Calling.md#connector-lifecycle-axis--scoped-validation-and-remaining-questions-2026-11-25) connects the original Phase 5 hypothesis to the [catalog-scale report](../research/toolregistry-lazy-mcp/catalog-scale/report.md). Unused connectors left zero resident processes in 20/20 scoped stdio sweep conditions, but discovery still had substantial transient cost and owner-death orphaning was observed. Explicit close is not crash-safe supervision or a tested idle-timeout/pooling policy. Preserve the independent/shared infrastructure research without making the old runtime design mandatory.
+
+**Identifier-first contract drift and recovery:** The [reconciliation](research/Identifier-First%20Tool%20Calling.md#schema-drift-typed-failure-and-safe-recovery--scoped-evidence-2026-11-25) connects the historical schema-drift and retry reports to the later C2 comparison and #498/#530 boundary evidence. Scoped mitigation of retry amplification and contract convergence are different from safe replay or proof of effects. Preserve the independent/shared contract and connector recovery research; no ToolRegistry override or runtime design is adopted.
 
 ## Legacy and supersession
 

@@ -22,6 +22,8 @@ last_updated: 2026-08-08
 
 # Research Finding: Closing the Consistently-Drifted-Backend (C2) Gap — Self-Healing vs Client Interception vs Patch
 
+> **Local applicability (2026-11-25):** The [identifier-first drift and recovery reconciliation](../../../docs/research/Identifier-First%20Tool%20Calling.md#schema-drift-typed-failure-and-safe-recovery--scoped-evidence-2026-11-25) distinguishes the tested C2 amplification/error-shape result from successful execution, contract convergence and safe replay. A and B were evaluated within pinned local stdio fixtures; the recommended private-method interception is version-dependent, not adopted here. B returns a failure without reconnect; A's conditional successful retry is not evidence of safe repetition of state-changing operations. The original comparison, recommendation and measurements are preserved.
+
 ## 1. Purpose and question
 
 This is an **investigation**, not a build (#228, child of epic #212). #217
