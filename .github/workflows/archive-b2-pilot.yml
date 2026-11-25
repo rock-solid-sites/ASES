@@ -1,0 +1,46 @@
+name: Verify B2 archive procedure with PR84 research evidence
+on:
+  push:
+    branches: [archive/b2-verified-artifacts-20261125]
+    paths: ['.github/workflows/archive-b2-pilot.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archive:
+    runs-on: ubuntu-24.04
+    environment: rss-github-artifacts
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.B2_ARTIFACTS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_ARTIFACTS_APP_KEY }}
+      B2_BUCKET: ${{ vars.B2_ARTIFACTS_BUCKET }}
+      B2_REGION: ${{ vars.B2_REGION }}
+      B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Transfer exact existing PR84 verification archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+          id=14890247053
+          expected=dc9e907326426ee0209f89cc461e54e60c44c96017bd2aca40e04665467f39a6
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" > "$work/metadata.json"
+          jq -e --arg digest "sha256:$expected" '.id == 14890247053 and .expired == false and .digest == $digest and .workflow_run.id == 45326641417' "$work/metadata.json" >/dev/null
+          curl --fail --silent --show-error --location --max-time 90 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" -o "$work/artifact.zip"
+          echo "$expected  $work/artifact.zip" | sha256sum -c -
+          python3 - "$work/artifact.zip" <<'PY'
+          import sys, zipfile
+          with zipfile.ZipFile(sys.argv[1]) as z:
+              assert z.testzip() is None
+              print("ZIP entries:", len(z.infolist()))
+          PY
+          prefix="github/ASES/45326641417/$id/$expected"
+          bash .github/scripts/archive-artifact-b2.sh "$work/artifact.zip" "$prefix/artifact.zip"
+          bash .github/scripts/archive-artifact-b2.sh "$work/metadata.json" "$prefix/metadata.json"
+          echo 'PILOT_VERIFIED original GitHub artifact retained'
