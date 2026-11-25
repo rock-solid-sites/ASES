@@ -556,6 +556,8 @@ safest.
 
 ### 3.7 Whitelist policy
 
+> **D6 disposition (2026-11-25):** The [amended framework's provider/model visibility reconciliation](Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-3--d6-decision-note-whitelist-policy-policy-a--b-watchdog-provider-list-policy) distinguishes the historical scratch catalog-visibility result and operator manifest decision from current account-specific launch authorization. Discovery-first plus validation watchdog was selected in that earlier scope; neither model visibility nor zero-price listing proves actual entitlement or permission. General catalog discovery remains shared-tooling research, while ASES dispatch policy is governed by the [current agent-launch skill](../../skills/current/agent-launch/SKILL.md). Do not apply the old provider lists or infer current implementation. Original synthesis preserved.
+
 - **Qwen is the only reviewer to prescribe a policy**: either (A)
   discovery-first with a blocklist for known-bad models, or (B) a curated
   whitelist with mandatory refresh validation and visible staleness
