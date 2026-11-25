@@ -19,6 +19,8 @@ consumed_by:
 
 # Test E — Transport Requirements: Results
 
+> **Local evidence qualification (2026-11-25):** The original seven-required-property result and two conditional probes remain preserved below. The [RPC/transport reconciliation](../../../../docs/research/Identifier-First%20Tool%20Calling.md#rpc-schema-identity-and-transport-authority--research-disposition-2026-11-25) distinguishes loopback cross-process observations from cross-host behavior. The durable probe used an in-memory result cache in the surviving server; a fresh server's NotFound is not a durable effect ledger. Timeout did not auto-cancel; cooperative cancellation exercised pre-execution delay, not reversal of an effect. Historical exclusions of streaming and durability apply only to the discrete test boundary, not to current Work Unit or model-streaming research. No XRPC, transport-security, process-loss durability or universal safe-replay claim follows.
+
 **WHY** — Establish which transport semantics the EDASES `agent → sandbox → small preselected capability API → authoritative runtime` boundary actually requires, without re-testing retired MCP lifecycle features. Each property is a discriminating test for a distinct transport concern.
 
 **WHAT** basis — Logic-level loopback-TCP harness (newline-delimited JSON over `127.0.0.1` with `ThreadPoolExecutor` server, subprocess PID boundary for remote proof) exercising the same 14-op authoritative capability set (`version 0.1.0`) via `Harness(Sandbox(), Runtime())`. Every call is `sandbox → validation → policy → execution` with typed errors per `harness/error-codes.md`. Logs under `logs/test-e/` (69 JSONL rows + `summary.json`) are the primary evidence; tables below are derived from those logs.
