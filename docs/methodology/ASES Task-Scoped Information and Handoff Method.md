@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.3
+version: 1.1.4
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -83,6 +83,16 @@ For agent work, the existing Work Notes packet carries the source and final dest
 ### Chat persistence and record granularity
 
 **Each substantive Chat turn is a recoverability checkpoint, not a record boundary.** Before returning a turn that advances work, decisions, or understanding, persist the material change in the relevant existing Work Notes, Projektor or repository records according to information ownership. A turn can update multiple records when distinct subjects advance; it need not update every store or create a note. A conversation can advance several work units, and a work unit can span several conversations. Do not use chat boundaries as issue boundaries.
+
+**Route the material delta by information ownership:**
+
+| Destination | Record when the turn changes | Retain |
+| --- | --- | --- |
+| Projektor | Human intent, priorities, scope, subject understanding, dependencies, open questions or adoption decisions | Project/subject relationships, decision and its rationale, proposed vs accepted direction, outstanding human decisions; links to evidence and work where useful |
+| Repository (GitHub or equivalent) | Retained implementation, technical knowledge, methodology, research findings or reproducible evidence | Code, tests, authoritative or explicitly provisional documents, findings with provenance, relevant negative results and evidence; publish only to an authorized destination |
+| Work Notes | Operational state, execution ownership, progress, blockers, recovery or the next action | Current work-unit checkpoint, relevant scope and acceptance pointers, source/destination identity, verified progress, in-flight/failed/unverified operations, precise resume action and evidence links; concise history where needed for recovery |
+
+A turn may change none, one, or several of these dimensions. A discussion of alternatives can advance Projektor without an execution record; a technical research finding can warrant a repository document without a new issue; a failed run can require only a Work Notes checkpoint, unless its evidence or implications warrant separate durable records. An implementation milestone may warrant a repository result and Work Notes checkpoint, with Projektor updated only if human-facing scope, status, decision or dependency materially changes. Link across destinations when useful; do not copy the same narrative into all three or use one destination as a substitute for another's material obligation. Keep private source material in authorized private stores. Other projects can choose equivalent destinations and their own lifecycle policies.
 
 Keep the operational record a concise, current resume point: replace stale state, blockers and next-action pointers rather than append indefinitely. Preserve material evidence, decisions, rejected alternatives and rationale in appropriate comments or durable documents; keep canonical technical content in its authoritative home. Reuse existing subject records and split work at meaningful changes of scope, ownership, independent acceptance or dependency, not at arbitrary turn counts or text lengths. A discussion without execution still preserves material questions, ideas, alternatives, decisions and provenance in the appropriate existing subject record (or a new one when the subject genuinely warrants it); this does not authorize implementation or require an execution issue. Immaterial turns need no artificial write.
 
