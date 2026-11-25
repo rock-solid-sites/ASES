@@ -1,0 +1,34 @@
+{
+  "schema": "ases-round25-fixed-head-native-regression-v1",
+  "provenance": "Evidence recorder manifest assembled from admission's run report and verify_work's independent fixed-head review; this file was not emitted by the test runner.",
+  "source_base_sha": "bfabf1d95a1f51052679ff4855a2ccc147b97584",
+  "test_head_sha": "2358354c86a2b15e6ddbe81480d4c783a46e5a56",
+  "pull_request": 98,
+  "test_file": "docs/research/phase-ii-native-pending-admission/verify_probe.py",
+  "test_file_sha256": "c1d6149b0e9f6de6c48f4c9aa896d61cc8cf9f0c1ee285a579a18c9b7dc4dc23",
+  "diff_scope": "100 insertions, 2 deletions; test file only",
+  "diff_check": "clean",
+  "command": "python docs/research/phase-ii-native-pending-admission/verify_probe.py /tmp/ases-round25-launch/native/followup-run-mimo-fixed-01",
+  "exit_code": 0,
+  "result": "PASS",
+  "raw_file": "raw.json",
+  "raw_bytes": 4362687,
+  "raw_sha256": "401df3fb9c06d3cea96808340e393e9dcb2542e829eaf5bd4a36a3c0fddcf84a",
+  "verified_acceptance": {
+    "exact_same_A": "409 stale-native-selector; local_control_committed=false",
+    "refreshed_same_A": "503 native-effect-already-reserved; local_control_committed=null; reservation remains held with no sequence",
+    "gate_time_seal": "DENY with OperationalError / database is locked; owner selection and durable phase unchanged; guarded lifecycle and evidence cut unchanged"
+  },
+  "independent_review": {
+    "family": "MiMo",
+    "receipt": "review/MIMO-FIXED-HEAD-ACCEPTANCE.md",
+    "sha256": "120f361b6fa0e35b7362b5440c82f2cf3e2cbf3544003e339859129389b59909"
+  },
+  "limits": [
+    "One contender/run; this is a gate-time serialization result, not generalized seal denial.",
+    "The exact SQLite message check is brittle to SQLite error wording.",
+    "Same-A retries use a narrower immutable cut, not the full L6/inventory cut.",
+    "A7 (#35/#36 parent regression) was not rerun.",
+    "This does not establish W5/W6 or execution authority."
+  ]
+}
