@@ -1,6 +1,6 @@
 ---
 title: Astra follow-up — review disposition and remaining work
-version: 0.1.0
+version: 0.1.1
 program: ASES
 layer: Research
 document_type: Experimental Research Handoff
@@ -26,6 +26,8 @@ This is a coordination checkpoint, not a Kernel design decision or an implementa
 ## Next autonomous round
 
 Parent orchestrates only; delegate all inspection, experiments, engineering and record updates to isolated workers. Run separable work units in parallel.
+
+**Worker routing (operator direction, 2026-11-25):** Make OpenCode agents the default execution pool for research, code inspection, test design, implementation, debugging and independent verification; actively use the remaining OpenCode Go subscription allowance and verified zero-price OpenCode models. As coordinator, establish exact approved model IDs, available execution hosts, current eligibility and bounded allocations before dispatch using `agent-launch` v1.0.7. Prior Go DeepSeek/MiMo success is route evidence, not a current quota/availability measurement. Prefer the latest supported harness with verified working routes; parallelize independent bounded tasks, not indiscriminate invocations. Use Codex Luna through its subscription only for work where it adds distinct value or required capability; preserve independent family separation and the orchestrator-only role. No automatic fallback, unapproved metered spending or model selection by task recipients. Record actual routes and failures; continue other independent work if a route is blocked. No requirement to exhaust every available quota.
 
 1. Native admission: apply coordinator triage on #84. Verify prior same-A raw evidence, extend maintained replay only where a meaningful gap exists, test concrete reachable post-reservation failure and concurrent admission/lifecycle ordering if justified. Do not change deliberate eventless uncertainty or widen exception handling without falsifying evidence. Pin base/head; separate inherited limitations from regressions. Existing behavior must remain intact.
 2. Work Unit adequacy: produce a small decision packet for the operator, not a positive implementation. Identify the authority-owner home for durable Work Unit/Attachment Point/current Execution eligibility and the trusted path by which the owner verifies execution identity. Evaluate existing native owner and Rust custody seam without equating job/launch IDs, content epoch, physical sink binding or F4 authority with continuity. Specify W5/W6 histories and minimal unresolved design choices. W5: same W/P, X replaced by Y, stale X denied and historical results retained. W6: concurrent X mutation/replacement serializes with owner authority, with Y eligible afterward. Workers request-only. No self-asserted epoch or execution identity.
