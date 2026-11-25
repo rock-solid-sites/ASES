@@ -16,6 +16,8 @@ related_documents:
 
 # EDASES Execution Authority — RPC Enforcement Prototype
 
+> **Local historical applicability (2026-11-25):** This is the preserved #441 candidate experiment design, not an active launch/build packet or accepted enforcement architecture. Its ten proposed experiments must not be read as completed results; no implementation/acceptance outcome was recovered in the bounded review. The [identifier-first RPC/authority reconciliation](../docs/research/Identifier-First%20Tool%20Calling.md#rpc-schema-identity-and-transport-authority--research-disposition-2026-11-25) separates the transferable bypass, authority and failure questions from the old OpenCode plugin/Rust core, kickoff/swarm, lifecycle gate and build-order assumptions. Current [Execution Engine Vision](../docs/architecture/Execution%20Engine%20Vision.md) and Kernel/Work Unit research govern the ASES-specific requirements. Original design and historical owner retained.
+
 ## Objective
 
 Test whether a thin OpenCode plugin communicating with a local Rust core over RPC can provide a reliable, low-overhead, machine-readable enforcement boundary for ASES.
