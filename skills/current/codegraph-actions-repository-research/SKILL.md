@@ -1,8 +1,8 @@
 ---
 name: codegraph-actions-repository-research
-version: 1.1.0
+version: 1.1.1
 status: current
-description: Use for structural code research and tracing symbols, callers, dependencies, architecture or blast radius in PUBLIC GitHub repositories from ChatGPT. Default to the verified rock-solid-sites/ASES GitHub Actions CodeGraph issue-trigger workflow with Backblaze B2 cache, not the older cgrmcp-current MCP snapshot tools. Activate when the user asks to inspect a public GitHub repository using CodeGraph, including requests that used to say cgrmcp.
+description: Use for structural code research and tracing symbols, callers, dependencies, architecture or blast radius in PUBLIC GitHub repositories from ChatGPT. Default to the verified rock-solid-sites/ASES GitHub Actions CodeGraph issue-trigger workflow with Backblaze B2 cache,  Activate when the user asks to inspect a public GitHub repository using CodeGraph, 
 ---
 
 # CodeGraph research: ChatGPT → GitHub Actions → Backblaze B2 → ChatGPT
@@ -11,7 +11,7 @@ description: Use for structural code research and tracing symbols, callers, depe
 
 **No dedicated plugin required.** Use the existing GitHub connector directly. This file is the canonical read-only operational procedure, discoverable via the ASES skill index. The general ASES Workflow dispatcher is an optional discovery convenience, not an execution prerequisite. No separate CodeGraph plugin, MCP connection, VPS, tunnel or paid model is required.
 
-**Legacy boundary.** The former `cgrmcp-current` MCP service exposed `repo_open`, `repo_status`, `repo_explore` and `repo_read` via a VPS/tunnel and is preserved for recovery/reference, **not** the default for new public-repository exploration. Do not silently call those tools, start a tunnel/VPS, or equate the two execution paths. The recovered original runtime lives at `rock-solid-sites/ases-plugins/connectors/cgrmcp/runtime/`; obsolete Skill content is retained only in Git history, not as an active `SKILL.md`.
+**Retirement boundary.** The former MCP was uninstalled on 2026-11-26. It is not an available research route. Do not reconnect or reconstruct it. Historical code and provenance are archived outside active plugin and skill trees.
 
 ## When to select
 
@@ -30,7 +30,7 @@ description: Use for structural code research and tracing symbols, callers, depe
 
 ## Permissions, failure and caching constraints
 
-- Only the verified, owner-authored public-issue route is authorized. If the current conversation lacks a connected GitHub account with access to `rock-solid-sites/ASES`, state that the CodeGraph Actions route cannot be started; **do not silently fall back to old cgrmcp**, invent a dispatch action, or ask the user to operate GitHub Actions manually.
+- Only the verified, owner-authored public-issue route is authorized. If the current conversation lacks a connected GitHub account with access to `rock-solid-sites/ASES`, state that the CodeGraph Actions route cannot be started; **do not silently fall back to the retired MCP**, invent a dispatch action, or ask the user to operate GitHub Actions manually.
 - The index key is commit-specific. A new default-branch HEAD generates a new index; older indexes remain reusable for their original commits but the workflow does not currently support requesting arbitrary historical SHAs. GitHub is the source of truth, B2 stores the derived cache, and the disposable Actions runner performs the computation.
 - Current job time limit: **25 minutes**. There may be failure or delay on unusually large repositories, incompatible source, corrupt B2 objects, or provider/network errors. B2 validation fails closed; do not bypass hash, manifest, path or database integrity checks.
 - The workflow already has a confirmed end-to-end test: [fresh issue #51](https://github.com/rock-solid-sites/ASES/issues/51) → [Actions 43992280610](https://github.com/rock-solid-sites/ASES/actions/runs/43992280610), and [cache-restored issue #52](https://github.com/rock-solid-sites/ASES/issues/52) → [Actions 43992502470](https://github.com/rock-solid-sites/ASES/actions/runs/43992502470). Both completed and returned answers.
@@ -38,7 +38,7 @@ description: Use for structural code research and tracing symbols, callers, depe
 
 ## Discovery and acceptance
 
-In an ordinary ChatGPT conversation, retrieve this file through the public read-only ASES skill index, then execute the existing GitHub issue route. A direct link to this file is also sufficient; no dedicated plugin installation is needed. Do not interpret the obsolete MCP's continued presence or a 429 transport probe as evidence that the Actions route is down.
+In an ordinary ChatGPT conversation, retrieve this file through the public read-only ASES skill index, then execute the existing GitHub issue route. A direct link to this file is also sufficient; no dedicated plugin installation is needed. A legacy MCP transport failure is unrelated to the current Actions route.
 
 The 2026-11-25 direct GitHub canary [issue #109](https://github.com/rock-solid-sites/ASES/issues/109) → [run 45691568542](https://github.com/rock-solid-sites/ASES/actions/runs/45691568542) completed successfully and stored a verified fresh index for pallets/itsdangerous at commit `672971d66a2ef9f85151e53283113f33d642dabd`.
 
@@ -48,5 +48,4 @@ Automatic selection in a genuinely fresh chat is a distinct behavioral acceptanc
 
 - [GitHub Actions implementation](https://github.com/rock-solid-sites/ASES/blob/main/.github/workflows/codegraph-public-explore.yml)
 - [Repository-side CodeGraph/B2 script](https://github.com/rock-solid-sites/ASES/blob/main/.github/scripts/codegraph-public-explore.sh)
-- [Recovered old cgrmcp runtime and tests](https://github.com/rock-solid-sites/ases-plugins/tree/main/connectors/cgrmcp)
-- [Original cgrmcp skill, historical only](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/cgrmcp/SKILL.md)
+- [Historical retirement archive — not operational instructions](https://github.com/rock-solid-sites/ases-plugins/tree/main/archive/superseded/cgrmcp-2026-11-26)
