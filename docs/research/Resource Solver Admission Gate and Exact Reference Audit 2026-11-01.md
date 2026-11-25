@@ -8,6 +8,8 @@ last_updated: 2026-11-01
 
 # Admission and solver audit — 2026-11-01
 
+> **Local applicability (2026-11-25):** Later mock-only SQLite, Rust/Haskell interruption and actual Rust/SQLite control experiments refine the missing process-local durability evidence. [Current scope crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); do not infer production/provider enforcement or Work Unit replacement from them.
+
 ## Test-first evidence
 
 **Snapshot gate**: 12 focused tests were written before implementation. The initial missing-module failure was not counted as RED. Against an importable deliberately incomplete stub, **four behavioral tests failed**. After implementing the single-process gate, **12/12 passed**. Eight further gate tests passed, bringing the gate suite to 20.

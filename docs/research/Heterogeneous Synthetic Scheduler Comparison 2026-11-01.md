@@ -1,5 +1,7 @@
 # Heterogeneous synthetic scheduler comparison — 2026-11-01
 
+> **Local applicability (2026-11-25):** This report remains synthetic, with historical VPS assumptions, not a current provider entitlement or independent production gate. [Evidence crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); no optimizer or language selection follows.
+
 ## Decision
 
 Bounded local search remains the preferred **prototype improvement layer** over a deterministic feasible fallback, not a selected final engine. This test covers 30 synthetic workloads and demonstrates feasibility and improved modeled objective, **not** optimality or verified provider entitlements.

@@ -1,5 +1,7 @@
 # Solver selection correction — 2026-11-01
 
+> **Local applicability (2026-11-25):** The original correction (no Pumpkin selection) remains applicable to research. The later [feasibility/language reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) includes homogeneous/heterogeneous local-search results and Rust/Haskell comparison. Rust is not selected by the old baseline preference. This is not a new implementation instruction.
+
 **Decision: Pumpkin is a candidate, not the selected ASES solver. No Pumpkin adapter is approved yet.** Earlier references to a Pumpkin-first implementation sequence are superseded.
 
 First implement an authoritative typed WorkGraph/EnvironmentSnapshot, an independent feasibility gate, and a deterministic scheduling baseline. Evaluate specialized Rust scheduling, Pumpkin, Rust-native optimization alternatives, and external reference solvers using the same validated inputs. Compare solution quality, cold-start latency, peak RSS, memory-safety and maintenance costs. Historical MiniZinc results are retained as reference only.

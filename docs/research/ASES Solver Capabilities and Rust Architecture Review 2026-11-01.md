@@ -1,5 +1,7 @@
 # ASES solver capability and memory-safe architecture review — 2026-11-01
 
+> **Local applicability (2026-11-25):** The earlier Pumpkin-first sequence was superseded by the selection correction. Rust and Haskell were later tested as equal candidates; no implementation language or optimizer has been selected. [Current evidence and applicability](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) distinguish source review, executed comparisons and proposed mechanisms.
+
 Decision: **defer stripped C/C++ binaries and any wholesale rewrite**. First benchmark existing Rust engines and identify ASES-specific missing features. Historical MiniZinc/Chuffed/Gecode results remain reference measurements, not a mandate to adopt their implementation languages.
 
 ## Capability inventory

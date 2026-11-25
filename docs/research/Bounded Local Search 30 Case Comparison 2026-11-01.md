@@ -1,5 +1,7 @@
 # Bounded priority-list local search: 30-case comparison (2026-11-01)
 
+> **Local applicability (2026-11-25):** This candidate improvement was followed by a heterogeneous comparison, not a final engine selection. [Evidence crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); the fixed iteration count and local results are not guaranteed runtime or production admission.
+
 ## Decision
 **Promote bounded local search to the next prototype candidate, not the final engine.** Retain the simple deterministic feasible scheduler as the always-available fallback. Keep Pumpkin and other solvers unselected pending representative heterogeneous, quota, and replan workloads.
 

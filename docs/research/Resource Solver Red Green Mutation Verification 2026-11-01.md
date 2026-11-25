@@ -8,6 +8,8 @@ last_updated: 2026-11-01
 
 # Resource-solver verification protocol
 
+> **Local applicability (2026-11-25):** The original local source status is historical: later audit records committed admission-v2 source and subsequent controller experiments. [Evidence crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); distinguish retrospective mutation sensitivity from behavioral RED-before-fix and selected assurance methods from mandatory rituals.
+
 For each new requirement or correctness fix:
 
 1. **RED**: Write a focused test first; run it on the prior implementation and record the expected behavioral failure, distinguishing it from syntax/import/setup errors.

@@ -11,6 +11,8 @@ related_proposal_branch: proposal/testing-and-assurance-method-2026-11-01
 
 # Response for the Resource Solver Chat
 
+> **Local applicability (2026-11-25):** The [later Resource Solver evidence reconciliation](../../research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) covers P1–P7, the language comparison, subsequent controller and selection evidence. Keep this as a draft discussion, not a second methodology, adopted ontology gate or implementation handoff.
+
 The new [testing, debugging, and ontology proposals](https://github.com/rock-solid-sites/ASES/tree/proposal/testing-and-assurance-method-2026-11-01/docs/proposals/2026-11-02-testing-debugging-ontology) fit the Resource Solver's direction, but they reveal several distinctions that need to remain explicit in its architecture. I would incorporate the **reasoning and evidence discipline** provisionally, without adopting the draft methods as compulsory gates or changing our current resource-solver design solely to accommodate them.
 
 Our testing work on the [experimental Rust–Haskell branch](https://github.com/rock-solid-sites/ASES/tree/research/rust-haskell-admission-2026-11-01/research/testing-assurance-pilot) now provides concrete observations from five pilots:
