@@ -1,5 +1,7 @@
 # Thirty synthetic scheduling benchmarks — 2026-11-01
 
+> **Local applicability (2026-11-25):** The later bounded local-search comparison reused these 30 synthetic instances; retain original certificates, timeouts and non-attempts. [Evidence crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); the old CPU model is not the current universal admission constraint.
+
 ## Status
 
 30/30 deterministic earliest-fit schedules passed independent per-tick dependency and CPU/RAM feasibility checks. 18 exact SciPy/HiGHS reference runs were attempted (5-second limit each): **16 certified optima**, **2 timeouts**. The remaining 12 cases (30/60 stages) were NOT run through exact MILP; only an analytical lower bound was computed. This is **not** a comparison of 30 optimization engines or 30 real ASES executions.

@@ -1,5 +1,7 @@
 # Independent feasibility gate — requirements and acceptance criteria (2026-11-01)
 
+> **Local applicability (2026-11-25):** Retain three independent gates and independently sourced facts. The original CPU and Rust/Pumpkin sequencing is a candidate model/order, not a binding implementation-language choice or production gate. The later [feasibility/language reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) qualifies the corrected shared-CPU model, local SQLite admission and Haskell evidence.
+
 ## Architectural decision
 
 **No schedule may be dispatched unless an independently implemented validator accepts it.** Feasibility validation is part of the ASES resource-control boundary, not an optional solver debugging feature. A solver's SAT/optimal result is not permission to execute.

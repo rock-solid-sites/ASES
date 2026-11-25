@@ -1,5 +1,7 @@
 # Project-derived solver benchmark corpus v0.1 — 2026-11-01
 
+> **Local applicability (2026-11-25):** This document remains a proposed corpus; later exact-reference and synthetic local-search runs only cover particular subsets/scenario families. [Later evidence and limits](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25); do not rerun completed investigations or equate synthetic provenance with observed execution.
+
 Status: **proposed test fixtures**, not historical measurements or validated schedules. Follow the prior engine comparison in `docs/research/Resource Solver Engine Comparison Recovery 2026-11-01.md`. MiniZinc/Gecode, MiniZinc/Chuffed and OR-Tools CP-SAT must be evaluated on the **same normalized input and constraints**; the exact enumerator acts as oracle on reduced instances.
 
 ## Evidence tiers

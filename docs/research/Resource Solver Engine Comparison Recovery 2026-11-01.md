@@ -12,6 +12,8 @@ related_documents:
 
 # Resource solver engine comparison — recovered decision
 
+> **Local applicability (2026-11-25):** Preserve the recovered reported comparison without treating MiniZinc preference as a selected engine. The [later evidence crosswalk](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-feasibility-optimization-implementation-language-and-admission-2026-11-25) records bounded local-search and heterogeneous tests; original matched benchmark artifacts are still unverified here.
+
 The prior VPS/resource-solver conversation had already compared **four actual solver configurations**. Do not restart at an unimplemented synthetic-only solver as though this comparison had not occurred.
 
 ## Recovered results
