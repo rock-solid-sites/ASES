@@ -1,5 +1,7 @@
 # Account & promotional compute inventories
 
+> **Scope reminder (2026-11-25):** These canonical *inventory snapshots* are not canonical current entitlement, funding authorization or a live registry. The historical narrative conversion and row counts are preserved. Read the [account/funding reconciliation](../../docs/research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-account-entitlement-and-funding-identity-2026-11-25) and [current launch skill](../../skills/current/agent-launch/SKILL.md) for separate observed availability and authorization requirements. Current private account state belongs in an appropriately restricted source, not a refreshed public inventory containing sensitive data.
+
 Machine-readable canonical sources:
 - [known_accounts_v1.json](known_accounts_v1.json): **28** previously enumerated provider accounts, claimed resource entitlements, unknown current consumption, and verification checklist.
 - [potential_offers_v1.json](potential_offers_v1.json): **26** individually addressable offers/comparators, with credit terms and illustrative rather than provider-quoted compute value.

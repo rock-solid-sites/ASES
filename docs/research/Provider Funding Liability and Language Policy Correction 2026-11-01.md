@@ -1,5 +1,7 @@
 # Funding, billing liability, and language-policy correction — 2026-11-01
 
+> **Local applicability (2026-11-25):** Retain the funding/liability distinctions as resource research. The [current agent-launch skill](../../skills/current/agent-launch/SKILL.md) governs actual dispatch: exact authorized route and funding pool, verified eligibility/allowance, bounded use, no fallback/overflow/top-up. Authorized purchased credits are not inherently disallowed. The Rust funding-contract build sequence and language recommendation below are historical research direction, not a fresh implementation authorization or production acceptance. See the [account/funding reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-account-entitlement-and-funding-identity-2026-11-25) for later evidence and open questions.
+
 Status: binding research direction, implementation not yet complete.
 
 ## Financial model

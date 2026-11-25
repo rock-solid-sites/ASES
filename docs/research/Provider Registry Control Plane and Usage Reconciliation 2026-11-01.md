@@ -1,5 +1,7 @@
 # Provider registry as authoritative control plane — provisional architecture
 
+> **Local applicability (2026-11-25):** Read the [account/funding reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-account-entitlement-and-funding-identity-2026-11-25) before using this dated control-plane proposal. The published contract, account-specific observation and runtime evidence planes survive. The [inventory](../../research/provider-registry/README.md) is not live entitlement or permission. The old preferred Paseo launch point and implementation order are historical candidates, not a current topology or production gate. Current caller-side [launch procedure](../../skills/current/agent-launch/SKILL.md) applies independently; provider-specific qualification and authoritative enforcement remain open. Original design preserved.
+
 Date: 2026-11-01
 Status: Provisional research decision; implementation and provider-specific access require verification.
 
