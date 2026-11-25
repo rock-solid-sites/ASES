@@ -139,6 +139,36 @@ coordinated changes/month with documented friction → revisit repo-of-repos).
 
 # Amendment 2 — Tools Distribution Architecture Decision Test Framework
 
+> **Local research reconciliation (2026-11-25) — migration and correctness-test evidence.** This section qualifies the original test plan and subsequent amendments without erasing their sequence. An operator decision, a prospective test, an observed fault, a recorded test result and a verified deployment are different facts. The original August plan's statement that no tests had been executed is qualified by the later recorded D1 historical audit and D6 scratch spike. Do not interpret the remaining proposed checks as completed results or current acceptance gates.
+
+### Decision-test disposition at the reviewed source cutoff
+
+| Question | Recorded state and scope |
+| --- | --- |
+| D1 — source direction | Historical edit audit recorded 100% live-origin edits; Amendment 1 explains its confounding by a dormant warehouse and supersedes the direction-selection test. Forward flow was an operator decision for that fleet, not proof of convergence. The revised end-to-end propagation and consumer-local edit detection check was explicitly unrun at the amendment cutoff. No subsequent verified outcome recovered here. |
+| D2 — symlink materialization | Prospective scratch spike: actual plugin loading, role/config resolution relative to consumer working directory, resolved-path integrity and wrapper behavior. No verified result recovered. The original claim that wrappers are risk-free is not evidence; test quoting, executable resolution and actual execution where material. |
+| D3 — user-level guard locus | Prospective user-level loading and per-repo role resolution, plus init deployment-payload probe. No verified result recovered. The old global versus generated-local decision and deletion of consumer copies are not current instructions. |
+| D4 — drift detection | Prospective clean-window measurement, distinguishing accidental drift, intentional local changes and configuration errors. Amendment 2 separates transition scaffolding from durable checks. No verified measurement window recovered. Zero observed drift in a finite window would not prove impossibility of future drift. |
+| D5 — warehouse placement | Amendment 1 removes confounded retrospective coordination counts; prospective cross-repo friction measurement survives. No verified telemetry recovered. Historical thresholds and physical repo topology do not constitute current requirements. |
+| D6 — catalog visibility | Recorded scratch A/B outcome and dated policy decision in Amendments 3–4; limited to catalog injection/visibility. See the separate local D6 reconciliation below. No actual provider invocation or live-token validation established by that record. |
+| D7 — machinery scale | Amendment 2 changes the subject from transitional scripts to the surviving distribution mechanism. Prospective dogfood skip/recall measurement; no verified window or comparative result recovered. Retain the usability question, not the original scripts or thresholds as mandatory gates. |
+
+### Correctness fixes: fault evidence versus verification
+
+The review input records actual dated observations of hook-config precedence, duplicated/diverged model plugins and stale cache behavior. Amendment 2 explicitly states its three corresponding fix verifications had not run as of 2026-08-15. The D6 result does not close them by association.
+
+| Proposed regression | Evidence needed if the analogous problem recurs |
+| --- | --- |
+| Gate/block precedence | Test authorized operation through its actual gate, rejection without required authority, and either rejection of an ambiguous overlapping configuration at load time or an explicit audited non-overlapping configuration. Do not equate a corrected list with enforcement proof; the old merge command/issue gate is historical. |
+| Plugin consolidation | Demonstrate union of applicable behaviors, negative controls, and absence of duplicate application in the effective runtime configuration. One remaining source file or a successful package build cannot establish that only one plugin loads. Preserve forbidden-model policy separately from its historical hook implementation. |
+| Cache regeneration | Identify the exact producer, cache identity/path, consumer and source revision; distinguish generated payload stability from freshness metadata. Verify refresh against an authoritative source, repeatability under the same source/input, correct consumer selection, and behavior for stale/missing data. Two distinct caches can have different freshness; success on one does not prove the other is current. A stale merge should not be presumed safe. |
+
+The old Crosslink/RTK and OpenCode guard configuration is preserved as [historical harness evidence](../historical/Harness%20Setup%20and%20Permission%20Design%20History.md), not an active migration assignment. Current [task-scoped information](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md), [upstream compatibility](../methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md), and [current skills](../../skills/current/README.md) govern applicable present work. Independent current shared/project-local policy publication (WNASES-18), permission/source exposure (WNASES-19), and fresh-chat skill-selection behavior (WNASES-23) retain distinct scopes; their existence does not establish historical deployment or current enforcement.
+
+**Surviving research and ownership:** repeatable artifact distribution, effective configuration and cache coherence, mechanism usability, and cross-repository maintenance friction are shared or independent software-tooling questions. These may inform ASES methods but are not automatically ASES Engine requirements. Actual product/harness fixes and release validation belong to their verified implementation owners; current ownership and deployed state of the old fleet are not established here. Preserve the useful experimental designs as reusable examples; do not reopen the August migration or turn every historical test into a backlog item.
+
+**Verification limit:** the reviewed ASES records and bounded owner-source/commit search did not recover later execution reports for these tests; original legacy issue records and scratch artifacts were not accessible in this reconciliation. This is not evidence that the tests were never performed. Source cutoff: [c88e529d](https://github.com/rock-solid-sites/ASES/tree/c88e529d1b3d3e524b831793ef3dddc764581b99). No tests, distribution operations, model invocations or configuration changes were performed during this documentation review.
+
 Status: Active. Supersedes: nothing (adds to Amendment 1). Operator direction
 2026-08-15. Applies on top of Amendment 1 (`framework-amendment.md`).
 

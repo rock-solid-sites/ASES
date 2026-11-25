@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.14
+version: 1.0.15
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -67,6 +67,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Shared tooling ownership and distribution:** The [distribution review synthesis](research/Tools%20Distribution%20Architecture%20Synthesis.md) now records the surviving authority/drift question separately from the August warehouse and migration proposals. Its [amended test framework](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md) preserves the historical operator decision and unverified forward-distribution test. Shared tooling maintenance is a cross-project subject, not an automatic ASES Engine requirement; owner repositories retain implementation authority. Provider visibility and specific migration/fix evidence remain separately scoped for reconciliation.
 
 **Provider visibility and launch authority:** The [D6 decision and current scope](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-3--d6-decision-note-whitelist-policy-policy-a--b-watchdog-provider-list-policy) preserve the earlier catalog-discovery spike and dated manifest; they do not authorize current provider/model use. Current dispatch remains governed by agent-launch; catalog freshness, entitlement, capability fit, admission and billing are distinct questions. Shared discovery tooling remains a separate subject from ASES dispatch and Resource Solver research.
+
+**Historical distribution experiments:** The [decision framework's migration and correctness-test disposition](research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-2--tools-distribution-architecture-decision-test-framework) separates the superseded D1 audit, D6 scratch visibility result and prospective tests without recovered execution evidence. It preserves reusable checks for propagation, runtime loading, precedence, duplicate application, cache identity/freshness and maintenance friction, without reviving the former migration. These are shared-tooling research examples, not current deployment gates.
 
 ## Legacy and supersession
 
