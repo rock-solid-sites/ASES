@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.24
+version: 1.0.25
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -87,6 +87,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Resource Solver observation, accounting and MQI:** The [reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-monitoring-metering-forecasts-and-evaluation-2026-11-25) connects older monitoring and metering proposals to actual bounded controller tests and M5-8/M5-9 observations; separate reservation, actual usage, conservative availability, liability, forecast, terminal outcome and verified quality. The [MQI research framework](research/Task%20Execution%20Evidence%20and%20Model%20Quality%20Index%20Integration%202026-11-01.md) remains exploratory; no new formula, ledger or live-provider assurance adopted.
 
 **Resource Solver integration relations:** The [operation/route reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-operation-route-permission-trigger-and-evidence-relations-2026-11-25) relates the draft PR #62 source-first review to later capability, admission and metering evidence. Existing identities retained, cross-system joins remain candidates; independent symbolic conformance and real route comparison not executed. No new gateway, Trigger service or adopted ontology.
+
+**Distributed-systems foundations:** The [research topic and prior-work crosswalk](research/LLM%20Agents%20and%20Distributed%20Systems%20-%20Research%20Topic.md#local-reconciliation-prior-work-and-transferable-foundations-2026-11-25) links relevant scheduling, authority, recovery, task-scoped information and assurance results to the still-open EDASES/ASES-18 literature programme. It does not establish novelty, distributed guarantees or a new Solver component. Comparative research and reusable testing instruments retain separate scope and approval.
 
 ## Legacy and supersession
 
