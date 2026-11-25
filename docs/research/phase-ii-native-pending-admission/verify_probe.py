@@ -57,7 +57,7 @@ def immutable_cut(before, after):
             before["witness"]["body"]["revision"] == after["witness"]["body"]["revision"])
 
 
-def guarded_eof(f4, owner_root, request_id):
+def guarded_eof(f4, owner_root, request_id, lifecycle_at_gate=False):
     envelope, before, _ = baseline.refresh_envelope(owner_root, request_id)
     journal = probe.native.blob(f4.journal)
     witness = f4.witness_call("/status")
@@ -65,6 +65,22 @@ def guarded_eof(f4, owner_root, request_id):
         future = pool.submit(f4.submit, envelope)
         gate = json.loads(f4.sink.read(timeout=15))
         need(gate.get("event") == "GATE" and gate.get("stage") == "guarded", "A1: real guarded gate missing")
+        owner_at_gate = read_owner(owner_root)
+        lifecycle = None
+        if lifecycle_at_gate:
+            contender = probe.OwnerProcess(owner_root)
+            try:
+                refusal = contender.call({"op": "seal"})
+                observed = contender.call({"op": "read"})
+            finally:
+                contender.close()
+            native_after = observed["reply"]["snapshot"]["state"]["native_owner"]
+            need(refusal.get("reply", {}).get("result") == "DENY",
+                 "lifecycle: owner transition was not refused while admission held the guard")
+            need(native_after == owner_at_gate,
+                 "lifecycle: a refused concurrent transition altered the owner")
+            lifecycle = {"owner_at_gate": owner_at_gate, "refusal": refusal,
+                         "observed": observed, "process": contender.meta}
         f4.sink.p.stdin.close()
         response = future.result(timeout=15)
     owner = read_owner(owner_root)
@@ -78,6 +94,7 @@ def guarded_eof(f4, owner_root, request_id):
     need(response["response"]["body"].get("outcome") == "native-effect-requires-reconciliation",
          "A1: uncertainty response was not preserved")
     return {"request_id": request_id, "envelope": envelope, "owner_before": before,
+            "owner_at_gate": owner_at_gate, "lifecycle_at_gate": lifecycle,
             "gate": gate, "response": response, "effect_after": event,
             "journal_before": journal, "journal_after": probe.native.blob(f4.journal),
             "witness_before": witness, "witness_after": witness_after}
@@ -88,11 +105,42 @@ def case_pending_bound(out):
     aid = fx["witness_root"] + ":A"
     bid = fx["witness_root"] + ":B"
     cid = fx["witness_root"] + ":C"
-    case = {"a1": guarded_eof(fx["f4"], fx["owner_root"], aid)}
+    case = {"a1": guarded_eof(fx["f4"], fx["owner_root"], aid, lifecycle_at_gate=True)}
     case["old_sink_stopped"] = fx["f4"].sink.close(True)
     case["cold_ready"] = fx["f4"].cold_restart()
     case["reopen"] = [fx["f4"].call("/replace", {"holder": "pending-admission-test"}),
                       fx["f4"].call("/activate", {"authority_version": 2})]
+    same_a_before = complete_readback(fx, [aid])
+    same_a_exact = fx["f4"].submit(case["a1"]["envelope"], authority_version=2)
+    same_a_after_exact = complete_readback(fx, [aid])
+    exact_body = same_a_exact["response"]["body"]
+    need(same_a_exact["response"]["status"] == 409 and
+         exact_body.get("outcome") == "admission-denied" and
+         exact_body.get("reason") == "stale-native-selector" and
+         exact_body.get("local_control_committed") is False,
+         f"same-A exact retry did not preserve the recorded stale-selector denial: {same_a_exact}")
+    need(immutable_cut(same_a_before, same_a_after_exact),
+         "same-A exact retry after post-reservation failure changed the protected cut")
+    refreshed_envelope, _, _ = baseline.refresh_envelope(fx["owner_root"], aid)
+    same_a_refreshed = fx["f4"].submit(refreshed_envelope, authority_version=2)
+    same_a_after = complete_readback(fx, [aid])
+    refreshed_body = same_a_refreshed["response"]["body"]
+    need(same_a_refreshed["response"]["status"] == 503 and
+         refreshed_body.get("outcome") == "native-effect-requires-reconciliation" and
+         "native-effect-already-reserved" in refreshed_body.get("reason", "") and
+         refreshed_body.get("local_control_committed") is None,
+         f"same-A refreshed retry was not preserved as uncertainty: {same_a_refreshed}")
+    need(immutable_cut(same_a_after_exact, same_a_after),
+         "same-A refreshed retry after post-reservation failure changed the protected cut")
+    need(same_a_after["effects"][aid] is not None and
+         same_a_after["effects"][aid]["status"] == "reserved" and
+         "seq" not in same_a_after["effects"][aid],
+         "same-A retries after post-reservation failure changed the unresolved reservation")
+    case["same_A_retry"] = {"exact_envelope": case["a1"]["envelope"],
+                            "exact_response": same_a_exact, "before": same_a_before,
+                            "after_exact": same_a_after_exact,
+                            "refreshed_envelope": refreshed_envelope,
+                            "refreshed_response": same_a_refreshed, "after": same_a_after}
     rejection_histories = []
     for label, request_id in (("fresh-B", bid), ("same-B-retry", bid), ("fresh-C", cid)):
         before = complete_readback(fx, [aid, bid, cid])
