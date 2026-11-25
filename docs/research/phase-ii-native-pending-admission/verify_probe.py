@@ -57,7 +57,39 @@ def immutable_cut(before, after):
             before["witness"]["body"]["revision"] == after["witness"]["body"]["revision"])
 
 
-def guarded_eof(f4, owner_root, request_id):
+def lifecycle_readback(fx):
+    owner, owner_process = baseline.owner_read(fx["owner_root"])
+    snapshot = owner["reply"]["snapshot"]
+    inventory = snapshot["inventory"]
+    inventory_cut = {key: inventory[key] for key in
+                     ("dependencies", "files", "integrity_check", "live",
+                      "objects_directory_exists", "reconstruction_status", "sealed", "unknown_files")}
+    return {"owner": owner, "owner_process": owner_process,
+            "owner_state": snapshot["state"], "owner_selector": snapshot["selector"],
+            "owner_generation": snapshot["generation"], "owner_inventory_cut": inventory_cut,
+            "owner_tree": probe.tree(Path(fx["owner_root"])),
+            "f1": probe.f1_raw(Path(fx["prepared"]["f1_root"]) / "store.sqlite"),
+            "l6_tree": probe.tree(Path(fx["owner_root"]) / "protected"),
+            "journal": probe.native.blob(fx["f4"].journal),
+            "witness": fx["f4"].witness_call("/status")}
+
+
+def immutable_lifecycle_cut(before, after):
+    return (before["owner_state"] == after["owner_state"] and
+            before["owner_selector"] == after["owner_selector"] and
+            before["owner_generation"] == after["owner_generation"] and
+            before["owner_inventory_cut"] == after["owner_inventory_cut"] and
+            before["owner_tree"] == after["owner_tree"] and
+            before["f1"] == after["f1"] and before["l6_tree"] == after["l6_tree"] and
+            before["journal"] == after["journal"] and
+            before["witness"]["status"] == after["witness"]["status"] and
+            before["witness"]["body"]["current"] == after["witness"]["body"]["current"] and
+            before["witness"]["body"]["revision"] == after["witness"]["body"]["revision"])
+
+
+def guarded_eof(fx, request_id, lifecycle_at_gate=False):
+    f4 = fx["f4"]
+    owner_root = fx["owner_root"]
     envelope, before, _ = baseline.refresh_envelope(owner_root, request_id)
     journal = probe.native.blob(f4.journal)
     witness = f4.witness_call("/status")
@@ -65,6 +97,32 @@ def guarded_eof(f4, owner_root, request_id):
         future = pool.submit(f4.submit, envelope)
         gate = json.loads(f4.sink.read(timeout=15))
         need(gate.get("event") == "GATE" and gate.get("stage") == "guarded", "A1: real guarded gate missing")
+        owner_at_gate = read_owner(owner_root)
+        lifecycle = None
+        if lifecycle_at_gate:
+            lifecycle_before = lifecycle_readback(fx)
+            contender = probe.OwnerProcess(owner_root)
+            try:
+                refusal = contender.call({"op": "seal"})
+                observed = contender.call({"op": "read"})
+            finally:
+                contender.close()
+            native_after = observed["reply"]["snapshot"]["state"]["native_owner"]
+            lifecycle_after = lifecycle_readback(fx)
+            refusal_body = refusal.get("reply", {})
+            need(refusal_body.get("result") == "DENY" and
+                 refusal_body.get("error") == "OperationalError" and
+                 refusal_body.get("reason") == "database is locked" and
+                 refusal_body.get("owner_selection_changed") is False and
+                 refusal_body.get("durable_phase_changed") is False,
+                 f"lifecycle: seal was not denied specifically by the held owner/F1 guard: {refusal}")
+            need(native_after == owner_at_gate,
+                 "lifecycle: a refused concurrent transition altered the owner")
+            need(immutable_lifecycle_cut(lifecycle_before, lifecycle_after),
+                 "lifecycle: concurrent seal denial changed the full protected cut")
+            lifecycle = {"owner_at_gate": owner_at_gate, "refusal": refusal,
+                         "before": lifecycle_before, "observed": observed,
+                         "after": lifecycle_after, "process": contender.meta}
         f4.sink.p.stdin.close()
         response = future.result(timeout=15)
     owner = read_owner(owner_root)
@@ -78,6 +136,7 @@ def guarded_eof(f4, owner_root, request_id):
     need(response["response"]["body"].get("outcome") == "native-effect-requires-reconciliation",
          "A1: uncertainty response was not preserved")
     return {"request_id": request_id, "envelope": envelope, "owner_before": before,
+            "owner_at_gate": owner_at_gate, "lifecycle_at_gate": lifecycle,
             "gate": gate, "response": response, "effect_after": event,
             "journal_before": journal, "journal_after": probe.native.blob(f4.journal),
             "witness_before": witness, "witness_after": witness_after}
@@ -88,11 +147,48 @@ def case_pending_bound(out):
     aid = fx["witness_root"] + ":A"
     bid = fx["witness_root"] + ":B"
     cid = fx["witness_root"] + ":C"
-    case = {"a1": guarded_eof(fx["f4"], fx["owner_root"], aid)}
+    case = {"a1": guarded_eof(fx, aid, lifecycle_at_gate=True)}
     case["old_sink_stopped"] = fx["f4"].sink.close(True)
     case["cold_ready"] = fx["f4"].cold_restart()
     case["reopen"] = [fx["f4"].call("/replace", {"holder": "pending-admission-test"}),
                       fx["f4"].call("/activate", {"authority_version": 2})]
+    same_a_before = complete_readback(fx, [aid])
+    same_a_exact = fx["f4"].submit(case["a1"]["envelope"], authority_version=2)
+    same_a_after_exact = complete_readback(fx, [aid])
+    exact_body = same_a_exact["response"]["body"]
+    need(same_a_exact["response"]["status"] == 409 and
+         exact_body.get("outcome") == "admission-denied" and
+         exact_body.get("reason") == "stale-native-selector" and
+         exact_body.get("local_control_committed") is False,
+         f"same-A exact retry did not preserve the recorded stale-selector denial: {same_a_exact}")
+    need(immutable_cut(same_a_before, same_a_after_exact),
+         "same-A exact retry after post-reservation failure changed the protected cut")
+    refreshed_envelope, _, _ = baseline.refresh_envelope(fx["owner_root"], aid)
+    need(refreshed_envelope != case["a1"]["envelope"] and
+         refreshed_envelope["request_id"] == case["a1"]["envelope"]["request_id"] == aid and
+         refreshed_envelope["l5"] != case["a1"]["envelope"]["l5"],
+         "same-A refreshed retry did not use a distinct envelope with the current L5 selector")
+    same_a_refreshed = fx["f4"].submit(refreshed_envelope, authority_version=2)
+    same_a_after = complete_readback(fx, [aid])
+    refreshed_body = same_a_refreshed["response"]["body"]
+    need(same_a_refreshed["response"]["status"] == 503 and
+         refreshed_body.get("outcome") == "native-effect-requires-reconciliation" and
+         refreshed_body.get("reason") ==
+         "native-effect-requires-reconciliation:native-effect-already-reserved" and
+         "local_control_committed" in refreshed_body and
+         refreshed_body["local_control_committed"] is None,
+         f"same-A refreshed retry was not preserved as uncertainty: {same_a_refreshed}")
+    need(immutable_cut(same_a_after_exact, same_a_after),
+         "same-A refreshed retry after post-reservation failure changed the protected cut")
+    need(same_a_after["effects"][aid] is not None and
+         same_a_after["effects"][aid]["status"] == "reserved" and
+         "seq" not in same_a_after["effects"][aid],
+         "same-A retries after post-reservation failure changed the unresolved reservation")
+    case["same_A_retry"] = {"exact_envelope": case["a1"]["envelope"],
+                            "exact_response": same_a_exact, "before": same_a_before,
+                            "after_exact": same_a_after_exact,
+                            "refreshed_envelope": refreshed_envelope,
+                            "refreshed_response": same_a_refreshed, "after": same_a_after}
     rejection_histories = []
     for label, request_id in (("fresh-B", bid), ("same-B-retry", bid), ("fresh-C", cid)):
         before = complete_readback(fx, [aid, bid, cid])
