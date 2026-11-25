@@ -1,6 +1,6 @@
 ---
 title: "Frontier reasoning comparison: Kernel-0 and Work Unit continuity"
-version: 0.1.0
+version: 0.1.1
 status: Experimental
 authority: Derived
 last_updated: 2026-11-25
@@ -10,7 +10,7 @@ last_updated: 2026-11-25
 
 ## Provenance and limitations
 
-Common intended input: [v0.2.0 reasoning packet at 5385e4157c8506baf8e40d4bf288fec364656360](https://github.com/rock-solid-sites/ASES/blob/5385e4157c8506baf8e40d4bf288fec364656360/docs/research/astra-followup-20261125/frontier-comparison/WORK-UNIT-AUTHORITY-QUESTION.md). The operator supplied three responses labelled ChatGPT GPT-6.2 High, Codex Sol 6.2 High and Codex Astra 6.2 High. [ChatGPT attachment](responses/chatgpt-6.2-high.md) was preserved in full, connector readback identical to extracted text. [Codex responses](responses/codex-high.md) transcribed with table padding normalized and common source link consolidated. Session provenance, actual reasoning tokens, elapsed times, allowance deltas and independence of execution were not independently verified. Earlier 46% remaining Astra allowance was a pre-pilot observation, not a per-response measurement. The comparison is an unblinded coordinator analysis of one task, not a controlled ranking or cross-family assurance.
+Common intended input: [v0.2.0 reasoning packet at 5385e4157c8506baf8e40d4bf288fec364656360](https://github.com/rock-solid-sites/ASES/blob/5385e4157c8506baf8e40d4bf288fec364656360/docs/research/astra-followup-20261125/frontier-comparison/WORK-UNIT-AUTHORITY-QUESTION.md). The operator supplied three responses labelled ChatGPT GPT-6.2 High, Codex Sol 6.2 High and Codex Astra 6.2 High. [ChatGPT attachment](responses/chatgpt-6.2-high.md) was preserved in full, connector readback identical to extracted text. [Codex responses](responses/codex-high.md) transcribed with table padding normalized and common source link consolidated. Session provenance, elapsed times, allowance deltas and independence of execution were not independently verified. Operator subsequently reported Astra 24k tokens and Sol 37k tokens for these responses (2026-11-25); token class, input/output/cache breakdown, and accounting basis unspecified, ChatGPT token usage unknown. Astra used approximately 35% fewer reported tokens than Sol (24/37); this is not evidence of lower subscription allowance consumption or cost. Earlier 46% remaining Astra allowance was a pre-pilot observation, not a per-response measurement. The comparison is an unblinded coordinator analysis of one task, not a controlled ranking or cross-family assurance.
 
 ## Convergence
 
@@ -29,4 +29,4 @@ Treat the convergence as support for a scoped, atomic authoritative-change contr
 
 Further research: construct the smallest abstract candidate with explicit authority-change rules, conflict/dependency scopes and external-effect contract. Attempt to falsify it with both positive and negative histories: fresh grants, stale replay/identifier reuse, authority laundering through derived/delegated grants or queued requests, split decisions across shared resources, interruption/recovery and unknown external outcomes. Determine which distinctions are expressible, which require intrinsic semantics, and which remain outside the kernel. The shared-authority composition and delegated/derived authority question was not developed sufficiently in any of these reports. No choice of implementation language or reuse of prototype owner justified. No tests performed in this comparison.
 
-Next: consolidate here, obtain missing operator-reported allowance/time measurements if available, and consider an anonymized cross-family assessment only if it would resolve consequential ambiguity. Do not spend frontier allowance repeating this same derivation. Retain previous native/Rust evidence as separately scoped evidence, not a design anchor.
+Next: consolidate here, obtain missing allowance/time measurements and token-accounting basis if available, and consider an anonymized cross-family assessment only if it would resolve consequential ambiguity. Do not spend frontier allowance repeating this same derivation. Retain previous native/Rust evidence as separately scoped evidence, not a design anchor.
