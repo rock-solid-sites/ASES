@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.2
+version: 1.1.3
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -18,7 +18,7 @@ related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
   - research/agent-information-topology/greenfield-task-context/TASK-VIEW-CONTRACT.md
   - research/agent-information-topology/greenfield-task-context/comparison/RESULTS-2026-11-20.md
-last_updated: 2026-11-24
+last_updated: 2026-11-25
 ---
 
 # ASES Task-Scoped Information and Handoff Method
@@ -79,6 +79,14 @@ Checkpoint the current position in the existing work record: completed verified 
 For agent work, the existing Work Notes packet carries the source and final destination, disposable workspace, active owner or unclaimed status, material blocking dependencies, latest verified remote checkpoint and resume pointer when relevant. These are information obligations, not a prescribed YAML template or database schema. Git retains substantive code, documents, reasoning, evidence and meaningful historical states; Work Notes retains operational state and pointers; Projektor retains human-facing priorities, dependencies and adoption decisions. Do not duplicate canonical technical content in either tracker.
 
 **Cadence depends on execution environment.** Development agents working in interruption-prone execution environments (Codex, OpenCode and equivalent) commit and push substantive progress at short recoverable intervals (aim for five minutes or meaningful checkpoints as appropriate), before long or interruption-prone operations, and at handoff. Chat coordination instead updates the relevant authoritative sources each substantive turn; do not impose a five-minute commit cadence on Chat. Record launch state before dispatch when needed for recovery. Publish useful results, outcomes, evidence, decisions and reusable artifacts to the appropriate repository's `main` branch, classified experimental where applicable, without waiting for the experimental branch's lifetime to end. Independently verify the remote ref/commit or equivalent durable checkpoint and record the latest recoverable position. An unpushed local commit or reported push is not proof of recoverability. If remote publication is blocked, report the missing durability and preserve authorized evidence where possible; do not claim delivery.
+
+### Chat persistence and record granularity
+
+**Each substantive Chat turn is a recoverability checkpoint, not a record boundary.** Before returning a turn that advances work, decisions, or understanding, persist the material change in the relevant existing Work Notes, Projektor or repository records according to information ownership. A turn can update multiple records when distinct subjects advance; it need not update every store or create a note. A conversation can advance several work units, and a work unit can span several conversations. Do not use chat boundaries as issue boundaries.
+
+Keep the operational record a concise, current resume point: replace stale state, blockers and next-action pointers rather than append indefinitely. Preserve material evidence, decisions, rejected alternatives and rationale in appropriate comments or durable documents; keep canonical technical content in its authoritative home. Reuse existing subject records and split work at meaningful changes of scope, ownership, independent acceptance or dependency, not at arbitrary turn counts or text lengths. A discussion without execution still preserves material questions, ideas, alternatives, decisions and provenance in the appropriate existing subject record (or a new one when the subject genuinely warrants it); this does not authorize implementation or require an execution issue. Immaterial turns need no artificial write.
+
+Verify material writes at the durable destination. When reading a body for replacement, verify completeness (follow continuation cursors or use a complete-body retrieval path); never overwrite a record with a partial read. If persistence is blocked, explicitly identify the gap and do not claim recoverability. These are Chat coordination information obligations, not a mandatory record template, one-note-per-turn rule, or universal lifecycle for other projects.
 
 Isolate concurrent or risky changes and replacement comparisons as needed. Clearly classified experimental or work-in-progress artifacts may be published to an appropriate default-branch location without activating them or approving their adoption. Preserve useful findings from rejected experiments. Git history is not a deliverable. Preserve useful results and outcomes, source identities and reproducibility evidence in durable authoritative locations; do not require retaining intermediate experimental branches or their commit history. Publication does not authorize production activation, bypass review, or expose private material.
 
