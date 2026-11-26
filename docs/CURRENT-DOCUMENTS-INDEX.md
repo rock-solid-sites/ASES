@@ -1,10 +1,10 @@
 # ASES documentation inventory (declared status; not an approval)
 
-**Generated from the checked-out ASES source tree.** Source revision: \`0a9424a65d51533d4a9e798356bd21e0cf32945b\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
+**Generated from the checked-out ASES source tree.** Source revision: \`bfeb9ba8ee4e092fd4a6086157d2c90e5517c3e7\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
 
 Use the [canonical documentation standard](standards/Documentation%20Standard.md) and [task-scoped information method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) for ownership and authority. [Current operational skills](../skills/current/README.md) are a separate selective-dispatch surface. Experimental [knowledge-index work](../scripts/knowledge_index/README.md) is not a canonical document registry.
 
-Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of those lack a declared version; 48 have metadata/route warnings. Diagnostics require review before a document can be certified current.
+Inventory: 388 in-scope Markdown/MDX files, 68 declared active/current, 41 of those lack a declared version; 48 have metadata/route warnings. Diagnostics require review before a document can be certified current.
 
 ## Declared active/current documents
 
@@ -17,7 +17,7 @@ Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [ASES Documentation Navigation and Authority Index](../docs/README.md) | Derived | 1.0.33 | — |
 | [Execution Engine Vision](../docs/architecture/Execution%20Engine%20Vision.md) | Canonical | 2026-11-24.1 | — |
 | [ASES Task-Scoped Information Architecture Decision](../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Canonical | 1.0.0 | — |
-| [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) | Canonical | 2026-11-24.2 | — |
+| [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) | Canonical | 2026-11-26.1 | — |
 | [ASES Bounded Project Build Method](../docs/methodology/ASES%20Bounded%20Project%20Build%20Method.md) | Canonical | 2026-11-24.2 | — |
 | [ASES Task-Scoped Information and Handoff Method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Canonical | 1.1.6 | — |
 | [Clean Room Execution Guide](../docs/methodology/Clean%20Room%20Execution%20Guide.md) | Derived | 2026-11-24.1 | — |
@@ -72,7 +72,7 @@ Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [5pp Tolerance — Real-Model Minimal vs Full (530)](../research/capability-schema-validation/corpus-530/tolerance.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [README](../skills/current/README.md) | UNVERIFIED | unversioned | declared-active entry lacks explicit version |
 | [SKILL](../skills/current/agent-launch/SKILL.md) | UNVERIFIED | 1.0.7 | nonstandard status metadata: current |
-| [SKILL](../skills/current/codegraph-actions-repository-research/SKILL.md) | UNVERIFIED | 1.2.1 | nonstandard status metadata: current |
+| [SKILL](../skills/current/codegraph-actions-repository-research/SKILL.md) | UNVERIFIED | 1.2.2 | nonstandard status metadata: current |
 | [SKILL](../skills/current/compact-prompt/SKILL.md) | UNVERIFIED | 1.2.0 | nonstandard status metadata: current |
 | [SKILL](../skills/current/compile-build/SKILL.md) | UNVERIFIED | 1.0.2 | nonstandard status metadata: current |
 | [SKILL](../skills/current/custom-mcp-connector/SKILL.md) | UNVERIFIED | 1.0.1 | nonstandard status metadata: current |
