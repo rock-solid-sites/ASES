@@ -20,7 +20,7 @@ def inventory(payload):
     markers = payload.get("DeleteMarkers", [])
     if not isinstance(versions, list) or not isinstance(markers, list):
         raise ValueError("invalid versions or markers")
-    groups = defaultdict(lambda: {"bytes": 0, "current_bytes": 0, "versions": 0, "latest_upload": ""})
+    groups = defaultdict(lambda: {"bytes": 0, "current_bytes": 0, "versions": 0, "latest_upload": "", "earliest_upload": ""})
     total = current = unknown = 0
     for v in versions:
         key, size, latest = v["Key"], v["Size"], v["IsLatest"]
@@ -49,6 +49,7 @@ def inventory(payload):
         g["current_bytes"] += size if latest else 0
         g["versions"] += 1
         g["latest_upload"] = max(g["latest_upload"], stamp)
+        g["earliest_upload"] = min(g["earliest_upload"] or stamp, stamp)
     for marker in markers:
         if not isinstance(marker.get("Key"), str) or not marker["Key"].startswith(PREFIX):
             raise ValueError("delete marker outside expected prefix")
@@ -77,6 +78,7 @@ class TestInventory(unittest.TestCase):
         self.assertTrue(result["review_required"])
         self.assertEqual(result["noncurrent_bytes"], 1)
         self.assertEqual(result["indexes"][0]["versions"], 2)
+        self.assertEqual(result["indexes"][0]["earliest_upload"], "2026-11-26T00:00:00+00:00")
         self.assertNotIn("never-export", json.dumps(result))
         self.assertFalse(inventory({"Versions": [self.version(LIMIT-1)]})["review_required"])
     def test_unknown_layout(self):

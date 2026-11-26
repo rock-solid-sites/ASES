@@ -13,6 +13,8 @@ on:
   pull_request:
     paths:
       - '.github/scripts/codegraph-cache-inventory.py'
+      - '.github/scripts/codegraph-cache-candidates.py'
+      - '.github/codegraph-cache-retention.json'
       - '.github/workflows/codegraph-cache-sweep.yml'
 
 permissions:
@@ -27,7 +29,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - run: python3 .github/scripts/codegraph-cache-inventory.py --self-test
+      - run: |
+          python3 .github/scripts/codegraph-cache-inventory.py --self-test
+          python3 .github/scripts/codegraph-cache-candidates.py --self-test
 
   inventory:
     if: >-
@@ -57,7 +61,9 @@ jobs:
         with:
           ref: main
           persist-credentials: false
-      - run: python3 .github/scripts/codegraph-cache-inventory.py --self-test
+      - run: |
+          python3 .github/scripts/codegraph-cache-inventory.py --self-test
+          python3 .github/scripts/codegraph-cache-candidates.py --self-test
       - name: List completed versions of the CodeGraph cache only
         id: report
         shell: bash
@@ -88,15 +94,23 @@ jobs:
             exit 1
           fi
           python3 .github/scripts/codegraph-cache-inventory.py "$raw" "$RUNNER_TEMP/codegraph-cache-inventory.json"
-          echo "review_required=$(python3 -c 'import json,sys; print(str(json.load(open(sys.argv[1]))["review_required"]).lower())' "$RUNNER_TEMP/codegraph-cache-inventory.json")" >> "$GITHUB_OUTPUT"
+      - name: Classify public upstream and age evidence
+        id: candidates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/codegraph-cache-candidates.py "$RUNNER_TEMP/codegraph-cache-inventory.json"
+          echo "review_required=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(str(r["review_required"] or r["candidate_count"] > 0).lower())' "$RUNNER_TEMP/codegraph-cache-inventory.json")" >> "$GITHUB_OUTPUT"
       - name: Preserve sanitized review inventory
-        if: steps.report.outputs.review_required == 'true' || github.event_name == 'issues' || github.event_name == 'workflow_dispatch'
+        if: steps.candidates.outputs.review_required == 'true' || github.event_name == 'issues' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: codegraph-cache-inventory
           path: ${{ runner.temp }}/codegraph-cache-inventory.json
           retention-days: 30
-      - name: Publish decision report when threshold is reached
+      - name: Publish retention candidates and threshold report
         uses: actions/github-script@v7
         with:
           script: |
@@ -111,22 +125,49 @@ jobs:
               'Recognized index keys: ' + report.recognized_indexes + '; versions: ' + report.versions + '; delete markers: ' + report.delete_markers,
               'Unrecognized layout: ' + fmt(report.unknown_layout_bytes),
               'Review required at 5 GB: ' + (report.review_required ? 'YES' : 'no'),
+              'Flagged indexes: ' + report.candidate_count + '; protected: ' + report.protected_count + '; incomplete upstream checks: ' + report.incomplete_upstream_checks,
               '[Inventory run](' + runUrl + ')'
             ].join('\n\n');
-            await core.summary.addRaw(summary).write();
+            const flags = report.indexes.filter(i => i.flags.length);
+            const table = rows => [
+              '| Repository | Cached commit | Engine | Bytes | First/latest upload | Evidence | Recommendation |',
+              '|---|---|---|---:|---|---|---|',
+              ...rows.map(i => {
+                const e = i.evidence;
+                const details = [
+                  ...i.flags,
+                  e.cached_version && e.upstream_version ? e.cached_version + ' → ' + e.upstream_version + ' (' + e.version_paths.join(', ') + ')' : '',
+                  e.upstream_sha ? 'upstream ' + e.upstream_sha : '',
+                  e.adopted_cli ? 'adopted CLI ' + e.adopted_cli : '',
+                  e.noncurrent_bytes ? 'noncurrent ' + e.noncurrent_bytes + ' bytes' : '',
+                  i.upstream_status
+                ].filter(Boolean).join('; ');
+                return '| ' + i.repository + ' | ' + i.commit + ' | ' + i.cli + ' | ' + i.bytes + ' | ' + i.earliest_upload.slice(0,10) + ' / ' + i.latest_upload.slice(0,10) + ' | ' + details + ' | ' + i.recommendation + ' |';
+              })
+            ].join('\n');
+            const visible = report.review_required ? report.indexes.slice(0,100) : flags.slice(0,100);
+            const body = summary + '\n\n' +
+              'Approve specific repository/commit/CLI keys in a comment, or retain/transfer with a stated reason. This workflow does not execute approvals or change storage. A separate exact-object recheck and explicit execution step are required. Older uploads (' + report.age_threshold_days + ' days) are weak evidence, not last use. Unknown/divergent versions never prove supersession. Noncurrent versions are separate from the current index. Protected commits are excluded via .github/codegraph-cache-retention.json. Full sanitized inventory is in the run artifact when review is needed.\n\n' +
+              (visible.length ? table(visible) : 'No current candidates.');
+            await core.summary.addRaw(summary + '\n\n' + (flags.length ? table(flags.slice(0,100)) : 'No current candidates.')).write();
             if (context.eventName === 'issues') {
-              await github.rest.issues.createComment({...context.repo, issue_number: context.issue.number, body: summary});
+              await github.rest.issues.createComment({...context.repo, issue_number: context.issue.number, body: body.slice(0,60000)});
             }
-            if (!report.review_required) return;
-            const title = 'CodeGraph cache: 5 GB retention review';
+            const title = 'CodeGraph cache: retention review';
+            const legacy = 'CodeGraph cache: 5 GB retention review';
             const existing = await github.paginate(github.rest.issues.listForRepo, {...context.repo, state: 'open', per_page: 100});
-            if (existing.some(i => !i.pull_request && i.title === title)) {
-              core.info('Retention review already open; no duplicate issue.');
-              return;
+            const issue = existing.find(i => !i.pull_request && [title,legacy].includes(i.title));
+            const begin = '<!-- codegraph-generated-report:start -->', end = '<!-- codegraph-generated-report:end -->';
+            const block = begin + '\n' + body.slice(0,58000) + '\n' + end;
+            if (issue) {
+              const previous = issue.body || '';
+              const start = previous.indexOf(begin), finish = previous.indexOf(end);
+              const next = start >= 0 && finish > start ? previous.slice(0,start) + block + previous.slice(finish+end.length) : previous + '\n\n' + block;
+              if (next.length <= 65000 && next !== previous) {
+                await github.rest.issues.update({...context.repo, issue_number: issue.number, body: next});
+              } else if (next.length > 65000) {
+                core.warning('Existing review body too large; see current run summary/artifact.');
+              }
+            } else if (report.review_required || report.candidate_count > 0) {
+              await github.rest.issues.create({...context.repo, title, body: block});
             }
-            const rows = report.indexes.slice(0, 100).map(i =>
-              '| ' + i.repository + ' | ' + i.commit + ' | ' + i.cli + ' | ' + i.bytes + ' | ' + i.versions + ' | ' + i.latest_upload + ' | undecided |'
-            );
-            await github.rest.issues.create({...context.repo, title, body: summary +
-              '\n\nDefault decision: delete superseded graphs when the same authoritative project version at the indexed SHA is confirmed lower than the current main/default-branch version, or the indexed CodeGraph CLI version is superseded by the version adopted on ASES main. Keep only with a documented research/reproducibility reason; transfer selected long-term graphs to IDrive (verify archive integrity before removing B2). A changed commit alone is not a version increase; unknown, ambiguous or divergent versions require review. Record version evidence and exact candidates before deletion. See [retention policy](https://github.com/rock-solid-sites/ASES/blob/main/findings/codegraph-operational-review-2026-11-26.md#retention-decision-and-live-inventory--2026-11-26). Last upload is not last access. No deletion or transfer is automatic. Unknown-layout objects require separate inspection. The complete sanitized inventory is in the run artifact; this table shows the largest 100 keys.\n\n' +
-              '| Repository | Commit | CLI | Bytes | Versions | Latest upload | Decision |\n|---|---|---|---:|---:|---|---|\n' + rows.join('\n')});
