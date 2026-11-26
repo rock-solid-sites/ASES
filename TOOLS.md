@@ -1,13 +1,21 @@
-# Available tools — quick session entry point
+---
+title: ASES Tool Discovery Locator
+version: 1.0.0
+program: ASES
+layer: Methodology
+document_type: Guide
+status: Active
+authority: Derived
+canonical_repository: ases
+last_updated: 2026-11-26
+---
 
-**Canonical inventory:** [docs/operations/tool-availability.json](docs/operations/tool-availability.json) (evidence-labeled, dated, no credentials).
+# Tool discovery — task-scoped locator
 
-For a fresh ASES conversation:
-1. Read the inventory; it distinguishes **directly verified**, **connector-visible but untested**, **user-reported**, **configured but unexecuted**, and **historical** tools.
-2. Check the capabilities of only the tools needed for this task. A connector used in an earlier chat may not be available in a fresh session.
-3. Never infer paid-resource authorization, current free quotas, account balances, runner minutes, write rights, or backend connectivity from the inventory. Consult current provider observations and the separate provider-registry/funding policies.
-4. When a tool becomes available/unavailable, update its status, evidence and verification date; use Git history to preserve what was previously believed.
+This is not a mandatory session-start inventory. Select only the capabilities needed for the task under the [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md).
 
-As of 2026-11-01: **GitHub and GitLab repository MCP operations and GitLab shared-runner execution were verified** in ASES's Rust/Haskell evaluation. **GitHub Actions execution was not verified**; its workflow was committed. Other entries are explicitly scoped to their evidence.
+- Shared connector capabilities and current limitations: [rss-tools connector capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md), maintained by the tooling owner.
+- ASES operational procedures: [current skills](skills/current/README.md). For public repository structural research, use the [current CodeGraph Actions/B2 skill](skills/current/codegraph-actions-repository-research/SKILL.md), not the retired cgrmcp connector.
+- [2026-11-01 tool inventory](docs/operations/tool-availability.json) is historical evidence, not a current connector catalog or instruction to load all tools.
 
-Keep tokens, API keys, session URLs containing credentials, personal information and account secrets **out of this repository**. This file is a discovery index, not an authority or deployment manifest.
+Probe the task-relevant capabilities when necessary. Verify actual access, permissions, provider route, entitlement and cost separately from discoverability. Do not infer authorization from a capability listing. Keep credentials and other private account information out of this public repository. Update the relevant owner source when a material capability changes; do not recreate a parallel inventory here.
