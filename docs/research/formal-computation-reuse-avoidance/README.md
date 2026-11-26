@@ -39,12 +39,14 @@ This research branch extends the earlier Universal Caching & Computation Reuse s
 
 CodeGraph is already selected and used in our structural analysis workflow after comparison with alternatives, not merely a hypothetical research candidate. The [current operational skill](../../../skills/current/codegraph-actions-repository-research/SKILL.md) was reverified on 2026-11-26 (v1.2.2 at this review); GitHub Actions and B2 provide commit-scoped reusable indexes, with verified cache maintenance and approved exact-key deletion. The operator reports recent debugging of the live workflow. Continue using the established route when appropriate; its operational owner retains responsibility for maintenance. Research remains open on semantic and partial cross-revision reuse, dependency completeness, invalidation, retention decisions, query/evidence reuse, and end-to-end costs. Do not confuse adoption of a useful tool with proof or closure of these broader questions, or restart the tool selection exercise. Historical reconstruction is useful for extracting surviving ideas, not a prerequisite for using current evidence.
 
-## Research sequence
+## Planning sequence (operator confirmed 2026-11-26)
 
-1. Reconcile prior work by domain before proposing cross-domain primitives: build/compilation, verification, agent knowledge, execution, testing, dependencies/environment, inference, repository semantics and distributed computation. Distinguish original hypotheses from actual measurements and decisions.
-2. Begin from the active CodeGraph workflow and its latest maintenance evidence; compare existing incremental results and clean-rebuild controls. Formulate the smallest reusable-validity question and identify the independent oracle and cost boundary.
-3. Use Kernel-0's existing shared-handover result to examine compositional proof obligations; use actual multi-donor composition as a second, distinct experimental context. Do not rerun existing suites merely to demonstrate a mathematical pattern.
-4. Investigate recursion schemes, typed specifications and lawful transformations with primary literature and minimal discriminating examples. Only claim a hylomorphism for a genuinely well-founded unfold/fold computation; shared/cyclic dependencies need appropriate graph/fixed-point treatment. Type-level checks cannot replace runtime authority; lens laws do not license effects or concurrent writes.
-5. Compare alternatives at equivalent required guarantees and record negative cases, proof complexity, correctness and actual computational cost. Generalize only after cross-domain transfer evidence.
+1. Reconcile existing research and current capabilities. [Scoped reconciliation in SOURCE-MAP](SOURCE-MAP.md#step-1--prior-research-reconciled-with-current-capabilities-2026-11-26); remaining provenance gaps explicit.
+2. Identify and organize distinct areas of study.
+3. Map relationships between research topics.
+4. Identify unresolved questions and relevant literature.
+5. Establish a coherent research programme.
+
+The current phase is organization and planning. Prior suggested CodeGraph, Kernel-0, multi-donor composition, and graph-assisted-review comparisons are deferred research directions, not immediate experiments. Formal models and pilot designs may be considered after the planning phase and separate authorization. Do not rerun existing work or choose experiment cases now. 
 
 No new test dispatch or implementation selection is implied by this charter. Preserve required durable intermediate records and evidence custody; do not eliminate them merely because fusion is possible.
