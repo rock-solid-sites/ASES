@@ -1,0 +1,14 @@
+import {project,readState} from './project.mjs';
+const mockReduce=(state,event)=>{const s=state?JSON.parse(JSON.stringify(state)):{route:event.route,entries:[]};if(s.entries.some(e=>e.revision===event.revision))return {state:s,changed:false};s.entries.push({revision:event.revision});return {state:s,changed:true}};
+const mockRender=s=>"\n```json\n"+JSON.stringify(s)+"\n```\n";
+let content="# Existing checkpoint\n\nOriginal body.\n",revision=0,actualWrites=0,mode="lost";
+const readPage=async()=>({content,revision});
+const compareAndSet=async({revision:expected,content:next})=>{if(mode==="conflict"){mode="ok";content+="\nConcurrent update.\n";revision++;throw Error("conflict")}if(expected!==revision)throw Error("stale");content=next;revision++;actualWrites++;if(mode==="lost"){mode="ok";throw Error("lost reply")}};
+const event={route:"test",revision:"1"};
+const t1=await project({readPage,compareAndSet,event,reduce:mockReduce,render:mockRender});
+if(t1.status!=="verified_noop"||t1.writes!==1||actualWrites!==1)throw Error("lost reply test");
+const t2=await project({readPage,compareAndSet,event,reduce:mockReduce,render:mockRender});
+if(t2.writes!==0||actualWrites!==1)throw Error("duplicate test");
+mode="conflict";const t3=await project({readPage,compareAndSet,event:{...event,revision:"2"},reduce:mockReduce,render:mockRender});
+if(t3.status!=="verified_write"||t3.writes!==2||actualWrites!==2||!content.includes("Concurrent update.")||!content.includes("Original body.")||readState(content).state.entries.length!==2)throw Error("conflict test");
+console.log("3 adapter cases passed");
