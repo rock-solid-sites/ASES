@@ -1,10 +1,10 @@
 # ASES documentation inventory (declared status; not an approval)
 
-**Generated from the checked-out ASES source tree.** Source revision: \`dbbc4ee2c839cfe2dd749d764119013e85b00daf\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
+**Generated from the checked-out ASES source tree.** Source revision: \`5153b6a69360f93f6b3ec3b681c90936a0265a34\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
 
 Use the [canonical documentation standard](standards/Documentation%20Standard.md) and [task-scoped information method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) for ownership and authority. [Current operational skills](../skills/current/README.md) are a separate selective-dispatch surface. Experimental [knowledge-index work](../scripts/knowledge_index/README.md) is not a canonical document registry.
 
-Inventory: 384 in-scope Markdown/MDX files, 71 declared active/current, 44 of those lack a declared version; 51 have metadata/route warnings. Diagnostics require review before a document can be certified current.
+Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of those lack a declared version; 48 have metadata/route warnings. Diagnostics require review before a document can be certified current.
 
 ## Declared active/current documents
 
@@ -14,7 +14,7 @@ Inventory: 384 in-scope Markdown/MDX files, 71 declared active/current, 44 of th
 | [Conceptual Architecture](../ARCHITECTURE.md) | Canonical | 2026-11-24.1 | — |
 | [Project Orientation](../ORIENTATION.md) | Derived | 2026-11-24.2 | — |
 | [Repository Overview](../README.md) | Derived | 2026-11-24.1 | — |
-| [ASES Documentation Navigation and Authority Index](../docs/README.md) | Derived | 1.0.32 | — |
+| [ASES Documentation Navigation and Authority Index](../docs/README.md) | Derived | 1.0.33 | — |
 | [Execution Engine Vision](../docs/architecture/Execution%20Engine%20Vision.md) | Canonical | 2026-11-24.1 | — |
 | [ASES Task-Scoped Information Architecture Decision](../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Canonical | 1.0.0 | — |
 | [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) | Canonical | 2026-11-24.2 | — |
@@ -33,11 +33,9 @@ Inventory: 384 in-scope Markdown/MDX files, 71 declared active/current, 44 of th
 | [Tools Distribution Architecture — Decision Test Framework](../docs/research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Tools Distribution Architecture — Synthesis of One-Shot Reviews](../docs/research/Tools%20Distribution%20Architecture%20Synthesis.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Assumption Register Candidate — Fresh-Agent Reconstruction Sufficiency](../docs/research/assumption-register-candidate.md) | Finding | unversioned | declared-active entry lacks explicit version |
-| [Document Inventory Snapshot — 2026-08-25](../docs/research/document-inventory-2026-08-25.md) | Observational | unversioned | declared-active entry lacks explicit version |
 | [Doll Corpus Retrospective — From Beads to Crosslink via Gates 0–10](../docs/research/doll-corpus-retrospective.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Evaluation Framework](../docs/research/frameworks/Evaluation%20Framework.md) | Canonical | unversioned | declared-active entry lacks explicit version |
 | [Session Handoff Addendum — Agent Reconstruction Failure Analysis](../docs/research/handoff-failure-analysis.md) | Finding | unversioned | declared-active entry lacks explicit version |
-| [Harness Evaluation: RTK — OpenCode Integration Gap Analysis](../docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Harness Evaluation: Microsoft Agent Framework](../docs/research/harness-evaluations/Microsoft-Agent-Framework.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Harness Evaluation: Microsoft AutoGen](../docs/research/harness-evaluations/Microsoft-AutoGen.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Kernel-0 Evidence Packet](../docs/research/kernel-0/Kernel-0-Evidence-Packet.md) | Derived | unversioned | declared-active entry lacks explicit version |
@@ -48,7 +46,6 @@ Inventory: 384 in-scope Markdown/MDX files, 71 declared active/current, 44 of th
 | [Failure Matrix](../docs/research/registry/Failure-Matrix.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Model Routing Matrix](../docs/research/registry/Model-Routing-Matrix.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Research Addendum — Epistemic Validation as a Distinct Architectural Layer](../docs/research/research-addendum-epistemic-validation.md) | Finding | unversioned | declared-active entry lacks explicit version |
-| [Source 4 — Fantastic Adaptive Taxonomies and How to Use Them (arXiv 2607.16387)](../docs/research/sections/source-4-paper-16387.md) | Experimental | unversioned | declared-active entry lacks explicit version |
 | [SR-2026-06-22-AUTOGEN — Microsoft AutoGen as first Track B evaluation](../docs/research/selection-rationale/2026-06-22-microsoft-autogen.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [SR-2026-06-23-microsoft-agent-framework — Microsoft Agent Framework as second Track B evaluation](../docs/research/selection-rationale/2026-06-23-microsoft-agent-framework.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Research Synthesis: Provenance Deadlock and the Epistemic Architectural Pivot](../docs/research/syntheses/Research%20Synthesis%20-%20Architectural%20Pivot.md) | Canonical | unversioned | declared-active entry lacks explicit version |
@@ -56,7 +53,7 @@ Inventory: 384 in-scope Markdown/MDX files, 71 declared active/current, 44 of th
 | [Concept: Levels of Abstraction](../docs/standards/Concept%20-%20Levels%20of%20Abstraction.md) | Canonical | unversioned | declared-active entry lacks explicit version |
 | [Documentation Standard](../docs/standards/Documentation%20Standard.md) | Canonical | 2026-11-21.1 | — |
 | [Documentation Taxonomy](../docs/standards/Documentation%20Taxonomy.md) | Canonical | 2026-11-21.1 | — |
-| [Early Research Topics and Plan Disposition](../future-research-topics/README.md) | Derived | 2026-11-26.1 | — |
+| [Early Research Topics and Plan Disposition](../future-research-topics/README.md) | Derived | 2026-11-26.2 | — |
 | [Capability/Schema Validation — Research Index](../research/capability-schema-validation/README.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Phase 0 Audit — validation-brief-corpus vs Spec Divergence](../research/capability-schema-validation/audit-validation-brief-corpus-vs-spec.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Corpus 530 — Real-Model Minimal Tool-Calling Corpus (24+12+4)](../research/capability-schema-validation/corpus-530/README.md) | Derived | unversioned | declared-active entry lacks explicit version |
