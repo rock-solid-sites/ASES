@@ -30,6 +30,7 @@ This research branch extends the earlier Universal Caching & Computation Reuse s
 ## Organization and progress
 
 - [SOURCE-MAP.md](SOURCE-MAP.md): earlier studies, qualified observations, candidate techniques, and outstanding reconciliation.
+- [GRAPH-ASSISTED-REVIEW.md](GRAPH-ASSISTED-REVIEW.md): draft controlled comparison and evaluation rubric for source-only, graph-only and graph-assisted chat/review agents.
 - Add topic-specific research documents and runnable experiments here when substantive work warrants them. Keep existing owner artifacts in place; link pinned originals rather than copy or move them. No empty placeholder directories or parallel test lab.
 - Human research direction: Projektor ASES-25; topic graph node `ases-concept-formal-computation-reuse-avoidance`. Execution/reconciliation: WNASES-32. Public technical findings belong on main; private archive source locators remain in authorized records.
 - Related: [comparative implementation research](../Comparative%20Implementation%20Research%20and%20Upstream%20Contribution%20Proposal%202026-11-25.md), [state-model applicability](../../methodology/State-Model%20Applicability%20and%20Reuse%20Method.md), [testing and assurance source map](../Testing%20and%20Assurance%20Source%20Map.md). Independent Rust Safety Foundations remains independently owned.
