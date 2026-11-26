@@ -10,6 +10,9 @@ project_repository: rock-solid-sites/ases-plugins
 project_branch: experiment/cgrmcp-incremental-recompute-2026-11-03
 ---
 
+> **Historical evidence disposition (2026-11-26):** Subsequent seeded service and real-source tests exposed a genuine 1.6.0 Go discrepancy separately from the original CLI truncation false failure. See the [historical crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26). Preserve scoped timings and pretest claims; no active migration or universal reuse policy.
+
+
 # CodeGraph incremental recomputation — observed results
 
 **Chronology / evidence authority:** The [pre-observation hypotheses and acceptance controls](codegraph-incremental-recomputation-preregistration-2026-11-03.md) were committed to ASES main at `f6e5c528fa01ee18a71d0caf98e162a1f5ebdf87` **before** executing the experiments below. This document is a later observation and interpretation record; it does not retrospectively change that preregistration, adopt the draft testing method globally, or authorize a production migration.

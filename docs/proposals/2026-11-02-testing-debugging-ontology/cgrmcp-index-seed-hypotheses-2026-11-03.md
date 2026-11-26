@@ -6,6 +6,9 @@ status: Research; opt-in local trial; NOT production acceptance
 prerequisite: codegraph-incremental-recomputation-results-2026-11-03.md
 date: 2026-11-03
 ---
+
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; [seed observations](cgrmcp-index-seed-results-2026-11-03.md) and [later crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md) qualify synthetic and real-source evidence. No active opt-in or deployment.
+
 # Indexed-snapshot seed and failure recovery — frozen expectations
 
 **Recorded before the new seed-manager implementation and CI tests.** The earlier synthetic CodeGraph 1.6.0 experiment found correct warm/cold graph parity across seven source-change states, and one successful cross-checkout reuse case. The existing cgrmcp production behavior nevertheless creates a fresh index for each immutable commit. The objective here is to learn whether a **bounded, reversible seed optimization** is safe enough to warrant a larger follow-up, not to merge it or claim production readiness.

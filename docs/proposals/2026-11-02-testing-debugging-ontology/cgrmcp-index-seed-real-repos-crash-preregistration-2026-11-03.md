@@ -7,6 +7,9 @@ method: ASES proposed testing-and-assurance + debugging ontology, local applicat
 authority: research only; draft branches remain nonproduction
 ---
 
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; [real-source observations](cgrmcp-real-source-crash-results-2026-11-03.md) and [later continuity results](cgrmcp-operational-continuity-archive-results-2026-11-05.md) preserve actual Go discrepancy, subsequent version-specific controls and later native crash/WAL tests. No new execution.
+
+
 # Index seeding: real-repository and crash/concurrency qualification — preregistration
 
 **This is prospective.** Original rationale/controls and synthetic evidence are separately in [seed preregistration](cgrmcp-index-seed-hypotheses-2026-11-03.md) and [observations](cgrmcp-index-seed-results-2026-11-03.md). Do not modify these predictions after running the new CI; append results in a separate record. Draft PR #24 is working code, not evidence of production acceptance.

@@ -5,6 +5,9 @@ status: partial qualification; Go failure remains unresolved
 authority: research only, not production release or Processor policy
 preregistration: cgrmcp-index-seed-real-repos-crash-preregistration-2026-11-03.md
 ---
+
+> **Historical evidence disposition (2026-11-26):** The later within-version Go results and scoped engine/identity/continuity experiments are reconciled in the [historical crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26). Preserve the 1.6.0 actual edge loss and 1.6.2 limited non-reproduction, not an upstream causal proof. Old service retirement supersedes development-promotion instructions.
+
 # Real-source CodeGraph index-seed qualification — observed results
 
 **Chronology:** This is written after [the prospective test/hypothesis record](cgrmcp-index-seed-real-repos-crash-preregistration-2026-11-03.md) was committed at `407d1690b5a77d4c4db802e0585a9a4f85645d3c` and after the initial real-source matrix ran. That preregistration remains unchanged. A [Go-specific prediagnostic plan](cgrmcp-go-edge-discrepancy-diagnostic-plan-2026-11-03.md) was separately committed at `1ebafa15ff46b89a40ad97b3cef3bb055a3b04b1` **before** follow-up diagnostic CI.

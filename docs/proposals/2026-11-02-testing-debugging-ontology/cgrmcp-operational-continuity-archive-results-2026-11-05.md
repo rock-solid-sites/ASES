@@ -7,6 +7,9 @@ experiment: cgrmcp operational continuity / versioned IDs, draft PR #31
 preregistration: cgrmcp-operational-continuity-archive-preregistration-2026-11-03.md
 ---
 
+> **Historical evidence disposition (2026-11-26):** The five green workflows support bounded local identity, preflight, native backup/WAL, local archive restore and mock Native API behavior. The [historical crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26) distinguishes them from the later live Actions/B2 cache. Old remote bundle/CI archive retention remains unverified; the legacy service is retired and the old operational recommendations are superseded.
+
+
 # cgrmcp operational continuity and archive — observed acceptance
 
 **Chronology:** The prospective [continuity and archive preregistration](cgrmcp-operational-continuity-archive-preregistration-2026-11-03.md) was committed on November 3 before implementing the test suite. [Public snapshot-ID collision hypotheses](cgrmcp-versioned-snapshot-identity-preregistration-2026-11-03.md) were committed separately before their implementation and subsequent positive/negative tests. This **results record was committed later, November 5**, after the previous chat output was interrupted; it does not change any prospective hypothesis.

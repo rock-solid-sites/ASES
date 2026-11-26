@@ -10,6 +10,9 @@ project_branch: experiment/cgrmcp-incremental-recompute-2026-11-03
 method_source: proposal/testing-and-assurance-method-2026-11-01
 ---
 
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; [actual observations](codegraph-incremental-recomputation-results-2026-11-03.md) and [subsequent crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md) qualify initial synthetic results, instrumentation errors and later real-source failures. No new test implied.
+
+
 # CodeGraph incremental recomputation — experiment preregistration
 
 **Evidence boundary:** This is a *prospective reasoning and test-selection record*, written before new incremental-update CI tests run. Earlier cgrmcp compression/dedup measurements are retrospective inputs, not pre-observation predictions about `sync`. Do not revise the hypotheses below after seeing results; append timestamped observations and decisions in a separate companion report. This document applies the **draft** ASES testing, assurance and debugging proposals locally; it does not adopt them as global rules.

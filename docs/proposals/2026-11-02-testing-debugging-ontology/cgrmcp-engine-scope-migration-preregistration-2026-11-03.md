@@ -5,6 +5,9 @@ type: ASES local experimentation preregistration
 scope: cgrmcp version-scoped migration, compatibility guard and cost/retention optimization controls
 authority: research; no production merge/deployment
 ---
+
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; read [observations and later crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md) for exact scoped controls and later versioned IDs. No new run or service migration.
+
 # cgrmcp versioned store and migration — pretest hypotheses
 
 The earlier CodeGraph 1.6.0 indexed Go fzf graph lost 14 type-to-method `contains` relationships that were present in two independent fresh builds. Version-isolated 1.6.2 on the same source did not reproduce that loss. In the code review, **existing cgrmcp manifest lookup and `repo_open` cache short-circuit recognize repository + commit, not the index engine**. An in-place package upgrade can therefore serve an older `ready` graph with an incompatible newer engine.

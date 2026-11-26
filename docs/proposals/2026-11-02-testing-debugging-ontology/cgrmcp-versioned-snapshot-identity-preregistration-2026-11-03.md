@@ -1,4 +1,7 @@
 
+> **Historical evidence disposition (2026-11-26):** Later I1–I4 evidence exists in the [continuity results](cgrmcp-operational-continuity-archive-results-2026-11-05.md) and the [historical crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26): the two actual local endpoints minted distinct IDs, mutually rejected the opposing IDs and preserved the old database. Preserve the pre-observation predictions; no production session routing or old-ID migration established.
+
+
 > **Current applicability (2026-11-26):** The cgrmcp service and plugin discussed in this historical record have been retired; the supported public-repository structural research route is the [canonical Actions/B2 skill](../../../skills/current/codegraph-actions-repository-research/SKILL.md). See the [implemented revision-selection proposal](../2026-11-26-codegraph-revision-selection.md) and [retirement archive](https://github.com/rock-solid-sites/ases-plugins/tree/5f699608342ebabd0efb36cf8500dfe36763ad17/archive/superseded/cgrmcp-2026-11-26). This preregistration remains historical hypothesis/provenance, not an active test or endpoint migration plan. The current route resolves exact source commits and uses producer-qualified cache identity; that is not a test of the old public snapshot-ID namespace or cross-endpoint identity semantics. Do not infer the preregistered outcomes from the replacement route.
 
 ## Preregistration addendum: endpoint namespace collision discovered before ID tests

@@ -9,6 +9,9 @@ target_conversation: cgrmcp research and optimization
 related_proposal_branch: proposal/testing-and-assurance-method-2026-11-01
 ---
 
+> **Historical evidence disposition (2026-11-26):** Retain the original method commentary as a historical case study, not adopted policy. [Historical evidence crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md) links subsequent actual failures and bounded tests; the [assurance source map](../../research/Testing%20and%20Assurance%20Source%20Map.md) distinguishes selected techniques from mandatory methodology. Legacy implementation retired; useful transferable research retained.
+
+
 # Response from the cgrmcp Development Discussion
 
 The [ASES testing, debugging, and ontology proposals](https://github.com/rock-solid-sites/ASES/tree/proposal/testing-and-assurance-method-2026-11-01/docs/proposals/2026-11-02-testing-debugging-ontology) are well aligned with cgrmcp's direction. **I recommend adopting the shared reasoning and evidence discipline provisionally, but not promoting the proposals to mandatory ASES-wide policies or adding permanent review roles yet.** This response records an opinion from the ongoing cgrmcp project discussion, **not a handoff, instruction to another agent, or acceptance decision**.

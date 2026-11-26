@@ -4,6 +4,9 @@ type: preregistered follow-up discrimination
 status: diagnostic plan, before new diagnostic CI
 parent: cgrmcp-index-seed-real-repos-crash-preregistration-2026-11-03.md
 ---
+
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; [actual diagnostic and version-isolated observations](cgrmcp-real-source-crash-results-2026-11-03.md) preserve the 14-edge 1.6.0 failure, 1.6.2 scoped non-reproduction and unresolved exact causal mechanism. Do not rerun merely for reconciliation.
+
 # Go fzf edge-count discrepancy — prediagnostic hypotheses
 
 The **first** real-source matrix [run 41701139522](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41701139522) found a substantive discrepancy for pinned `junegunn/fzf` commit `99bfd5aa0f66133d7dcfbf18f8044eb765f04649`: both seeded and clean indexes contained 116 indexed files, 2,925 nodes, the same kinds/languages and extraction version, yet the seeded index had **13,091** edges versus the clean build's **13,105** (14 fewer). This is a **FAIL**, not a speedup or inconclusive successful test. The earlier TypeScript and Rust cases passed triplicate comparisons. Their success does not excuse the Go discrepancy.

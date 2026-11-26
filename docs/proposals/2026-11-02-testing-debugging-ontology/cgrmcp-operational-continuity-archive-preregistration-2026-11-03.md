@@ -1,3 +1,6 @@
+
+> **Historical evidence disposition (2026-11-26):** Historical preregistration; [observed acceptance](cgrmcp-operational-continuity-archive-results-2026-11-05.md) and [crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md) distinguish local archive/restore and mocked B2 from later live commit-cache behavior. Old operational migration superseded.
+
 # cgrmcp operational continuity and archive qualification — preregistration
 
 Date: 2026-11-03. Status: PROSPECTIVE before this qualification CI. Scope: separate development-only branch stacked on pinned CodeGraph 1.6.2 PR #30. No production VPS connection or write authorized by this experiment.

@@ -9,6 +9,9 @@ preregistration: cgrmcp-index-seed-hypotheses-2026-11-03.md
 project_branch: experiment/cgrmcp-index-seed-2026-11-03
 ---
 
+> **Historical evidence disposition (2026-11-26):** Later actual Go failure, version-isolated controls, repeated optimization and native backup stress are in the [historical crosswalk](cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26). Retain the early failures and observed scope; no automatic seed policy, production release or generalized performance claim. Legacy MCP retired.
+
+
 # cgrmcp copied-index reuse — empirical record
 
 **Reasoning was frozen before implementation** in [cgrmcp-index-seed-hypotheses-2026-11-03.md](cgrmcp-index-seed-hypotheses-2026-11-03.md), ASES commit `3904c3aed0cff438d84511843da10de57aa7aecd`. This is the *later observation and interpretation*, not retroactive preregistration. The original CodeGraph experiment also lives in [preregistration](codegraph-incremental-recomputation-preregistration-2026-11-03.md) and [results](codegraph-incremental-recomputation-results-2026-11-03.md). Each test and acceptance claim is scoped to its executing artifact, not the live VPS.
