@@ -1,0 +1,65 @@
+name: CodeGraph approved cache deletion
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    paths:
+      - '.github/scripts/codegraph-cache-delete.py'
+      - '.github/workflows/codegraph-cache-delete.yml'
+
+permissions:
+  contents: read
+jobs:
+  tests:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 .github/scripts/codegraph-cache-delete.py --self-test
+  delete:
+    if: >-
+      github.ref == 'refs/heads/main' && github.event_name == 'issues' &&
+      github.event.issue.user.login == 'rock-solid-sites' &&
+      github.event.issue.title == '[codegraph-cache-delete-approved]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: codegraph-b2
+    concurrency:
+      group: codegraph-cache-sweep
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - run: python3 .github/scripts/codegraph-cache-delete.py --self-test
+      - name: Delete only approved exact archive versions
+        shell: bash
+        env:
+          APPROVED_JSON: ${{ github.event.issue.body }}
+          B2_BUCKET: ${{ vars.B2_BUCKET }}
+          B2_REGION: ${{ vars.B2_REGION }}
+          B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+          AWS_PAGER: ''
+          AWS_MAX_ATTEMPTS: '2'
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/codegraph-cache-delete.py 2>&1 | tee "$RUNNER_TEMP/cache-delete-result.txt"
+      - name: Report result
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = process.env.RUNNER_TEMP + '/cache-delete-result.txt';
+            const result = fs.existsSync(file) ? fs.readFileSync(file,'utf8') : 'No deletion result; inspect job.';
+            const run = process.env.GITHUB_SERVER_URL + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+            await github.rest.issues.createComment({...context.repo, issue_number: context.issue.number, body: result.slice(0,20000) + '\n\n[Run](' + run + ')'});
