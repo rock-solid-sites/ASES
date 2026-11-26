@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.25
+version: 1.0.26
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -89,6 +89,10 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Resource Solver integration relations:** The [operation/route reconciliation](research/Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md#local-reconciliation-operation-route-permission-trigger-and-evidence-relations-2026-11-25) relates the draft PR #62 source-first review to later capability, admission and metering evidence. Existing identities retained, cross-system joins remain candidates; independent symbolic conformance and real route comparison not executed. No new gateway, Trigger service or adopted ontology.
 
 **Distributed-systems foundations:** The [research topic and prior-work crosswalk](research/LLM%20Agents%20and%20Distributed%20Systems%20-%20Research%20Topic.md#local-reconciliation-prior-work-and-transferable-foundations-2026-11-25) links relevant scheduling, authority, recovery, task-scoped information and assurance results to the still-open EDASES/ASES-18 literature programme. It does not establish novelty, distributed guarantees or a new Solver component. Comparative research and reusable testing instruments retain separate scope and approval.
+
+**Cross-chat coordination alignment (2026-11-26):** The canonical [task-scoped method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and Documentation Standard/Taxonomy are unchanged from the last reconciliation checkpoint. Subsequent Work Notes Reassessment work aligns the [repository entry adapter](../AGENTS.md), [current skill index](../skills/current/README.md) and [workflow-orchestration skill](../skills/current/workflow-orchestration/SKILL.md) with per-turn material-change routing, including substantive discussion. The ASES Plugins local entrypoint was also aligned; its small optional dispatcher v0.1.7 is published with package-parity evidence. These are consumer/discovery changes, not a second policy, mechanical persistence enforcement or proof of automatic selection. Downstream project-specific stale guidance remains with its owners; fresh-chat behavior and final source/authority verification remain separate. Do not repeat completed publication or make every store a mandatory write.
+
+**CodeGraph — current route and preserved research:** The sole current public-repository structural research procedure is [CodeGraph Actions/B2 skill v1.2.0](../skills/current/codegraph-actions-repository-research/SKILL.md), independent of a dedicated plugin. The former cgrmcp MCP was retired, with source and provenance preserved outside active discovery; see the owner's [retirement archive](https://github.com/rock-solid-sites/ases-plugins/tree/5f699608342ebabd0efb36cf8500dfe36763ad17/archive/superseded/cgrmcp-2026-11-26). The [implemented revision-selection proposal](proposals/2026-11-26-codegraph-revision-selection.md) records PR #116 and existing fresh/restore evidence for explicit branch, tag and full SHA; default HEAD remains default. Cache identity follows resolved commit and producer/platform, not branch name. Do not reconnect the old MCP, revive its historical cutover plan, or repeat completed route qualification. Fresh-chat automatic discovery and absence of retired tool descriptors remain distinct acceptance questions (ASES-17/WNASES-28). Earlier version-scoped snapshots, incremental indexing, crash/edge correctness and archival experiments retain independent research value; current B2 cache does not prove their hypotheses or recovery of former MCP snapshot IDs.
 
 ## Legacy and supersession
 

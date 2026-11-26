@@ -6,6 +6,9 @@ authority: research, not production acceptance
 status: first acceptance gates passed; repeated optimization evidence pending
 preregistration: cgrmcp-engine-scope-migration-preregistration-2026-11-03.md
 ---
+
+> **Current applicability (2026-11-26):** The cgrmcp service and plugin discussed in this historical record have been retired; the supported public-repository structural research route is the [canonical Actions/B2 skill](../../../skills/current/codegraph-actions-repository-research/SKILL.md). See the [implemented revision-selection proposal](../2026-11-26-codegraph-revision-selection.md) and [retirement archive](https://github.com/rock-solid-sites/ases-plugins/tree/5f699608342ebabd0efb36cf8500dfe36763ad17/archive/superseded/cgrmcp-2026-11-26). Retain the scoped engine-compatibility results and limitations below as historical experimental evidence; the former live-store migration and service promotion are no longer current tasks. The present commit/producer/platform cache has a different interface and storage boundary. Existing B2 validation does not prove the old persistent snapshot-namespace, concurrency or database-migration hypotheses.
+
 # cgrmcp engine-scoped store and path optimization — observations
 
 This record follows the **prospective** [engine-scope migration hypotheses](cgrmcp-engine-scope-migration-preregistration-2026-11-03.md) committed at `5c170a729e479b3cb418ba2260b54c9ec43051cf`. It does **not** revise those predictions. It also follows the [14-edge Go 1.6.0 failure and 1.6.2 independent controls](cgrmcp-real-source-crash-results-2026-11-03.md). These are research experiments on GitHub Actions, not the production VPS.

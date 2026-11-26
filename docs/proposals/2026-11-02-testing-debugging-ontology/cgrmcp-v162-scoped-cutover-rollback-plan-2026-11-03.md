@@ -4,6 +4,9 @@ type: ASES development rollout and rollback proposal
 status: NOT EXECUTED; requires operational preflight and explicit production approval
 scope: cgrmcp CodeGraph 1.6.0 to 1.6.2
 ---
+
+> **Current applicability (2026-11-26):** The cgrmcp service and plugin discussed in this historical record have been retired; the supported public-repository structural research route is the [canonical Actions/B2 skill](../../../skills/current/codegraph-actions-repository-research/SKILL.md). See the [implemented revision-selection proposal](../2026-11-26-codegraph-revision-selection.md) and [retirement archive](https://github.com/rock-solid-sites/ases-plugins/tree/5f699608342ebabd0efb36cf8500dfe36763ad17/archive/superseded/cgrmcp-2026-11-26). The proposed dual-endpoint/live-store cutover and rollback sequence is superseded as an operational plan by retirement of the legacy MCP, not by demonstrated execution of these gates. Preserve its compatibility, storage, rollback and old-ID continuity reasoning; no old service restart, reconnect, migration, deletion or test is authorized. Historical data recovery and old-chat snapshot access, if needed, are separate questions, not automatic obligations of the replacement cache.
+
 # cgrmcp CodeGraph 1.6.2 scoped cutover and rollback gates
 
 **Authority:** a plan, not a deployment order. [Development PR #30](https://github.com/rock-solid-sites/ases-plugins/pull/30) is unmerged. [ASES evidence](cgrmcp-engine-scope-migration-results-2026-11-03.md) establishes exact pin, version-isolated registries, fail-closed mismatched-ready routing and bounded sampled benefits. The 1.6.0 Go fzf lost-14-edges failure remains a negative regression.
