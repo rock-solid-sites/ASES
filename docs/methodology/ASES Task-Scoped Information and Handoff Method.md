@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.4
+version: 1.1.5
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -81,6 +81,8 @@ For agent work, the existing Work Notes packet carries the source and final dest
 **Cadence depends on execution environment.** Development agents working in interruption-prone execution environments (Codex, OpenCode and equivalent) commit and push substantive progress at short recoverable intervals (aim for five minutes or meaningful checkpoints as appropriate), before long or interruption-prone operations, and at handoff. Chat coordination instead updates the relevant authoritative sources each substantive turn; do not impose a five-minute commit cadence on Chat. Record launch state before dispatch when needed for recovery. Publish useful results, outcomes, evidence, decisions and reusable artifacts to the appropriate repository's `main` branch, classified experimental where applicable, without waiting for the experimental branch's lifetime to end. Independently verify the remote ref/commit or equivalent durable checkpoint and record the latest recoverable position. An unpushed local commit or reported push is not proof of recoverability. If remote publication is blocked, report the missing durability and preserve authorized evidence where possible; do not claim delivery.
 
 ### Chat persistence and record granularity
+
+**ChatGPT mode selection (operator preference):** Remain in Chat mode unless the operator explicitly requests a switch to Work mode. Do not proactively suggest, prompt or initiate a Work-mode handoff merely because a task is lengthy, complex, involves repository work or uses connected tools. Continue authorized work with available Chat tools. If a required capability is unavailable, report the specific blocker and any feasible Chat-native alternative; do not treat the blocker as consent to change modes. The operator reports that unsolicited transition prompts frequently freeze while appearing active; this is an observed usability problem, not a verified diagnosis. A request to use Work mode does not itself authorize unrelated execution or changes. This is a project/operator preference, not a platform control or guarantee of host behavior.
 
 **Each substantive Chat turn is a recoverability checkpoint, not a record boundary.** Before returning a turn that advances work, decisions, or understanding, persist the material change in the relevant existing Work Notes, Projektor or repository records according to information ownership. A turn can update multiple records when distinct subjects advance; it need not update every store or create a note. A conversation can advance several work units, and a work unit can span several conversations. Do not use chat boundaries as issue boundaries.
 

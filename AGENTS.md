@@ -1,6 +1,6 @@
 ---
 title: ASES Repository Agent Entry Adapter
-version: 1.0.3
+version: 1.0.4
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -21,6 +21,8 @@ last_updated: 2026-11-26
 **This file is a compatibility entrypoint for agent harnesses that automatically load root `AGENTS.md`, not a required ASES startup ritual or a second canonical policy.** The [canonical task-scoped information method](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) defines how task context is selected. Current specialized instructions are retrieved selectively from the [ASES current skills index](skills/current/README.md) over read-only HTTPS in ChatGPT; other harnesses must verify their actual load mechanisms. Do not load every skill for every task.
 
 For general evidence-based reasoning and role boundaries, see the [AI Orchestration Guide](docs/methodology/AI%20Orchestration%20Guide.md) only as relevant. For each task, identify its actual objective, current source owner/revision, applicable operator/project rules, needed evidence and completion criteria. Distinguish verified source facts from experimental research and stale working notes. Where sources conflict, record the unresolved choice rather than using last-read-wins. A project-approved complete override excludes replaced rule content from the effective task view while retaining provenance.
+
+**ChatGPT mode selection:** Stay in Chat unless the operator explicitly requests Work mode. Do not proactively suggest or initiate a mode switch for long, complex or connector-based work. Continue using authorized Chat tools; report concrete unavailable capabilities instead. See the canonical task-scoped method for the operator preference and rationale.
 
 **Execution boundary:** Obtain task-specific authority before destructive changes, production deployment, secret access or paid model use. Previously granted approval applies only within its stated scope. Agent workers may carry out authorized repository edits, tests and normal branch checkpoints without requiring the operator to execute shell commands. Avoid presenting multi-step shell/admin work to the operator; human identity/consent actions may remain necessary. Ask for genuine strategy/permission decisions, not routine execution.
 
