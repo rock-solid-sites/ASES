@@ -1,0 +1,34 @@
+name: One-time TOOLS reference audit
+on:
+  push:
+    branches:
+      - audit/tools-reference-check-20261126
+    paths:
+      - '.github/workflows/tools-reference-check-once.yml'
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'bd02079ed51ab34f2bc7cd8c9b1969e90b8d47e6'
+          persist-credentials: false
+      - name: Exhaustive tracked text reference check
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 'bd02079ed51ab34f2bc7cd8c9b1969e90b8d47e6'
+          echo "SOURCE=$(git rev-parse HEAD)"
+          echo "TRACKED=$(git ls-files | wc -l)"
+          git ls-tree -r HEAD | awk '$1 == "160000" {print "GITLINK=" $0}'
+          set +e
+          git grep -n -I -i -F -o -e 'TOOLS.md' -e 'tool-availability.json' -e 'tools%2emd' -e 'tool-availability%2ejson' HEAD -- > "$RUNNER_TEMP/reference-matches.txt"
+          rc=$?
+          set -e
+          test "$rc" -le 1
+          echo "MATCH_LINES=$(wc -l < "$RUNNER_TEMP/reference-matches.txt")"
+          cat "$RUNNER_TEMP/reference-matches.txt"
+          echo "SCAN_COMPLETE"
