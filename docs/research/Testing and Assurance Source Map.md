@@ -1,13 +1,13 @@
 ---
 title: Testing and Assurance Source Map
-version: 2026-11-24.1
+version: 2026-11-26.1
 program: ASES
 layer: Research
 document_type: Guide
 status: Active
 authority: Derived
 canonical_repository: ases
-last_updated: 2026-11-24
+last_updated: 2026-11-26
 ---
 
 # Testing and assurance: current authority, experimental methods and evidence
@@ -53,6 +53,21 @@ The [lab lessons](https://github.com/rock-solid-sites/ASES/blob/5a1ba2cff4439bda
 | [November stream diagnostic history](../historical/Capability%20Observation%20and%20Failure%20Attribution%20History.md) and [MCP case](Projektor%20MCP%20Registration%20Failure%20Case%202026-11-06.md) | Measure the actual fault boundary, distinguish monitor/setup defects from target failure; paired controls and original acceptance | A common root cause, general benchmark, or global debugging-method adoption |
 
 These are source-reported scoped results, not fresh independent replays in this reconciliation. Generated tests, real code, deliberately synthetic fixtures, prototype implementations, read-only external observations and deployed behavior are different evidence categories. Preserve failed tests and negative findings at authorized durable destinations; distinguish CI status from archival success. The candidate language and detailed status schemas in research do not establish a universal evidence schema or mandatory retention cadence.
+
+## Remaining cross-project responses and upstream-awareness disposition (2026-11-26)
+
+The following early responses are retained as original discussion and scoped experiment evidence. Their owner implementations and current adoption decisions are separate. This completes their documentary comparison, not a new method review, experimental replay or project handoff.
+
+| Original response | Surviving finding and present disposition |
+| --- | --- |
+| [HMS response](../proposals/2026-11-02-testing-debugging-ontology/HMS%20chat.md) | The November 2 report was documentation adoption only, not executed G0. Its [project-local experimental process](https://github.com/rock-solid-sites/HMS/blob/9bde3b0f855bf298fe7594e22c6f9b36fbc95076/docs/HMS-PROTOTYPE-TESTING-AND-DEBUGGING-PROCESS-2026-11-02.md) is now readable on HMS main (blob `336b843f`). Retain domain/authority distinctions, cheapest discriminating tests, and actual acceptance surfaces; do not revive its original three-view gate sequence as a universal or necessarily current HMS lifecycle. The later generated reservation and SQLite finance evidence above narrows specific claims, not full HMS or live Beds24 acceptance. HMS owns current workflows, design and test adoption. |
+| [Beds24 response](../proposals/2026-11-02-testing-debugging-ontology/beds24-booking-module-chat-response-2026-11-03.md) | The real room-type oracle contradicted a synthetic premise shared by tests and implementation; the telemetry guard stopped on unknown measurement, not proven exhausted credit. The separately authorized one-read diagnostic resolved the catalogue objective without changing normal guard authority. Later [oracle pilot](https://github.com/rock-solid-sites/beds24-astro-module/blob/d602476c254d1cd68d580519537363a4ea12c850/docs/edases-room-catalogue-oracle-pilot-results-2026-11-03.md) had 13 baseline cases and 3/3 targeted mutants detected, while a weak check missed the multiplied-capacity defect. [Finite-domain campaign](https://github.com/rock-solid-sites/beds24-astro-module/blob/d602476c254d1cd68d580519537363a4ea12c850/docs/diagnostics/2026-11-03-exhaustive-booking-boundaries.md) recorded 252,145 counted evaluations and 134/134 final tests, including actual fixture-default and mock-environment defects distinguished from product defects; no live calls in these offline pilots. Preserve oracle provenance, exact actual inputs, guard-specific sensitivity and scoped completion. No universal mutation threshold, independent reviewer provenance, full domain coverage, live checkout or independent archive assurance follows. |
+| [Account Enumeration response](../proposals/2026-11-02-testing-debugging-ontology/ases-account-enumeration-chat-2026-11-02.md) | Its five questions (non-CI evidence, launch versus assurance, typed outcome dimensions, collection without a future Observer, archive verification) are addressed at the appropriate scopes by the [Solver reconciliation](Resource%20Solver%20Specification%20Reconciliation%202026-11-02.md), current launch skill, evidence/authority methods and later bounded controller/receipt experiments. Keep the execution, observation, attribution, actual usage/settlement, decision and durable recovery dimensions separate. Current launch convention is not proof of universal mechanical admission; old proposed thin resource API and Observer handover are not deployed assumptions. No compulsory per-launch ceremony, new schema or requirement to save every raw private session follows. ASES-20 retains integration-relation research; no duplicate work. |
+| [Upstream-awareness addendum](../proposals/2026-11-02-testing-debugging-ontology/upstream-change-awareness-addendum-2026-11-02.md) | The older CodeGraph incident supports checking whether upstream has solved the actual problem before duplicating work. The [canonical customization method](../methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) governs current upstream-first decisions; the [canonical task-scoped method](../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery) governs final source custody. Actual executing, merged, released, installed and locally verified are different. Retain proposed comparison pilots and refresh-cost questions as unverified, not a mandatory phase, automated polling service or reason to track unstable HEAD. |
+
+**Owner/source-custody gaps, not new implementation scope:** the Beds24 evidence paths above were read from the open draft [PR #1](https://github.com/rock-solid-sites/beds24-astro-module/pull/1), head `d602476c254d1cd68d580519537363a4ea12c850`; its main `8a622c97659b90423614c3b4dcfe0d0abb8b3d53` tree lacks these diagnostic/pilot records. The original report on ASES main retains the transferable findings, not the full owner code/tests. Pinning a branch commit is evidence custody, not final delivery; determine retained/accepted versus still-experimental artifacts with the owner, publish useful retained results to authorized main paths, and verify readback before branch disposal. Do not merge an unaccepted draft or assume the separate live Trip'n integration uses its code. TRIPN-1 still records the distinct Nov 20–22 actual guest-count/quote contradiction (root cause unconfirmed), and TRIPN-6 the hosted return/portal acceptance gap; neither is closed by earlier offline experiments. No new tests, provider calls, production edits or branch disposal in this reconciliation.
+
+The upstream-currency and main-publication rules already exist; the final authority/discovery check should assess compliance and report inaccessible or branch-only dependencies, not repeat their formulation. WNASES-10/14 and ASES-7 remain the owners of independent method review and candidate laboratory publication. Source cutoff ASES [ffd646b2](https://github.com/rock-solid-sites/ASES/tree/ffd646b2b24e2660b9293f708196c970b61fe308); owner-source reports and tracker records checked, historical CI outcomes not independently rerun.
 
 ## Remaining promotion and research ownership
 
