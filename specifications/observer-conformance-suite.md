@@ -3,7 +3,7 @@ title: Observer Conformance Suite — Instantiation of the Universal Conformance
 program: EDASES
 layer: Implementation
 document_type: Conformance Suite
-status: Draft
+status: Historical
 authority: Derived
 canonical_repository: edases
 crosslink_issue: 523
@@ -39,6 +39,9 @@ last_updated: 2026-08-30
 ---
 
 # Observer Conformance Suite — Universal Checklist §§1–36 vs Observer Swarm v1.1
+
+> Historical conformance specification for the retired VPS-era observer implementation. The exact executable sources and test suite remain available at [the pre-retirement repository revision](https://github.com/rock-solid-sites/ASES/tree/aa34b51f8f89cffb42ac307d5ae4ed33802c9e33). This is not a current Observer module contract or permission to run the former harness.
+
 
 > **Scope:** Project-specific instantiation of the 36-dimension ASES Universal
 > Conformance Checklist for the Observer Swarm v1.1 resilience hardening

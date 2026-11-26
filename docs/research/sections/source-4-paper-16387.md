@@ -3,7 +3,7 @@ title: "Source 4 — Fantastic Adaptive Taxonomies and How to Use Them (arXiv 26
 program: EDASES
 layer: Research
 document_type: Report
-status: Active
+status: Historical
 authority: Experimental
 canonical_repository: edases
 related_documents:
@@ -16,6 +16,9 @@ last_updated: 2026-08-24
 ---
 
 # Source 4 — Fantastic Adaptive Taxonomies and How to Use Them (arXiv 2607.16387)
+
+> Historical research evidence; local discovery classification updated 2026-11-26. Original provider-specific observations and exact attribution are retained as evidence, not as current setup, launch or subscription guidance. [Original local record](https://github.com/rock-solid-sites/ASES/blob/aa34b51f8f89cffb42ac307d5ae4ed33802c9e33/docs/research/sections/source-4-paper-16387.md).
+
 
 **Source:** arXiv 2607.16387 — Cemri et al., *Fantastic Adaptive Taxonomies and How to Use Them*, v2 2026-07-29. Repository: https://github.com/multi-agent-systems-failure-taxonomy/AdaMAST. No other sources consumed per #429 atomized scope.
 

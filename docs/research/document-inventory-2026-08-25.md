@@ -3,7 +3,7 @@ title: "Document Inventory Snapshot — 2026-08-25"
 program: EDASES
 layer: Research
 document_type: Observational-evidence
-status: Active
+status: Historical
 authority: Observational
 canonical_repository: edases
 references:
@@ -12,6 +12,9 @@ created: 2026-08-25
 ---
 
 # Document Inventory Snapshot — 2026-08-25
+
+> Historical research evidence; local discovery classification updated 2026-11-26. Original provider-specific observations and exact attribution are retained as evidence, not as current setup, launch or subscription guidance. [Original local record](https://github.com/rock-solid-sites/ASES/blob/aa34b51f8f89cffb42ac307d5ae4ed33802c9e33/docs/research/document-inventory-2026-08-25.md).
+
 
 An observational snapshot of all documentation files across
 `/home/claude-code/projects/`, taken 2026-08-25 under issue #462. This is

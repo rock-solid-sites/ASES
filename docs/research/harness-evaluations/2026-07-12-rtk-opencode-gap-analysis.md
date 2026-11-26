@@ -3,7 +3,7 @@ title: "Harness Evaluation: RTK — OpenCode Integration Gap Analysis"
 program: EDASES
 layer: Research
 document_type: Research Record
-status: Active
+status: Historical
 authority: Derived
 canonical_repository: edases
 
@@ -21,6 +21,9 @@ last_updated: 2026-08-10
 ---
 
 # Harness Evaluation: RTK — OpenCode Integration Gap Analysis
+
+> Historical research evidence; local discovery classification updated 2026-11-26. Original provider-specific observations and exact attribution are retained as evidence, not as current setup, launch or subscription guidance. [Original local record](https://github.com/rock-solid-sites/ASES/blob/aa34b51f8f89cffb42ac307d5ae4ed33802c9e33/docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md).
+
 
 **Date:** 2026-07-12
 **Evaluator:** OpenCode (Orchestrator Agent, via Deepseek Flash subagents)

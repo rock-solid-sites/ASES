@@ -198,8 +198,8 @@ the stronger substrates (container, microVM, Nix).
 The read-only permission-boundary work is **tools-side evidence** that
 informs the research-layer execution-context abstraction. It is **not** a
 realization of that abstraction, and it is **not** the future Execution
-layer. The current stack (opencode fork, crosslink fork, guard plugins,
-claude wrapper, rtk, agent definitions, permission blocks) is Tools-side: a
+layer. The historical stack (agent harness forks, guard plugins,
+compatibility wrapper, rtk, agent definitions, permission blocks) is Tools-side: a
 general warehouse for forks, plugins, wrappers and hacky constructions. The
 Execution layer is a **future, not-yet-existing project layer** that will
 enforce ASES methodology; its concrete shape (possibly a state-machine-based
