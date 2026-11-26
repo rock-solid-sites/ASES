@@ -62,7 +62,7 @@ Use the [historical Hookability Matrix](Hookability-Matrix.md) and [harness desi
 The material from this point onward is the earlier register, retained verbatim for provenance. Its old playbook, hookability column, implementation priorities and maintenance section are historical, not operating instructions. The cumulative observations remain useful research evidence.
 
 **Date:** 2026-08-18
-**Source:** Recurring workflow failures observed across EDASES orchestration sessions, including HMS research session post-mortem (#519), #506 regression-stall report, #522 doc-navigation probe, multiple agent timeouts, and historical Claude Code project documentation. Updated 2026-08-18 with evidence from today's session: pre-positioned auditor loops (#506 regression agents, pp3g-tU4X), 10+ agent timeouts across models, finalization gaps (#398/#355), model-catalog staleness (Tools #4), free-model stall patterns, and disk-pressure crashes. Post-407 evidence pass: added 6+ finalization-gap instances (pp3g-Fsyf, pp3g-gUUV, pp3g-qO5v, pp3g-Jo2n, pp3g-ATNS, pp3g-cCNd context), big-pickle startup stall (pp3g-cCNd), qO5v/ATNS timeout evidence.
+**Source:** Recurring workflow failures observed across EDASES orchestration sessions, including HMS research session post-mortem (#519), #506 regression-stall report, #522 doc-navigation probe, multiple agent timeouts, and historical harness project documentation. Updated 2026-08-18 with evidence from today's session: pre-positioned auditor loops (#506 regression agents, pp3g-tU4X), 10+ agent timeouts across models, finalization gaps (#398/#355), model-catalog staleness (Tools #4), free-model stall patterns, and disk-pressure crashes. Post-407 evidence pass: added 6+ finalization-gap instances (pp3g-Fsyf, pp3g-gUUV, pp3g-qO5v, pp3g-Jo2n, pp3g-ATNS, pp3g-cCNd context), big-pickle startup stall (pp3g-cCNd), qO5v/ATNS timeout evidence.
 **Convention:** Rows are recurring failure classes. Columns describe the required semantic that would prevent or detect each failure, evidence quality, and hookability.
 
 ---
@@ -151,7 +151,7 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 
 6. **Playbook Documentation** — §5.3 task-matched timeouts, §5.4 checkpoint contract, §5.6 reviewer independence, §5.8 workflow topology. Provides architectural requirements for preventing multiple failure classes.
 
-7. **Historical Claude Code Project Documentation** — `docs/historical/` and `docs/methodology/` contain process knowledge from earlier project phases. Key patterns: role-boundary breaches, autonomous fallback behaviors, context corruption.
+7. **Historical Harness Project Documentation** — `docs/historical/` and `docs/methodology/` contain process knowledge from earlier project phases. Key patterns: role-boundary breaches, autonomous fallback behaviors, context corruption.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.32
+version: 1.0.33
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -106,7 +106,7 @@ An entry reading `Active` in a historical file is **not a certificate of current
 
 The old root `AGENTS.md` is now a **thin compatibility adapter** with active current links. Mandatory `SESSION-START.md`, `docs/SESSION-END.md`, and `docs/ORCHESTRATOR.md` have been retired as operational instructions. The dated `docs/methodology/Agent Model Launch Routes.md` is a deprecated redirect to the current launch skill.
 
-These paths remain stable for inbound links, but do **not** authorize old Crosslink commands, IT3812/VPS routes, paid model substitutions or mandatory session rituals. The old repository-local OpenCode, Claude and Crosslink configuration bundle has been moved outside auto-discoverable root paths into the historical archive as a unit, not selectively stripped of permission controls for use. No default launcher is thereby authorized. See the [historical harness decision and evidence guide](historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for why it was built, source snapshots, rejected approaches and unresolved questions. Current execution uses explicitly verified task-specific routes. Historical text is preserved at pinned Git revisions in each redirect. Runtime auto-loading of any file is separately measurable; neither this index nor the architecture decision asserts it has been tested.
+These paths remain stable for inbound links, but do **not** authorize old Crosslink commands, IT3812/VPS routes, paid model substitutions or mandatory session rituals. The old repository-local harness configuration bundle has been moved outside auto-discoverable root paths into the historical archive as a unit, not selectively stripped of permission controls for use. No default launcher is thereby authorized. See the [historical harness decision and evidence guide](historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for why it was built, source snapshots, rejected approaches and unresolved questions. Current execution uses explicitly verified task-specific routes. Historical text is preserved at pinned Git revisions in each redirect. Runtime auto-loading of any file is separately measurable; neither this index nor the architecture decision asserts it has been tested.
 
 ## Final authority and source-custody sweep (2026-11-26)
 

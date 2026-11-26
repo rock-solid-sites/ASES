@@ -352,90 +352,7 @@ mechanism) → watchdog validates. Quick and documented by construction.
 
 # Amendment 4 — Provider Visibility Policy (operator-confirmed 2026-08-15)
 
-Status: Decided. Applies on top of Amendment 3 (D6 decision note). This is the
-concrete provider-manifest policy for the Phase-0 plugin fix.
-
-## Governing principle
-
-**Provider visibility is driven by credentials + usable-credit state, not by a
-static catalog manifest.**
-
-- opencode already token-gates providers: providers without API tokens do NOT
-  appear in the `/models` list. We do not fight or duplicate this (no static
-  removal list for token-less providers — it would break the moment a token is
-  added).
-- Our policy layer handles only what opencode does not: free-only filtering,
-  the paid-visible carve-out, and explicit disabled/forbidden entries.
-
-## The policy (three layers)
-
-**Layer 1 — token-gating (native).** No API token → invisible. Owned by
-opencode; untouched by us.
-
-**Layer 2 — free-only merge with a paid-visible carve-out (Policy A
-mechanism).** Providers WITH tokens surface free (cost-0) models only, EXCEPT
-providers on the explicit `paid_visible_allowlist` (active paid credit), which
-surface their full list and stay auto-updated from the live catalog.
-
-**Layer 3 — explicit disabled/forbidden list.** Only where a specific reason
-requires hiding despite a token:
-- grok/x-ai (#347 forbidden, permanent)
-- `google-vertex-anthropic` — Vertex promo credits cannot be used for Anthropic
-  models, so its Anthropic models must not surface (Vertex's other usable
-  models may surface normally)
-- providers with a token but no active credit that are paid-only
-- `deepseek` — kept disabled (per operator: both deepseek models are obtained
-  via the opencode/opencode-go providers, so the direct deepseek provider adds
-  nothing)
-
-## The concrete manifest (canonical, lives in the Tools plugin)
-
-| Category | Members | Result |
-|---|---|---|
-| `paid_visible_allowlist` | `opencode-go` | Full visibility, always updated from live catalog (our main paid provider) |
-| `disabled_providers` | `deepseek`, `openai`, `cloudflare`, `cloudflare-ai-gateway` (existing) + `google-vertex-anthropic` + grok/x-ai forbidden block (#347) | Hidden |
-| Free-only auto-merge | everything else with a token (e.g. `nvidia` 96/100 free, `cohere` 1/14 free, `google-vertex` non-Anthropic) | Free (cost-0) models only, derived from live catalog on launch |
-| Token-less providers | the ~180 remaining | Already invisible via native token-gating; untouched |
-
-**Note on cohere/nvidia (operator 2026-08-15):** no credits held for either;
-only free-tier models are viable for now. This needs no list entry — the
-free-only merge surfaces exactly their free models, and if no token is held
-they are invisible via Layer 1.
-
-## How future changes stay quick and documented
-
-- **Add a token for a new provider** → free models appear automatically (no
-  edit).
-- **Start paying for a provider** → one-line addition to
-  `paid_visible_allowlist`.
-- **Credit runs out / stop using** → one-line removal from the allowlist (or
-  add to disabled).
-- **Provider's Anthropic models become usable** (Vertex case) → one-line
-  removal from disabled.
-- All edits happen once in the canonical Tools plugin, pushed to every
-  consumer via the D7 surviving push mechanism, validated by the B-watchdog
-  (Amendment 3). Never per-machine editing.
-
-## Relation to the D6 decision (Amendment 3)
-
-This is a refinement of D6's "provider list policy": the free-only restriction
-is automatic under Policy A's mechanism; provider removal is the documented
-`disabled_providers` list; and the paid-visible carve-out for `opencode-go` is
-the one case where free-only must NOT apply. The D6 A/B mechanism is
-unchanged; this fills in the manifest contents that Amendment 3 left pending
-("the disabled-provider list contents are an operator decision pending").
-
-## WHAT-NOT-TESTED
-
-- The specific provider visibility behavior (with real tokens) is not
-  executed-tested; the token-gating claim (Layer 1) is the user's observed
-  behavior, not a fresh experiment.
-- `google-vertex-anthropic` disabling and the exact free-model surfacing for
-  nvidia/cohere are specified from catalog data + operator statement, not
-  verified in a live token'd session.
-- The manifest is written as policy here; the Phase-0 implementation
-  (plugin.ts consolidation + D6 A mechanism) is a separate task that consumes
-  this policy.
+**Historical only.** The [original provider manifest and decision rationale](https://github.com/rock-solid-sites/ASES/blob/8df7d19343c12b9b999aca677b940c4f89418ee6/docs/research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md#amendment-4--provider-visibility-policy-operator-confirmed-2026-08-15) are preserved at their exact prior revision, outside current model-selection instructions. The August design separated native credential-based visibility, free-model discovery and explicit suppression; it did not establish actual funding or dispatch authority. Its account-specific lists and examples are obsolete and must not be copied into current configurations. The current [agent-launch skill](../../skills/current/agent-launch/SKILL.md) owns authorized route selection; provider visibility, entitlement, authorization and actual billing remain separate. No current picker configuration or runtime acceptance follows.
 
 ---
 
@@ -478,7 +395,7 @@ side is the authoritative source of edits?
 **Test (cheapest, historical — no machinery).** Audit the last ~30 days:
 - `git log --oneline` on `Tools/scripts/` and `Tools/plugins/` (which commits
   changed wrappers/plugins, when);
-- file mtimes + content evolution on `~/.local/bin/{claude,opencode,
+- file mtimes + content evolution on the historical launcher paths (see original source), including `~/.local/bin/{opencode,
   crosslink-moe}` and `~/.config/opencode/plugins/{plugin.ts,
   dynamic-models.ts}`;
 - where available, shell history or session notes showing live edits vs
@@ -503,7 +420,7 @@ answers (D2) weaken and F's single-copy-live becomes less portable.
 **Question.** For machine-global artifacts, is a symlink from the runtime
 path to Tools loadable without silent failure?
 
-**Signal.** Whether OpenCode/Claude resolve a symlinked plugin/script and
+**Signal.** Whether the historical harnesses resolve a symlinked plugin/script and
 whether role resolution still works through the link.
 
 **Test (spike, ~10 min).** In a **scratch repo** (never the real ASES):
@@ -518,7 +435,7 @@ whether role resolution still works through the link.
    it, confirm the #274 fork-identity guard executes.
 
 **Threshold.** Symlink loads with full role resolution → adopt symlinks for
-Class 1 (Claude's position; wrappers are symlinked immediately regardless —
+Class 1 (one reviewer's position; exact attribution in the original source; wrappers are symlinked immediately regardless —
 plain scripts, zero risk). Silent failure or degraded resolution → user-level
 single-copy (D's safe default).
 

@@ -10,7 +10,7 @@ depends_on:
   - plugins/gitlab-schedule-control/README.md
   - plugins/gitlab-schedule-control/DIAGNOSIS.md
   - docs/methodology/Implementation Realization and Assurance Selection Method.md
-  - skills/custom-mcp-connector/SKILL.md
+  - skills/current/custom-mcp-connector/SKILL.md
 related_documents:
   - plugins/README.md
   - research/testing-assurance-pilot/scheduler-clock/EVIDENCE-CLASSIFICATION.md
@@ -145,7 +145,7 @@ A prototype passing T1/T2 but failing T3 does **not** satisfy the user’s in-ch
 2. Resolve T1 and the schedule-existence hypothesis before proposing a repair to GitLab Cron.
 3. Compare A/B/C/D by observed user-client usability, privilege footprint, exposure of secrets, number of additional services, auditability, reversible state, cost and maintenance. Exclude any candidate that violates hard security/authority gates.
 4. Prefer the smallest **verified** route: reuse provider capability if truly exposed; otherwise evaluate a vetted schedule-capable MCP; use custom narrow MCP or secured CI bridge only when their costs and risks are supported by tests.
-5. When implementing, place canonical runtime integration and connector-record artifacts in [rss-tools/mcp](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp), preserving the ASES dossier as a reasoning and requirements source. Do not migrate historical old OpenCode/Claude plugin artifacts into an active tools repository.
+5. When implementing, place canonical runtime integration and connector-record artifacts in [rss-tools/mcp](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp), preserving the ASES dossier as a reasoning and requirements source. Do not migrate retired harness-specific plugin artifacts into an active tools repository.
 6. Release only after real ChatGPT invocation and provider readback. Do not claim that installing or registering an MCP is functional acceptance.
 
 ## R-008 Status & certainty contract
