@@ -1,4 +1,4 @@
-name: Verify retired provider cleanup and regenerate inventory
+name: Verify related-work clarification and regenerate inventory
 on:
   push:
     branches: [audit/retired-provider-references-20261126]
@@ -12,13 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: '5153b6a69360f93f6b3ec3b681c90936a0265a34'
+          ref: '0a9424a65d51533d4a9e798356bd21e0cf32945b'
           persist-credentials: false
       - name: Verify current scope and generate existing inventory
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = '5153b6a69360f93f6b3ec3b681c90936a0265a34'
+          test "$(git rev-parse HEAD)" = '0a9424a65d51533d4a9e798356bd21e0cf32945b'
           python -m unittest discover -s scripts/docs_audit -p 'test_*.py'
           python scripts/docs_audit/inventory.py --json-out "$RUNNER_TEMP/current-documents.json" --index-out "$RUNNER_TEMP/CURRENT-DOCUMENTS-INDEX.md" --summary
           python - <<'PY'
