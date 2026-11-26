@@ -215,10 +215,15 @@ def classify(report, api, current_cli, protected, now):
                     row["upstream_status"] = "ancestry_unverified"
                     incomplete += 1
                 else:
-                    pair = compare_versions(get_versions(repo, commit), get_versions(repo, head))
+                    # These are disposable derived graphs. Verified ancestry alone
+                    # makes a superseded snapshot a candidate; versions are optional context.
+                    flags.append("upstream_advanced")
+                    strong = True
+                    old_declarations = get_versions(repo, commit)
+                    new_declarations = get_versions(repo, head)
+                    pair = compare_versions(old_declarations, new_declarations)
                     if pair is None:
-                        row["upstream_status"] = "version_unknown_or_ambiguous"
-                        incomplete += 1
+                        row["upstream_status"] = ("no_project_version" if not old_declarations and not new_declarations else "version_not_comparable")
                     else:
                         old, new, sources = pair
                         row["evidence"].update(cached_version=version_text(old), upstream_version=version_text(new), version_paths=sources)
@@ -274,10 +279,19 @@ class Tests(unittest.TestCase):
         result=classify({"indexes":[row(old),row(head),row(old,"1.5.0",20,10)]}, Mock(),"1.6.2",{},now)
         self.assertEqual(result["candidate_count"],2)
         self.assertIn("upstream_version_increased",result["indexes"][0]["flags"])
+        self.assertIn("upstream_advanced",result["indexes"][0]["flags"])
         self.assertEqual(result["indexes"][1]["recommendation"],"keep")
         self.assertIn("older_adopted_engine",result["indexes"][2]["flags"])
         self.assertIn("noncurrent_object_versions",result["indexes"][2]["flags"])
         self.assertEqual(classify({"indexes":[row(old)]},Mock(),"1.6.2",{("a/b",old):True},now)["protected_count"],1)
+        class Unversioned(Mock):
+            def get(self,path):
+                if "/contents?ref=" in path: return []
+                return super().get(path)
+        result=classify({"indexes":[row(old)]},Unversioned(),"1.6.2",{},now)
+        self.assertEqual(result["indexes"][0]["recommendation"],"delete_candidate")
+        self.assertEqual(result["indexes"][0]["upstream_status"],"no_project_version")
+        self.assertEqual(result["incomplete_upstream_checks"],0)
         class Offline:
             def get(self,path): raise Unknown()
         result=classify({"indexes":[row(old)]},Offline(),"1.6.2",{},now+dt.timedelta(days=31))
