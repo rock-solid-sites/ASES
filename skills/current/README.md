@@ -4,7 +4,9 @@
 
 Say **"check the skill index"** (or **"list ASES skills"** / **"show available ASES skills"**). The installed ASES Workflow dispatcher should use a **read-only HTTPS GET** of this README, then **display only the skill names, short descriptions, and links** from the list below. An index-only request must **not** fetch individual `SKILL.md` bodies or load unrelated skills.
 
-**For an actual task, select by the work product and its governing context, not by trigger words alone.** Any request to **write an ASES prompt, agent brief, Work Unit packet, autonomous-run assignment, builder/reviewer handoff or launch instructions** begins with `compact-prompt/SKILL.md`—even if the request does not use the word "prompt". Read its task-dependent source-admission table **before writing the brief**. Then retrieve only the additional applicable **current** skills: `workflow-orchestration` for autonomous multi-agent assignments, `compile-build` **plus the canonical bounded-build methodology** for genuinely bounded implementation preparation, `review-launch` for an independent review, and `agent-launch` before actual dispatch. Complex tasks can legitimately require more than one; trivial ones do not.
+**For an actual task, select by the work product and its governing context, not by trigger words alone.** Any request to **write an ASES prompt, agent brief, Work Unit packet, autonomous-run assignment, builder/reviewer handoff or launch instructions** begins with `compact-prompt/SKILL.md`—even if the request does not use the word "prompt". Read its task-dependent source-admission table **before writing the brief**. Then retrieve only the additional applicable **current** skills: `workflow-orchestration` for project coordination, substantive project discussions and autonomous multi-agent assignments, `compile-build` **plus the canonical bounded-build methodology** for genuinely bounded implementation preparation, `review-launch` for an independent review, and `agent-launch` before actual dispatch. Complex tasks can legitimately require more than one; trivial ones do not.
+
+**Project continuity:** For substantive project work or discussion (including a follow-up that advances an existing subject), apply the current workflow-orchestration procedure for per-turn persistence. Select the relevant existing destinations, not a fixed three-write checklist. This does not require the skill for unrelated casual queries or immaterial turns, and is not a guarantee that the ChatGPT host automatically selects the dispatcher.
 
 **CodeGraph requests:** for public repository structural exploration, retrieve `codegraph-actions-repository-research/SKILL.md` directly or through this index. The GitHub issue-trigger route is independent of any CodeGraph plugin. The obsolete MCP has been uninstalled; do not reconnect or invoke historical routes.
 
@@ -21,7 +23,7 @@ This is the **only directory the installed ASES Workflow dispatcher should use f
 - `review-launch/SKILL.md` — independent reviewers on GitHub Actions; deep investigations in isolated workspaces.
 - `agent-launch/SKILL.md` — select and verify controller, execution host, permissions, launcher and model.
 - `compact-prompt/SKILL.md` — concise agent handoffs.
-- `workflow-orchestration/SKILL.md` — choose smallest effective execution loop.
+- `workflow-orchestration/SKILL.md` — coordinate project work and discussion, preserve recoverable progress, and choose the smallest effective execution loop.
 - `compile-build/SKILL.md` — bounded implementation packets.
 - `custom-mcp-connector/SKILL.md` — live connector setup and failure diagnosis.
 - `codegraph-actions-repository-research/SKILL.md` — public GitHub structural code research via the existing GitHub connector, Actions and B2; no dedicated CodeGraph plugin or MCP.
