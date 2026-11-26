@@ -1,0 +1,56 @@
+name: One-time final document inventory
+on:
+  push:
+    branches:
+      - audit/final-doc-inventory-20261126
+    paths:
+      - '.github/workflows/final-doc-inventory-once.yml'
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'dbbc4ee2c839cfe2dd749d764119013e85b00daf'
+          persist-credentials: false
+      - name: Existing generator and negative controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 'dbbc4ee2c839cfe2dd749d764119013e85b00daf'
+          python -m unittest discover -s scripts/docs_audit -p 'test_*.py' -v
+          python scripts/docs_audit/inventory.py --json-out "$RUNNER_TEMP/current-documents.json" --index-out "$RUNNER_TEMP/CURRENT-DOCUMENTS-INDEX.md" --summary
+          python - <<'PY'
+          import base64, json, os, pathlib, subprocess, re
+          out = pathlib.Path(os.environ["RUNNER_TEMP"])
+          data = json.loads((out/"current-documents.json").read_text())
+          print("AUDIT_DIAGNOSTICS=" + json.dumps({"broken":[[d["path"],d["declared_active"],d["broken_relative_links"]] for d in data["documents"] if d["broken_relative_links"]],"active_warnings":[[d["path"],d["warnings"]] for d in data["documents"] if d["declared_active"] and d["warnings"]],"duplicates":data["duplicate_active_canonical_identities"]}))
+          assert not pathlib.Path("TOOLS.md").exists()
+          assert not any(d["path"] == "TOOLS.md" for d in data["documents"])
+          index=pathlib.Path("skills/current/README.md").read_text()
+          actual=sorted(str(p.relative_to("skills/current")) for p in pathlib.Path("skills/current").glob("*/SKILL.md"))
+          assert len(actual) == 7, actual
+          assert all(p in index for p in actual), actual
+          adapter=pathlib.Path("AGENTS.md").read_text()
+          assert "skills/current/README.md" in adapter and "Task-Scoped%20Information" in adapter
+          assert all("status: Deprecated" in pathlib.Path(p).read_text() for p in ["SESSION-START.md","docs/SESSION-END.md","docs/ORCHESTRATOR.md","docs/methodology/Agent Model Launch Routes.md"])
+          print("STATIC_DISCOVERY=" + json.dumps(actual))
+          for name in ["current-documents.json","CURRENT-DOCUMENTS-INDEX.md"]:
+              p=out/name
+              encoded=base64.b64encode(p.read_bytes()).decode("ascii")
+              print("GENERATED_BLOB=" + name + ":" + subprocess.check_output(["git","hash-object",str(p)],text=True).strip())
+              for i in range(0,len(encoded),4096):
+                  print("GENERATED_CHUNK=" + name + ":" + str(i//4096) + ":" + encoded[i:i+4096])
+              print("GENERATED_END=" + name + ":" + str((len(encoded)+4095)//4096))
+          print("FINAL_INVENTORY_COMPLETE")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-doc-inventory
+          path: |
+            ${{ runner.temp }}/current-documents.json
+            ${{ runner.temp }}/CURRENT-DOCUMENTS-INDEX.md
+          retention-days: 30
