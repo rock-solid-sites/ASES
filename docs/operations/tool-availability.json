@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "title": "ASES tool availability and connection inventory",
-  "purpose": "Fast orientation for future ASES conversations; not a credential store, entitlement authorization, provider catalog or proof of present access",
+  "title": "ASES tool availability and connection inventory — historical snapshot",
+  "purpose": "Preserved observations from 2026-11-01, not current capability or operational guidance; consult the current owner reference and verify task-specific access.",
   "as_of": "2026-11-01",
   "canonical_repository": "rock-solid-sites/ASES",
   "refresh_policy": {
-    "on_session_start": "Read this file, then probe task-relevant connector capabilities; do not assume connected tools persist into fresh chats",
-    "on_state_change": "Update verification status, evidence and checked_on; preserve prior evidence in version history",
+    "on_session_start": "Historical rule superseded by the ASES task-scoped information method; no mandatory inventory loading.",
+    "on_state_change": "Preserve this snapshot; update the current tooling-owner source instead.",
     "security": "No PATs, access keys, personal tokens, secrets, IP addresses or account balances in this registry",
     "funding": "This registry does not authorize paid jobs; use provider funding and liability contracts"
   },
@@ -314,5 +314,8 @@
     "Do not silently promote available inference accounts to schedulable funded products",
     "Check GitHub Actions independently; GitLab CI verified execution",
     "Record verified Modal VPS and cloud environment status when tested"
-  ]
+  ],
+  "status": "historical",
+  "current_connector_reference": "https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md",
+  "retirement_note": "Historical snapshot retained for provenance. The former cgrmcp route has been retired; current CodeGraph research uses the ASES Actions/B2 procedure. Later GitHub Actions and GitLab execution evidence supersedes dated unverified observations. Historical status labels describe the original observation date, not the present session."
 }
