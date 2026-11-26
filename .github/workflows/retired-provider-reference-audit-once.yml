@@ -1,4 +1,4 @@
-name: Final retired-provider scope check
+name: Verify retired provider cleanup and regenerate inventory
 on:
   push:
     branches: [audit/retired-provider-references-20261126]
@@ -6,38 +6,39 @@ on:
 permissions:
   contents: read
 jobs:
-  scan:
+  verify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 3
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 'aa34b51f8f89cffb42ac307d5ae4ed33802c9e33'
+          ref: '5153b6a69360f93f6b3ec3b681c90936a0265a34'
           persist-credentials: false
-      - name: Check references and current-document candidates
+      - name: Verify current scope and generate existing inventory
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = 'aa34b51f8f89cffb42ac307d5ae4ed33802c9e33'
+          test "$(git rev-parse HEAD)" = '5153b6a69360f93f6b3ec3b681c90936a0265a34'
+          python -m unittest discover -s scripts/docs_audit -p 'test_*.py'
+          python scripts/docs_audit/inventory.py --json-out "$RUNNER_TEMP/current-documents.json" --index-out "$RUNNER_TEMP/CURRENT-DOCUMENTS-INDEX.md" --summary
           python - <<'PY'
-          import pathlib,re,json,subprocess,sys
-          sys.path.insert(0,"scripts/docs_audit")
-          import inventory
-          data=inventory.inventory()
+          import pathlib,re,json,subprocess,os,base64
+          out=pathlib.Path(os.environ["RUNNER_TEMP"])
+          data=json.loads((out/"current-documents.json").read_text())
           pat=re.compile(r"claude|anthropic|\b(?:sonnet|haiku|opus)[ -][345]",re.I)
-          names=["agent-liveness.py","guard-halt-cheapest-test.js","liveness-watchdog.sh","observer.sh","ases-kickoff-notify.service","ases-kickoff-notify.timer","kickoff-notify.py"]
-          for d in data["documents"]:
-              if d["declared_active"]:
-                  p=pathlib.Path(d["path"])
-                  hits=[i+1 for i,l in enumerate(p.read_text(errors="replace").splitlines()) if pat.search(l)]
-                  if hits: print("ACTIVE="+json.dumps([d["path"],hits]))
-          for p in [pathlib.Path("AGENTS.md"),pathlib.Path("docs/README.md"),*pathlib.Path("skills/current").rglob("*.md")]:
-              assert not pat.search(p.read_text()), str(p)
-          r=subprocess.run(["git","grep","-n","-I","-F","-o",*sum([["-e",n] for n in names],[]),"HEAD","--"],capture_output=True,text=True)
-          assert r.returncode in (0,1)
-          for line in r.stdout.splitlines():
-              if not re.search(r"HEAD:(fork/|docs/historical/|evaluation-corpus/|\.crosslink.backup|\.design/)",line):
-                  print("SCRIPT_REF="+line)
-          print("COUNTS="+json.dumps(data["counts"]))
-          print("CHECK_COMPLETE")
+          hits=[d["path"] for d in data["documents"] if d["declared_active"] and pat.search(pathlib.Path(d["path"]).read_text(errors="replace"))]
+          print("ACTIVE_PROVIDER_MATCHES="+json.dumps(hits))
+          print("BROKEN="+json.dumps([[d["path"],d["broken_relative_links"]] for d in data["documents"] if d["broken_relative_links"]]))
+          assert not hits,hits
+          assert not data["counts"]["broken_link_records"]
+          assert not data["counts"]["duplicate_active_canonical_identities"]
+          assert not pathlib.Path(".claude").exists()
+          for name in ["current-documents.json","CURRENT-DOCUMENTS-INDEX.md"]:
+              p=out/name
+              encoded=base64.b64encode(p.read_bytes()).decode("ascii")
+              print("GENERATED_BLOB="+name+":"+subprocess.check_output(["git","hash-object",str(p)],text=True).strip())
+              for i in range(0,len(encoded),4096):
+                  print("GENERATED_CHUNK="+name+":"+str(i//4096)+":"+encoded[i:i+4096])
+              print("GENERATED_END="+name+":"+str((len(encoded)+4095)//4096))
+          print("FINAL_INVENTORY_COMPLETE")
           PY
