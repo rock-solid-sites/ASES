@@ -28,6 +28,12 @@ Initial reconciliation, not a complete transcript audit. The distinction between
 
 Earlier discussion sources are not represented as publicly available or independently audited. Confirm exact archive provenance and recover prior reasoning before claiming novelty or completed experiments.
 
+## Current CodeGraph baseline — active use, open research
+
+CodeGraph has advanced beyond the earlier AST/cache investigations. It is selected and in ordinary use for structural source analysis (operator clarification 2026-11-26); the current [skill v1.2.2](../../../skills/current/codegraph-actions-repository-research/SKILL.md) documents the reverified issue-triggered Actions/B2 route, upstream CLI pin 1.6.2, integrity checks, explicit revision selection, fresh/restored runs and [retention review #126](https://github.com/rock-solid-sites/ASES/issues/126), including [verified exact-key deletion #130](https://github.com/rock-solid-sites/ASES/issues/130). A successful research run triggers a read-only sweep, with weekly fallback; full review threshold 5 GB; deletion requires explicit approval and protection checks. Operational adoption is distinct from unproven automatic fresh-chat selection and from research into semantic/incremental reuse. Recent workflow debugging is operator-reported and current skill readback confirms the maintenance procedure; no claim to have independently replayed that entire chat or rerun its jobs.
+
+Research opportunities now arise from real use: whole-index reuse versus cross-commit partial reuse; precise dependency and producer identity; safe invalidation/retention; avoiding redundant graph queries or analysis when evidence remains valid; measuring total analysis cost including retrieval, indexing, transfer, query and agent reasoning. Preserve accepted operational workflow and previous counterexamples. Investigate improvements separately, not as a new selection or obsolete service migration. Historical source review should supplement this living baseline, not reset its maturity.
+
 ## Verified repository evidence and research transfer
 
 | Evidence | Observation | Limitation / implication |
@@ -46,6 +52,6 @@ An artifact identity is evidence of sameness only relative to a specified transf
 
 ## Next bounded study
 
-Recover the Unified Caching Model source and the August domain inventory; identify the intended guarantees and open questions, then reconcile AST Efficiency with the existing CodeGraph observations. Compare a candidate formal description of the already recorded incremental-vs-clean test, including the Go negative case, with its ordinary description. Investigate whether it clarifies a validity condition, needed dependency or falsifying test before proposing new execution. Kernel-0 and comparative composition are parallel evidence sources, not duplicated tasks.
+Start with the current operational baseline and specific unresolved reuse questions. Recover the Unified Caching Model source and August domain inventory where they add relevant reasoning; reconcile AST Efficiency against actual CodeGraph observations and latest workflow rather than treating old proposals as current state. Compare a candidate formal description of the already recorded incremental-vs-clean test, including the Go negative case, with its ordinary description. Investigate whether it clarifies a validity condition, needed dependency or falsifying test before proposing new execution. Kernel-0 and comparative composition are parallel evidence sources, not duplicated tasks.
 
 Primary literature leads for later verification: Meijer/Fokkinga/Paterson on recursion schemes; Hinze/Wu/Gibbons on structured recursion; typed embedded DSLs/tagless-final; Foster et al. on lawful bidirectional transformations. Literature review not yet completed.
