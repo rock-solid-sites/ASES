@@ -1,6 +1,6 @@
 # ASES documentation inventory (declared status; not an approval)
 
-**Generated from the checked-out ASES source tree.** Source revision: \`5153b6a69360f93f6b3ec3b681c90936a0265a34\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
+**Generated from the checked-out ASES source tree.** Source revision: \`0a9424a65d51533d4a9e798356bd21e0cf32945b\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
 
 Use the [canonical documentation standard](standards/Documentation%20Standard.md) and [task-scoped information method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) for ownership and authority. [Current operational skills](../skills/current/README.md) are a separate selective-dispatch surface. Experimental [knowledge-index work](../scripts/knowledge_index/README.md) is not a canonical document registry.
 
@@ -19,7 +19,7 @@ Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [ASES Task-Scoped Information Architecture Decision](../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Canonical | 1.0.0 | — |
 | [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) | Canonical | 2026-11-24.2 | — |
 | [ASES Bounded Project Build Method](../docs/methodology/ASES%20Bounded%20Project%20Build%20Method.md) | Canonical | 2026-11-24.2 | — |
-| [ASES Task-Scoped Information and Handoff Method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Canonical | 1.1.5 | — |
+| [ASES Task-Scoped Information and Handoff Method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Canonical | 1.1.6 | — |
 | [Clean Room Execution Guide](../docs/methodology/Clean%20Room%20Execution%20Guide.md) | Derived | 2026-11-24.1 | — |
 | [Constraint-Driven Realization and Assurance Selection Method](../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) | Canonical | 2026-11-24.1 | — |
 | [Software Customization and Upstream Compatibility Method](../docs/methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) | Canonical | 2026-11-24.1 | — |
@@ -72,12 +72,12 @@ Inventory: 384 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [5pp Tolerance — Real-Model Minimal vs Full (530)](../research/capability-schema-validation/corpus-530/tolerance.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [README](../skills/current/README.md) | UNVERIFIED | unversioned | declared-active entry lacks explicit version |
 | [SKILL](../skills/current/agent-launch/SKILL.md) | UNVERIFIED | 1.0.7 | nonstandard status metadata: current |
-| [SKILL](../skills/current/codegraph-actions-repository-research/SKILL.md) | UNVERIFIED | 1.2.0 | nonstandard status metadata: current |
+| [SKILL](../skills/current/codegraph-actions-repository-research/SKILL.md) | UNVERIFIED | 1.2.1 | nonstandard status metadata: current |
 | [SKILL](../skills/current/compact-prompt/SKILL.md) | UNVERIFIED | 1.2.0 | nonstandard status metadata: current |
 | [SKILL](../skills/current/compile-build/SKILL.md) | UNVERIFIED | 1.0.2 | nonstandard status metadata: current |
 | [SKILL](../skills/current/custom-mcp-connector/SKILL.md) | UNVERIFIED | 1.0.1 | nonstandard status metadata: current |
 | [SKILL](../skills/current/review-launch/SKILL.md) | UNVERIFIED | 1.1.0 | nonstandard status metadata: current |
-| [SKILL](../skills/current/workflow-orchestration/SKILL.md) | UNVERIFIED | 1.0.6 | nonstandard status metadata: current |
+| [SKILL](../skills/current/workflow-orchestration/SKILL.md) | UNVERIFIED | 1.0.8 | nonstandard status metadata: current |
 
 ## Coverage and exceptions
 
