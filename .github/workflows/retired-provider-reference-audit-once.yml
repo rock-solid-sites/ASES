@@ -1,50 +1,43 @@
-name: One-time retired provider references audit
+name: Final retired-provider scope check
 on:
   push:
-    branches:
-      - audit/retired-provider-references-20261126
-    paths:
-      - '.github/workflows/retired-provider-reference-audit-once.yml'
+    branches: [audit/retired-provider-references-20261126]
+    paths: ['.github/workflows/retired-provider-reference-audit-once.yml']
 permissions:
   contents: read
 jobs:
   scan:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: '8df7d19343c12b9b999aca677b940c4f89418ee6'
+          ref: 'aa34b51f8f89cffb42ac307d5ae4ed33802c9e33'
           persist-credentials: false
-      - name: Scan owned sources and distinguish historical and vendored matches
+      - name: Check references and current-document candidates
         shell: bash
         run: |
           set -euo pipefail
+          test "$(git rev-parse HEAD)" = 'aa34b51f8f89cffb42ac307d5ae4ed33802c9e33'
           python - <<'PY'
-          import pathlib,subprocess,re,json,os,collections
-          roots=[("ASES",pathlib.Path("."))]
-          pattern=re.compile(r"claude|anthropic|(?:\b(?:sonnet|haiku|opus)[ -][345](?:[. -]\d+)?\b)",re.I)
-          for name,root in roots:
-              paths=subprocess.check_output(["git","-C",str(root),"ls-files","-z"]).decode().split("\0")
-              counts=collections.Counter()
-              print("REPO",name,subprocess.check_output(["git","-C",str(root),"rev-parse","HEAD"],text=True).strip())
-              for path in filter(None,paths):
-                  p=root/path
-                  if not p.is_file(): continue
-                  if pattern.search(path): counts["filename"]+=1
-                  raw=p.read_bytes()
-                  if b"\0" in raw: continue
-                  lines=raw.decode("utf-8",errors="replace").splitlines()
-                  matches=[(i+1,l.strip()[:230]) for i,l in enumerate(lines) if pattern.search(l)]
-                  if not matches and not pattern.search(path): continue
-                  archive=bool(re.search(r"(^|/)(archive|archived|historical|superseded|fork|vendor|evaluation-corpus|node_modules|\.crosslink.backup[^/]*|\.design)(/|$)",path,re.I))
-                  if archive: group="archive/vendor"
-                  elif re.search(r"(^|/)(skills/current|\.github/workflows|\.github/scripts|mcp|plugins|scripts|tools)(/|$)",path) or path in ("AGENTS.md","README.md","ORIENTATION.md","ARCHITECTURE.md","docs/README.md","SESSION-START.md"): group="operational-candidate"
-                  else: group="other"
-                  counts[group]+=1
-                  counts[group+" lines"]+=len(matches)
-                  if not archive:
-                      print("MATCH="+json.dumps({"repo":name,"path":path,"group":group,"n":len(matches),"sample":matches[:(12 if group=="operational-candidate" else 3)]},ensure_ascii=True))
-              print("COUNTS="+json.dumps({"repo":name,"counts":counts}))
-          print("PROVIDER_SCAN_COMPLETE")
+          import pathlib,re,json,subprocess,sys
+          sys.path.insert(0,"scripts/docs_audit")
+          import inventory
+          data=inventory.inventory()
+          pat=re.compile(r"claude|anthropic|\b(?:sonnet|haiku|opus)[ -][345]",re.I)
+          names=["agent-liveness.py","guard-halt-cheapest-test.js","liveness-watchdog.sh","observer.sh","ases-kickoff-notify.service","ases-kickoff-notify.timer","kickoff-notify.py"]
+          for d in data["documents"]:
+              if d["declared_active"]:
+                  p=pathlib.Path(d["path"])
+                  hits=[i+1 for i,l in enumerate(p.read_text(errors="replace").splitlines()) if pat.search(l)]
+                  if hits: print("ACTIVE="+json.dumps([d["path"],hits]))
+          for p in [pathlib.Path("AGENTS.md"),pathlib.Path("docs/README.md"),*pathlib.Path("skills/current").rglob("*.md")]:
+              assert not pat.search(p.read_text()), str(p)
+          r=subprocess.run(["git","grep","-n","-I","-F","-o",*sum([["-e",n] for n in names],[]),"HEAD","--"],capture_output=True,text=True)
+          assert r.returncode in (0,1)
+          for line in r.stdout.splitlines():
+              if not re.search(r"HEAD:(fork/|docs/historical/|evaluation-corpus/|\.crosslink.backup|\.design/)",line):
+                  print("SCRIPT_REF="+line)
+          print("COUNTS="+json.dumps(data["counts"]))
+          print("CHECK_COMPLETE")
           PY
