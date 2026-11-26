@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.31
+version: 1.0.32
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -41,7 +41,7 @@ Other documents under `docs/methodology/`, `docs/standards/`, `docs/requirements
 
 ## Full document inventory and reconciliation
 
-**Inventory freshness (2026-11-26):** The checked-in generated files are a historical scan of `84d2caef`, not a fresh scan of the reconciled tree. Refresh them with the existing repository publisher before claiming final inventory acceptance. Their counts are diagnostic, not completion measures. No substitute hand-edited inventory is authorized.
+**Inventory freshness:** Each generated file identifies the exact source revision scanned. Compare that revision with subsequent documentation changes before treating the inventory as current. Refresh using the existing repository generator; the counts are diagnostics, not completion measures. Do not hand-edit generated files.
 
 - [Generated current-document index](CURRENT-DOCUMENTS-INDEX.md) lists every **declared-active/current** repository-owned Markdown/MDX document found by the read-only scanner, with observed authority, version and diagnostics.
 - [Complete machine inventory](current-documents.json) records in-scope source paths, observed frontmatter, missing explicit versions, duplicate declared-active canonical identities and broken relative links. File metadata is **not automatically corrected**.
@@ -114,7 +114,7 @@ The raw skill index, workflow-orchestration and CodeGraph current skill were ret
 
 The upstream-first and publication rules remain the existing [upstream compatibility method](methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) and [task-scoped method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). The sweep observed newer upstream releases (CodeGraph 1.6.4 and Projektor 0.11.4), but did not qualify an upgrade: the CodeGraph runner pin is 1.6.2; Projektor's actual deployed revision and retained customization custody remain unverified. Review with the owners rather than silently substituting versions. Historical experimental CodeGraph branches, Beds24 draft PR #1 and the pending assurance-lab publication are evidence/disposition dependencies, not proof of accepted delivery. Preserve pinned provenance; require accepted retained outputs to have an authorized owner-main home. Do not merge unaccepted experiments or delete branches during documentation reconciliation.
 
-The final tracking record is WNASES-26 under WNASES-9. Generated inventory refresh and independent runtime/discovery tests remain distinct outstanding acceptance checks; no claim of comprehensive link or runtime verification follows from this bounded inspection. See the owner tasks rather than copying their implementation plans here.
+The final tracking record is WNASES-26 under WNASES-9. The generated inventory and static discovery checks have their own source-bound evidence in WNASES-26; fresh-chat runtime selection and adherence remain separate acceptance questions. No runtime guarantee follows from static inspection. See the owner tasks rather than copying their implementation plans here.
 
 ## Ownership of decisions and state
 
