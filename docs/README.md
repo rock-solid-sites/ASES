@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.29
+version: 1.0.30
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -12,7 +12,7 @@ depends_on:
   - docs/methodology/ASES Task-Scoped Information and Handoff Method.md
 related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
-last_updated: 2026-11-24
+last_updated: 2026-11-26
 ---
 
 # ASES documentation: current sources, history and status
@@ -40,6 +40,8 @@ last_updated: 2026-11-24
 Other documents under `docs/methodology/`, `docs/standards/`, `docs/requirements/`, `docs/architecture/`, `docs/research/`, `research/` and other repository-owned paths are **not automatically retired or endorsed** by this shortlist. Inspect their own metadata and current owner before applying them.
 
 ## Full document inventory and reconciliation
+
+**Inventory freshness (2026-11-26):** The checked-in generated files are a historical scan of `84d2caef`, not a fresh scan of the reconciled tree. Refresh them with the existing repository publisher before claiming final inventory acceptance. Their counts are diagnostic, not completion measures. No substitute hand-edited inventory is authorized.
 
 - [Generated current-document index](CURRENT-DOCUMENTS-INDEX.md) lists every **declared-active/current** repository-owned Markdown/MDX document found by the read-only scanner, with observed authority, version and diagnostics.
 - [Complete machine inventory](current-documents.json) records in-scope source paths, observed frontmatter, missing explicit versions, duplicate declared-active canonical identities and broken relative links. File metadata is **not automatically corrected**.
@@ -105,6 +107,14 @@ An entry reading `Active` in a historical file is **not a certificate of current
 The old root `AGENTS.md` is now a **thin compatibility adapter** with active current links. Mandatory `SESSION-START.md`, `docs/SESSION-END.md`, and `docs/ORCHESTRATOR.md` have been retired as operational instructions. The dated `docs/methodology/Agent Model Launch Routes.md` is a deprecated redirect to the current launch skill.
 
 These paths remain stable for inbound links, but do **not** authorize old Crosslink commands, IT3812/VPS routes, paid model substitutions or mandatory session rituals. The old repository-local OpenCode, Claude and Crosslink configuration bundle has been moved outside auto-discoverable root paths into the historical archive as a unit, not selectively stripped of permission controls for use. No default launcher is thereby authorized. See the [historical harness decision and evidence guide](historical/Harness%20Setup%20and%20Permission%20Design%20History.md) for why it was built, source snapshots, rejected approaches and unresolved questions. Current execution uses explicitly verified task-specific routes. Historical text is preserved at pinned Git revisions in each redirect. Runtime auto-loading of any file is separately measurable; neither this index nor the architecture decision asserts it has been tested.
+
+## Final authority and source-custody sweep (2026-11-26)
+
+The raw skill index, workflow-orchestration and CodeGraph current skill were retrieved through the live read-only route; the designated dispatcher file at `cf58b74f` matches its current main counterpart. This verifies specific source accessibility and alignment, not fresh-session automatic selection or agent adherence. The root [tool discovery locator](../TOOLS.md) now points to the [tooling owner's capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md); the former [November 1 inventory](operations/tool-availability.json) is historical evidence. There is no second current connector catalog or mandatory inventory-loading ritual.
+
+The upstream-first and publication rules remain the existing [upstream compatibility method](methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) and [task-scoped method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). The sweep observed newer upstream releases (CodeGraph 1.6.4 and Projektor 0.11.4), but did not qualify an upgrade: the CodeGraph runner pin is 1.6.2; Projektor's actual deployed revision and retained customization custody remain unverified. Review with the owners rather than silently substituting versions. Historical experimental CodeGraph branches, Beds24 draft PR #1 and the pending assurance-lab publication are evidence/disposition dependencies, not proof of accepted delivery. Preserve pinned provenance; require accepted retained outputs to have an authorized owner-main home. Do not merge unaccepted experiments or delete branches during documentation reconciliation.
+
+The final tracking record is WNASES-26 under WNASES-9. Generated inventory refresh and independent runtime/discovery tests remain distinct outstanding acceptance checks; no claim of comprehensive link or runtime verification follows from this bounded inspection. See the owner tasks rather than copying their implementation plans here.
 
 ## Ownership of decisions and state
 
