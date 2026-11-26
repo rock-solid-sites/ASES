@@ -85,7 +85,7 @@ run_fixture() {
 first="$(git -C "$FIXTURE_REPO" rev-parse HEAD)"
 run_fixture > "$root/fresh.txt"
 grep -Fq '**Requested revision:** `default HEAD`' "$root/fresh.txt"
-grep -Fq "**Commit:** `$first`" "$root/fresh.txt"
+grep -Fq "**Commit:** \`$first\`" "$root/fresh.txt"
 grep -Fq '**Index:** `fresh`' "$root/fresh.txt"
 run_fixture > "$root/restored.txt"
 grep -Fq '**Index:** `restored`' "$root/restored.txt"
@@ -140,6 +140,8 @@ if run_fixture > "$root/manifest-repository.txt" 2>&1; then
   exit 1
 fi
 grep -Fq 'manifest is invalid or does not match' "$root/manifest-repository.txt"
+cp "$root/good.tar.gz" "$object"
+cp "$root/good.meta" "$object.meta"
 tamper_manifest codegraph_version 0.0.0
 if run_fixture > "$root/manifest-version.txt" 2>&1; then
   echo 'Manifest with a mismatched CodeGraph version was accepted' >&2
@@ -182,6 +184,8 @@ run_fixture refs/tags/annotated > "$root/annotated.txt"
 assert_result "$root/annotated.txt" refs/tags/annotated "$first" restored
 run_fixture "$first" > "$root/older-sha.txt"
 assert_result "$root/older-sha.txt" "$first" "$first" restored
+run_fixture "${first^^}" > "$root/uppercase-sha.txt"
+assert_result "$root/uppercase-sha.txt" "${first^^}" "$first" restored
 bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public@refs/heads/feature' 'selectRegion callers' > "$root/issue-ref.txt"
 assert_result "$root/issue-ref.txt" refs/heads/feature "$first" restored
 bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public' 'selectRegion callers' > "$root/issue-default.txt"

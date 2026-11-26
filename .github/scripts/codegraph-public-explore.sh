@@ -75,8 +75,10 @@ if [[ -z "$revision" ]]; then
 else
   git -C "$source_dir" init --quiet
   git -C "$source_dir" remote add origin "$url"
+  fetch_revision="$revision"
   if [[ "$revision_kind" == sha ]]; then
     expected_object="${revision,,}"
+    fetch_revision="$expected_object"
   else
     # Record the exact advertised object before fetch; reject a ref that moves.
     advertised="$(public_git ls-remote --exit-code "$url" "$revision" "$revision^{}")" || {
@@ -86,7 +88,7 @@ else
     expected_object="$(awk -v ref="$revision" '$2 == ref {print $1}' <<<"$advertised")"
     [[ "$expected_object" =~ ^[0-9a-f]{40}$ ]] || { echo 'Requested ref is missing or ambiguous' >&2; exit 1; }
   fi
-  public_git -C "$source_dir" fetch --quiet --depth 1 --no-tags origin "$revision" || {
+  public_git -C "$source_dir" fetch --quiet --depth 1 --no-tags origin "$fetch_revision" || {
     echo 'Requested revision unavailable; no fallback to HEAD' >&2
     exit 1
   }
