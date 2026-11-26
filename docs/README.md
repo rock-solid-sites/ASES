@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.30
+version: 1.0.31
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -110,7 +110,7 @@ These paths remain stable for inbound links, but do **not** authorize old Crossl
 
 ## Final authority and source-custody sweep (2026-11-26)
 
-The raw skill index, workflow-orchestration and CodeGraph current skill were retrieved through the live read-only route; the designated dispatcher file at `cf58b74f` matches its current main counterpart. This verifies specific source accessibility and alignment, not fresh-session automatic selection or agent adherence. The root [tool discovery locator](../TOOLS.md) now points to the [tooling owner's capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md); the former [November 1 inventory](operations/tool-availability.json) is historical evidence. There is no second current connector catalog or mandatory inventory-loading ritual.
+The raw skill index, workflow-orchestration and CodeGraph current skill were retrieved through the live read-only route; the designated dispatcher file at `cf58b74f` matches its current main counterpart. This verifies specific source accessibility and alignment, not fresh-session automatic selection or agent adherence. For connector discovery, use the [tooling owner's capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md) directly, alongside the [current ASES skills](../skills/current/README.md); the former [November 1 inventory](operations/tool-availability.json) is historical evidence. There is no second current connector catalog or mandatory inventory-loading ritual.
 
 The upstream-first and publication rules remain the existing [upstream compatibility method](methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) and [task-scoped method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md). The sweep observed newer upstream releases (CodeGraph 1.6.4 and Projektor 0.11.4), but did not qualify an upgrade: the CodeGraph runner pin is 1.6.2; Projektor's actual deployed revision and retained customization custody remain unverified. Review with the owners rather than silently substituting versions. Historical experimental CodeGraph branches, Beds24 draft PR #1 and the pending assurance-lab publication are evidence/disposition dependencies, not proof of accepted delivery. Preserve pinned provenance; require accepted retained outputs to have an authorized owner-main home. Do not merge unaccepted experiments or delete branches during documentation reconciliation.
 
