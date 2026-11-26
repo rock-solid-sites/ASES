@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.5
+version: 1.1.6
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -18,7 +18,7 @@ related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
   - research/agent-information-topology/greenfield-task-context/TASK-VIEW-CONTRACT.md
   - research/agent-information-topology/greenfield-task-context/comparison/RESULTS-2026-11-20.md
-last_updated: 2026-11-25
+last_updated: 2026-11-26
 ---
 
 # ASES Task-Scoped Information and Handoff Method
@@ -99,6 +99,16 @@ A turn may change none, one, or several of these dimensions. A discussion of alt
 Keep the operational record a concise, current resume point: replace stale state, blockers and next-action pointers rather than append indefinitely. Preserve material evidence, decisions, rejected alternatives and rationale in appropriate comments or durable documents; keep canonical technical content in its authoritative home. Reuse existing subject records and split work at meaningful changes of scope, ownership, independent acceptance or dependency, not at arbitrary turn counts or text lengths. A discussion without execution still preserves material questions, ideas, alternatives, decisions and provenance in the appropriate existing subject record (or a new one when the subject genuinely warrants it); this does not authorize implementation or require an execution issue. Immaterial turns need no artificial write.
 
 Verify material writes at the durable destination. When reading a body for replacement, verify completeness (follow continuation cursors or use a complete-body retrieval path); never overwrite a record with a partial read. If persistence is blocked, explicitly identify the gap and do not claim recoverability. These are Chat coordination information obligations, not a mandatory record template, one-note-per-turn rule, or universal lifecycle for other projects.
+
+### Cross-chat related-work flags
+
+When a material finding, decision or unresolved conflict could change other active work, preserve the substantive change once at its authoritative destination and link the distinct subjects in the existing topic register where applicable. A topic relationship alone does not deliver new context to the receiving conversation.
+
+Place a concise **RELATED WORK — check here** pointer near the active position in the affected existing checkpoint or work note, where ordinary recovery will encounter it. Include the current topic/source link, one sentence explaining the material impact and when to consult it. Use the receiver's authorized destination, preserve private/public boundaries and avoid duplicating the finding or copying raw chats. Prefer a targeted, conflict-aware patch that preserves the other agent's current state; verify the write. If the destination is unavailable or a conflict cannot be safely resolved, record the undelivered pointer and report the gap.
+
+The receiving agent consults the linked current source before advancing the affected question, applies relevant evidence, records unresolved conflicts or limits and avoids duplicate experiments. A flag does not authorize a scope change, execution, adoption or acceptance of unverified evidence. Update or retire resolved/stale flags; retain meaningful topic relationships. Do not require every neighboring topic to be retrieved on every turn or invent another record type.
+
+A derived related-work view may later be evaluated using reviewed topic relationships, actual checkpoint associations and material source changes, with deduplication, provenance, relevance and access controls. This is not a requirement to build a service or push context into chats. Verified placement, actual receiving-agent uptake and automatic discovery are distinct claims.
 
 Isolate concurrent or risky changes and replacement comparisons as needed. Clearly classified experimental or work-in-progress artifacts may be published to an appropriate default-branch location without activating them or approving their adoption. Preserve useful findings from rejected experiments. Git history is not a deliverable. Preserve useful results and outcomes, source identities and reproducibility evidence in durable authoritative locations; do not require retaining intermediate experimental branches or their commit history. Publication does not authorize production activation, bypass review, or expose private material.
 

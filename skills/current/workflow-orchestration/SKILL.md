@@ -1,6 +1,6 @@
 ---
 name: workflow-orchestration
-version: 1.0.7
+version: 1.0.8
 description: Coordinate project work and substantive discussions; select the smallest evidence-driven execution loop and preserve recoverable progress.
 status: current
 ---
@@ -14,6 +14,8 @@ Choose execution environment according to task: bounded GitHub Actions work unit
 **ChatGPT mode selection:** Stay in Chat unless the operator explicitly requests Work mode. Do not proactively suggest or initiate a mode switch for long, complex or connector-based work. Continue using authorized Chat tools; report concrete unavailable capabilities instead. See the canonical task-scoped method for the operator preference and rationale.
 
 **Ordinary Chat coordination and discussion:** Before concluding a substantive turn, identify the material changes and resolve existing records by subject and information ownership. Apply the [canonical Chat persistence and record granularity rules](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#chat-persistence-and-record-granularity): Projektor for intent, decisions and evolving questions; repository for durable artifacts, findings and evidence; Work Notes for operational progress, blockers and resume pointers. Reuse records across conversations; replace stale checkpoints, use targeted patches or concise comments where appropriate, and avoid duplicate narratives or artificial writes. Verify complete retrieval before replacing a body, use revision-aware mutations where supported, read back material writes and report any missing durability explicitly. Discussion capture is not execution authorization. Do not impose the ASES lifecycle on other projects; resolve their applicable conventions. This is a model-followed procedure, not a platform hook.
+
+**Material related work:** Apply the [canonical cross-chat related-work flag procedure](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#cross-chat-related-work-flags) when findings materially affect another active checkpoint, and consult relevant flags encountered during ordinary recovery before advancing the affected question.
 
 **When drafting an autonomous-run or multi-agent launch brief, read `skills/current/compact-prompt/SKILL.md` first and apply its source-admission gate.** An orchestration assignment is not automatically a frozen build packet: when a delegated work unit is a substantial bounded implementation, additionally read `skills/current/compile-build/SKILL.md` and the active canonical `docs/methodology/ASES Bounded Project Build Method.md` for that work unit. Do not load superseded prompt skills merely because an older PR cites them. Before actual model dispatch use `skills/current/agent-launch/SKILL.md`; for independent reviews use `skills/current/review-launch/SKILL.md`. Route decisions and operational checkpoints to their respective authoritative destinations; don't reconstruct settled meaning from obsolete Crosslink/VPS runbooks. End with a verified result or a specific blocker.
 
