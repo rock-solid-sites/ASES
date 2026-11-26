@@ -1,6 +1,6 @@
 ---
 title: AI Orchestration Guide
-version: 2026-11-24.2
+version: 2026-11-26.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -22,7 +22,7 @@ related_documents:
   - docs/historical/Harness Setup and Permission Design History.md
 
 supersedes: []
-last_updated: 2026-11-24
+last_updated: 2026-11-26
 ---
 
 # AI Orchestration Guide
@@ -265,6 +265,8 @@ Validation determines readiness.
 ---
 
 # Escalation
+
+**Recover routine execution failures before escalating.** A failed run is evidence to investigate, not by itself a reason to end the turn or request operator intervention. Inspect the failure and actual external state, isolate the failing boundary, make the smallest justified correction and rerun when feasible within existing authority and resource limits. Preserve meaningful failed evidence; do not weaken the test, erase a material finding, retry an operation with uncertain side effects, silently substitute a route, or exceed an authorized attempt or spending limit. Bound retries by evidence and available resources. Return control for a decision or modification only when further useful progress requires operator involvement; if a genuine blocker, unavailable capability or execution/turn limit prevents completion, report the precise unresolved state and recoverable next action. Report material results and acceptance failures, but do not make a recovered incidental failure a separate operator task. Apply the [current workflow orchestration skill](../../skills/current/workflow-orchestration/SKILL.md) for the operational procedure; project-specific safety and approval boundaries remain applicable.
 
 When disagreement cannot be resolved:
 
