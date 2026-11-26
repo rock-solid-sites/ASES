@@ -1,6 +1,6 @@
 ---
 title: ASES Repository Agent Entry Adapter
-version: 1.0.2
+version: 1.0.3
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -13,7 +13,7 @@ depends_on:
 related_documents:
   - skills/current/README.md
   - docs/methodology/AI Orchestration Guide.md
-last_updated: 2026-11-24
+last_updated: 2026-11-26
 ---
 
 # ASES repository agent entry adapter
@@ -28,6 +28,6 @@ For general evidence-based reasoning and role boundaries, see the [AI Orchestrat
 
 **Secrets and privacy:** Never request or publish secret values in a task packet, log or public document; use approved secret stores/credentials and verify access at the actual host. Do not put private project or chat source bodies in public ASES derived views.
 
-**Evidence and handoff:** For retained work, apply the [destination-first execution and recovery section](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery); distinguish disposable branches, verified remote checkpoints during work, and final artifact delivery. Perform the cheapest meaningful falsifying checks before claiming completion. Preserve remote source commits/PRs, observed tests, what was not tested, blockers and current work position in Git and the existing agent Work Notes issue. Projektor records human planning/architectural decisions. Do not invent a session-end file or an always-running monitoring service.
+**Evidence and handoff:** For retained work, apply the [destination-first execution and recovery section](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery); distinguish disposable branches, verified remote checkpoints during work, and final artifact delivery. Perform the cheapest meaningful falsifying checks before claiming completion. Follow the [material-change routing rules](docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#chat-persistence-and-record-granularity): repository for durable results and evidence, Work Notes for current execution state and verified resume pointers, Projektor for human intent, decisions and evolving questions. Update relevant records each substantive Chat turn, including discussion-only material, or at meaningful remote checkpoints in a development harness. Reuse existing records and verify writes; do not duplicate content or invent a record per turn. Do not invent a session-end file or an always-running monitoring service.
 
 **Retired routes are not current:** The previous root instructions contained Crosslink/VPS kickoff and monitoring, dated model routes and environment-specific claims. They must **not** be executed or cited as current requirements. For historical provenance only, see [the previous revision](https://github.com/rock-solid-sites/ASES/blob/2235d237044d6cb850f827d65baadd1fe3da5b34/AGENTS.md). ASES now uses task-scoped information selection; an agent should stop if the relevant current method or authorized route cannot be verified. The retired repository-local harness bundle is preserved in [the historical harness record](docs/historical/Harness%20Setup%20and%20Permission%20Design%20History.md), not as a runnable default. Archiving it does not grant permissions to a replacement launcher; verify confinement separately.
