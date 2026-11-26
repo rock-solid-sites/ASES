@@ -20,13 +20,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git clone -q --no-checkout https://github.com/rock-solid-sites/ases-plugins.git "$RUNNER_TEMP/ases-plugins"
-          git -C "$RUNNER_TEMP/ases-plugins" checkout -q e39324d41034a536a879b1c84bf40ce7e7021501
-          git clone -q --no-checkout https://github.com/rock-solid-sites/rss-tools.git "$RUNNER_TEMP/rss-tools"
-          git -C "$RUNNER_TEMP/rss-tools" checkout -q 221315ceda979c3118dc204e60681d8429ae01d2
           python - <<'PY'
           import pathlib,subprocess,re,json,os,collections
-          roots=[("ASES",pathlib.Path(".")),("ases-plugins",pathlib.Path(os.environ["RUNNER_TEMP"])/"ases-plugins"),("rss-tools",pathlib.Path(os.environ["RUNNER_TEMP"])/"rss-tools")]
+          roots=[("ASES",pathlib.Path("."))]
           pattern=re.compile(r"claude|anthropic|(?:\b(?:sonnet|haiku|opus)[ -][345](?:[. -]\d+)?\b)",re.I)
           for name,root in roots:
               paths=subprocess.check_output(["git","-C",str(root),"ls-files","-z"]).decode().split("\0")
