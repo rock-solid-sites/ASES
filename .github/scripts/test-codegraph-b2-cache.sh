@@ -13,22 +13,29 @@ function normalize(region: string): string {
   return region.trim().toLowerCase();
 }
 TS
-git -C "$root/fixture" init -q
+git -C "$root/fixture" init -q -b default
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid add .
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm 'fixture source'
 
 cat > "$root/bin/git" <<'SH'
 #!/usr/bin/env bash
-if [[ "$1" == clone ]]; then
-  exec /usr/bin/git clone -q "$FIXTURE_REPO" "${@: -1}"
-fi
-exec /usr/bin/git "$@"
+# Use real local Git transport and ref semantics for the fixture's public URL.
+# Optional race injection moves a ref immediately before the fetch.
+for arg in "$@"; do
+  if [[ "$arg" == fetch && -n "${MOVE_REF_ON_FETCH:-}" ]]; then
+    /usr/bin/git -C "$FIXTURE_REPO" update-ref refs/heads/racing "$MOVE_REF_ON_FETCH"
+    break
+  fi
+done
+exec /usr/bin/git -c "url.file://$FIXTURE_REPO.insteadOf=https://github.com/fixture/public.git" "$@"
 SH
 cat > "$root/bin/aws" <<'PY'
 #!/usr/bin/env python3
 import json, os, shutil, sys
 args = sys.argv[1:]
 operation = args[1]
+with open(os.environ["MOCK_B2_LOG"], "a", encoding="utf-8") as log:
+    log.write(operation + "\n")
 def value(name):
     return args[args.index(name) + 1]
 path = os.path.join(os.environ["MOCK_B2_STORE"], value("--key"))
@@ -60,6 +67,8 @@ fi
 export CODEGRAPH_BIN
 export FIXTURE_REPO="$root/fixture"
 export MOCK_B2_STORE="$root/store"
+export MOCK_B2_LOG="$root/b2.log"
+touch "$MOCK_B2_LOG"
 export RUNNER_TEMP="$root/runs"
 export PATH="$root/bin:$PATH"
 export B2_CACHE_ENABLED=true
@@ -70,10 +79,13 @@ export AWS_ACCESS_KEY_ID=fixture-key-id
 export AWS_SECRET_ACCESS_KEY=fixture-app-key
 
 run_fixture() {
-  bash .github/scripts/codegraph-public-explore.sh fixture/public 'selectRegion callers'
+  bash .github/scripts/codegraph-public-explore.sh fixture/public 'selectRegion callers' "$@"
 }
 
+first="$(git -C "$FIXTURE_REPO" rev-parse HEAD)"
 run_fixture > "$root/fresh.txt"
+grep -Fq '**Requested revision:** `default HEAD`' "$root/fresh.txt"
+grep -Fq "**Commit:** `$first`" "$root/fresh.txt"
 grep -Fq '**Index:** `fresh`' "$root/fresh.txt"
 run_fixture > "$root/restored.txt"
 grep -Fq '**Index:** `restored`' "$root/restored.txt"
@@ -135,6 +147,9 @@ if run_fixture > "$root/manifest-version.txt" 2>&1; then
 fi
 grep -Fq 'manifest is invalid or does not match' "$root/manifest-version.txt"
 
+cp "$root/good.tar.gz" "$object"
+cp "$root/good.meta" "$object.meta"
+
 printf '\nexport const anotherRegion = "eu-central-003";\n' >> "$root/fixture/region.ts"
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid add .
 git -C "$root/fixture" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm 'new fixture commit'
@@ -146,3 +161,68 @@ echo 'PASS: first-run upload and verified restore'
 echo 'PASS: corrupted archive rejected'
 echo 'PASS: mismatched repository and CodeGraph manifest identities rejected'
 echo 'PASS: different source commit gets a distinct fresh index'
+
+# Revisions must identify actual fixture commits, not merely produce a cache hit.
+second="$(git -C "$FIXTURE_REPO" rev-parse HEAD)"
+assert_result() {
+  local file="$1" requested="$2" expected="$3" mode="$4"
+  grep -Fq "**Requested revision:** \`$requested\`" "$file"
+  grep -Fq "**Commit:** \`$expected\`" "$file"
+  grep -Fq "**Index:** \`$mode\`" "$file"
+}
+# A feature branch differs from the actual default branch.
+git -C "$FIXTURE_REPO" branch feature "$first"
+git -C "$FIXTURE_REPO" tag lightweight "$first"
+git -C "$FIXTURE_REPO" -c user.name=Fixture -c user.email=fixture@example.invalid tag -a annotated "$first" -m annotated
+run_fixture refs/heads/feature > "$root/branch.txt"
+assert_result "$root/branch.txt" refs/heads/feature "$first" restored
+run_fixture refs/tags/lightweight > "$root/lightweight.txt"
+assert_result "$root/lightweight.txt" refs/tags/lightweight "$first" restored
+run_fixture refs/tags/annotated > "$root/annotated.txt"
+assert_result "$root/annotated.txt" refs/tags/annotated "$first" restored
+run_fixture "$first" > "$root/older-sha.txt"
+assert_result "$root/older-sha.txt" "$first" "$first" restored
+bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public@refs/heads/feature' 'selectRegion callers' > "$root/issue-ref.txt"
+assert_result "$root/issue-ref.txt" refs/heads/feature "$first" restored
+bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public' 'selectRegion callers' > "$root/issue-default.txt"
+assert_result "$root/issue-default.txt" 'default HEAD' "$second" restored
+
+# Advance the feature to a distinct third commit while default remains second.
+git -C "$FIXTURE_REPO" checkout -q feature
+printf '\nexport const featureOnly = "feature";\n' >> "$FIXTURE_REPO/region.ts"
+git -C "$FIXTURE_REPO" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qam 'feature advance'
+third="$(git -C "$FIXTURE_REPO" rev-parse HEAD)"
+git -C "$FIXTURE_REPO" checkout -q default
+run_fixture refs/heads/feature > "$root/advanced.txt"
+assert_result "$root/advanced.txt" refs/heads/feature "$third" fresh
+run_fixture "$first" > "$root/replay.txt"
+assert_result "$root/replay.txt" "$first" "$first" restored
+[[ "$(find "$root/store" -type f ! -name '*.meta' | wc -l)" -eq 3 ]]
+echo 'PASS: branch/tag/SHA selection, same-commit aliases, advancing branch, historical replay, default and issue title compatibility'
+
+reject_without_b2() {
+  local before
+  before="$(wc -l < "$MOCK_B2_LOG")"
+  if "$@" > "$root/rejected.txt" 2>&1; then
+    echo 'Invalid or unavailable revision accepted' >&2
+    cat "$root/rejected.txt" >&2
+    exit 1
+  fi
+  [[ "$(wc -l < "$MOCK_B2_LOG")" == "$before" ]]
+}
+blob="$(git -C "$FIXTURE_REPO" rev-parse HEAD:region.ts)"
+git -C "$FIXTURE_REPO" tag noncommit "$blob"
+for bad in refs/heads/missing refs/tags/missing refs/tags/noncommit "$blob" 0000000000000000000000000000000000000000 feature HEAD 'HEAD~1' '--upload-pack=bad' 'refs/heads/../default' 'refs/heads/default:refs/heads/evil' 'refs/heads/default@{1}' 'refs/heads/default^{}' 'refs/heads/a b' 'refs/heads/a;touch' $'refs/heads/a\nb'; do
+  reject_without_b2 run_fixture "$bad"
+done
+git -C "$FIXTURE_REPO" tag feature "$second"
+reject_without_b2 run_fixture feature
+reject_without_b2 bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public@' 'selectRegion callers'
+reject_without_b2 bash .github/scripts/codegraph-public-explore.sh --issue-title '[codegraph] fixture/public@refs/heads/feature@oops' 'selectRegion callers'
+reject_without_b2 bash .github/scripts/codegraph-public-explore.sh '../public' 'selectRegion callers'
+git -C "$FIXTURE_REPO" branch racing "$first"
+export MOVE_REF_ON_FETCH="$second"
+reject_without_b2 run_fixture refs/heads/racing
+grep -Fq 'Requested ref moved' "$root/rejected.txt"
+unset MOVE_REF_ON_FETCH
+echo 'PASS: invalid, unavailable, ambiguous, noncommit and moved revisions rejected before cache access'

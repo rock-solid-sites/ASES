@@ -1,12 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo="${1:?usage: codegraph-public-explore.sh owner/repository question}"
-question="${2:?usage: codegraph-public-explore.sh owner/repository question}"
+# Public issue titles and manual dispatch share the same validated source selector.
+if [[ "${1:-}" == "--issue-title" ]]; then
+  [[ $# -eq 3 && "$2" == '[codegraph] '* ]] || { echo 'Invalid CodeGraph issue title' >&2; exit 1; }
+  request="${2#\[codegraph\] }"
+  question="$3"
+  repo="${request%%@*}"
+  revision=""
+  if [[ "$request" == *@* ]]; then
+    revision="${request#*@}"
+    [[ -n "$revision" ]] || { echo 'Empty revision suffix' >&2; exit 1; }
+  fi
+else
+  [[ $# -ge 2 && $# -le 3 ]] || { echo 'Usage: owner/repository question [revision]' >&2; exit 1; }
+  repo="$1"
+  question="$2"
+  revision="${3:-}"
+fi
 cli_version="1.6.2"
 cache_enabled="${B2_CACHE_ENABLED:-false}"
 
-if [[ ! "$repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+if [[ ! "$repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ || "${repo%%/*}" == . || "${repo%%/*}" == .. || "${repo#*/}" == . || "${repo#*/}" == .. ]]; then
   echo 'Invalid repository: use owner/repository' >&2
   exit 1
 fi
@@ -14,6 +29,19 @@ if [[ -z "${question//[[:space:]]/}" || ${#question} -gt 2000 ]]; then
   echo 'Question must contain 1-2000 characters' >&2
   exit 1
 fi
+
+# Only full object IDs or explicit branch/tag refs, never revision expressions or refspecs.
+if [[ -n "$revision" ]]; then
+  if [[ "$revision" =~ ^[0-9a-fA-F]{40}$ ]]; then
+    revision_kind=sha
+  elif [[ ${#revision} -le 255 && "$revision" =~ ^refs/(heads|tags)/[A-Za-z0-9._/-]+$ ]] && git check-ref-format "$revision"; then
+    revision_kind=ref
+  else
+    echo 'Invalid revision: use refs/heads/..., refs/tags/... or a full 40-hex commit SHA' >&2
+    exit 1
+  fi
+fi
+export GIT_TERMINAL_PROMPT=0
 
 if [[ "$cache_enabled" == 'true' ]]; then
   for name in B2_BUCKET B2_REGION B2_ENDPOINT AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
@@ -36,18 +64,54 @@ engine="${CODEGRAPH_BIN:-$temp_root/codegraph/node_modules/.bin/codegraph}"
 mkdir -p "$source_dir" "$(dirname "$engine")"
 trap 'rm -rf "$temp_root"' EXIT
 
+# No checkout credentials or credential helper: the target must be public.
+public_git() {
+  git -c credential.helper= -c http.https://github.com/.extraheader= "$@"
+}
+url="https://github.com/${repo}.git"
+if [[ -z "$revision" ]]; then
+  public_git clone --quiet --depth 1 --no-tags "$url" "$source_dir"
+  commit="$(git -C "$source_dir" rev-parse --verify HEAD^{commit})"
+else
+  git -C "$source_dir" init --quiet
+  git -C "$source_dir" remote add origin "$url"
+  if [[ "$revision_kind" == sha ]]; then
+    expected_object="${revision,,}"
+  else
+    # Record the exact advertised object before fetch; reject a ref that moves.
+    advertised="$(public_git ls-remote --exit-code "$url" "$revision" "$revision^{}")" || {
+      echo 'Requested revision unavailable' >&2
+      exit 1
+    }
+    expected_object="$(awk -v ref="$revision" '$2 == ref {print $1}' <<<"$advertised")"
+    [[ "$expected_object" =~ ^[0-9a-f]{40}$ ]] || { echo 'Requested ref is missing or ambiguous' >&2; exit 1; }
+  fi
+  public_git -C "$source_dir" fetch --quiet --depth 1 --no-tags origin "$revision" || {
+    echo 'Requested revision unavailable; no fallback to HEAD' >&2
+    exit 1
+  }
+  actual_object="$(git -C "$source_dir" rev-parse --verify FETCH_HEAD)"
+  [[ "$actual_object" == "$expected_object" ]] || { echo 'Requested ref moved during resolution; refusing a different snapshot' >&2; exit 1; }
+  commit="$(git -C "$source_dir" rev-parse --verify 'FETCH_HEAD^{commit}')" || {
+    echo 'Requested revision is not a commit' >&2
+    exit 1
+  }
+  if [[ "$revision_kind" == sha && "$commit" != "$expected_object" ]]; then
+    echo 'Requested SHA does not identify a commit' >&2
+    exit 1
+  fi
+  git -C "$source_dir" checkout --quiet --detach "$commit"
+fi
+if [[ ! "$commit" =~ ^[0-9a-f]{40}$ || "$(git -C "$source_dir" rev-parse --verify HEAD)" != "$commit" ]]; then
+  echo 'Checkout returned an invalid or mismatched commit SHA' >&2
+  exit 1
+fi
+
 if [[ ! -x "$engine" ]]; then
   npm install --prefix "$temp_root/codegraph" --no-audit --no-fund "@colbymchenry/codegraph@$cli_version"
 fi
 if [[ "$("$engine" --version)" != "$cli_version" ]]; then
   echo "Unexpected CodeGraph CLI version; expected $cli_version" >&2
-  exit 1
-fi
-
-git clone --quiet --depth 1 --no-tags "https://github.com/${repo}.git" "$source_dir"
-commit="$(git -C "$source_dir" rev-parse HEAD)"
-if [[ ! "$commit" =~ ^[0-9a-f]{40}$ ]]; then
-  echo 'Clone returned an invalid commit SHA' >&2
   exit 1
 fi
 
@@ -158,8 +222,8 @@ with sqlite3.connect(f"file:{sys.argv[1]}?mode=ro", uri=True) as db:
         raise SystemExit(f"SQLite quick_check failed: {result}")
 PY
 
-printf '**Repository:** `%s`  \n**Commit:** `%s`  \n**CodeGraph:** `%s`  \n**Index:** `%s`\n\n' \
-  "$repo" "$commit" "$cli_version" "$([[ "$cache_hit" == true ]] && echo restored || echo fresh)" > "$temp_root/codegraph-answer.md"
+printf '**Repository:** `%s`  \n**Requested revision:** `%s`  \n**Commit:** `%s`  \n**CodeGraph:** `%s`  \n**Index:** `%s`\n\n' \
+  "$repo" "${revision:-default HEAD}" "$commit" "$cli_version" "$([[ "$cache_hit" == true ]] && echo restored || echo fresh)" > "$temp_root/codegraph-answer.md"
 (cd "$source_dir" && "$engine" explore "$question") >> "$temp_root/codegraph-answer.md"
 
 if [[ "$cache_enabled" == 'true' && "$cache_hit" != true ]]; then
