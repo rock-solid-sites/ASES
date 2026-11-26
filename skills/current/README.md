@@ -8,7 +8,7 @@ Say **"check the skill index"** (or **"list ASES skills"** / **"show available A
 
 **Project continuity:** For substantive project work or discussion (including a follow-up that advances an existing subject), apply the current workflow-orchestration procedure for per-turn persistence. Select the relevant existing destinations, not a fixed three-write checklist. This does not require the skill for unrelated casual queries or immaterial turns, and is not a guarantee that the ChatGPT host automatically selects the dispatcher.
 
-**CodeGraph requests:** for public repository structural exploration, retrieve `codegraph-actions-repository-research/SKILL.md` directly or through this index. The GitHub issue-trigger route is independent of any CodeGraph plugin. The obsolete MCP has been uninstalled; do not reconnect or invoke historical routes.
+**CodeGraph requests:** for public repository structural exploration at default HEAD or an explicit public branch, tag or full commit SHA, retrieve `codegraph-actions-repository-research/SKILL.md` directly or through this index. The GitHub issue-trigger route is independent of any CodeGraph plugin. The obsolete MCP has been uninstalled; do not reconnect or invoke historical routes.
 
 A standalone request to **list skills** remains index-only: do not fetch skill bodies. Historical prompting variants and the Strategy-to-Builder *derivation* are not substitutes for the current prompting skill or canonical bounded-build method. A source being linked in another PR or packet does not make it the current authority. If a necessary current method was not read, the resulting brief must be marked **preliminary/not ready to dispatch**.
 
@@ -26,7 +26,7 @@ This is the **only directory the installed ASES Workflow dispatcher should use f
 - `workflow-orchestration/SKILL.md` — coordinate project work and discussion, preserve recoverable progress, and choose the smallest effective execution loop.
 - `compile-build/SKILL.md` — bounded implementation packets.
 - `custom-mcp-connector/SKILL.md` — live connector setup and failure diagnosis.
-- `codegraph-actions-repository-research/SKILL.md` — public GitHub structural code research via the existing GitHub connector, Actions and B2; no dedicated CodeGraph plugin or MCP.
+- `codegraph-actions-repository-research/SKILL.md` — public GitHub structural code research at default HEAD or selected branch/tag/SHA via the existing GitHub connector, Actions and B2; no dedicated CodeGraph plugin or MCP.
 
 **Governing cross-task information method:** [ASES Task-Scoped Information and Handoff Method](../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) defines selection, authority and handoff. Retrieve it only when materially applicable; it is **not** an additional mandatory skill or a requirement to load every document for every task. The skills above still define specialized execution guidance.
 
