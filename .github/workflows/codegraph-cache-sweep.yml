@@ -1,0 +1,127 @@
+# Read-only inventory, not a cleanup or migration job.
+name: CodeGraph B2 cache sweep
+on:
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_run:
+    workflows: ['CodeGraph public repository exploration']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+  issues:
+    types: [opened]
+  pull_request:
+    paths:
+      - '.github/scripts/codegraph-cache-inventory.py'
+      - '.github/workflows/codegraph-cache-sweep.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 .github/scripts/codegraph-cache-inventory.py --self-test
+
+  inventory:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'issues' && github.event.issue.user.login == 'rock-solid-sites' &&
+        github.event.issue.title == '[codegraph-cache-sweep]') ||
+       (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        (github.event.workflow_run.event == 'issues' || github.event.workflow_run.event == 'workflow_dispatch')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: codegraph-b2
+    concurrency:
+      group: codegraph-cache-sweep
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      # Never execute or consume artifacts from a triggering workflow or PR.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - run: python3 .github/scripts/codegraph-cache-inventory.py --self-test
+      - name: List completed versions of the CodeGraph cache only
+        shell: bash
+        env:
+          B2_BUCKET: ${{ vars.B2_BUCKET }}
+          B2_REGION: ${{ vars.B2_REGION }}
+          B2_ENDPOINT: ${{ vars.B2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APP_KEY }}
+          AWS_PAGER: ''
+          AWS_MAX_ATTEMPTS: '3'
+        run: |
+          set -euo pipefail
+          for name in B2_BUCKET B2_REGION B2_ENDPOINT AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Missing existing B2 environment setting: $name" >&2
+              exit 1
+            fi
+          done
+          raw="$(mktemp)"
+          err="$(mktemp)"
+          trap 'rm -f "$raw" "$err"' EXIT
+          # Default AWS CLI pagination retrieves every page. Never log the raw listing.
+          if ! aws s3api list-object-versions --bucket "$B2_BUCKET" --prefix codegraph/v1/ \
+            --region "$B2_REGION" --endpoint-url "$B2_ENDPOINT" --output json \
+            > "$raw" 2>"$err"; then
+            echo 'B2 version inventory failed; existing key may lack listFiles. No storage decision made.' >&2
+            exit 1
+          fi
+          python3 .github/scripts/codegraph-cache-inventory.py "$raw" "$RUNNER_TEMP/codegraph-cache-inventory.json"
+      - name: Publish decision report when threshold is reached
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/codegraph-cache-inventory.json', 'utf8'));
+            const runUrl = process.env.GITHUB_SERVER_URL + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+            const fmt = n => (n / 1e9).toFixed(3) + ' GB (' + n + ' bytes)';
+            const summary = [
+              'CodeGraph cache prefix: codegraph/v1/',
+              'Total completed object versions: ' + fmt(report.total_bytes),
+              'Current: ' + fmt(report.current_bytes) + '; noncurrent: ' + fmt(report.noncurrent_bytes),
+              'Recognized index keys: ' + report.recognized_indexes + '; versions: ' + report.versions + '; delete markers: ' + report.delete_markers,
+              'Unrecognized layout: ' + fmt(report.unknown_layout_bytes),
+              'Review required at 5 GB: ' + (report.review_required ? 'YES' : 'no'),
+              '[Inventory run](' + runUrl + ')'
+            ].join('\n\n');
+            await core.summary.addRaw(summary).write();
+            if (context.eventName === 'issues') {
+              await github.rest.issues.createComment({...context.repo, issue_number: context.issue.number, body: summary});
+            }
+            if (!report.review_required) return;
+            const title = 'CodeGraph cache: 5 GB retention review';
+            const existing = await github.paginate(github.rest.issues.listForRepo, {...context.repo, state: 'open', per_page: 100});
+            if (existing.some(i => !i.pull_request && i.title === title)) {
+              core.info('Retention review already open; no duplicate issue.');
+              return;
+            }
+            const rows = report.indexes.slice(0, 100).map(i =>
+              '| ' + i.repository + ' | ' + i.commit + ' | ' + i.cli + ' | ' + i.bytes + ' | ' + i.versions + ' | ' + i.latest_upload + ' | undecided |'
+            );
+            await github.rest.issues.create({...context.repo, title, body: summary +
+              '\n\nDecide retain in B2, transfer to IDrive (verify archive integrity before any deletion), or delete rebuildable/obsolete versions. Last upload is not last access. No deletion or transfer is automatic. Unknown-layout objects require separate inspection. The complete sanitized inventory is in the run artifact; this table shows the largest 100 keys.\n\n' +
+              '| Repository | Commit | CLI | Bytes | Versions | Latest upload | Decision |\n|---|---|---|---:|---:|---|---|\n' + rows.join('\n')});
+      - name: Preserve sanitized review inventory
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codegraph-cache-inventory
+          path: ${{ runner.temp }}/codegraph-cache-inventory.json
+          retention-days: 30
