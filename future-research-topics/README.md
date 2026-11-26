@@ -6,13 +6,17 @@ document_type: Guide
 status: Active
 authority: Derived
 canonical_repository: ases
-version: 2026-11-24.1
-last_updated: 2026-11-24
+version: 2026-11-26.1
+last_updated: 2026-11-26
 ---
 
 # Future Research Topics
 
 This directory contains earlier research ideas, references and implementation proposals. It is **not** the canonical topic registry, an active implementation queue, or a list of required investigations. The [source scratchpad](topics-scratchpad.md) is retained unchanged. A later topic-registration or relationship projection should preserve source identity and distinguish a topic from an investigation task, finding or decision. Projektor **PJDEV-6** owns the selective topic-register projection pilot; **ASES-5** owns the separate optional documentation relationship projection. Do not bulk-import this scratchpad, create issues for every link, or claim current tool capabilities from its historical links.
+
+## Later selective topic-projection evidence (2026-11-26)
+
+PJDEV-6's existing draft sample contains seven source-linked candidate topics spanning several scratchpad headings (source blob `9d6d5f1c79a9f2e8014727ead16490bc1abf0a14` as recorded November 10, not an inferred main commit). Three separate noncanonical draft wiki topic pages demonstrate independently addressable references; PJDEV-2's bounded read-only traversal observed existing issue relations, attachments and cross-project wiki backlinks. The later candidate concept-map adjacencies are navigation hypotheses, not verified dependencies or findings. This evidence narrows the pilot from a proposal to a partial demonstration, without completing generic graph semantics, per-topic authorization, source-change synchronization, named derived views or independently validated filtered/traceability acceptance. PJDEV-6 remains in review; ASES-5 remains optional. Use actual source authority and current [task-scoped method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md); keep original corpus identity, semantic filing, topic/investigation/finding/decision and session surface separate. Do not bulk-create issues or reimport chats. The [Projektor trial reconciliation](../docs/proposals/2026-11-02-testing-debugging-ontology/projektor-workspace-trial-plan-2026-11-05.md) records the evidence limits. This is a documentation crosswalk, not a new topic registry.
 
 ## Earlier architecture validation programme
 

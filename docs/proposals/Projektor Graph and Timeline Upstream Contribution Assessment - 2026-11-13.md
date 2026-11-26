@@ -17,6 +17,14 @@ last_updated: 2026-11-13
 
 # Projektor: Graph and Timeline as potential upstream features
 
+## Local reconciliation: current ownership and portability (2026-11-26)
+
+Retain the original Graph-first, Timeline-separate recommendation as a candidate contribution strategy, not an upstream submission or accepted feature. The [workspace trial reconciliation](2026-11-02-testing-debugging-ontology/projektor-workspace-trial-plan-2026-11-05.md#local-reconciliation-workspace-trial-and-subsequent-evidence-2026-11-26) distinguishes actual use from unresolved UI, permissions, restore and upgrade qualification.
+
+The November 10 PJDEV-2 baseline established existing read-only issue/wiki relationship traversal, including cross-project edges within one workspace, not a generic semantic graph. PJDEV-9/12/14/16/19 retain Graph, Canvas export, mocked browser coverage and shell/navigation scope; the recorded static prototypes and user feedback are not proof of native source integration or authenticated mobile acceptance. PJDEV-20 defines Portfolio → Project → recursively nested Subproject → Issue (no synthetic hub and no silent flat-record migration); PJDEV-21 distinguishes sourced first-discussed/proposed/work-start milestones from issue activity and PJDEV-18 separately covers actual planned dates. PJDEV-5/15 saved views, PJDEV-25 external dependency references and PJDEV-7/13 CLI/discovery remain distinct owner questions. Work Notes operational records must not be mirrored as human planning data or treated as same-system issue links.
+
+The later [canonical customization method](../methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) favors supported configuration/interfaces, isolated removable extensions, small generally useful upstream contributions and the latest stable release subject to actual upgrade acceptance. Existing local release overlays are not maintainable upstream deliverables; no copied app shell, arbitrary schema, permanent fork or native migration follows. PJDEV-26 still tracks clean upgrade/restore; current deployment and upstream submission/acceptance were not independently verified. The older roadmap's contribution wording must not be read as a requirement to build a substantial feature before discussing it with maintainers. Distinguish early scoped discussion from submission of tested code. Do not reopen historical surveys or launch implementation in this reconciliation. Local private policies and ASES's task-scoped information method remain independent of upstream product governance.
+
 ## Decision (proposal, not a submission)
 
 **Propose a small read-only work-relationship graph upstream first. Discuss Timeline separately, with an upstream-native, evidence-backed scope.** Do not submit the existing local overlay as-is and do not make either feature a prerequisite for a clean Projektor installation.

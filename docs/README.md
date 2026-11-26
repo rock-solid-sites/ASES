@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.28
+version: 1.0.29
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -97,6 +97,8 @@ An entry reading `Active` in a historical file is **not a certificate of current
 **Final cross-chat reference anchors (operator 2026-11-26):** Check the [live raw CodeGraph skill](https://raw.githubusercontent.com/rock-solid-sites/ASES/main/skills/current/codegraph-actions-repository-research/SKILL.md) (v1.2.0, blob `29f06fee18d4914828a62ac2437e4102ec7198cc` at this check) and [ASES Workflow dispatcher source revision cf58b74f](https://github.com/rock-solid-sites/ases-plugins/commit/cf58b74f40499e72350b24622c191a1a069a5aef), including its [exact dispatcher skill](https://github.com/rock-solid-sites/ases-plugins/blob/cf58b74f40499e72350b24622c191a1a069a5aef/plugins/ases-workflow/release/skills/ases-workflow/SKILL.md). The pinned source describes v0.1.7 as a candidate at that revision; subsequent [publication/parity evidence e39324d4](https://github.com/rock-solid-sites/ases-plugins/commit/e39324d41034a536a879b1c84bf40ce7e7021501) verifies publication, not automatic selection. The dispatcher retrieves the live index and relevant skills; no bundled replacement instructions or republish required for ordinary Markdown changes. Both designated source references checked; preserve them as final-sweep comparison anchors. The canonical task-scoped method and its Chat-facing adapters now record the operator's explicit-request-only Work mode preference. No platform behavior claim.
 
 **CodeGraph historical experiment crosswalk:** The [engine-scope results and later reconciliation](proposals/2026-11-02-testing-debugging-ontology/cgrmcp-engine-scope-migration-results-2026-11-03.md#local-reconciliation-historical-indexing-identity-and-continuity-research-2026-11-26) preserve the 1.6.0 Go edge-loss negative, 1.6.2 limited controls, scoped reuse and dual-endpoint IDs, actual backup interruption/WAL and portable local restore. Old B2 Native API mock and temporary evidence readback are not independent archive proof; later live Actions/B2 cache is a distinct route. Former migration superseded, independent/shared derivation and assurance research retained; no experiment rerun or branch disposal implied.
+
+**Projektor trial, upstream contribution and topic projection:** The [workspace trial reconciliation](proposals/2026-11-02-testing-debugging-ontology/projektor-workspace-trial-plan-2026-11-05.md) distinguishes actual authenticated use and bounded relationship/topic evidence from remaining mobile, authorization, restore, cost and upgrade gates. The [Graph/Timeline assessment](proposals/Projektor%20Graph%20and%20Timeline%20Upstream%20Contribution%20Assessment%20-%202026-11-13.md) remains a candidate upstream strategy, not accepted implementation; [topic disposition](../future-research-topics/README.md) records the seven-entry/three-page pilot. Projektor, Work Notes and Git retain distinct authorities. Owner PJDEV issues and optional ASES-5/ASES-1 work remain separate; no duplicate trial or universal graph.
 
 ## Legacy and supersession
 
