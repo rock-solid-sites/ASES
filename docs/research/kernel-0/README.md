@@ -7,3 +7,5 @@ For current architectural intent and non-goals, see the [Execution Engine Vision
 The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Decision-Record.md) explains the historical open-derivation protocol; it is not a current launch assignment. Preserve clean-room separation for new open derivations: do not include candidate designs, reviewer conclusions or historical implementation paths unless necessary to the requested task. Actual dispatch requires the current task-relevant skills and authorization, not September model/host assumptions.
 
 [Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
+
+[One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.

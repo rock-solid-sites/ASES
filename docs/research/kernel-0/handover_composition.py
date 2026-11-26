@@ -52,11 +52,22 @@ def check_histories():
             continue
         for resources in layouts:
             possible = serial_oracle(starts, ends, resources)
+            projections = []
+            for sink in sorted(set(resources)):
+                indices = [i for i in range(3) if resources[i] == sink]
+                local_starts = tuple(starts[i] for i in indices) + (starts[-1],)
+                local_ends = tuple(ends[i] for i in indices) + (ends[-1],)
+                local = serial_oracle(local_starts, local_ends, (sink,) * len(indices))
+                projections.append((indices, local))
             for old in product((False, True), repeat=3):
                 answer = common_cut(starts, ends, resources, old)
                 if answer != (old in possible):
                     raise AssertionError((events, resources, old))
                 counts[answer] += 1
+                if not answer and all(tuple(old[i] for i in indices) in local
+                                      for indices, local in projections):
+                    counts["split"] += 1
+    print(f"locally feasible but globally infeasible: {counts['split']}")
     print(f"endpoint histories: {counts[True]} feasible, {counts[False]} infeasible")
 
 
