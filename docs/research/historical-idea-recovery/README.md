@@ -79,3 +79,5 @@ Verify source access and existing owner records, confirm the destination, then b
 - [Synthesis](SYNTHESIS.md) — residual research questions, subject navigation and evidence-resolution order.
 
 The complete disposition ledger and private locators remain in WNASES-35. These outputs do not authorize implementation.
+
+- [Recovered research questions and evidence boundaries](RESEARCH-QUESTIONS.md): classification custody, distinct benchmark assets, Jev evidence recovery and Peritus continuation.
