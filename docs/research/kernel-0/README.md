@@ -43,3 +43,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Transferring the accepted prefix between local resource owners](Transferring-the-accepted-prefix.md) exercises ten process-loss cuts in a three-database handover, including recovery after the outgoing store becomes unavailable.
 
 [Which holders may release immutable Work Unit contents after a handover?](Retaining-immutable-content-across-attempts.md) proves a repeated storage-promise protocol and produces complete data-loss histories for two weakened receipt or release rules.
+
+[How much independent seal state must a Work Unit retain?](How-much-seal-state-survives.md) derives the exact future-observable quotient of independently asserted and jointly releasable vetoes, including a counterexample under authority reconfiguration.
