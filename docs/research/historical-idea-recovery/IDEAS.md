@@ -106,3 +106,7 @@ The research/methodology/runtime distinction was subjected to a multi-model clas
 **Public evidence:** [identifier-first research](../Identifier-First%20Tool%20Calling.md), [lazy MCP proxy experiment](../../../research/toolregistry-lazy-mcp/report.md), [catalog-scale experiment and November 25 scope qualification](../../../research/toolregistry-lazy-mcp/catalog-scale/report.md).
 
 The project already has substantial validation of a narrow lazy-connector architecture and bounded catalog residency, plus description-compression experiments. The exact identifier-only representation, matched CLI comparison, generalized idle-timeout/pooling policy, multi-transport validation and full costs remain distinct questions in the existing reconciled research record. This is a negative deduplication result: retain current evidence and owners instead of opening a competing Lexicon project. Research result does not authorize adopting the prototype.
+
+## Reconciliation checkpoint — 2026-11-27
+
+The [first present-state reconciliation](RECONCILIATION.md) qualifies these entries against current owners, decisions and surviving artifacts. The [synthesis](SYNTHESIS.md) organizes the residual questions by existing research homes. Later Jev preparation reports were found; the missing measured-result artifacts remain a custody gap, not proven loss. Do not rerun as a substitute for recovery. This selective view does not enumerate the complete private register or authorize work.
