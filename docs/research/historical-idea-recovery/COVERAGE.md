@@ -137,3 +137,7 @@ Three previously excerpted compact-index conversations have now been reviewed in
 ### R25 — complete compact reconciliation
 
 Four further compact conversations were reviewed in full: decision-model comparison, capability-minimizing assurance, comparative language safety, and modular protocol-service design. Full semantic coverage is now **42/256** (34 compact, eight legacy); 256 mechanically screened and 19 held metadata-only. C-033 contiguous boundary remains line 3289. The reconciled set remains 82 (40 canonical and 42 descriptive). R25 improved evidence for existing leads and did not create candidates, issues or execute experiments. Restricted source locators and artifact verification are retained in WNASES-35.
+
+### R26 — compact migration and tool-access reconciliation
+
+Three complete compact histories were reviewed: account-access comparison, previously blocked migration, and inventory/exporter recovery. Earlier completed donor reviews were checked but not counted again. Historical access failures are distinguished from present repository identity; no new research candidate or repeated migration. Complete semantic coverage is now **45/256** (37 compact, eight legacy), mechanically screened 256, 19 held metadata-only, zero local sessions. Register remains 82 unique entries (40 canonical, 42 descriptive); C-033 contiguous boundary remains 3289. Restricted evidence is retained in WNASES-35.
