@@ -48,3 +48,7 @@ Other historical leads relate to [memory research](../retrospectives/topics/EDAS
 - No work dispatch, experimental execution, policy change, new project, issue creation, or source archive mutation was performed. Exact source locators and restricted dispositions remain in the private execution record.
 
 Next: organize the reconciled residuals by subject and existing owner, preserving independent topics and conditional questions; targeted follow-up should address a specific evidence gap rather than repeat broad discovery.
+
+### Subsequent evidence corrections (2026-11-27)
+
+See [RESEARCH-QUESTIONS.md](RESEARCH-QUESTIONS.md). HIR-034's eleven original blobs survive on main; filing paths differ. HIR-023's earlier and P7 benchmark assets are distinct. HIR-010 still requires measured-artifact custody, not automatic repetition. HIR-020's original repository investigation remains separate from archived-discussion review.
