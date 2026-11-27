@@ -6,7 +6,7 @@ document_type: research note
 status: Draft
 authority: Derived
 canonical_repository: rock-solid-sites/ASES
-last_updated: 2026-11-27
+last_updated: 2026-11-28
 ---
 
 # Recovered research questions and evidence boundaries
@@ -103,3 +103,10 @@ The preserved [June incident transcript](../failed-conversation.md), [failure an
 Historical repository-tooling proposals distinguish historical, structural and execution reconstruction. The later revision favors narrow scoped results, raw-source fallback, measured cold/warm costs, optional instrumentation and composition without direct coupling. The [current CodeGraph operational evidence](../../../findings/codegraph-operational-review-2026-11-26.md) already supports selective structural use and direct reads for decisive source or completeness claims. Retain residual comparisons within existing retrieval and computation research; do not revive the historical RST design or assume that index navigation provides semantic proof.
 
 An exact duplicate body under distinct imported review labels was verified in both the original archived JSON and derived transcript. This is a historical evidence-custody defect: count distinct verified executions, not labels or copies, and distinguish matching text from corroboration. The later comparative report provides qualitative observations, not intrinsic model rankings. Trusted dispatch receipts, frozen input and actual independence remain distinct from text uniqueness. Preserve the source-quality correction in existing capability evaluation and experiment-registration research without inferring the cause of the duplication.
+
+### R29 — necessity, branch provenance and organizational variables
+
+- **REDUNDANCY-REFERENCE / HIR-009 / METHOD-EFFICACY:** distinguish repeated retrieval from unnecessary reasoning. Changed state, changed context and independent verification can make repeated retrieval necessary. Establish the task-relative information and authority baseline, then compare retrieval and source fallback under matched conditions, including verification, omissions, rework and total cost. Instrumentation and natural tool adoption do not establish causal benefit. Existing formal computation/reuse research already covers context/configuration scope and net-cost questions; no new study is authorized.
+- **HIR-030 / reviewer evidence:** a repeated source bundle on alternate response branches is not an independent review round. This is separate from the R28 differently labeled duplicate. Historical syntheses must be checked against the actual distinct source material: a claimed distinct reviewer contribution can be unsupported even when the surrounding prose is plausible. Preserve branch lineage and provider/run/input identity where known; do not infer stable model characteristics or rankings from unverified labels. The fixed capability rubric was explicitly deferred.
+- **METHOD-EFFICACY / ROLE-SET-EFFICACY / FRAMEWORK-MATCH:** distinguish organizational information and verification structure from model, harness and framework choice, including their interactions on matched tasks. Distinguish complexity, tenure and externalized knowledge availability from the emergence of roles; observed emergence does not demonstrate causality or optimality. Real project work supplies observations, not automatically controlled evidence.
+- **METHODOLOGY-PRIOR-ART / HIR-021 / HIR-033:** the original request explicitly includes external comparative research and explicitly defers broader-domain conclusions until more software evidence exists. Historical document repetition is shared lineage rather than independent corroboration; distinguish claims, demonstrations and replications. Reuse the existing research owners rather than creating another project.
