@@ -5,9 +5,9 @@ from dataclasses import dataclass, replace
 
 @dataclass(frozen=True)
 class State:
-    # log[r] is the selected tenure after deciding attempt r (oracle history).
+    # log[r] is (selected tenure, membership) after decision r (oracle history).
     log: tuple
-    pending: bool
+    target: int | None
     # Each gate has (greatest processed attempt, open tenure or -1, last vote).
     gates: tuple
 
@@ -15,47 +15,63 @@ class State:
         return replace(self, gates=self.gates[:i] + (values,) + self.gates[i + 1:])
 
 
-def steps(s, rounds, mutant):
+def member(mask, i):
+    return bool(mask & (1 << i))
+
+
+def steps(s, rounds, mutant, dynamic=False):
     d = len(s.log) - 1
     q = d + 1
-    if not s.pending and d < rounds:
-        yield f"begin {q}", replace(s, pending=True)
-    if s.pending:
-        yield f"abort {q}", replace(s, log=s.log + (s.log[-1],), pending=False)
+    current, members = s.log[-1]
+    if s.target is None and d < rounds:
+        targets = range(1 << len(s.gates)) if dynamic else (members,)
+        for target in targets:
+            yield f"begin {q} for {target:b}", replace(s, target=target)
+    if s.target is not None:
+        yield f"abort {q}", replace(s, log=s.log + (s.log[-1],), target=None)
         # Replay of any authentic vote is possible. The last vote suffices
         # to decide whether a vote for the unique pending attempt can exist.
-        if all(v == q or (mutant == "reuse abort vote" and v > s.log[-1])
-               for _, _, v in s.gates):
-            yield f"commit {q}", replace(s, log=s.log + (q,), pending=False)
+        required = members & s.target if mutant == "intersection" else members
+        if all(not member(required, i) or v == q or (mutant == "reuse abort vote" and v > current)
+               for i, (_, _, v) in enumerate(s.gates)):
+            yield f"commit {q}", replace(s, log=s.log + ((q, s.target),), target=None)
     for i, (t, h, v) in enumerate(s.gates):
-        for r in range(t + 1, d + int(s.pending) + 1):
-            yield f"prepare {r} at {i}", s.gate(i, (r, -1, r))
-        for r, c in enumerate(s.log):
-            if (r >= t or mutant == "accept older summary") and (t, h) != (r, c):
-                yield f"summary ({r},{c}) at {i}", s.gate(i, (r, c, v))
+        for r in range(t + 1, d + int(s.target is not None) + 1):
+            if member(s.log[r - 1][1], i):
+                yield f"prepare {r} at {i}", s.gate(i, (r, -1, r))
+        for r, (c, mask) in enumerate(s.log):
+            installed = c if member(mask, i) else -1
+            if (r >= t or mutant == "accept older summary") and (t, h) != (r, installed):
+                yield f"summary {r} at {i}", s.gate(i, (r, installed, v))
 
 
-def run(n, rounds, mutant="none"):
-    start = State((0,), False, ((0, 0, 0),) * n)
+def run(n, rounds, mutant="none", dynamic=False):
+    # Keep the last gate initially absent in the dynamic case, even if n=1.
+    members = (1 << (n - int(dynamic))) - 1
+    start = State(((0, members),), None,
+                  tuple((0, 0 if member(members, i) else -1, 0) for i in range(n)))
     todo = deque([start])
     paths = {start: None}
     while todo:
         s = todo.popleft()
-        if any(h >= 0 and h != s.log[-1] for _, h, _ in s.gates):
+        c, members = s.log[-1]
+        if any(h >= 0 and (h != c or not member(members, i))
+               for i, (_, h, _) in enumerate(s.gates)):
             path = ["append at open gate with obsolete tenure"]
             while paths[s]:
                 s, action = paths[s]
                 path.append(action)
             return len(paths), list(reversed(path))
-        if not s.pending:
+        if s.target is None:
             # One latest authentic summary per lagging gate suffices to reopen
             # all of them, with no intermediate decisions replayed.
-            d, c = len(s.log) - 1, s.log[-1]
+            d = len(s.log) - 1
             for i, (t, h, v) in enumerate(s.gates):
-                if (t, h) != (d, c):
-                    assert (f"summary ({d},{c}) at {i}", s.gate(i, (d, c, v))) in steps(
-                        s, rounds, mutant)
-        for action, nxt in steps(s, rounds, mutant):
+                installed = c if member(members, i) else -1
+                if (t, h) != (d, installed):
+                    assert (f"summary {d} at {i}", s.gate(i, (d, installed, v))) in steps(
+                        s, rounds, mutant, dynamic)
+        for action, nxt in steps(s, rounds, mutant, dynamic):
             if nxt not in paths:
                 paths[nxt] = s, action
                 todo.append(nxt)
@@ -71,3 +87,11 @@ if __name__ == "__main__":
         _, path = run(2, 2, mutant)
         assert path
         print(mutant, " -> ".join(path))
+
+    for n, rounds in ((1, 4), (2, 3), (3, 2)):
+        count, path = run(n, rounds, dynamic=True)
+        assert path is None
+        print("changing membership", n, rounds, count)
+    _, path = run(2, 2, "intersection", dynamic=True)
+    assert path
+    print("intersection", " -> ".join(path))
