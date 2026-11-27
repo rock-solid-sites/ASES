@@ -42,7 +42,14 @@ def install(db, w, p, expected):
     return ["issued", token]
 
 
-def worker_request(db, request):
+def receipt_number(db, w, p, row_id, scoped):
+    if not scoped:
+        return row_id
+    return db.execute("""SELECT count(*) FROM appends a JOIN grants g ON g.token=a.token
+                         WHERE g.w=? AND g.p=? AND a.receipt<=?""", (w, p, row_id)).fetchone()[0]
+
+
+def worker_request(db, request, scoped=False):
     op, token, *args = request
     grant = db.execute("""SELECT g.w,g.p,s.current FROM grants g JOIN selectors s
                           ON g.w=s.w AND g.p=s.p WHERE g.token=?""", (token,)).fetchone()
@@ -56,12 +63,14 @@ def worker_request(db, request):
         old = db.execute("SELECT receipt,resource,payload FROM appends WHERE token=? AND nonce=?",
                          (token, nonce)).fetchone()
         if old:
-            return ["receipt", old[0]] if tuple(args[1:]) == old[1:] else ["conflict"]
+            if tuple(args[1:]) != old[1:]:
+                return ["conflict"]
+            return ["receipt", receipt_number(db, w, p, old[0], scoped)]
         if token != current:
             return ["stale"]
         cursor = db.execute("INSERT INTO appends(token,nonce,resource,payload) VALUES(?,?,?,?)",
                             (token, nonce, resource, payload))
-        return ["receipt", cursor.lastrowid]
+        return ["receipt", receipt_number(db, w, p, cursor.lastrowid, scoped)]
     if op == "read" and not args:
         if token != current:
             return ["stale"]
@@ -72,7 +81,7 @@ def worker_request(db, request):
     return ["invalid"]
 
 
-def owner(path, admin, worker):
+def owner(path, admin, worker, scoped):
     with sqlite3.connect(path, isolation_level=None) as db:
         db.execute("PRAGMA foreign_keys=ON")
         db.execute("PRAGMA synchronous=FULL")
@@ -103,7 +112,7 @@ def owner(path, admin, worker):
                 assert request[0] == "install"
                 result = install(db, *request[1:])
             else:
-                result = worker_request(db, request)
+                result = worker_request(db, request, scoped)
             if pipe == worker and pause == "before commit":
                 send(admin, pause)
                 receive(admin)  # harness kills this process while parked
@@ -115,15 +124,16 @@ def owner(path, admin, worker):
 
 
 class Fixture:
-    def __init__(self, path):
+    def __init__(self, path, scoped=False):
         self.path = path
+        self.scoped = scoped
         self.ctx = mp.get_context("spawn")
         self.start()
 
     def start(self):
         self.admin, control = self.ctx.Pipe()
         self.worker, calls = self.ctx.Pipe()
-        self.process = self.ctx.Process(target=owner, args=(self.path, control, calls))
+        self.process = self.ctx.Process(target=owner, args=(self.path, control, calls, self.scoped))
         self.process.start()
         control.close()
         calls.close()
@@ -150,8 +160,9 @@ class Fixture:
         return result[1]
 
 
-def trial(path, window):
-    f = Fixture(path)
+def trial(path, window, scoped=False):
+    f = Fixture(path, scoped)
+    first_p_receipt = 1 if scoped else 2
     try:
         x = f.grant(-1)
         neighbour = f.grant(-1, p="Q")
@@ -177,7 +188,7 @@ def trial(path, window):
             f.start()
             y = f.grant(0)
         committed = window == "after commit"
-        assert f.call(f.worker, msg) == (["receipt", 2] if committed else ["stale"])
+        assert f.call(f.worker, msg) == (["receipt", first_p_receipt] if committed else ["stale"])
         altered = ["append", x, "first", "A", "different"]
         assert f.call(f.worker, altered) == (["conflict"] if committed else ["stale"])
         assert f.call(f.worker, ["append", x, "fresh", "B", "old"]) == ["stale"]
@@ -187,7 +198,7 @@ def trial(path, window):
         assert f.call(f.worker, ["read", y]) == ["contents", expected]
         assert f.call(f.worker, ["read", neighbour]) == ["contents", [["A", "private Q"]]]
         assert f.call(f.admin, ["install", "W", "P", 0]) == ["superseded"]
-        print(window, "old retry:", "original receipt" if committed else "stale", "Y sees", expected)
+        print("scoped" if scoped else "global", window, "old retry:", "original receipt" if committed else "stale", "Y sees", expected)
     finally:
         if f.process.is_alive():
             f.stop()
@@ -197,4 +208,5 @@ if __name__ == "__main__":
     print("SQLite", sqlite3.sqlite_version)
     with TemporaryDirectory() as temp:
         for index, window in enumerate(("before admission", "before commit", "after commit")):
-            trial(str(Path(temp) / f"owner-{index}.db"), window)
+            for scoped in (False, True):
+                trial(str(Path(temp) / f"owner-{index}-{scoped}.db"), window, scoped)
