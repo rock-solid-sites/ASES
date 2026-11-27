@@ -9,3 +9,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
 
 [One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.
+
+[Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
