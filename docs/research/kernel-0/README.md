@@ -37,3 +37,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
 
 [How hard is it to find a safe order for Work Unit moves?](Ordering-policy-preserving-relocations.md) proves NP-completeness with fixed containment filters, and gives a greedy algorithm with a deadlock certificate for a tractable subclass.
+
+[What evidence shows that accepted contents survive handover?](Surviving-content-at-handover.md) separates version and storage custody from a checkable recovery certificate, and derives exact domain-loss bounds for linear contents.
