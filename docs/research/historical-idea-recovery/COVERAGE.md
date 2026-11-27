@@ -141,3 +141,7 @@ Four further compact conversations were reviewed in full: decision-model compari
 ### R26 — compact migration and tool-access reconciliation
 
 Three complete compact histories were reviewed: account-access comparison, previously blocked migration, and inventory/exporter recovery. Earlier completed donor reviews were checked but not counted again. Historical access failures are distinguished from present repository identity; no new research candidate or repeated migration. Complete semantic coverage is now **45/256** (37 compact, eight legacy), mechanically screened 256, 19 held metadata-only, zero local sessions. Register remains 82 unique entries (40 canonical, 42 descriptive); C-033 contiguous boundary remains 3289. Restricted evidence is retained in WNASES-35.
+
+### R27 — full foundational conversation closure
+
+The remaining embedded reviewer transcripts and later document-drafting portions of the large foundational projection were read. All 151 numbered turns (17,346 lines) are now covered cumulatively, including the final retrospective. This is review of the preserved projection, not independent verification of the underlying reviewer claims or access to separately attached source files. Complete semantic coverage is **46/256** (37 compact, nine legacy); 256 mechanically screened, 19 held metadata-only, zero local coding-agent transcript reviews. The previously partial C-033 is complete; no new register entry was justified (82 total, 40 canonical +42 descriptive). Exact private locators and reconciliations are in WNASES-35 R27a/b.
