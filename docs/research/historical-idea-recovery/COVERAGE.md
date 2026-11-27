@@ -129,3 +129,7 @@ Complete semantic review remains 35/256 (27 compact, eight legacy); mechanical s
 ### R23 — foundational source recovery
 
 Selective contextual review of additional and previously screened legacy discussions, including original human-interface, onboarding, sharing and distributed-systems research-track proposals. Two distinct historical leads reconciled; the register now has 40 canonical candidates and 41 descriptive leads (81 total). The previously missing original game-interface source was recovered and the existing research owner’s provenance corrected. Distributed-systems research is already owned, not newly commissioned. Full semantic coverage remains 35/256, and C-033 remains partial through line 3289. No additional full conversation credit, execution or new issue creation.
+
+### R24 — complete conversation review
+
+Three previously excerpted compact-index conversations have now been reviewed in full, including previously omitted middle ranges. Cumulative complete semantic coverage is 38/256 (30 compact and eight legacy); 256 mechanically screened, 19 held metadata-only, one legacy contiguous partial. One distinct reviewer-evidence research variable recovered; 40 canonical candidates plus 42 descriptive leads (82 total). Existing framework comparator and independent revocation research refined, not duplicated. No new execution or issue.
