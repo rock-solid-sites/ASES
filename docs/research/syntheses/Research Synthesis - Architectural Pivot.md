@@ -9,9 +9,9 @@ canonical_repository: edases
 
 depends_on:
   - Synthesis of Adversarial Reviews: Decisional Provenance Architecture
-  - reframe-chatgpt.md
-  - reframe-deepseekpro.md
-  - reframe-glm52.md
+  - https://github.com/rock-solid-sites/ASES/blob/deeb6ae439bf3ea92b161dc78ea32556fd0276b6/.design/reframe-chatgpt.md
+  - https://github.com/rock-solid-sites/ASES/blob/deeb6ae439bf3ea92b161dc78ea32556fd0276b6/.design/reframe-deepseekpro.md
+  - https://github.com/rock-solid-sites/ASES/blob/deeb6ae439bf3ea92b161dc78ea32556fd0276b6/.design/reframe-glm52.md
   - Concept: Levels of Abstraction
 
 consumed_by:
@@ -27,6 +27,8 @@ last_updated: 2026-06-29
 # Research Synthesis: Provenance Deadlock and the Epistemic Architectural Pivot
 
 > **Current interpretation (2026-11-24, local reconciliation):** This EDASES research synthesis remains the historical rationale for treating engineering reasoning, not commits or storage mechanics, as the object of interest. The abstraction hierarchy and the need for evidence-backed reasoning continuity remain applicable. The pinned June synthesis preserves the original reviewers' conclusions; claims that a dedicated validation layer is necessary or that particular causes are proven are historical interpretations, not current architectural requirements. EDASES upstream revision is unverified.
+
+> **Source-location clarification (2026-11-27):** The three named reframe reviews are retained in the excluded `.design/` historical evidence area, with exact verified source pins in the metadata above. These are evidence dependencies, not current agent instructions.
 
 ## Where the investigation led
 

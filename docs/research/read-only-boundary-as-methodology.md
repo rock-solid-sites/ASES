@@ -9,8 +9,8 @@ canonical_repository: edases
 
 depends_on:
   - Documentation Standard
-  - EDASES-topic-microVMs.md
-  - EDASES-topic-Containers-and-Environment.md
+  - docs/research/retrospectives/topics/EDASES-topic-microVMs.md
+  - docs/research/retrospectives/topics/EDASES-topic-Containers-and-Environment.md
 
 related_documents:
   - agent-tooling-and-permission-enforcement.md
@@ -33,6 +33,8 @@ last_updated: 2026-08-10
 ---
 
 # Read-Only Boundary Work as Active Methodology
+
+> **Source-location clarification (2026-11-27):** The two EDASES topic retrospectives are retained at the explicit paths in the dependency metadata. Their research findings and the historical permission-boundary evidence are not instructions to activate old guards or a new current execution route. Local source presence does not establish EDASES upstream currency.
 
 > **Purpose.** This document is a research-layer finding on the relationship
 > between the read-only permission-boundary work
