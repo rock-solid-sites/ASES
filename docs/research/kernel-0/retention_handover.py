@@ -28,15 +28,24 @@ def steps(s, limit, variant):
             yield f"begin {q} for {n:b}", replace(s, target=n)
     if s.target is not None:
         yield f"abort {q}", replace(s, history=s.history + (m,), target=None)
-        needed = s.target & m if variant == "overlap only" else s.target
-        if all(not named(needed, i) or v == q for i, (_, _, v) in enumerate(s.holders)):
+        needed = s.target
+        if variant in ("inherit", "observed bytes"):
+            needed &= ~m
+        elif variant == "overlap only":
+            needed &= m
+        if all(not named(needed, i) or v == q or (variant == "observed bytes" and held)
+               for i, (_, held, v) in enumerate(s.holders)):
             yield f"commit {q}", replace(s, history=s.history + (s.target,), target=None)
     for i, (t, held, v) in enumerate(s.holders):
         if any(h for _, h, _ in s.holders):
             # Conservatively allow a delayed hold from *every* past attempt.
             # Aborted proposal memberships are unnecessary for this overapproximation.
             last = q if s.target is not None and named(s.target, i) else d
-            for r in range(t + 1, last + 1):
+            first = t + 1
+            if variant == "observed bytes":
+                # Keep this negative witness within actually addressed holds.
+                first = max(first, q)
+            for r in range(first, last + 1):
                 yield f"pin bytes at {i} for {r}", s.at(i, (r, True, max(v, r)))
         for r, mask in enumerate(s.history):
             if r >= t or variant == "old deletion":
@@ -61,7 +70,7 @@ def search(n, limit, variant="complete", whole_loss=False):
                 s, action = paths[s]
                 path.append(action)
             return len(paths), list(reversed(path))
-        if s.target is None and variant == "complete":
+        if s.target is None and variant in ("complete", "inherit"):
             d = len(s.history) - 1
             assert all(t <= d for t, _, _ in s.holders)
             for i, (t, held, v) in enumerate(s.holders):
@@ -86,3 +95,11 @@ if __name__ == "__main__":
             _, path = search(2, 2, mutant, whole_loss=all_gone)
             assert path
             print(mutant, " -> ".join(path))
+
+    for n, limit in ((2, 3), (3, 2), (4, 2)):
+        count, path = search(n, limit, "inherit")
+        assert path is None
+        print("inherited pins", n, limit, count)
+    _, path = search(2, 3, "observed bytes", whole_loss=True)
+    assert path
+    print("observed bytes", " -> ".join(path))

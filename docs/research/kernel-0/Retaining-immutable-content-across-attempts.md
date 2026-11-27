@@ -1,6 +1,6 @@
 ---
 title: Which holders may release immutable Work Unit contents after a handover?
-version: 0.1.0
+version: 0.2.0
 program: ASES
 layer: Research
 document_type: Experimental Result
@@ -37,4 +37,16 @@ The direction of the receipt matters. Admission fences close every independently
 
 Both are reachable schedule results. `z3 docs/research/kernel-0/retention_induction.smt2` and `cvc5 --incremental docs/research/kernel-0/retention_induction.smt2` also check initialization, start, pin, abort, commit, summary and the two weakened obligations. Z3 4.13.3 and cvc5 1.4.2 both returned six `unsat`, then two `sat`. Independent solvers check the same arithmetic model. Authentic summaries, correct acquisition and surviving physical bytes remain premises. [Schedule search](retention_handover.py) · [Symbolic obligations](retention_induction.smt2)
 
-This proof is sufficient for the baseline. It leaves open whether already-established pins at continuously required holders must be renewed on every commit. Prompt erasure of old copies, destructive same-identity reuse, changing the immutable version, concurrent scopes sharing physical storage, and authenticated repair after actual disk loss require different contracts.
+This proof is sufficient for the baseline. The next section tests whether already-established pins at continuously required holders need renewal. Prompt erasure of old copies, destructive same-identity reuse, changing the immutable version, concurrent scopes sharing physical storage, and authenticated repair after actual disk loss require different contracts.
+
+## A continuously required holder can remain silent
+
+The baseline vote requirement can be reduced for an unchanged immutable version. At a commit from M to N collect fresh durable holds only from **N minus M**. Carry forward the existing pin at every retained member. In particular a change of execution tenure that leaves the version and required holders unchanged needs zero new *storage* votes. The earlier proof's t≥c premise is now too strong: a retained member can span many commits without processing a message.
+
+For an arbitrary holder define a as the latest **decision number** whose summary excluded it, initially −1 if it has always been required. If the holder is currently absent, a=d. A required holder must have actual pinned bytes and t>a. As before, t is bounded above by the last issued attempt, a vote cannot exceed t, and t>d implies pinned bytes. This puts the threshold at the last potentially destructive message instead of the last change of execution tenure.
+
+A target joiner was previously absent with a=d. Its receipt raises t to q=d+1 and pins the bytes. A retained member already has held and t>a, and the new summary includes it, leaving a unchanged. A removal sets a=q with no duty to retain. Abort similarly advances a only at absent holders. An authentic exclusion at r satisfies r≤a; at any required holder it therefore fails r≥t. An applicable inclusion keeps the pin. These cases re-establish the induction for an arbitrary number of holders and changes. Quiescent catch-up still uses a single summary per holder. For h consecutive commits retaining the same m holders, the baseline requires h×m renewed receipts; the reduced protocol needs none from those m for this storage claim. Initial acquisition, later joins, admission fences, and auditing damaged storage have their own costs.
+
+**A join cannot inherit a mere observation of bytes.** Prepare B for attempt 1, then abort. Its bytes are present while the current configuration still requires only A. Begin attempt 2 with B as the sole target. If the selector counts B's present bytes in place of the attempt-2 promise, it can commit and A can release. The delayed abort-1 summary still excludes B and matches B's floor. It can now delete the last copy. The latest absence summary is why continuity of the *obligation* matters, even when the physical bytes have never moved. An independently irrevocable pin covering the new decision would change this premise.
+
+The [schedule search](retention_handover.py) now checks both protocols. The reduced-vote searches reached 1,769, 4,857 and 82,895 states at the same respective bounds, with all required pins present. The seven-event loss trace above was found using only actually addressed prepares. The [reduced arithmetic obligations](retention_reuse.smt2) returned six `unsat`, then two `sat` in Z3 4.13.3 and cvc5 1.4.2. The last cases expose the point-in-time possession error and demonstrate that a retained gate's floor can safely lag the new commit. This resolves receipt reuse for fixed immutable contents under persistent storage promises. A new content version or a temporary gap in membership invalidates the inheritance argument.
