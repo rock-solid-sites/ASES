@@ -6,48 +6,47 @@ For current architectural intent and non-goals, see the [Execution Engine Vision
 
 The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Decision-Record.md) explains the historical open-derivation protocol; it is not a current launch assignment. Preserve clean-room separation for new open derivations: do not include candidate designs, reviewer conclusions or historical implementation paths unless necessary to the requested task. Actual dispatch requires the current task-relevant skills and authorization, not September model/host assumptions.
 
-[Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
+## Experimental findings
 
-[One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.
+The owner experiments give executable witnesses for local handover, content continuity and reply-level isolation. The distributed protocols give conditional proofs about gates, voters and holders. The containment studies identify family-wide counterexamples to inferring authority from structurally valid trees. None selects an engine implementation. The relevant result depends on what the consumer can observe and which restrictions must survive loss.
 
-[Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
+### One handover and its recovery
 
-[Changing the set of resource owners at handover](Changing-the-set-of-resource-owners.md) extends the arbitrary-member proof to joins and removals, including delayed activation at an owner that never opened.
+- [Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
+- [One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.
+- [Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
+- [Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
+- [Changing the set of resource owners at handover](Changing-the-set-of-resource-owners.md) extends the arbitrary-member proof to joins and removals, including delayed activation at an owner that never opened.
+- [Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
+- [When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.
 
-[Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
+### Accepted contents, retries and observations
 
-[A local owner witness for activation, replacement and replay](Local-owner-admission-and-replay.md) exercises W5/W6-shaped local histories at process-loss cuts on either side of the actual append commit.
+- [A local owner witness for activation, replacement and replay](Local-owner-admission-and-replay.md) exercises W5/W6-shaped local histories at process-loss cuts on either side of the actual append commit.
+- [What a receipt reveals across Work Unit scopes](What-a-receipt-reveals.md) tests reply-level isolation in the local owner and checks scope-relative receipts across the same crash windows.
+- [What must survive replacement to answer an old retry?](Receipt-retention-after-replacement.md) counts distinguishable histories with identical application bytes and verifies conditional reclamation under a prefix-release contract.
+- [What evidence shows that accepted contents survive handover?](Surviving-content-at-handover.md) separates version and storage custody from a checkable recovery certificate, and derives exact domain-loss bounds for linear contents.
+- [Transferring the accepted prefix between local resource owners](Transferring-the-accepted-prefix.md) exercises ten process-loss cuts in a three-database handover, including recovery after the outgoing store becomes unavailable.
+- [Which holders may release immutable Work Unit contents after a handover?](Retaining-immutable-content-across-attempts.md) proves a repeated storage-promise protocol and produces complete data-loss histories for two weakened receipt or release rules.
 
-[Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
+### Nested Work Units and managerial authority
 
-[What must survive replacement to answer an old retry?](Receipt-retention-after-replacement.md) counts distinguishable histories with identical application bytes and verifies conditional reclamation under a prefix-release contract.
+- [Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
+- [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
+- [What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
+- [How hard is it to find a safe order for Work Unit moves?](Ordering-policy-preserving-relocations.md) proves NP-completeness with fixed containment filters, and gives a greedy algorithm with a deadlock certificate for a tractable subclass.
+- [How much independent seal state must a Work Unit retain?](How-much-seal-state-survives.md) derives the exact future-observable quotient of independently asserted and jointly releasable vetoes, including a counterexample under authority reconfiguration.
+- [Which changes of managerial authority preserve a compact seal record?](Seal-state-under-policy-evolution.md) gives an exact migration test, a cross-policy counterexample and a complexity result for permitted upgrade paths.
 
-[Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
+### Decision cost and trusted evidence
 
-[What a receipt reveals across Work Unit scopes](What-a-receipt-reveals.md) tests reply-level isolation in the local owner and checks scope-relative receipts across the same crash windows.
+- [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
+- [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
+- [How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
+- [Can a progress stamp reconstruct which prepared Work Unit updates committed?](Reconstructing-a-cut-from-prepared-updates.md) counts indistinguishable committed cuts under partial order and exhibits two different acknowledgments with identical recovered SQLite files.
 
-[Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
+## Verification and open boundary
 
-[Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
+A fresh checkout of public main at 54ad041 replayed all 24 Python research scripts in this directory, including the two preceding studies. All exited successfully. Z3 4.13.3 and cvc5 1.4.2 each returned the expected answers on all six SMT-LIB files: 31 unsatisfiable positive obligations and 12 satisfiable controls. This was a repeat execution on the same host, not independent model authorship or engine conformance testing. Exact commands and bounded coverage are in the individual studies. [Replayed source](https://github.com/rock-solid-sites/ASES/tree/54ad0418803eae03019031005c3447fca9963f7e/docs/research/kernel-0)
 
-[When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.
-
-[When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
-
-[What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
-
-[How hard is it to find a safe order for Work Unit moves?](Ordering-policy-preserving-relocations.md) proves NP-completeness with fixed containment filters, and gives a greedy algorithm with a deadlock certificate for a tractable subclass.
-
-[What evidence shows that accepted contents survive handover?](Surviving-content-at-handover.md) separates version and storage custody from a checkable recovery certificate, and derives exact domain-loss bounds for linear contents.
-
-[Transferring the accepted prefix between local resource owners](Transferring-the-accepted-prefix.md) exercises ten process-loss cuts in a three-database handover, including recovery after the outgoing store becomes unavailable.
-
-[Which holders may release immutable Work Unit contents after a handover?](Retaining-immutable-content-across-attempts.md) proves a repeated storage-promise protocol and produces complete data-loss histories for two weakened receipt or release rules.
-
-[How much independent seal state must a Work Unit retain?](How-much-seal-state-survives.md) derives the exact future-observable quotient of independently asserted and jointly releasable vetoes, including a counterexample under authority reconfiguration.
-
-[Which changes of managerial authority preserve a compact seal record?](Seal-state-under-policy-evolution.md) gives an exact migration test, a cross-policy counterexample and a complexity result for permitted upgrade paths.
-
-[How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
-
-[Can a progress stamp reconstruct which prepared Work Unit updates committed?](Reconstructing-a-cut-from-prepared-updates.md) counts indistinguishable committed cuts under partial order and exhibits two different acknowledgments with identical recovered SQLite files.
+The strongest local content witness uses three separate SQLite stores and ten interruption points. General distributed conformance still requires a real owner to authenticate issuing scopes, enumerate every writable and destructive alias, and preserve both authority and accepted material under its declared failure model. For compact recovery evidence, knowing the number of distinct stamp values required at a cut leaves a separate problem: an online maintainer may itself need more protected state when update notifications can repeat. Modelling that interface avoids transferring uncounted trust to the stamp producer.
