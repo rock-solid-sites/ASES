@@ -52,15 +52,8 @@ The earlier research proposes a target-specific claim register and a controlled 
 
 **Research:** earlier concrete design; later testing pilots establish partial method realization elsewhere, not completion of this original target experiment. **Implementation:** original target execution not established in the public sources inspected. **Owner:** existing empirical testing research, with target-specific ownership distinct. Reconcile later source records before building anything. No target testing or disclosure is authorized by this register.
 
-## Conceptual discrimination as an empirical reviewer capability (HIR-020)
 
-**Public evidence:** [Historical Ontology Reviewer proposal](../../roles/Ontology-Reviewer.md) (blob `da24b212fa885ee11e0b2e60a8c4745b08c5a2c0`), [current orchestration guide](../../methodology/AI%20Orchestration%20Guide.md), [validation-brief corpus](../../../evaluation-corpus/validation-brief-corpus/README.md). The role proposal is explicitly historical; it refers to an empirical reviewer benchmark and distinguishes exploratory and conformance review.
-
-The residual question is whether reviewers detect genuine conceptual conflation, boundary/ownership mistakes or semantic drift while correctly leaving sound artifacts alone, and which model capabilities matter in each review mode. The existing validation-brief corpus measures methodology enforcement, not necessarily this discrimination task. Comparative controls must not reward indiscriminate criticism or impose the reviewer's preferred architecture.
-
-**Research:** proposed benchmark/routing hypothesis; independent execution not located in sources inspected. **Implementation:** conceptual lens and review-mode distinction incorporated in current guidance; obsolete standalone role is not reinstated. **Owner:** existing review methodology and capability research. No duplicate benchmark suite authorized before reconciliation.
-
-## Capability evidence versus allocation (HIR-023)
+## Capability evidence versus allocation (HIR-030)
 
 **Public evidence:** [AI Capability Registry Specification](../registry/AI%20Capability%20Registry%20Specification.md), [16-review-wave retrospective](../retrospectives/topics/EDASES-topic-Model-Capability-16-Review-Wave.md), [Model Routing Matrix](../registry/Model-Routing-Matrix.md). The research registry records observed behavior; operational strategy is derived separately. Two eight-model review waves offer actual findings and important access-asymmetry and synthesis-attribution limitations, not a fully controlled capability benchmark.
 
@@ -88,6 +81,28 @@ Related subjects retain their different evaluation objects: engineering behavior
 
 **Public evidence:** [P7 redacted machine result](https://github.com/rock-solid-sites/ASES/blob/f40da189237896a146ad5913ddbd1aca13e488ed/research/ontology-benchmark-p7/evidence/p7-machine-result-redacted.json), [independent-review protocol](https://github.com/rock-solid-sites/ASES/blob/f40da189237896a146ad5913ddbd1aca13e488ed/research/testing-assurance-pilot/P7-REVIEW-EXECUTION-PROTOCOL-2026-11-02.md), [draft PR #4](https://github.com/rock-solid-sites/ASES/pull/4), [current testing and assurance source map](../Testing%20and%20Assurance%20Source%20Map.md).
 
-The November P7 corpus has six cases, including clean controls. Its cheap syntax heuristic detected two of four seeded defects without flagging either clean control; this is **not** an ordinary model-review comparator. The record marks independent review routes NOT_RUN and concept ground truth not independently validated. A corrected conformance packet removes trace hints that could reveal planted defects. Preserve this distinction between a qualified instrument and an actual measured capability. Any earlier benchmark asset should be reconciled rather than assumed identical to P7.
+The earlier [Ontology Reviewer proposal](../../roles/Ontology-Reviewer.md) raised an empirical distinction between exploratory and conformance review. The November P7 corpus has six cases, including clean controls; its identity with the earlier proposed corpus is not established. The [validation-brief corpus](../../../evaluation-corpus/validation-brief-corpus/README.md) measures a related but distinct methodology-enforcement question. Its cheap syntax heuristic detected two of four seeded defects without flagging either clean control; this is **not** an ordinary model-review comparator. The record marks independent review routes NOT_RUN and concept ground truth not independently validated. A corrected conformance packet removes trace hints that could reveal planted defects. Preserve this distinction between a qualified instrument and an actual measured capability. Any earlier benchmark asset should be reconciled rather than assumed identical to P7.
 
 **Research:** corpus preparation and deterministic control partly demonstrated; actual comparative capability, restraint, grounding and cost remain unmeasured in the inspected evidence. **Implementation:** experimental packets, not an adopted reviewer-role gate. The current source map uses distinct reasoning modes and rejects reinstating permanent ontology roles. Preserve the comparative question under current assurance research; no new role, duplicate corpus, or dispatch is authorized by this entry.
+
+## Collective correctness beyond individual verification (HIR-031)
+
+**Public evidence:** [historical classification prompt](https://github.com/rock-solid-sites/ASES/blob/ef24547caa8759f6c84e31009714359d66ddcbc4/docs/historical/decisional-provenance/research-level-classification-prompt.md), question D; [Gas Town historical synthesis](https://github.com/rock-solid-sites/ASES/blob/ef24547caa8759f6c84e31009714359d66ddcbc4/syntheses/gas-town-deep-dive-summary.md); [Kernel-0 research](../kernel-0/README.md).
+
+Individually verified changes may fail when combined. The research question is what establishes collective correctness under declared dependency and interaction assumptions, including when review evidence must be invalidated or refreshed. It is not simply which Git merge queue to use. Related to HIR-008 and HIR-022, but distinguish empirical software integration validity from bounded formal Work Unit composition results. Current core research gives concrete compositional safety results under specific assumptions, not general software integration correctness.
+
+**Research:** historical proposal with related formal evidence; original empirical comparative scope remains to be reconciled. **Implementation:** no general integration mechanism inferred. Do not create a mandatory queue or permanent role from this question.
+
+## Historical research-level classification — recovered review corpus (HIR-034)
+
+**Public evidence:** [historical provenance filing commit](https://github.com/rock-solid-sites/ASES/commit/ef24547caa8759f6c84e31009714359d66ddcbc4), [review directory at that revision](https://github.com/rock-solid-sites/ASES/tree/ef24547caa8759f6c84e31009714359d66ddcbc4/docs/historical/decisional-provenance-reviews/research-level-classification).
+
+The research/methodology/runtime distinction was subjected to a multi-model classification exercise. The pinned filing commit preserves one common prompt, eight nominally model-attributed noncorrupt responses, one attribution-mismatch record, and one corrupted output. Preserve the two qualified records as such. The reviews disagree about the count and boundaries of fundamental tracks, whether questions should be partitioned or decomposed across levels, the direction of empirical feedback, and how to treat collective correctness. Model agreement cannot prove that the taxonomy is uniquely correct.
+
+**Research:** review corpus exists; comparative adjudication and downstream lineage remain to be checked, rather than assuming the exercise never happened. **Implementation:** not a new taxonomy. The historical filing commit diverges from current main; this record preserves its evidence without declaring the moves present on main or repeating them. Use the existing topic organization.
+
+## Identifier-first tool calling — existing research, qualified residuals (HIR-035)
+
+**Public evidence:** [identifier-first research](../Identifier-First%20Tool%20Calling.md), [lazy MCP proxy experiment](../../../research/toolregistry-lazy-mcp/report.md), [catalog-scale experiment and November 25 scope qualification](../../../research/toolregistry-lazy-mcp/catalog-scale/report.md).
+
+The project already has substantial validation of a narrow lazy-connector architecture and bounded catalog residency, plus description-compression experiments. The exact identifier-only representation, matched CLI comparison, generalized idle-timeout/pooling policy, multi-transport validation and full costs remain distinct questions in the existing reconciled research record. This is a negative deduplication result: retain current evidence and owners instead of opening a competing Lexicon project. Research result does not authorize adopting the prototype.
