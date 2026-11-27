@@ -1,0 +1,37 @@
+---
+title: Which gates must fence a handover?
+version: 0.1.0
+program: ASES
+layer: Research
+document_type: Experimental Result
+status: Experimental
+authority: Derived
+canonical_repository: ases
+last_updated: 2026-11-27
+---
+
+# Which gates must fence a handover?
+
+Suppose a write needs approval from A and then B. Fencing A can stop every *newly started* write and still allow an uncommitted write to take effect after handover. The missing observation is whether a request already passed A. If a permit survived there, B can still admit that request. The old request's remaining checks determine which fences suffice. The previous membership result required a fence from each independently effective outgoing owner. This question concerns several checks protecting the same effect. [Membership proof](Changing-the-set-of-resource-owners.md) · [Delayed admission](Tenure-reuse-and-delayed-admission.md)
+
+## A checkable cut for in-flight work
+
+For one old tenure, draw a directed transition graph up to the **first new authoritative effect** by that tenure after the selector's decision. The distinguished vertex bad means that effect occurred. A vertex may encode all pending permits, issuers, messages and storage needed for the claim. Use a product state if requests interact. Label each transition with the one gate it must still pass, or leave it unlabelled. A durable fence at g disables every transition labelled g for that tenure. Effects of fences are monotone throughout the window studied. Model continuing intake, replay and recovery whenever they can create an old effect. The start set S contains every possible residual configuration at decision, including partially completed requests. A proposed schedule of barrier collection can change S. The following test takes S as input.
+
+Delete edges labelled by the acknowledged fence set F. Safety is equivalent to bad being unreachable from S in the exact residual transition system. In a sound overapproximation, unreachability is sufficient and a path is a potential counterexample to replay against the concrete system. A graph missing a real path can produce a false safety finding.
+
+**Certificate.** Supply a region U containing S and excluding bad. Check each edge leaving U has a label in F. By induction a run starting in U stays there. Conversely, for any safe F the set of vertices reachable after deletion is such a region. Thus a heuristic or untrusted optimizer can propose F and U. A checker needs one inclusion/closure pass on the admitted graph, without trusting an optimality claim. If a graph revision removes transitions or introduces only edges within U, outside U with source outside, or crossing U under a fenced label, the same certificate remains valid provided it still covers S and excludes bad. Checking only a delta requires an authenticated complete graph delta and a previously checked base. A changed gate meaning or fence validity invalidates that reasoning.
+
+Equivalently, each S-to-bad path has a support consisting of labels it still needs. F must intersect every minimal support. For a finite graph removing cycles yields a simple path with a subset of the labels. An empty support rules out every possible fence selection in this model. An empty *family* means no old effect is reachable even before fencing. These two cases call for opposite decisions. When every old owner is an independent single gate, each singleton occurs as a support. When every legal write still needs any q distinct members among n interchangeable gates at the instant of decision, n−q+1 fences are necessary and sufficient by counting the unfenced complement. That formula requires a shared residual contract for the q checks. Cached votes can invalidate it. Flexible Paxos also identifies a cross-phase intersection condition. Its consensus phases carry protocol-specific obligations. Here the two families are acknowledged fences and still-needed admission checks. [Howard, Malkhi and Spiegelman, *Flexible Paxos*](https://arxiv.org/abs/1608.06696)
+
+**An especially demanding handover.** Suppose every reachable pre-effect state can be parked across the handover, so S contains all such states, and fencing only disables future checks. Every edge into bad from those states must itself be disabled. Necessity uses that edge's source as the parked state. Sufficiency holds because any first entry into bad needs such an edge. With multiple sequential checks, a late unguarded completion therefore defeats every earlier fence. An implementation may instead prove that the earlier event already was the authoritative effect, or establish a durable drain that excludes the parked state at decision. These give different observable contracts. If the earlier event created an obligation to deliver externally, the model must specify what survives handover and whether an external outcome was promised.
+
+## Cost of choosing fences
+
+Checking one proposed F takes O(vertices + edges) with adjacency lists and constant-time label lookup. Computing a smallest set can be intrinsically expensive even for acyclic graphs. Reduce a finite Hitting Set instance by giving each nonempty input set its own disjoint path from a common source to bad, with one edge labelled by each element. A label names the same physical fence on every path. A fence set of size at most k is safe exactly when it hits every input set. The construction is polynomial, and a candidate is verifiable by reachability, so this decision problem is NP-complete. Ordinary minimum edge cut charges once per edge, whereas a physical barrier can disable many edges for one charge. Also, a chain of d stages with two differently labelled parallel edges per stage and all 2d labels distinct has 2^d incomparable path supports but only d+1 vertices. Region closure can avoid materializing that family. These counts measure verification structure. They exclude deriving the graph and collecting trustworthy runtime evidence.
+
+## Executed comparisons and remaining obligations
+
+`python3 docs/research/kernel-0/residual_fence_cuts.py` compares explicit enumeration of minimal simple-path supports with edge-deletion reachability and region validation. All 4,096 labelled three-vertex directed graphs without loops or parallel edges were checked, with three nonempty frontiers outside bad and all four fence choices. Of 49,152 combinations, 17,408 were safe and 31,744 admitted a path. The two-stage example keeps an A permit across handover. Adding its parked state removes A as a sufficient fence. A final unlabelled delivery after both permits survive defeats fencing both gates. The search checks the graph mathematics. It does not attest that a real execution path has been modelled. [Executable comparison](residual_fence_cuts.py)
+
+For the Work Unit crosswalk, a candidate's verification evidence should identify the point at which an accepted result becomes durable, which still-uncommitted states can cross that point after replacement, and which lower-level operations each fence actually disables. ISOLATE protects the state counted in that evidence, CONNECT identifies what gates mediate which authority, and ORDER places the decision against surviving work. None of the counting arguments establishes those premises. A topology inventory alone cannot distinguish the two-stage histories above. [Owner crosswalk and W5/W6](../astra-followup-20261125/round25/WORK-UNIT-AUTHORITY-RUST-CUSTODY.md)

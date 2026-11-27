@@ -13,3 +13,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
 
 [Changing the set of resource owners at handover](Changing-the-set-of-resource-owners.md) extends the arbitrary-member proof to joins and removals, including delayed activation at an owner that never opened.
+
+[Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
