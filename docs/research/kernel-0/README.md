@@ -41,3 +41,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [What evidence shows that accepted contents survive handover?](Surviving-content-at-handover.md) separates version and storage custody from a checkable recovery certificate, and derives exact domain-loss bounds for linear contents.
 
 [Transferring the accepted prefix between local resource owners](Transferring-the-accepted-prefix.md) exercises ten process-loss cuts in a three-database handover, including recovery after the outgoing store becomes unavailable.
+
+[Which holders may release immutable Work Unit contents after a handover?](Retaining-immutable-content-across-attempts.md) proves a repeated storage-promise protocol and produces complete data-loss histories for two weakened receipt or release rules.
