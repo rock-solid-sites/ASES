@@ -1,0 +1,392 @@
+{
+  "schema": "experiment-register-pilot-preflight",
+  "packet_commit": "66693adb1fe539bfdd6cf4896fe7c912f0e86c8f",
+  "packet_git_blobs": {
+    "A": "3a2755be8e4f42a81fa762be7d05e1a417654147",
+    "B": "0c248a73355c5fd1d6ab783f149189cc9b87bb3a"
+  },
+  "execution": {
+    "source": "84d3c1da08ad93592282c77c00f37068ac2f3ff0",
+    "profile": "profiles/experiment-register-pilot/",
+    "manifest": "25bd30e8432649ee011accf71db21d165d3a18e0  profiles/m5-12/m4r_observation.py\n3d21682edda1ba34302d0b0d0c47b1867e3afd07  profiles/m5-12/m5_catalog_run.py\n3205f12565278378f18894970507566f7d0862e5  profiles/m5-12/m5_combined_observer.mjs\n8eec79c6f9dbcb6d5ca9f4e8f7265deb43ea5344  profiles/m5-12/m5_decoded_feed.py\n1e69cc4d7b0efd7e6a8969175828ac97a380b7a0  profiles/m5-12/m5_resource_control.mjs\n637666bc31d45d356eb17313d2b48fc995e14eec  profiles/m5-12/m5_review_fixture.mjs\n4f8b199cb9d8cf542c16581e1f4b2d95d71ad687  profiles/m5-12/mock_server.py\n7954c88d05114b427ec6911faf56a5098e526300  profiles/m5-12/stage4_opencode2.py\nfe52708e9ef86b02ccec0754432d6e3bd9f9739d  profiles/m5-12/test_m5_resource_control.mjs\ne4ba7c5513c3e2b453caf77ed4bf5fee070937d2  profiles/experiment-register-pilot/auth-preflight.py\na1306fb4bdafb208949e6fd5ba1c8cdb47d68610  profiles/experiment-register-pilot/m5_review_barrier.mjs\n18c52e2d811b1a57ce6004b6680ab87150edfe89  profiles/experiment-register-pilot/m5_review_batch.py\n81c37e0f2c8304fadb0388d1759bc580f7d4d220  profiles/experiment-register-pilot/m5_review_dry.py\n81a967649e0a18c96d6c40b61e92ab875e6ff23d  profiles/experiment-register-pilot/m5_review_plugin.js\ne0c285c45f0cdccf96bba8da9f7c75f48aeaac1f  profiles/experiment-register-pilot/m5_review_replay.mjs\nbe77046857cd4f9ad362db84c062aec8db02228a  profiles/experiment-register-pilot/m5_review_run.py\nffbe3f6c751ff82a650922997633f2dd67f1d121  profiles/experiment-register-pilot/permit.py\n3a2755be8e4f42a81fa762be7d05e1a417654147  profiles/experiment-register-pilot/prompt-original.txt\n0c248a73355c5fd1d6ab783f149189cc9b87bb3a  profiles/experiment-register-pilot/prompt-split.txt\nc2ee4a57abf6cf475f45e8861560300c1e984a97  profiles/experiment-register-pilot/test_m5_review_barrier.mjs\n",
+    "canary_source": "04c77cc6ecea530c8c980bfdb4ce4f2b5fd666f7",
+    "canary_pipeline": 3124047947,
+    "canary_job": 18435057295,
+    "canary_real_calls": 0,
+    "canary_model_order": [
+      "deepseek-v4.1-flash",
+      "beam-free",
+      "hungerg-free",
+      "mimo-v2.6-flash"
+    ],
+    "canary_rows": [
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7851.036,
+                "wall_ms": 1795792508307
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "none",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 256000,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8287.557,
+                "target": true,
+                "wall_ms": 1795792508743
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "none",
+                "post_effort": "none",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 256000,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8290.83,
+                "target": true,
+                "wall_ms": 1795792508747,
+                "wire": {
+                  "max_completion_tokens": 8192,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "none",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8297.315,
+                "target": true,
+                "wall_ms": 1795792508753
+              }
+            ],
+            "limit": 8192,
+            "mode": "none",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 8192,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "none",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      },
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7827.527,
+                "wall_ms": 1795792517434
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "low",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 131072,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8211.76,
+                "target": true,
+                "wall_ms": 1795792517818
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "low",
+                "post_effort": "low",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 131072,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8215.29,
+                "target": true,
+                "wall_ms": 1795792517822,
+                "wire": {
+                  "max_completion_tokens": 8192,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "low",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8224.053,
+                "target": true,
+                "wall_ms": 1795792517830
+              }
+            ],
+            "limit": 8192,
+            "mode": "low",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 8192,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "low",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      },
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7769.992,
+                "wall_ms": 1795792526469
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 65536,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8183.604,
+                "target": true,
+                "wall_ms": 1795792526882
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "default",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 65536,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8187.467,
+                "target": true,
+                "wall_ms": 1795792526886,
+                "wire": {
+                  "max_completion_tokens": 8192,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "ABSENT",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8195.699,
+                "target": true,
+                "wall_ms": 1795792526894
+              }
+            ],
+            "limit": 8192,
+            "mode": "default",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 8192,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "ABSENT",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      },
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7859.321,
+                "wall_ms": 1795792535626
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 131072,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8312.28,
+                "target": true,
+                "wall_ms": 1795792536079
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "default",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 131072,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8316.158,
+                "target": true,
+                "wall_ms": 1795792536083,
+                "wire": {
+                  "max_completion_tokens": 8192,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "ABSENT",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8322.98,
+                "target": true,
+                "wall_ms": 1795792536090
+              }
+            ],
+            "limit": 8192,
+            "mode": "default",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 8192,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "ABSENT",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      }
+    ],
+    "packet_only_change_after_canary": true,
+    "retired_unplayed_pipeline": 3124048555,
+    "live_pipeline": 3124053232,
+    "permit_commit": "2855dc251434c62ea0547ae7a7ba92131a007aae",
+    "catalog_job": 18435000179,
+    "qualified_cli": "2.4.2",
+    "route": "opencode-go native chat completions",
+    "funding": "Go subscription and exact zero-price free routes; no additional cash authorized; Extra Usage toggle unverified",
+    "prior_mimo_holds": "unresolved, retained separately"
+  },
+  "jobs": [
+    {
+      "id": 18435097965,
+      "name": "er_beam",
+      "status": "running"
+    },
+    {
+      "id": 18435097964,
+      "name": "er_mimo",
+      "status": "running"
+    },
+    {
+      "id": 18435097963,
+      "name": "er_hungerg",
+      "status": "running"
+    },
+    {
+      "id": 18435097962,
+      "name": "er_ds",
+      "status": "running"
+    }
+  ],
+  "limits": {
+    "attempts": 4,
+    "cap": 8192,
+    "seconds": 90,
+    "retry": false,
+    "fallback": false
+  },
+  "status": "DISPATCHED_NOT_GRADED"
+}
