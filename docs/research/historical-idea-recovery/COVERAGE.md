@@ -6,7 +6,7 @@ document_type: Research Record
 status: Experimental
 authority: Derived
 canonical_repository: ases
-last_updated: 2026-11-27
+last_updated: 2026-11-28
 ---
 
 # Coverage
@@ -151,3 +151,11 @@ The remaining embedded reviewer transcripts and later document-drafting portions
 C-034 is now completely semantically reviewed (68 numbered turns, 5,506 lines; exact repeated strings condensed for reading). The preserved incident source and current interpretations were also inspected. The projection contains truncated attachment excerpts, so it does not establish full transport telemetry or a causal explanation. C-032 was revisited at selected substantive depth, including the original and revised engineering proposals, integration discussion and comparative review report; no complete credit is assigned. An exact duplicated review payload was verified in both the normalized projection and original archive JSON. Distinct source labels are not independent execution receipts.
 
 Complete coverage is **47/256** (37 compact, ten legacy), 256 mechanically screened, 19 held metadata-only, zero local coding-agent transcript reviews. The register now contains 83 entries (40 canonical +43 descriptive): one conditional output-integrity residual, no new issue or authorized experiment. Restricted locators and verification in WNASES-35 R28a/b.
+
+### R29 — complete tooling conversation; begin foundational research
+
+C-032 is fully reviewed: all 87 numbered turns (9,989 lines), including alternative response branches. Imported attachments were not independently verified. A second exact duplicate review bundle was verified in both the derived transcript and the archived JSON. It belongs to alternate response paths to the same request: normal branch retention, not an additional independent reviewer run and not the same defect as the differently labeled duplicate found in R28.
+
+C-035 was reviewed contiguously through line 3310 (turn 31), covering its opening research documents, harness reframing, execution/evidence distinction, explicit deferral of cross-domain generalization, and external prior-art research. It remains partial. Resume at line 3311 (turn 32).
+
+Complete semantic coverage: **48/256** (37 compact, 11 legacy); mechanically screened 256/256; 19 held metadata-only; zero local sessions. The 83 unique register entries (40 canonical + 43 descriptive) are unchanged; R29 refined existing methodology, retrieval and evaluation questions. Restricted source locators and evidence: WNASES-35 R29a/b. No new issue, experiment, dispatch, implementation, policy or archive changes.
