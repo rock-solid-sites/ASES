@@ -72,3 +72,41 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 | # | Commit | Content |
 | --- | --- | --- |
 | 0 | (this commit) | Run log, starting context, frontier assessment, programme. |
+| 1 | (next commit) | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
+
+## Q1 outcome (recorded at checkpoint 1)
+
+All three working hypotheses held and are now demonstrated, with one sharpening
+discovered during falsification: the absorption bound that a resumed selector
+must respect is set by gate floors *plus issued summaries*, not floors alone —
+an aborted attempt whose summary is still in flight is invisible to gates and
+is exactly the shortest forgery. Consequences:
+
+- **[D]** Unrepaired resumption fails two ways: a three-step forged tenure
+  (re-commit of a forgotten abort from a retained receipt) and a four-step stale
+  reopen (abort summary binding the forgotten tenure). 6,241 of 6,769 restored
+  images admit harm in the one-gate bounded model; 3,649 of 4,219 with two gates.
+- **[D]** No gate-local rule can repair this (two-worlds indistinguishability,
+  asserted in the script): the acceptance that ordinary catch-up liveness
+  requires is the one rollback exploits.
+- **[D]** Two sufficient resumption rules — withhold summaries until one
+  commit above the trace bound, or renumber past the bound plus one of the two
+  withholdings — each clause necessary against the other's absence; the exact
+  condition subsumes both.
+- **[D]** The append contract and the grant-authorization contract diverge
+  under rollback: summary withholding alone still minted 415 contained forged
+  grants; renumbering alone still admitted 3,572 stale reopens.
+
+Challenge to prior conclusions: the abortable study's "attempts never repeat"
+premise (also load-bearing for discarding decided votes in the gate-rollback
+proof) is unsound across selector rollback and must be replaced by the resumption
+floor over traces; the gate-rollback study's recovery procedure remains valid
+because it holds the selector at true-latest state, but its mirror needed the
+spool, an evidence source outside both the gate and the rolled-back selector
+domain — a new placement obligation for any realization.
+
+Remaining Q1 proof obligations are recorded in the study's boundary. Next
+frontier reassessment: the README's trusted-updater agreement obligation and
+the custodial consequence of a forgotten commit (the resumed selector that
+forgets a commit forgets its accepted-prefix custody transfer) are the live
+candidates for a second investigation.

@@ -1,0 +1,58 @@
+---
+title: When is an earlier selector image safe to resume?
+version: 0.1.0
+program: ASES
+layer: Research
+document_type: Experimental Result
+status: Experimental
+authority: Derived
+canonical_repository: ases
+last_updated: 2026-11-28
+---
+
+# When is an earlier selector image safe to resume?
+
+A replacement can be aborted safely because attempt numbers never repeat. Suppose the durable selector restores a genuine earlier image after issuing prepares, deciding attempts and publishing summaries. Its decision counter has regressed while gates, in-flight votes and issued summaries have not. The nonrepetition premise now fails on the side that authored it. The gate study repaired a rolled-back gate against a true-latest selector and stated that none of its procedures "repairs rollback of the selector itself"; the abortable proof tested no selector storage rollback; the tenure-reuse bound assumed atomic persistence across owner restart. This study closes that mirror image at the protocol level: which earlier images may resume, what evidence the resumed selector must consult, and what no gate-local rule can do about it. [Gate rollback](Recovering-a-gate-with-votes-in-flight.md) · [Abortable protocol](Abortable-handover-and-catch-up.md) · [Identifier reuse](Tenure-reuse-and-delayed-admission.md)
+
+**Status of each claim below is marked [D] demonstrated in the bounded model, [C] conditional argument, [H] hypothesis, [O] open obligation.**
+
+## The failure and what breaks
+
+Keep the abortable protocol exactly as published: durable selector state (d, c, pending, receipts, recorded bindings), per-gate floors t with open binding h, attempt numbers increasing and never reused, votes retransmittable within a pending attempt, summaries of decided prefixes replayable. The failure restores any genuine earlier selector image — one that was actually current at some earlier point — while gates, the vote channel and the summary spool keep their true state. Everything the gates retain is true; everything the selector forgot once happened. [D]
+
+Attempt numbers are durable before any prepare. A genuine image therefore satisfies the trace lemma: no image is older than one decision behind any trace it can meet — floors and issued summaries never exceed the image's horizon plus one, verified on 7,586 recorded image records. [D] What the image cannot do is distinguish three kinds of numbers when it resumes: attempts it still knows are decided, attempts it decided and forgot, and the true world's still-pending attempt. A resumed selector that decides a forgotten number re-decides history; one that publishes a binding from its stale c misstates the selected tenure.
+
+## Two failures of the unrepaired resumption [D]
+
+The oracle enumerates, for every reachable true state and every genuine earlier image of it, all continuations under the original rules. A continuation is harmful when an open gate holds a tenure different from the authoritative lineage — the gate accepts whole appends under its stored tenure, so such a state accepts an append under an obsolete or never-authorized tenure. The lineage starts at the true selector's last committed tenure and advances only through commits that cannot re-decide any traced attempt: a commit at q extends the lineage exactly when q exceeds every restore-visible trace (gate floors and issued summary numbers) or q is the still-pending true attempt.
+
+*Forged tenure, three steps.* Attempt 1 was prepared, voted and aborted; the abort summary is in the spool. The selector restores the image taken while the vote was already in hand, commits 1 from that retained receipt — a decision the true history had settled the other way — and publishes (1,1). The gate, at floor 1, applies r ≥ t and opens for a tenure the true history never authorized. The same three-step shape is the shortest failure in both the one-gate and two-gate enumerations.
+
+*Stale binding, four steps.* The true world committed attempt 1. The selector restores an image from before that commit, renumbers naively by its own counter, starts attempt 2 and aborts it, binding the summary to its remembered tenure 0. Every gate below floor 2 applies the summary and reopens for an obsolete tenure while the lineage says 1. Numbering alone stops every forged grant but not one stale reopen.
+
+Of 6,769 restored images (one gate, attempts ≤ 3), 6,241 admit a harmful continuation: 3,572 stale, 2,669 forged; 5,967 authorize a grant by re-deciding a traced attempt. With two gates and attempts ≤ 2, 3,649 of 4,219 images are harmful. [D]
+
+## Why no gate can fix this [C]
+
+In one world attempt 1 genuinely committed and a lagging gate must absorb (1,1) to reopen — the abortable progress argument depends on this acceptance. In the other world attempt 1 was aborted, the selector restored its earlier image and re-committed 1 from the retained receipt, and absorbing the same message installs a forged tenure. The gate's own state — closed, floor 1, last binding 0 — and the arriving authentic message are identical in both worlds; the script asserts the identical gate-side effect and the opposite verdicts. The abort summary that would distinguish the worlds need not have reached this gate and need not ever arrive. Any gate-local rule that reopens in the first world reopens in the second; any rule that refuses the second refuses the first and breaks one-summary catch-up for ordinary lag, not just after rollback. The repair must therefore act on evidence outside the rolled-back domain before publication, not at the gate.
+
+## Two sufficient resumption rules and their exact boundary [D]
+
+Define the trace bound M as the highest attempt number with any restore-visible trace: every gate floor, and every issued summary still deliverable. Floors alone under-approximate M: an attempt decided with a summary still in flight is invisible to gates, and re-deciding it forges exactly as above — the model's first run misclassified such cases until the spool was included in the bound. The resumed selector must read its outgoing spool, which therefore must be placed outside the storage domain that rolls back. [D] [O: placement of that spool is an implementation obligation, not settled here]
+
+Both sufficient rules share one principle: *publish nothing you cannot prove current until one commit above M*. They differ in what they permit beforehand.
+
+- **Withhold summaries** (numbering untouched). The resumed selector may start, prepare, collect votes, commit and abort below M — including re-decided commits, which mint grants the true history had settled otherwise — but publishes no summary, hence no binding, until one commit numbered above M. All pre-M bindings then sit below every gate floor once that commit's prepares have been accepted, and can never apply. Verified: zero harmful continuations on every restored image; 415 of 6,769 one-gate runs still minted a contained re-decided grant. [D]
+- **Renumber past M** (plus either withholding summaries, or withholding aborts only). The first decision lies above M, so no traced attempt is ever re-decided and no grant is forged. Prefix summaries of decisions the image genuinely recorded are then safe even before the first fresh commit: an applicable summary at r either binds the true selected tenure (no commit can separate them without a gate vote raising the floor past r) or cannot meet any floor that voted for a later commit. The remaining leak is the abort *binding*: aborting the fresh attempt binds the remembered tenure c, which may be stale, and gates below the attempt apply it. Hence one of the two withholdings remains necessary — renumbering alone fails in all bounded runs exactly through this leak. Verified: zero harmful continuations for both variants, and no re-decided grant in any run. [D]
+
+The exact condition subsuming both: the resumed selector may decide silently at will, may republish any binding it can prove current (the genuine prefix, or decisions after one commit above M), and must not publish any other binding — in particular, no abort binding of the remembered tenure before it can prove that tenure current. An open gate's stored tenure, which never lies, is such a proof if reading one is available; the conservative rules above do not use it. [C]
+
+## Two contracts, two costs [D]
+
+The append contract (no gate opens under a tenure the lineage never authorized) and the grant contract (no successor is authorized for an attempt already settled otherwise) come apart under rollback. Withholding summaries alone preserves the append contract while still minting contained forgeries — 415 one-gate, 74 two-gate runs — whose writes are then deferred or rejected at informed gates, an availability cost paid by the successor that was never valid. Renumbering preserves the grant contract but, without a withholding, fails the append contract through stale abort bindings. The repaired combination serves both at the price of the spool read and a publication pause: before its first commit above M the resumed selector cannot publish any tenure answer it could not already prove. Deferring aborts instead of summaries trades that pause for a harder one: until a full-membership commit above M succeeds, the resumed selector cannot even abort, and with a required gate unavailable it can neither replace nor abandon a pending attempt — a liveness asymmetry the original protocol did not have. [D] [C]
+
+## Evidence and reproduction
+
+`python3 docs/research/kernel-0/glm-g4/selector_rollback_recovery.py [gates] [attempts] [cap]` runs both phases and self-verifies. One gate with attempts ≤ 3: 700 phase-one states, 7,586 image records, 6,769 restored runs per rule, 3.7 s. Two gates with attempts ≤ 2: 526 states, 4,796 records, 4,219 runs, 17 s. The model first re-proves the true-world invariants — every open gate holds the current tenure, floors and traces never exceed the issued horizon — before any rollback is exercised. The two-worlds check asserts identical gate inputs with opposite required verdicts. Shortest witnesses, per-rule harm counts, re-decided-grant counts and convergence counts (no safe rule is vacuous; every repaired run can still reach a fresh, lineage-extending commit in the model) print on every run. [D]
+
+**Boundary.** ISOLATE must keep votes, summaries and the outgoing spool outside the storage domain whose rollback is declared, and must keep the resumption floor above every traced number. CONNECT must bind each published binding to evidence of the tenure it names, never to the publisher's memory alone. ORDER must serialize the resumption's first post-M commit before any publication it cannot prove. One rollback per run; fixed membership with complete receipts; single scope; genuine images only (corruption pairing a high floor with an unrelated binding is the gate study's boundary and remains open here); no selector failover — two simultaneously live selectors are a different failure; no payload or custody repair — the gate study's "restores lost payloads" boundary stands, and a resumed selector that forgot a commit also forgot the accepted-prefix custody that commit transferred [O]; requester-side abort acknowledgment is a separate retention contract [O]; changing-membership composition with rollback [O]; progress beyond the model's finite schedules [O]. This result constrains candidate interpretations; it selects no engine, no storage layout and no realization.
