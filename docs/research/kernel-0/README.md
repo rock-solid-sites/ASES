@@ -25,3 +25,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
 
 [What a receipt reveals across Work Unit scopes](What-a-receipt-reveals.md) tests reply-level isolation in the local owner and checks scope-relative receipts across the same crash windows.
+
+[Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves a fixed-membership abort protocol and a constant-message catch-up rule for a gate that missed many aborts.
