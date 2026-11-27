@@ -57,3 +57,24 @@ The earlier compact index is now verified locally in read-only mode (SQLite quic
 Through the indexed continuation and interruption recovery, 27 candidate/reconciliation keys are retained privately, including superseded designs, intentionally deferred topics, and already-owned research. Five legacy and two compact conversations have complete review, one legacy conversation remains partial, and several indexed conversations have targeted exchanges or user-turn sweeps recorded privately. Public [IDEAS](IDEAS.md) adds bounded-judgment evidence, the original testbed question, provenance archival, deferred roadmap topics, and the prepared but unexecuted conceptual-review comparison. These are source-supported public dispositions, not an instruction to execute.
 
 **Resume:** use index-first source and later-status reconciliation, then complete mixed and legacy ranges. The next targeted work is shorter indexed ASES research conversations, followed by broad user-turn screening and full exchanges for meaningful candidates. Existing computation-avoidance and failure-analysis work remains its own evidence owner; do not duplicate its research. The interrupted legacy range is retained in Work Notes.
+
+## Complete first-pass marker sweep — 2026-11-27
+
+All 135 primary ASES source identities have now received a deterministic operator-intent marker sweep: 89 compact-index conversations (1,878 user turns, 24 matching rows) and 46 legacy projections (793 user turns, 52 matching rows). The largest legacy projection exceeded the contents API response size; the complete raw Git blob was recovered before scanning. The marker filter targets explicit research/project/experiment proposals, deferral and comparative-study language. Pasted reports and repeated messages can match. These results locate leads; they do **not** establish semantic completeness or exhaustively recover implicit proposals.
+
+The same initial filter was applied to 121 other searchable compact-index identities: 119 user-bearing conversations and two scheduled-only records, 1,897 user-turn rows, 26 matching rows in 18 conversations. Across the compact index there are 10,662 turn rows but 10,520 distinct message IDs; 3,775 user-turn rows but 3,728 distinct user message IDs. Duplicate IDs are retained in the source; count both representations and unique evidence without modifying the archive.
+
+| Cumulative review measure | Result |
+| --- | ---: |
+| Primary ASES identities mechanically screened | 135 / 135 |
+| Federated searchable identities mechanically screened | 256 / 256 |
+| Primary ASES complete conversation reviews | 9 / 135 |
+| Nonprimary complete conversation reviews | 2 / 121 |
+| Legacy contiguous partial review | 1 |
+| Held metadata-only identities (not text reviewed) | 19 |
+| Local coding-agent sessions reviewed | 0 |
+| Distinct candidate/reconciliation keys retained | 38 |
+
+These 38 keys include deferred research, historical prior art, superseded mechanisms, already-owned work and unverified proposals. They are not 38 new projects. Following interrupted-stream recovery, overlapping provisional identifiers and duplicated public entries were explicitly reconciled in the restricted execution record; the current public register uses the canonical keys. Earlier checkpoint counts above are historical snapshots, not cumulative duplicates.
+
+**Resume:** broaden the semantic sweep beyond explicit markers, emphasizing brief user corrections and assistant-proposed topics that the user accepted or deferred; finish the contiguous partial legacy range, review remaining long exchanges, and reconcile candidate status with later artifacts and owners. Distinguish active owner research, deliberate deferrals, custody gaps, and genuinely unregistered ideas. Do not rerun experiments merely because a conversation ended. The held sources and unindexed newer sessions are separate coverage gaps.
