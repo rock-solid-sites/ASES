@@ -8,20 +8,18 @@ authority: Derived
 canonical_repository: edases
 
 depends_on:
-  - AI Capability Registry Specification
-  - Agent Orchestration Playbook
+  - docs/research/registry/AI Capability Registry Specification.md
 
-consumed_by:
-  - Agent Orchestration Guide
-  - Hook Implementation Priorities
+consumed_by: []
 
 related_documents:
   - Model Routing Matrix
   - Harness Capability Matrix
+  - docs/methodology/AI Orchestration Guide.md
+  - docs/methodology/ASES Task-Scoped Information and Handoff Method.md
 
 supersedes: []
-review_frequency: Monthly (or per-session)
-last_reviewed: 2026-08-18
+last_reviewed: 2026-11-27
 
 ---
 
@@ -30,6 +28,8 @@ last_reviewed: 2026-08-18
 > **Active derived failure-evidence register; local interpretation reviewed 2026-11-24.** This matrix accumulates observed workflow failures and the semantics that could prevent or detect them. Retain the cumulative judgments and supporting observations, including counterexamples and uncertainty. Its August–November historical body below is preserved, including contemporaneous confidence assessments and proposed mechanisms. This does not verify the current EDASES upstream revision. The original [source snapshot](https://github.com/rock-solid-sites/ASES/blob/5984862111f721b058943282227c0aff73d19acd/docs/research/registry/Failure-Matrix.md) remains available. The former Hookability Matrix and hook implementation priorities are historical only. They are not current requirements, deployment claims, or an active maintenance schedule.
 
 ## Current interpretation and use
+
+**Local relationship correction (2026-11-27):** The old playbook dependency, hook-priority consumer and fixed review frequency described the earlier implementation and are not current obligations. The original declarations remain at the pinned source snapshot above. Current governing sources below are related, not proof of downstream consumption or implemented enforcement.
 
 Use failure classes to inform task preparation, design reviews, discriminating tests, and evidence-based requirements proposals. Do not infer a current rule, implementation, or priority from an old hook classification. Current authority lives in the [AI Orchestration Guide](../../methodology/AI%20Orchestration%20Guide.md), [Task-Scoped Information and Handoff Method](../../methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md), [Methodology-to-Requirements Mapping](../../requirements/Methodology%20to%20Requirements%20Mapping%20Specification.md), [Execution Engine Vision](../../architecture/Execution%20Engine%20Vision.md), [Kernel-0 Evidence Packet](../kernel-0/Kernel-0-Evidence-Packet.md), and applicable [current skills](../../../skills/current/README.md). Each has a different scope; this research register does not supersede any of them.
 
@@ -161,6 +161,8 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 
 ## Hook Implementation Priorities
 
+> Historical proposed implementation priorities, not current hook, provider or configuration instructions.
+
 Based on confidence level and hookability, prioritized for implementation:
 
 ### High Priority (High Confidence + Yes Hookable)
@@ -196,6 +198,8 @@ Based on confidence level and hookability, prioritized for implementation:
 ---
 
 ## Maintenance
+
+> Historical maintenance schedule only. Apply the current evidence-accumulation guidance above instead of a compulsory session-end or periodic ritual.
 
 This is a **living document** updated at the end of every session and reviewed regularly.
 
