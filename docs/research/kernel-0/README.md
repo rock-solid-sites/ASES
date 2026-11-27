@@ -29,3 +29,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
 
 [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
+
+[When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.

@@ -38,7 +38,7 @@ def steps(s, rounds, mutant, dynamic=False):
     for i, (t, h, v) in enumerate(s.gates):
         for r in range(t + 1, d + int(s.target is not None) + 1):
             if member(s.log[r - 1][1], i):
-                yield f"prepare {r} at {i}", s.gate(i, (r, -1, r))
+                yield f"prepare {r} at {i}", s.gate(i, (r, -1, max(v, r)))
         for r, (c, mask) in enumerate(s.log):
             installed = c if member(mask, i) else -1
             if (r >= t or mutant == "accept older summary") and (t, h) != (r, installed):
