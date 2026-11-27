@@ -56,7 +56,7 @@ class AdaptationTests(unittest.TestCase):
         url = "https://github.com/org/source/blob/" + pin + "/" + core
         texts = {core: "# Current"}
         state = {"revision": "fixture", "dirty": False}
-        consumer = "---\\nadapted_from:\\n  - " + url + "\\n---\\n# Local authority\\nKeep local rules.\\n"
+        consumer = "---\nadapted_from:\n  - " + url + "\n---\n# Local authority\nKeep local rules.\n"
         external = {"AGENTS.md": consumer, "history.md": "[old](" + url + ")"}
         graph = relationship_graph(repo, texts, set(texts), [], state,
                                    [("org/local", external, set(external), state)])
@@ -70,9 +70,33 @@ class AdaptationTests(unittest.TestCase):
 
     def test_deleted_canonical_target_still_triggers_consideration(self):
         state = {"revision": "fixture", "dirty": False}
-        external = {"AGENTS.md": "---\\nadapted_from:\\n  - https://github.com/org/source/blob/main/deleted.md\\n---"}
+        external = {"AGENTS.md": "---\nadapted_from:\n  - https://github.com/org/source/blob/main/deleted.md\n---"}
         graph = relationship_graph("org/source", {}, set(), [], state,
                                    [("org/local", external, set(external), state)])
         result = reconciliation_candidates(graph, "org/source", {"deleted.md"})
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["action"], "consider_reconciliation")
+
+
+    def test_changed_source_paths_keeps_both_rename_names_and_multiple_paths(self):
+        import subprocess
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            def git(*args):
+                return subprocess.check_output(["git", "-C", tmp, *args], text=True, stderr=subprocess.DEVNULL).strip()
+            git("init", "-q")
+            git("config", "user.name", "fixture")
+            git("config", "user.email", "fixture@example.invalid")
+            (root / "a.md").write_text("original")
+            (root / "b.md").write_text("original")
+            git("add", ".")
+            git("commit", "-qm", "baseline")
+            base = git("rev-parse", "HEAD")
+            (root / "a.md").rename(root / "renamed.md")
+            (root / "b.md").write_text("changed")
+            git("add", "-A")
+            git("commit", "-qm", "change")
+            self.assertEqual(changed_source_paths(root, base), {"a.md", "renamed.md", "b.md"})
+            self.assertEqual(git("status", "--porcelain"), "")

@@ -182,7 +182,7 @@ def changed_source_paths(root, revision):
     command = ["git", "-C", str(root)]
     subprocess.check_output(command + ["rev-parse", "--verify", revision + "^{commit}"], stderr=subprocess.DEVNULL)
     return set(subprocess.check_output(command + ["diff", "--no-renames", "--name-only", "-z",
-                                                   revision, "HEAD", "--"]).decode().split("\\0")) - {""}
+                                                   revision, "HEAD", "--"]).decode().split("\0")) - {""}
 
 
 def reconciliation_candidates(graph, repo, paths):
