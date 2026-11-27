@@ -12,6 +12,7 @@ import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
 from urllib.parse import unquote
+from relationships import relationship_graph, source_state, consumer_snapshot
 
 REPO = Path(__file__).resolve().parents[2]
 IGNORED = (
@@ -94,14 +95,16 @@ def reference_check(path: str, text: str, existing: set[str]) -> list[str]:
     return sorted(set(errors))
 
 
-def inventory(root: Path = REPO) -> dict:
+def inventory(root: Path = REPO, extra=()) -> dict:
     docs: list[dict] = []
+    texts = {}
     existing = {p.relative_to(root).as_posix()
                 for p in root.rglob("*") if p.is_file()}
     for path in sorted(existing):
         if not path.lower().endswith((".md", ".mdx")) or ignored(path):
             continue
         text = (root / path).read_text(encoding="utf-8", errors="replace")
+        texts[path] = text
         meta = frontmatter(text)
         status = meta.get("status", "")
         status_type = status.lower().split("(", 1)[0].strip()
@@ -150,8 +153,10 @@ def inventory(root: Path = REPO) -> dict:
                                       text=True, stderr=subprocess.DEVNULL).strip()
     except (OSError, subprocess.CalledProcessError):
         sha = "UNVERIFIED"
+    graph = relationship_graph("rock-solid-sites/ASES", texts, existing, docs, source_state(root), extra)
     return {
-        "schema": "ases-document-inventory-v1",
+        "schema": "ases-document-inventory-v2",
+        "relationships": graph,
         "source_revision": sha, "coverage": "repo-owned MD/MDX; listed exclusions",
         "excluded_prefixes": list(IGNORED),
         "counts": {
@@ -215,6 +220,8 @@ def markdown_index(data: dict) -> str:
         "reclassified. Resolve them through the version/authority audit.",
         "- Version, authority, link and duplicate-identity diagnostics are "
         "read-only findings; no automatic header or version fabrication.",
+        "- The JSON relationship graph records declarations and lexical candidate consumers, including supersession, pinned links, unresolved aliases and review candidates. A reference is not proof of active instruction use.",
+        "- Use the inventory command with --impact PATH for a reverse lookup; optional clean consumer checkouts are private output only.",
         "- Retired commands within historical documents are retained as evidence, "
         "not authorized launch instructions.",
         "",
@@ -232,15 +239,28 @@ def main() -> None:
     parser.add_argument("--json-out", type=Path)
     parser.add_argument("--index-out", type=Path)
     parser.add_argument("--summary", action="store_true")
+    parser.add_argument("--consumer-root", action="append", default=[], metavar="OWNER/REPO=PATH",
+                        help="Explicit clean local consumer checkout; private output only")
+    parser.add_argument("--impact", metavar="PATH", help="Show candidate consumers of a source path")
     args = parser.parse_args()
-    data = inventory(args.root)
+    if args.consumer_root and args.index_out:
+        parser.error("multi-repository scans are private JSON/impact output; omit --index-out")
+    if args.consumer_root and args.json_out and args.json_out.resolve().is_relative_to(args.root.resolve()):
+        parser.error("write multi-repository output outside the primary checkout")
+    data = inventory(args.root, extra=[consumer_snapshot(s) for s in args.consumer_root])
+    if args.impact:
+        key = args.impact if ":" in args.impact else "rock-solid-sites/ASES:" + args.impact
+        graph = data["relationships"]
+        print(json.dumps({"source": key, "scope": graph["scope"], "limits": graph["limits"],
+                          "candidates": [{**c, "evidence": graph["edges"][c["edge"]]}
+                                         for c in graph["incoming_candidates"].get(key, [])]}, indent=2))
     if args.json_out:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
         args.json_out.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     if args.index_out:
         args.index_out.parent.mkdir(parents=True, exist_ok=True)
         args.index_out.write_text(markdown_index(data), encoding="utf-8")
-    if args.summary or not (args.index_out or args.json_out):
+    if args.summary or not (args.index_out or args.json_out or args.impact):
         print(json.dumps({
             "revision": data["source_revision"], **data["counts"],
             "high_risk": [
