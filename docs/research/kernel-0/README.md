@@ -47,3 +47,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [How much independent seal state must a Work Unit retain?](How-much-seal-state-survives.md) derives the exact future-observable quotient of independently asserted and jointly releasable vetoes, including a counterexample under authority reconfiguration.
 
 [Which changes of managerial authority preserve a compact seal record?](Seal-state-under-policy-evolution.md) gives an exact migration test, a cross-policy counterexample and a complexity result for permitted upgrade paths.
+
+[How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
