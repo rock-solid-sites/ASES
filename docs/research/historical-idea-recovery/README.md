@@ -70,3 +70,12 @@ Minimum useful idea record (logical information, not mandatory physical schema):
 Recover WNASES-35, existing registers and current relevant task-scoped methodology and workflow-orchestration skill:
 [method](https://github.com/rock-solid-sites/ASES/blob/main/docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) and [workflow](https://github.com/rock-solid-sites/ASES/blob/main/skills/current/workflow-orchestration/SKILL.md).
 Verify source access and existing owner records, confirm the destination, then begin substantive initial discovery and status reconciliation in this first turn. Do not stop after reading this assignment or planning. Continue through meaningful batches until completion, a real blocker or context boundary. Publish verified incremental findings and exact coverage checkpoints, including useful negative batches. Recover routine failures through alternate authorized routes before escalation. No Work-mode switch unless operator explicitly requests it, no external agent launches/compute experiments, no changes to original archives or unapproved implementation. No automatic priority decisions. If source access is incomplete, continue with accessible material and retain the gap.
+
+## Derived outputs
+
+- [Idea register](IDEAS.md) — selectively publishable candidates and evidence.
+- [Coverage](COVERAGE.md) — distinct screening, semantic review and reconciliation checkpoints.
+- [Reconciliation](RECONCILIATION.md) — first present-state dispositions against existing research and implementation evidence.
+- [Synthesis](SYNTHESIS.md) — residual research questions, subject navigation and evidence-resolution order.
+
+The complete disposition ledger and private locators remain in WNASES-35. These outputs do not authorize implementation.
