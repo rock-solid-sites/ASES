@@ -73,7 +73,54 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 | --- | --- | --- |
 | 0 | e65dc6d69 | Run log, starting context, frontier assessment, programme. |
 | 1 | 98262c6b4 | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
-| 2 | (this commit) | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
+| 2 | b02f92960 | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
+| 3 | (this commit) | Run-end wrap: precision fix to study evidence text; 3-gate breadth attempt recorded as failed (host memory); resume point and uncertainties below. |
+
+## Run-end record (2026-11-28)
+
+**Bounded coverage.** Verified configurations: one gate with attempts ≤ 3
+(700 phase-one states, 7,586 image records, 6,769 restored runs per rule) and
+two gates with attempts ≤ 2 (526 states, 4,796 records, 4,219 runs). A third
+breadth configuration (three gates, attempts ≤ 2) was attempted and **failed
+mechanically**: the process died silently at 2m30s with no output, consistent
+with an out-of-memory kill during the phase-one image fixpoint on this 2-core/8
+GB Codespace (the script's first print follows the fixpoint, so buffered output
+was lost). This is a coverage limitation of the executed evidence, not of the
+claims; the two smaller configurations carry all published results. A machine
+with more memory should re-run `selector_rollback_recovery.py 3 2 4` before
+trusting the invariant counts at three gates.
+
+**Artifacts produced (all under `docs/research/kernel-0/glm-g4/` on main).**
+
+- [RUN-LOG.md](RUN-LOG.md) — this record.
+- [Selector-rollback-recovery.md](Selector-rollback-recovery.md) — Q1 study.
+- [Custody-after-a-forgotten-commit.md](Custody-after-a-forgotten-commit.md) — Q2 study.
+- [selector_rollback_recovery.py](selector_rollback_recovery.py) — self-verifying executable model for both studies.
+
+**Exact resume point.** The next investigator should start from commit (this
+commit) on main and, in order of expected value: (1) port the resumption-rule
+induction obligations to SMT-LIB in the style of `abortable_induction.smt2` —
+the trace lemma, the two sufficient-rule invariants and the abort-binding
+necessity — noting that this Codespace hosts no `z3`/`cvc5` binaries, so the
+obligations were checked only by bounded enumeration; (2) compose the
+resumption floor with changing membership (`Changing-the-set-of-resource-owners.md`
+semantics under rollback); (3) make the custody reconciliation rule executable
+in the surviving-content study's certificate terms (store-cut verification at
+the first fresh commit); (4) re-run the three-gate breadth configuration on a
+host with more memory. Q1 and Q2 boundary sections list the remaining proof
+obligations in detail.
+
+**Uncertainties that remain.** All results are bounded-model demonstrations or
+explicitly marked conditional arguments; neither study has independent replay,
+SMT obligations, or runtime conformance evidence. Study 2's core claims
+(control-plane obliviousness, truncation/reclamation witnesses, the
+reconciliation rule's safety) are [C]-marked arguments grounded in the [D]
+window counts, not enumerated content histories. The convergence counter is a
+lower bound by construction. Harm counts depend on the conservative
+"every issued message stays deliverable" premise. Selector failover (two live
+selectors), store rollback sharing the selector's domain, hostile corruption
+beyond genuine images, and changing membership under rollback are unmodeled.
+No result selects an implementation; everything is experimental/provisional.
 
 ## Q2 outcome (recorded at checkpoint 2)
 
