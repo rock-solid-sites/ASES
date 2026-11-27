@@ -27,3 +27,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [What a receipt reveals across Work Unit scopes](What-a-receipt-reveals.md) tests reply-level isolation in the local owner and checks scope-relative receipts across the same crash windows.
 
 [Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
+
+[Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
