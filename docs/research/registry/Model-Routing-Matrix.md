@@ -10,20 +10,22 @@ canonical_repository: edases
 depends_on:
   - AI Capability Registry Specification
 
-consumed_by:
-  - SESSION-START.md
-  - docs/SESSION-END.md
+consumed_by: []
 
 related_documents:
   - Model Feedback (per-model registry entries)
+  - skills/current/agent-launch/SKILL.md
+  - skills/current/review-launch/SKILL.md
 
 supersedes: []
-last_updated: 2026-08-31
+last_updated: 2026-11-27
 ---
 
 # Model Routing Matrix — DIMENSIONED
 
 > **Active derived capability-tracking register; historical evidence snapshot (August 2026).** Operator clarification, 2026-11-24: this matrix is intended to accumulate qualitative, multidimensional capability observations for appropriate job routing, not provide a definitive benchmark or guaranteed selection guide. Profiles and judgments often synthesize multiple sessions; retain cumulative assessments and their supporting evidence, including uncertainty and counterexamples. New incidents supplement or qualify that evidence rather than erase it. Use task fit, review style, demonstrated strengths and weaknesses, reliability and cost observations as tentative routing inputs; distinguish model capability from route/harness behavior, and assess transfer to changed versions and task conditions explicitly. The dated table, provider/cost labels, historical fallback and maintenance instructions below are not live catalog, current operating procedure or authorization. Current dispatch authority remains the [agent-launch skill](../../../skills/current/agent-launch/SKILL.md) and [review-launch skill](../../../skills/current/review-launch/SKILL.md); no old Luna/fallback recommendation overrides these. The recorded xAI/Grok exclusion remains in current launch policy. Maintain capability tracking by adding dated, attributable observations and cumulative synthesis when warranted, rather than replacing the evidence with vendor claims or an isolated result. See [capability observation and failure attribution history](../../historical/Capability%20Observation%20and%20Failure%20Attribution%20History.md). The [original source snapshot](https://github.com/rock-solid-sites/ASES/blob/19b38545d88bac8bc072ef9547d1dbd97e050f3b/docs/research/registry/Model-Routing-Matrix.md) preserves original metadata and body. The local active research status does not establish upstream EDASES currency or current model assessments.
+
+**Local relationship correction (2026-11-27):** The earlier `consumed_by` entries named the retired session-start and session-end adapters. They described the August implementation, not present consumers. The current launch skills are related governing procedures, not evidence that they consume this registry. The original metadata remains in the pinned historical snapshot above. The following dated profiles and routing/maintenance text are preserved research evidence, not launch instructions.
 
 **Date:** 2026-08-06
 **Source:** evidence-gathering draft #190 — sessions documented in issues #128-#153, #173, #144/#145/#154 design rounds, existing model-feedback docs, docs/project-completion-report-crosslink-model-agnostic.md, model-discipline.md.
@@ -201,6 +203,8 @@ Five independent dispatched reviewers (#367-#371: glm-5.2, luna, kimi-k2.7-code,
 
 ## Routing principles distilled from evidence
 
+> Historical August routing recommendations. Do not apply old catalog entries, paid fallbacks, provider patches, or model-specific authorization as current policy; consult the current launch skills linked above.
+
 0. **FORBIDDEN MODELS (#347): xAI / Grok is strictly and permanently
    forbidden.** xAI models (grok-4.5 and the grok family) must never be
    routed to any task. Violation precedent: #249 ('never use Grok/xAI').
@@ -222,6 +226,8 @@ Five independent dispatched reviewers (#367-#371: glm-5.2, luna, kimi-k2.7-code,
 ---
 
 ## Maintenance — catalog / matrix staleness (#516, epic #255 OPERATIONAL DATA)
+
+> Historical recommender wiring and refresh instructions. No current session-start/end dependency, weekly refresh obligation, recommender deployment, or model dispatch is implied.
 
 The model catalog churns (new model IDs, renames, removals); the live catalog
 (`opencode models opencode` + `opencode models opencode-go`) is authoritative
