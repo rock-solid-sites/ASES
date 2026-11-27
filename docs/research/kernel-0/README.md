@@ -19,3 +19,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [A local owner witness for activation, replacement and replay](Local-owner-admission-and-replay.md) exercises W5/W6-shaped local histories at process-loss cuts on either side of the actual append commit.
 
 [Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
+
+[What must survive replacement to answer an old retry?](Receipt-retention-after-replacement.md) counts distinguishable histories with identical application bytes and verifies conditional reclamation under a prefix-release contract.
