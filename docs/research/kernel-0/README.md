@@ -49,3 +49,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [Which changes of managerial authority preserve a compact seal record?](Seal-state-under-policy-evolution.md) gives an exact migration test, a cross-policy counterexample and a complexity result for permitted upgrade paths.
 
 [How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
+
+[Can a progress stamp reconstruct which prepared Work Unit updates committed?](Reconstructing-a-cut-from-prepared-updates.md) counts indistinguishable committed cuts under partial order and exhibits two different acknowledgments with identical recovered SQLite files.
