@@ -94,3 +94,5 @@ Published [RECONCILIATION](RECONCILIATION.md) at commit `6b4ca6bec8ebc75f3011418
 ## 2026-11-27 — reconciliation continuation
 
 Two further compact exchanges were fully semantically reviewed (13/256 cumulative); additional cross-portfolio exchanges were inspected selectively, not counted as full reviews. The 40-key reconciliation is unchanged; ten separately named leads now accompany it in the restricted Projektor register. The 19 held metadata-only identities and partial legacy exchange remain outside full-review coverage. The parallel computation-reuse study has its own scope; do not add its coverage to this metric. Exact private locators and evidence are in WNASES-35 R05–R07. No new implementation or experiment is authorized.
+
+A subsequent short-exchange batch completed three more compact conversations: cumulative 16/256 fully reviewed. No additional register entries were needed; prior-art and existing-owner links were refined. WNASES-35 R08 preserves exact private evidence. Register count remains 50 (40 stable keys and ten descriptive leads).
