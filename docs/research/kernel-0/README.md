@@ -33,3 +33,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.
 
 [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
+
+[What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
