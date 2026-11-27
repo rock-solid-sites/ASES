@@ -19,7 +19,7 @@ The unit of semantic review is a substantive exchange or full source conversatio
 | --- | ---: | --- |
 | Legacy conversation projections, complete numbered-turn review | 5 | Includes mixed research and tool discussions; no independent re-verification of historical third-party assertions |
 | Legacy conversation projections, partial | 1 | Large mixed discussion; next exact range retained privately |
-| Newer compact conversation payloads | 0 | Source storage and index availability established, not yet queried |
+| Newer compact conversation payloads, complete | 2 | Additional targeted exchanges and user-turn scans are not counted as full conversations |
 | Local coding-agent session transcripts | 0 | Coordinate with existing investigation; no restore or dispatch |
 | Public research and method records | Selected | Read current methodology, research records, prior-art brief and selected neighboring findings; not a whole-repository semantic audit |
 | Existing topic/owner records | Selected | Current revisions inspected, including later status corrections; no claim of complete taxonomy review |
@@ -48,3 +48,12 @@ The cleaned SQLite index was successfully opened read-only and passed its integr
 Index-first discovery surfaced both new candidates and corrections to existing entries. The public-safe [IDEAS](IDEAS.md) includes separately supported bounded-decision, assurance, conceptual-review and model-capability research evidence and an explicit historical-provenance disposition. Restricted source reconciliation stays with the private execution record. The parallel formal-computation study already captures many of the underlying mechanisms: link its findings rather than recreating them or counting its coverage as our own.
 
 **Next:** broaden the operator-intent scan beyond explicit research markers, inspect complete contextual exchanges, continue the legacy projection, and compare original candidate status with later owner/source records. No claim of corpus saturation.
+
+
+## Index-first continuation — 2026-11-27
+
+The earlier compact index is now verified locally in read-only mode (SQLite quick_check ok): 210 searchable conversation identities, 18 metadata-only, and 10,662 full-text turns. This is **not** the complete federated 256-searchable/19-held inventory. Search hits, title/topic taxonomy rows, user-turn sweeps, and full semantic review remain separate units. The existing primary-ASES taxonomy was read as a planning index; it is not credited as semantic review. The 46 legacy projections remain a supplement; the older compact index omits them. No source mutation.
+
+Through the indexed continuation and interruption recovery, 27 candidate/reconciliation keys are retained privately, including superseded designs, intentionally deferred topics, and already-owned research. Five legacy and two compact conversations have complete review, one legacy conversation remains partial, and several indexed conversations have targeted exchanges or user-turn sweeps recorded privately. Public [IDEAS](IDEAS.md) adds bounded-judgment evidence, the original testbed question, provenance archival, deferred roadmap topics, and the prepared but unexecuted conceptual-review comparison. These are source-supported public dispositions, not an instruction to execute.
+
+**Resume:** use index-first source and later-status reconciliation, then complete mixed and legacy ranges. The next targeted work is shorter indexed ASES research conversations, followed by broad user-turn screening and full exchanges for meaningful candidates. Existing computation-avoidance and failure-analysis work remains its own evidence owner; do not duplicate its research. The interrupted legacy range is retained in Work Notes.
