@@ -1,10 +1,10 @@
 # ASES documentation inventory (declared status; not an approval)
 
-**Generated from the checked-out ASES source tree.** Source revision: \`bfeb9ba8ee4e092fd4a6086157d2c90e5517c3e7\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
+**Generated from the checked-out ASES source tree.** Source revision: \`a13fed5f94cac58d3a67ac92cb83c5060f495ece\`. Generated classifications and metadata are **observations, not freshness or authority verification**. In particular, a document marked Active can still contain obsolete procedures.
 
 Use the [canonical documentation standard](standards/Documentation%20Standard.md) and [task-scoped information method](methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) for ownership and authority. [Current operational skills](../skills/current/README.md) are a separate selective-dispatch surface. Experimental [knowledge-index work](../scripts/knowledge_index/README.md) is not a canonical document registry.
 
-Inventory: 388 in-scope Markdown/MDX files, 68 declared active/current, 41 of those lack a declared version; 48 have metadata/route warnings. Diagnostics require review before a document can be certified current.
+Inventory: 393 in-scope Markdown/MDX files, 68 declared active/current, 41 of those lack a declared version; 48 have metadata/route warnings. Diagnostics require review before a document can be certified current.
 
 ## Declared active/current documents
 
@@ -14,12 +14,12 @@ Inventory: 388 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [Conceptual Architecture](../ARCHITECTURE.md) | Canonical | 2026-11-24.1 | — |
 | [Project Orientation](../ORIENTATION.md) | Derived | 2026-11-24.2 | — |
 | [Repository Overview](../README.md) | Derived | 2026-11-24.1 | — |
-| [ASES Documentation Navigation and Authority Index](../docs/README.md) | Derived | 1.0.33 | — |
+| [ASES Documentation Navigation and Authority Index](../docs/README.md) | Derived | 1.0.38 | — |
 | [Execution Engine Vision](../docs/architecture/Execution%20Engine%20Vision.md) | Canonical | 2026-11-24.1 | — |
 | [ASES Task-Scoped Information Architecture Decision](../docs/architecture/Task-Scoped%20Information%20Architecture%20Decision%202026-11-21.md) | Canonical | 1.0.0 | — |
 | [AI Orchestration Guide](../docs/methodology/AI%20Orchestration%20Guide.md) | Canonical | 2026-11-26.1 | — |
 | [ASES Bounded Project Build Method](../docs/methodology/ASES%20Bounded%20Project%20Build%20Method.md) | Canonical | 2026-11-24.2 | — |
-| [ASES Task-Scoped Information and Handoff Method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Canonical | 1.1.6 | — |
+| [ASES Task-Scoped Information and Handoff Method](../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md) | Canonical | 1.1.7 | — |
 | [Clean Room Execution Guide](../docs/methodology/Clean%20Room%20Execution%20Guide.md) | Derived | 2026-11-24.1 | — |
 | [Constraint-Driven Realization and Assurance Selection Method](../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md) | Canonical | 2026-11-24.1 | — |
 | [Software Customization and Upstream Compatibility Method](../docs/methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md) | Canonical | 2026-11-24.1 | — |
@@ -29,7 +29,7 @@ Inventory: 388 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 | [Project: Identifier-First Tool Calling for Token- and Resource-Efficient AI Agents](../docs/research/Identifier-First%20Tool%20Calling.md) | Canonical | unversioned | declared-active entry lacks explicit version |
 | [Projektor MCP Registration Failure and Recovery — EDASES Case 2026-11-06](../docs/research/Projektor%20MCP%20Registration%20Failure%20Case%202026-11-06.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Repository Review Checklist](../docs/research/Repository%20Review%20Checklist.md) | Canonical | unversioned | declared-active entry lacks explicit version |
-| [Testing and Assurance Source Map](../docs/research/Testing%20and%20Assurance%20Source%20Map.md) | Derived | 2026-11-26.1 | — |
+| [Testing and Assurance Source Map](../docs/research/Testing%20and%20Assurance%20Source%20Map.md) | Derived | 2026-11-27.1 | — |
 | [Tools Distribution Architecture — Decision Test Framework](../docs/research/Tools%20Distribution%20Architecture%20Decision%20Test%20Framework.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Tools Distribution Architecture — Synthesis of One-Shot Reviews](../docs/research/Tools%20Distribution%20Architecture%20Synthesis.md) | Derived | unversioned | declared-active entry lacks explicit version |
 | [Assumption Register Candidate — Fresh-Agent Reconstruction Sufficiency](../docs/research/assumption-register-candidate.md) | Finding | unversioned | declared-active entry lacks explicit version |
@@ -85,6 +85,8 @@ Inventory: 388 in-scope Markdown/MDX files, 68 declared active/current, 41 of th
 - Files that declare Experimental, Draft, Deprecated or Archived remain discoverable from Git but are **not** automatically current instructions.
 - Undeclared, malformed, mirrored or stale records are **not** silently reclassified. Resolve them through the version/authority audit.
 - Version, authority, link and duplicate-identity diagnostics are read-only findings; no automatic header or version fabrication.
+- The JSON relationship graph records declarations and lexical candidate consumers, including supersession, pinned links, unresolved aliases and review candidates. A reference is not proof of active instruction use.
+- Use the inventory command with --impact PATH for a reverse lookup; optional clean consumer checkouts are private output only.
 - Retired commands within historical documents are retained as evidence, not authorized launch instructions.
 
 For the complete machine-readable inventory and broken-link details, run \`python scripts/docs_audit/inventory.py --json-out <path> --index-out <path>\` in the repository, or consult the CI artifact.
