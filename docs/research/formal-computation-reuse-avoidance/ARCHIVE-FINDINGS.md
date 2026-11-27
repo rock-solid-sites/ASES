@@ -53,6 +53,8 @@ Organization and planning only. Read with [research charter](README.md), [source
 
 **Domain:** agent memory, archive/retrieval, durable knowledge. **Technique:** demand-driven context selection, lossy representation, evidence provenance and learned retrieval. Related to AD-001 and existing task-scoped information and Knowledge Index research; no new memory product choice or benchmark.
 
+**Earlier corroboration:** The UI-design discussion explicitly distinguishes preserving every historical state from retaining the rationale for replacement or removal. A versioned current plan, its rejected predecessor, the assumption that failed and the supporting test can provide a bounded reconstruction path for a fresh agent without replaying the conversation. Original sessions remain discoverable for questions the projection cannot answer. This is a hypothesis about context reconstruction, not proof that a fixed version graph is sufficient, that deletion is safe, or that one particular storage model should be adopted. Human operational views and agent reasoning views may expose different projections of the same evidence; retain source access and measure recovery as well as token savings.
+
 ## AD-006 — Avoid idle residency without reusing obsolete authority
 
 **Evidence:** A historical comparison of agent execution substrates proposes separating durable work identity from a disposable execution instance, reclaiming idle physical workers through suspension/restoration, and reusing an environment declaration across executions. These are architectural proposals; no resource measurements or donor conformance tests were performed in the conversation.
