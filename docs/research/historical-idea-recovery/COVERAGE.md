@@ -31,3 +31,20 @@ The unit of semantic review is a substantive exchange or full source conversatio
 **Resume:** complete the interrupted semantic exchange, continue the mixed legacy discussions, and reconcile later artifacts/owner records before widening to newer archived conversations. Query authorized cleaned representations where accessible. Preserve negative batches and coverage gaps. Reuse existing related research; never count a neighboring investigation's source coverage as this assignment's full semantic coverage unless its substantive extract actually supports the broader objective.
 
 No archive modification, agent launch, testing or public disclosure of restricted material was performed.
+
+## 2026-11-27 — indexed discovery and reconciliation
+
+The cleaned SQLite index was successfully opened read-only and passed its integrity check: 210 searchable conversations and 10,662 turns; 18 other identities are metadata-only in this index. The broader federated inventory contains 256 searchable conversations; the remaining legacy full-text projections are accessed separately. This is not a claim that all source bytes or all later sessions are available.
+
+| Coverage unit | Result | Limits |
+| --- | ---: | --- |
+| Compact primary-ASES identities subjected to operator-intent marker filter | 89/89 | 1,878 user-role turns mechanically scanned; 24 matches in 20 conversations examined as leads, not full semantic reads |
+| Compact conversations completely read | 2 confirmed | Additional targeted exchanges in multiple subjects; incomplete exchanges not counted as complete |
+| Legacy projections completely read | 5 | Cumulative from initial batches |
+| Legacy projections partial | 1 | Contiguous review extended; exact line/turn checkpoint private |
+| Local coding-agent sessions | 0 | No session restore or dispatch |
+| Public evidence and existing owners | Selected | Surviving experiment artifacts, later methodology and registry records checked; negative searches do not prove absence |
+
+Index-first discovery surfaced both new candidates and corrections to existing entries. The public-safe [IDEAS](IDEAS.md) includes separately supported bounded-decision, assurance, conceptual-review and model-capability research evidence and an explicit historical-provenance disposition. Restricted source reconciliation stays with the private execution record. The parallel formal-computation study already captures many of the underlying mechanisms: link its findings rather than recreating them or counting its coverage as our own.
+
+**Next:** broaden the operator-intent scan beyond explicit research markers, inspect complete contextual exchanges, continue the legacy projection, and compare original candidate status with later owner/source records. No claim of corpus saturation.
