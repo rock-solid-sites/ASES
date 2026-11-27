@@ -36,6 +36,28 @@ def schedule(allowed, edges):
     return sorted(order, key=levels.get), levels
 
 
+def convex_conflict(intervals, edges):
+    """(lower after, upper before) for every probe or handover.
+
+    Probes use their inclusive phase bounds; handover j uses (j, j-1).
+    Return a pair with a separating reachable precedence, or a cycle.
+    """
+    reach = [set() for _ in intervals]
+    for a, b in edges:
+        reach[a].add(b)
+    for via in range(len(reach)):
+        for row in reach:
+            if via in row:
+                row.update(reach[via])
+    for a, row in enumerate(reach):
+        if a in row:
+            return "cycle"
+        for b in row:
+            if intervals[a][0] > intervals[b][1]:
+                return a, b
+    return None
+
+
 def oracle(probes, edges):
     """Run the two transitions and inspect each probe in every serial history."""
     for order in permutations(range(len(probes) + 2)):
@@ -64,6 +86,7 @@ def crosscheck():
     masks = [frozenset(i for i in range(3) if mask >> i & 1)
              for mask in range(1, 8)]
     counts = Counter()
+    convex = Counter()
     for bits in product((0, 1), repeat=len(arcs)):
         edges = {(2, 3)} | {edge for edge, include in zip(arcs, bits) if include}
         for probes in product(masks, repeat=2):
@@ -72,6 +95,11 @@ def crosscheck():
             ok = order is not None
             if ok != oracle(probes, edges):
                 raise AssertionError((probes, edges, order))
+            if all(len(p) == max(p) - min(p) + 1 for p in probes):
+                intervals = [(min(p), max(p)) for p in probes] + [(1, 0), (2, 1)]
+                conflict = convex_conflict(intervals, edges)
+                assert (conflict is None) == ok
+                convex[ok] += 1
             if ok:
                 assert all(order.index(a) < order.index(b) for a, b in edges)
                 assert all(detail[i] in allowed[i] for i in order)
@@ -84,6 +112,7 @@ def crosscheck():
                 assert all(p < bound for p in allowed[detail[-1]])
             counts[ok] += 1
     print("serial comparison", dict(counts))
+    print("convex precedence comparison", dict(convex))
 
 
 def long_obstructions():
