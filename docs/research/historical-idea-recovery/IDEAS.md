@@ -35,6 +35,44 @@ The record proposes a series of experiments on recoverability, observability, an
 
 This is a negative deduplication result: a historical proposal that sounds unimplemented can have a real, limited implementation and a separate unexecuted evaluation. Preserve that distinction rather than creating a new work item.
 
+
+## Bounded judgment — surviving Jev experiments (HIR-010)
+
+**Public evidence:** [Phase 1 verdict](https://github.com/rock-solid-sites/ASES/blob/98cab044f4f9db615e5fcd95d099df97daddaf0a/research/jev-bounded-judgment/phase1/PHASE1-VERDICT.md), [Phase 2 design](https://github.com/rock-solid-sites/ASES/blob/98cab044f4f9db615e5fcd95d099df97daddaf0a/research/jev-bounded-judgment/phase2/README.md), [Experiment 2 design](https://github.com/rock-solid-sites/ASES/blob/98cab044f4f9db615e5fcd95d099df97daddaf0a/research/jev-bounded-judgment/phase2/exp2/DESIGN.md), [Experiment 3 independent verification](https://github.com/rock-solid-sites/ASES/blob/98cab044f4f9db615e5fcd95d099df97daddaf0a/research/jev-bounded-judgment/phase2/exp3/verification.md). Source branch verified at the pinned September 28 revision.
+
+Phase 1 demonstrates a scoped advantage over deterministic/lexical baselines but not a capability niche over MiMo V2.6 Flash on its synthetic answerable cases. Intrinsic abstention was not established; operational latency measurements are narrow cross-window observations. Phase 2 uses real code, distinguishes lookup from judgment and tests derivability rather than scoring unavailable evidence as model failure. The surviving Experiment 3 verification reports 9/10 unanswerable cases detected at its preregistered threshold and 0/41 false unknowns; distributions touch, and argmax selection is not the threshold result. Do not extrapolate calibration or universal separation.
+
+**Research:** substantial empirical work exists; Experiment 2 shared-state multi-question comparison is explicitly design-only in the surviving revision. Later state must be reconciled before rerunning. **Implementation:** experimental harness and source-backed test corpus, not an adopted decision service. **Owner:** EDASES decision-model research, with adjacent capability evidence and resource-allocation work; no new architecture adopted. See [formal-computation findings AD-028](../formal-computation-reuse-avoidance/ARCHIVE-FINDINGS.md#ad-028--batched-judgment-must-preserve-the-evidence-semantics-of-each-decision) for the reusable computation question rather than duplicating it. Preserve negative results and original controls; recover the latest verified artifacts first.
+
+## Claim-driven testing on a real implementation (HIR-015)
+
+**Public evidence:** [Guarantee-Driven Testing and Goal-Substitution Resistance](../Guarantee-Driven%20Testing%20and%20Goal-Substitution%20Resistance.md) (source blob `3dee993a4fbedfa688bca03d3722f169d5fd0013`) and [Testing and Assurance Source Map](../Testing%20and%20Assurance%20Source%20Map.md) (source blob `628cce95bae49f4a220d2153baddf1e544070b9a`).
+
+The earlier research proposes a target-specific claim register and a controlled real-implementation experiment, with ATProto Spaces named as the proposed substrate. Study attributable claims and the evidence required to discriminate compliance and violation before choosing techniques. An untestable claim or zero discrepancy is a valid result; defect count is not the research objective. Evaluate the testing method, including the cost and failure modes of the gates themselves.
+
+**Research:** earlier concrete design; later testing pilots establish partial method realization elsewhere, not completion of this original target experiment. **Implementation:** original target execution not established in the public sources inspected. **Owner:** existing empirical testing research, with target-specific ownership distinct. Reconcile later source records before building anything. No target testing or disclosure is authorized by this register.
+
+## Conceptual discrimination as an empirical reviewer capability (HIR-020)
+
+**Public evidence:** [Historical Ontology Reviewer proposal](../../roles/Ontology-Reviewer.md) (blob `da24b212fa885ee11e0b2e60a8c4745b08c5a2c0`), [current orchestration guide](../../methodology/AI%20Orchestration%20Guide.md), [validation-brief corpus](../../../evaluation-corpus/validation-brief-corpus/README.md). The role proposal is explicitly historical; it refers to an empirical reviewer benchmark and distinguishes exploratory and conformance review.
+
+The residual question is whether reviewers detect genuine conceptual conflation, boundary/ownership mistakes or semantic drift while correctly leaving sound artifacts alone, and which model capabilities matter in each review mode. The existing validation-brief corpus measures methodology enforcement, not necessarily this discrimination task. Comparative controls must not reward indiscriminate criticism or impose the reviewer's preferred architecture.
+
+**Research:** proposed benchmark/routing hypothesis; independent execution not located in sources inspected. **Implementation:** conceptual lens and review-mode distinction incorporated in current guidance; obsolete standalone role is not reinstated. **Owner:** existing review methodology and capability research. No duplicate benchmark suite authorized before reconciliation.
+
+## Capability evidence versus allocation (HIR-023)
+
+**Public evidence:** [AI Capability Registry Specification](../registry/AI%20Capability%20Registry%20Specification.md), [16-review-wave retrospective](../retrospectives/topics/EDASES-topic-Model-Capability-16-Review-Wave.md), [Model Routing Matrix](../registry/Model-Routing-Matrix.md). The research registry records observed behavior; operational strategy is derived separately. Two eight-model review waves offer actual findings and important access-asymmetry and synthesis-attribution limitations, not a fully controlled capability benchmark.
+
+**Research:** qualitative and observational evidence exists; controlled comparisons and calibration against actual review outcomes remain distinct questions. **Implementation:** descriptive registry exists; it is not a measured resource solver or a provider-routing authority. **Owner:** existing model capability research; retain the current registry and associated work rather than build another. See the [early research disposition](../../../future-research-topics/README.md) for current ownership and overlap.
+
+## Disposition correction: older automatic provenance export (HIR-007)
+
+**Public evidence:** [September 29 archival commit](https://github.com/rock-solid-sites/ASES/commit/dcc34f15d6db7f80958567022c32e28bd759de9e) explicitly archives the undeployed Crosslink auto-export design family. The current task-scoped method governs durable evidence and deliverable homes; Git history is not itself the deliverable.
+
+Do not reopen the archived implementation as an uncompleted obligation. Residual provenance questions concern useful reasoning/evidence preservation and recoverability, not compulsory commit-level telemetry or reintroducing a superseded bridge. The public source proves archival of that family, not a universal resolution of all provenance questions.
+
+
 ## Relationship and disposition rules
 
 Both topics relate to recoverable information and evidence, but the Git workflow experiments measure engineering behavior and the index pilot measures retrieval. Neither subsumes the other; no dependency inferred. Link later verified outcomes rather than promote a proposed experiment to an accepted result. Existing current policy and owner-specific decisions take precedence over historical implementation suggestions.
