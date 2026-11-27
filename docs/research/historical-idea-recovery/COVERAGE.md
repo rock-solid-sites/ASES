@@ -133,3 +133,7 @@ Selective contextual review of additional and previously screened legacy discuss
 ### R24 — complete conversation review
 
 Three previously excerpted compact-index conversations have now been reviewed in full, including previously omitted middle ranges. Cumulative complete semantic coverage is 38/256 (30 compact and eight legacy); 256 mechanically screened, 19 held metadata-only, one legacy contiguous partial. One distinct reviewer-evidence research variable recovered; 40 canonical candidates plus 42 descriptive leads (82 total). Existing framework comparator and independent revocation research refined, not duplicated. No new execution or issue.
+
+### R25 — complete compact reconciliation
+
+Four further compact conversations were reviewed in full: decision-model comparison, capability-minimizing assurance, comparative language safety, and modular protocol-service design. Full semantic coverage is now **42/256** (34 compact, eight legacy); 256 mechanically screened and 19 held metadata-only. C-033 contiguous boundary remains line 3289. The reconciled set remains 82 (40 canonical and 42 descriptive). R25 improved evidence for existing leads and did not create candidates, issues or execute experiments. Restricted source locators and artifact verification are retained in WNASES-35.
