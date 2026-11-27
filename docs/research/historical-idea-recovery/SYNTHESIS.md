@@ -15,7 +15,7 @@ This is a navigation and reconciliation result, not a new research taxonomy or e
 
 ## Recurring distinctions that change the next investigation
 
-**1. Recover evidence before recreating experiments.** The Jev record (HIR-010) illustrates a custody problem: surviving experimental design and partial results, later reports, and incomplete access to measured artifacts. Another run would not recover the original measurement or establish the lineage of the existing evidence. Recover the precise revision, inputs, controls and output first; only then evaluate whether replication adds value.
+**1. Recover evidence before recreating experiments.** The Jev record (HIR-010) illustrates a custody problem: surviving experimental design and partial results, later reports, and incomplete access to measured artifacts. Another run would not recover the original measurement or establish the lineage of the existing evidence. The operator retains the conclusions despite possible raw-artifact loss. Preserve the original limitations; recover precise artifacts if available and useful, without treating recovery or replication as a prerequisite.
 
 **2. A verified instrument is not a verified research result.** P7 (HIR-023) has a prepared corpus and a deterministic control, not measured independent review. Experiment-admission research (HIR-006) has a pilot result, not a proven universal admission gate. The claim-driven target study (HIR-015) is not resolved by method testing on another target. Preserve these different evaluation objects and compare like with like.
 
@@ -41,7 +41,7 @@ Cross-project relevance does not transfer ownership to ASES. The private registe
 
 ## Follow-up order
 
-Evidence-resolution order, not project priority: first resolve historical artifact custody, then reconcile old benchmark identities and review lineage, then establish specific residual questions with existing owners. Any later decision to run a study should identify the evidence that would discriminate alternatives, why existing results do not suffice, and its proportional cost. Reuse the existing experiment-admission procedure and related research; this synthesis does not authorize experiments.
+Evidence-resolution order, not project priority: retain historical conclusions with their custody limitations, reconcile benchmark identities and review lineage, and establish specific residual questions with existing owners. Any later decision to run a study should identify the evidence that would discriminate alternatives, why existing results do not suffice, and its proportional cost. Reuse the existing experiment-admission procedure and related research; this synthesis does not authorize experiments.
 
 ## Limits
 
