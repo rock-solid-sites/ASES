@@ -71,8 +71,24 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 
 | # | Commit | Content |
 | --- | --- | --- |
-| 0 | (this commit) | Run log, starting context, frontier assessment, programme. |
-| 1 | (next commit) | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
+| 0 | e65dc6d69 | Run log, starting context, frontier assessment, programme. |
+| 1 | 98262c6b4 | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
+| 2 | (this commit) | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
+
+## Q2 outcome (recorded at checkpoint 2)
+
+Composed the rollback result with the custody/receipt family: the
+forgotten-commit window is the majority case (3,572/6,769 one-gate; 1,358/4,219
+two-gate restored images [D]); the control plane is structurally oblivious to
+accepted contents, so no procedure keyed to the resumed selector's regressed
+record can reconstruct the accepted prefix [C]; truncating transfer and
+record-driven reclamation each have witness histories of lost accepted work [C];
+under any append-safe resumption the maximal store cut is the authoritative
+accepted prefix, giving the asymmetric placement principle: resumption
+authority is rebuildable from control evidence, resumption custody only from
+the content plane [C]. The two studies share one failure clause (no gate may
+open under a never-authorized tenure), which is exactly the clause Q1's
+sufficient rules guarantee.
 
 ## Q1 outcome (recorded at checkpoint 1)
 

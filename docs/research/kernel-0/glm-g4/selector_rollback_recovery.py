@@ -267,6 +267,29 @@ def two_worlds_support():
           " required verdicts")
 
 
+def forgotten_commit_windows(images):
+    """Restored images whose true history committed after the image.
+
+    Each such pair is a custody gap: a tenure was genuinely authorized and
+    may have accepted contents after the image was taken, so the resumed
+    selector's durable record of the accepted prefix is a strict lower
+    bound on what its first fresh commit must transfer.
+    """
+    total = window = 0
+    for state, imgs in images.items():
+        c_star = state[0][1]
+        for image, _trace in imgs:
+            if image == state[0]:
+                continue
+            total += 1
+            if c_star > image[1]:
+                window += 1
+    print("forgotten-commit windows: %d of %d restored images"
+          " (true tenure beyond the image's)" % (window, total))
+    assert window > 0, "no custody gap exercised"
+    return window
+
+
 def run(gates, attempts, cap):
     global GATES
     GATES = gates
@@ -349,6 +372,7 @@ def run(gates, attempts, cap):
                  s["redecided"], s["converged"]))
     assert stats[REPAIRED]["converged"] > 0, "repaired verdicts are vacuous"
     assert stats[BLOCKED]["converged"] > 0, "blocked verdicts are vacuous"
+    forgotten_commit_windows(images)
     for rule in RULES:
         s = stats[rule]
         if s["best"]:
