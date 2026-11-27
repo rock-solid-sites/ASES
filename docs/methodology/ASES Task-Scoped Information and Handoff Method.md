@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.6
+version: 1.1.7
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -18,7 +18,7 @@ related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
   - research/agent-information-topology/greenfield-task-context/TASK-VIEW-CONTRACT.md
   - research/agent-information-topology/greenfield-task-context/comparison/RESULTS-2026-11-20.md
-last_updated: 2026-11-26
+last_updated: 2026-11-27
 ---
 
 # ASES Task-Scoped Information and Handoff Method
@@ -41,6 +41,10 @@ For each task, the coordinator determines:
 6. **Exceptions and conflicts:** include only approved scoped overrides and extensions. An approved *complete override* excludes the original rule body from the effective context; retain original identity/revision in the provenance record. A new extension has a distinct rule ID. Contradictory applicable authoritative rules with no approved resolution block the affected action, not unrelated work.
 
 Possible outcomes for each candidate source are **read/apply**, **reference**, **omit**, and **unavailable/unresolved**. Do not use a historical document as an implicit fallback when an applicable current source is unavailable.
+
+### Reconciliation of project-local adaptations
+
+When a shared source changes, identify its known consuming documents, including locally modified versions in other projects. Use the [existing document inventory and impact lookup](../README.md#full-document-inventory-and-reconciliation) to surface candidates when available; resolve missing coverage explicitly. Consider the actual changed rules and their applicability to each local adaptation. A project retains authority over its own procedure, rationale, extensions and approved overrides; a shared-source change is a trigger for consideration, not automatic adoption, synchronization or replacement. Record the reconciliation decision in the owning project when material, even if the local version remains unchanged. Do not overwrite consumer files or fabricate a reviewed revision. Keep private consumer relationships within authorized scope.
 
 ### Current ASES operational-source selection
 

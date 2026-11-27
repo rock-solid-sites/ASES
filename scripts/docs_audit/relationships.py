@@ -7,7 +7,7 @@ import subprocess
 from urllib.parse import unquote, urlsplit
 
 FIELDS = {"depends_on", "consumed_by", "related_documents", "implements",
-          "implemented_by", "supersedes", "superseded_by"}
+          "implemented_by", "supersedes", "superseded_by", "adapted_from"}
 DOWNSTREAM = {"consumed_by", "implemented_by"}
 RETIRED = {"historical", "deprecated", "archived", "superseded"}
 DOC = re.compile(r"\.mdx?(?:#[^\s]*)?$", re.I)
@@ -151,16 +151,21 @@ def relationship_graph(repo, texts, existing, records, state, extra=()):
                         "target_path": target, "ref": ref, "resolution": result,
                         "target_scanned": bool(target_key in roots and target in roots[target_key][1])}
                 edges.append(edge)
-                if result not in {"snapshot_path", "unique_alias"} or not target:
+                # A pinned adaptation is a live reconciliation relationship, not an ordinary historical citation.
+                # Preserve a removed source path so its deletion still triggers consideration.
+                if not target or (result not in {"snapshot_path", "unique_alias"}
+                                  and not (kind == "adapted_from" and target_key in roots
+                                           and result in {"pinned_revision", "unverified_remote"})):
                     continue
                 if kind in DOWNSTREAM:
                     subject, consumer = f"{name}:{path}", f"{target_repo}:{target}"
-                elif kind in {"depends_on", "implements", "markdown_link", "github_url", "literal_path"}:
+                elif kind in {"depends_on", "implements", "markdown_link", "github_url", "literal_path", "adapted_from"}:
                     subject, consumer = f"{target_repo}:{target}", f"{name}:{path}"
                 else:
                     continue
                 if subject != consumer:
-                    incoming[subject].append({"consumer": consumer, "edge": len(edges)-1})
+                    incoming[subject].append({"consumer": consumer, "edge": len(edges)-1,
+                                              "action": "consider_reconciliation" if kind == "adapted_from" else "inspect_reference"})
                 if key == repo.casefold() and target_key == key:
                     src, dst = primary.get(path, {}), primary.get(target, {})
                     if src.get("declared_active") and dst.get("status", "").lower().split("(")[0].strip() in RETIRED:
@@ -168,3 +173,23 @@ def relationship_graph(repo, texts, existing, records, state, extra=()):
     return {"scope": [{"repository": n, **s, "scanned_documents": len(t)} for n, t, p, s in roots.values()],
             "edges": edges, "incoming_candidates": dict(sorted(incoming.items())), "review_candidates": review,
             "limits": "Lexical and declared references only; no authority inference, remote ref validation, semantic drift detection, or unseen consumer guarantee. External roots require private handling."}
+
+
+def changed_source_paths(root, revision):
+    """Diff committed source paths, including both names on rename; never mutate checkouts."""
+    if not re.fullmatch(r"[0-9a-fA-F]{7,40}", revision):
+        raise ValueError("changed-since requires a Git commit SHA")
+    command = ["git", "-C", str(root)]
+    subprocess.check_output(command + ["rev-parse", "--verify", revision + "^{commit}"], stderr=subprocess.DEVNULL)
+    return set(subprocess.check_output(command + ["diff", "--no-renames", "--name-only", "-z",
+                                                   revision, "HEAD", "--"]).decode().split("\\0")) - {""}
+
+
+def reconciliation_candidates(graph, repo, paths):
+    """A source change flags affected consumers; no file replacements or baseline promotion."""
+    out = []
+    for path in sorted(paths):
+        source = repo + ":" + path
+        for item in graph["incoming_candidates"].get(source, []):
+            out.append({"source": source, **item, "evidence": graph["edges"][item["edge"]]})
+    return out

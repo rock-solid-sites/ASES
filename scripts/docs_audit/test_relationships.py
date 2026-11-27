@@ -1,6 +1,6 @@
 """Relationship extraction negative controls and reverse-lookup checks."""
 import unittest
-from relationships import relationship_graph, observations
+from relationships import relationship_graph, observations, reconciliation_candidates, changed_source_paths
 
 
 class RelationshipTests(unittest.TestCase):
@@ -46,3 +46,33 @@ class RelationshipTests(unittest.TestCase):
 
     def test_inline_examples_and_fenced_examples_ignored(self):
         self.assertEqual(list(observations("`[old](old.md)`\n~~~\n[old](old.md)\n~~~")), [])
+
+
+class AdaptationTests(unittest.TestCase):
+    def test_pinned_adaptation_is_flagged_not_ordinary_history(self):
+        repo = "org/source"
+        core = "docs/core.md"
+        pin = "a"*40
+        url = "https://github.com/org/source/blob/" + pin + "/" + core
+        texts = {core: "# Current"}
+        state = {"revision": "fixture", "dirty": False}
+        consumer = "---\\nadapted_from:\\n  - " + url + "\\n---\\n# Local authority\\nKeep local rules.\\n"
+        external = {"AGENTS.md": consumer, "history.md": "[old](" + url + ")"}
+        graph = relationship_graph(repo, texts, set(texts), [], state,
+                                   [("org/local", external, set(external), state)])
+        result = reconciliation_candidates(graph, repo, {core})
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["consumer"], "org/local:AGENTS.md")
+        self.assertEqual(result[0]["action"], "consider_reconciliation")
+        self.assertEqual(result[0]["evidence"]["ref"], pin)
+        self.assertEqual(external["AGENTS.md"], consumer)
+        self.assertEqual(reconciliation_candidates(graph, repo, {"unrelated.md"}), [])
+
+    def test_deleted_canonical_target_still_triggers_consideration(self):
+        state = {"revision": "fixture", "dirty": False}
+        external = {"AGENTS.md": "---\\nadapted_from:\\n  - https://github.com/org/source/blob/main/deleted.md\\n---"}
+        graph = relationship_graph("org/source", {}, set(), [], state,
+                                   [("org/local", external, set(external), state)])
+        result = reconciliation_candidates(graph, "org/source", {"deleted.md"})
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["action"], "consider_reconciliation")

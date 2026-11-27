@@ -12,7 +12,8 @@ import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
 from urllib.parse import unquote
-from relationships import relationship_graph, source_state, consumer_snapshot
+from relationships import (relationship_graph, source_state, consumer_snapshot,
+                           changed_source_paths, reconciliation_candidates)
 
 REPO = Path(__file__).resolve().parents[2]
 IGNORED = (
@@ -242,12 +243,19 @@ def main() -> None:
     parser.add_argument("--consumer-root", action="append", default=[], metavar="OWNER/REPO=PATH",
                         help="Explicit clean local consumer checkout; private output only")
     parser.add_argument("--impact", metavar="PATH", help="Show candidate consumers of a source path")
+    parser.add_argument("--changed-since", metavar="COMMIT", help="Read-only reconciliation candidates for committed source changes")
     args = parser.parse_args()
     if args.consumer_root and args.index_out:
         parser.error("multi-repository scans are private JSON/impact output; omit --index-out")
     if args.consumer_root and args.json_out and args.json_out.resolve().is_relative_to(args.root.resolve()):
         parser.error("write multi-repository output outside the primary checkout")
     data = inventory(args.root, extra=[consumer_snapshot(s) for s in args.consumer_root])
+    if args.changed_since:
+        graph = data["relationships"]
+        paths = changed_source_paths(args.root, args.changed_since)
+        print(json.dumps({"baseline": args.changed_since, "scope": graph["scope"],
+                          "changed_paths": sorted(paths), "limits": graph["limits"],
+                          "candidates": reconciliation_candidates(graph, "rock-solid-sites/ASES", paths)}, indent=2))
     if args.impact:
         key = args.impact if ":" in args.impact else "rock-solid-sites/ASES:" + args.impact
         graph = data["relationships"]
@@ -260,7 +268,7 @@ def main() -> None:
     if args.index_out:
         args.index_out.parent.mkdir(parents=True, exist_ok=True)
         args.index_out.write_text(markdown_index(data), encoding="utf-8")
-    if args.summary or not (args.index_out or args.json_out or args.impact):
+    if args.summary or not (args.index_out or args.json_out or args.impact or args.changed_since):
         print(json.dumps({
             "revision": data["source_revision"], **data["counts"],
             "high_risk": [
