@@ -96,3 +96,20 @@ Published [RECONCILIATION](RECONCILIATION.md) at commit `6b4ca6bec8ebc75f3011418
 Two further compact exchanges were fully semantically reviewed (13/256 cumulative); additional cross-portfolio exchanges were inspected selectively, not counted as full reviews. The 40-key reconciliation is unchanged; ten separately named leads now accompany it in the restricted Projektor register. The 19 held metadata-only identities and partial legacy exchange remain outside full-review coverage. The parallel computation-reuse study has its own scope; do not add its coverage to this metric. Exact private locators and evidence are in WNASES-35 R05–R07. No new implementation or experiment is authorized.
 
 A subsequent short-exchange batch completed three more compact conversations: cumulative 16/256 fully reviewed. No additional register entries were needed; prior-art and existing-owner links were refined. WNASES-35 R08 preserves exact private evidence. Register count remains 50 (40 stable keys and ten descriptive leads).
+
+## 2026-11-27 — extended contextual recovery (R09–R15)
+
+Nineteen further complete conversation reviews were recorded: sixteen compact payloads and three legacy projections. Exact duplicated assistant tails were identified rather than counted as distinct content. The larger legacy partial was extended contiguously and inspected at selected later exchanges; it is still incomplete. Other user-turn and targeted exchange sweeps are not credited as complete reviews.
+
+| Cumulative measure | Result |
+| --- | ---: |
+| Searchable identities mechanically screened | 256 / 256 |
+| Complete compact conversation reviews | 27 / 210 |
+| Complete legacy projection reviews | 8 / 46 |
+| Total complete semantic reviews | 35 / 256 |
+| Legacy partial | 1 |
+| Held metadata-only identities | 19 |
+| Local coding-agent transcripts reviewed | 0 |
+| Stable candidate keys + descriptive leads | 40 + 21 = 61 |
+
+The eleven additional descriptive leads include partially realized projects, narrower owner-linked requirements, explicitly deferred ideas and conditional research questions; they are not eleven independent new projects. The full restricted register has 61 unique rows with current dispositions and next decision/evidence actions. Specific recoveries, source revisions, exact row/turn locators, duplicate checks and current owner checks are retained in WNASES-35 R09–R15. Public-safe research refinements are in [RESEARCH-QUESTIONS](RESEARCH-QUESTIONS.md). The 40 stable keys remain unchanged; independent parallel computation research is not counted as this assignment's coverage. No claim of saturation, no implementation/experiment/dispatch authorization, and no private source material published.
