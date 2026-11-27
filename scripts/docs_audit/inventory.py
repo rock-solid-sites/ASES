@@ -13,7 +13,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from urllib.parse import unquote
 from relationships import (relationship_graph, source_state, consumer_snapshot,
-                           changed_source_paths, reconciliation_candidates)
+                           changed_source_paths, reconciliation_candidates, include_registered_consumers)
 
 REPO = Path(__file__).resolve().parents[2]
 IGNORED = (
@@ -244,22 +244,29 @@ def main() -> None:
                         help="Explicit clean local consumer checkout; private output only")
     parser.add_argument("--impact", metavar="PATH", help="Show candidate consumers of a source path")
     parser.add_argument("--changed-since", metavar="COMMIT", help="Read-only reconciliation candidates for committed source changes")
+    parser.add_argument("--consumer-register", type=Path, help="Private known consumer pointers, including unscanned repositories")
     args = parser.parse_args()
-    if args.consumer_root and args.index_out:
+    private_scope = bool(args.consumer_root or args.consumer_register)
+    if private_scope and args.index_out:
         parser.error("multi-repository scans are private JSON/impact output; omit --index-out")
-    if args.consumer_root and args.json_out and args.json_out.resolve().is_relative_to(args.root.resolve()):
+    if private_scope and args.json_out and args.json_out.resolve().is_relative_to(args.root.resolve()):
         parser.error("write multi-repository output outside the primary checkout")
     data = inventory(args.root, extra=[consumer_snapshot(s) for s in args.consumer_root])
+    if args.consumer_register:
+        include_registered_consumers(data["relationships"], json.loads(args.consumer_register.read_text(encoding="utf-8")),
+                                     "rock-solid-sites/ASES")
     if args.changed_since:
         graph = data["relationships"]
         paths = changed_source_paths(args.root, args.changed_since)
         print(json.dumps({"baseline": args.changed_since, "scope": graph["scope"],
                           "changed_paths": sorted(paths), "limits": graph["limits"],
+                          "registered_pointer_scope": graph.get("registered_pointer_scope"),
                           "candidates": reconciliation_candidates(graph, "rock-solid-sites/ASES", paths)}, indent=2))
     if args.impact:
         key = args.impact if ":" in args.impact else "rock-solid-sites/ASES:" + args.impact
         graph = data["relationships"]
         print(json.dumps({"source": key, "scope": graph["scope"], "limits": graph["limits"],
+                          "registered_pointer_scope": graph.get("registered_pointer_scope"),
                           "candidates": [{**c, "evidence": graph["edges"][c["edge"]]}
                                          for c in graph["incoming_candidates"].get(key, [])]}, indent=2))
     if args.json_out:

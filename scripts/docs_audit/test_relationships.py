@@ -1,6 +1,6 @@
 """Relationship extraction negative controls and reverse-lookup checks."""
 import unittest
-from relationships import relationship_graph, observations, reconciliation_candidates, changed_source_paths
+from relationships import relationship_graph, observations, reconciliation_candidates, changed_source_paths, include_registered_consumers
 
 
 class RelationshipTests(unittest.TestCase):
@@ -100,3 +100,26 @@ class AdaptationTests(unittest.TestCase):
             git("commit", "-qm", "change")
             self.assertEqual(changed_source_paths(root, base), {"a.md", "renamed.md", "b.md"})
             self.assertEqual(git("status", "--porcelain"), "")
+
+
+    def test_registered_unscanned_consumer_is_flagged(self):
+        core = "docs/core.md"
+        state = {"revision": "fixture", "dirty": False}
+        graph = relationship_graph("org/source", {core: "# Core"}, {core}, [], state)
+        record = {"source_repo": "org/source", "source_path": core,
+                  "consumer_repo": "org/private", "consumer_path": "AGENTS.md",
+                  "relationship": "adaptation", "observed_refs": [{"ref": "main", "revision": "a"*40}],
+                  "reviewed_against": None}
+        include_registered_consumers(graph, {"schema": "document-consumer-pointers-v1", "consumers": [record]}, "org/source")
+        result = reconciliation_candidates(graph, "org/source", {core})
+        self.assertEqual(result[0]["consumer"], "org/private:AGENTS.md")
+        self.assertEqual(result[0]["action"], "consider_reconciliation")
+        self.assertEqual(result[0]["evidence"]["resolution"], "registered_not_reverified")
+        self.assertIsNone(result[0]["evidence"]["reviewed_against"])
+        self.assertEqual(graph["registered_pointer_scope"]["count"], 1)
+        self.assertEqual(reconciliation_candidates(graph, "org/source", {"unrelated.md"}), [])
+
+    def test_invalid_register_rejected(self):
+        graph = {"edges": [], "incoming_candidates": {}}
+        with self.assertRaises(ValueError):
+            include_registered_consumers(graph, {"schema": "other"}, "org/source")

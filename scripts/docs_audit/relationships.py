@@ -193,3 +193,44 @@ def reconciliation_candidates(graph, repo, paths):
         for item in graph["incoming_candidates"].get(source, []):
             out.append({"source": source, **item, "evidence": graph["edges"][item["edge"]]})
     return out
+
+
+def include_registered_consumers(graph, register, source_repo):
+    """Include private, explicit relationship pointers without fetching or rewriting consumers.
+
+    A register is discovery evidence, not a verified current consumer snapshot.
+    """
+    if register.get("schema") != "document-consumer-pointers-v1":
+        raise ValueError("unsupported consumer register schema")
+    records = register.get("consumers")
+    if not isinstance(records, list):
+        raise ValueError("consumer register requires a consumers list")
+    for record in records:
+        upstream, downstream = record["source_path"], record["consumer_path"]
+        repo = record["consumer_repo"]
+        relation = record["relationship"]
+        refs = record["observed_refs"]
+        if record["source_repo"] != source_repo or not re.fullmatch(r"[\w.-]+/[\w.-]+", repo):
+            raise ValueError("invalid repository in consumer register")
+        for path in (upstream, downstream):
+            if not isinstance(path, str) or path.startswith("/") or ".." in PurePosixPath(path).parts or not DOC.search(path):
+                raise ValueError("invalid document path in consumer register")
+        if relation not in {"adaptation", "consideration", "reference"}:
+            raise ValueError("invalid registered relationship")
+        if not isinstance(refs, list) or not refs:
+            raise ValueError("register requires observed consumer refs")
+        for observation in refs:
+            if not observation.get("ref") or not re.fullmatch(r"[0-9a-f]{40}", observation.get("revision", "")):
+                raise ValueError("register requires observed revision identity")
+        edge = {"source_repo": repo, "source_path": downstream, "line": None,
+                "section": None, "kind": "registered_" + relation, "reference": record.get("evidence", ""),
+                "target_repo": source_repo, "target_path": upstream, "ref": None,
+                "resolution": "registered_not_reverified", "target_scanned": None,
+                "observed_refs": refs, "reviewed_against": record.get("reviewed_against")}
+        index = len(graph["edges"])
+        graph["edges"].append(edge)
+        graph["incoming_candidates"].setdefault(source_repo + ":" + upstream, []).append(
+            {"consumer": repo + ":" + downstream, "edge": index,
+             "action": "inspect_reference" if relation == "reference" else "consider_reconciliation"})
+    graph["registered_pointer_scope"] = {"count": len(records), "status": "not a live consumer scan"}
+    return graph
