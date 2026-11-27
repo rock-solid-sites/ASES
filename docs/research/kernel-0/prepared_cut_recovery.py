@@ -3,7 +3,6 @@ from collections import Counter, defaultdict
 from itertools import combinations, permutations, product
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import hashlib
 import json
 import sqlite3
 import subprocess
@@ -59,9 +58,8 @@ def publish(path, unit):
 
 
 def recovery_view(path):
-    # Physical checksums test for incidental differences as well as logical state.
-    return tuple(hashlib.sha256((path / name).read_bytes()).hexdigest()
-                 for name in ("prepared.db", "stamp.db"))
+    # Compare complete physical images, including incidental representation differences.
+    return tuple((path / name).read_bytes() for name in ("prepared.db", "stamp.db"))
 
 
 def histories():
