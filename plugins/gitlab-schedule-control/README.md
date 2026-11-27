@@ -21,7 +21,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-11-25
+last_updated: 2026-11-27
 ---
 
 # GitLab Pipeline Schedule Control — machine-oriented entry
@@ -35,9 +35,9 @@ last_updated: 2026-11-25
 
 ## Operational clarification — 2026-11-25
 
-**On-demand GitLab CI is already operational directly from ordinary ChatGPT.** The existing authenticated connector provides pipeline creation, typed inputs, job status and traces, retries and pipeline cancellation. Live provider readback confirmed API-triggered pipeline [3020598705](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3020598705) and its successful job [17685585990](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/jobs/17685585990). The group reports a 400-minute monthly shared-runner limit; remaining consumption is not verified. Do not postpone bounded on-demand workloads pending this extension. Only schedule-object management (and other distinct missing operations) remains blocked through the existing connector. A schedule-filtered pipeline query returned no results; schedule existence is still unverified.
+**On-demand GitLab CI is already operational directly from ordinary ChatGPT.** The existing authenticated connector provides pipeline creation, typed inputs, job status and traces, retries and pipeline cancellation. Live provider readback confirmed API-triggered pipeline [3020598705](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3020598705) and its successful job [17685585990](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/jobs/17685585990). The group reports a 400-minute monthly shared-runner limit; remaining consumption is not verified. Do not postpone bounded on-demand workloads pending this extension. Only schedule-object management (and other distinct missing operations) remains blocked through the existing connector. A historical schedule-filtered pipeline query returned no results. Subsequent native MCP schedule-object listing on 2026-11-27 returned empty lists for projects 88367140 and 89521152. No nonempty fixture, schedule write or schedule-triggered execution is verified; the original connector still cannot list schedule objects.
 
-Current operational reference: [connector capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md). Minimal upstream-first extension and related gaps: [rss-tools #9](https://github.com/rock-solid-sites/rss-tools/issues/9). The dossier remains a requirements record, not a deployed schedule connector.
+Current operational reference: [connector capability index](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/CAPABILITIES.md). Minimal upstream-first extension and related gaps: [rss-tools #9](https://github.com/rock-solid-sites/rss-tools/issues/9). The dossier remains a requirements record, not a deployed schedule connector. Native listing and text artifact access now reduce the gap; schedule mutation remains absent. Current account-selector discrepancy and pagination limitations are maintained in the capability index rather than duplicated here. Defer a new adapter until a concrete workload requires it before native support arrives. Resume via rss-tools #9 and WNASES-39; upstream proposal #643191 is not maintainer-approved and contributor access remains pending. No external publication without explicit approval of the exact submission.
 
 ## Read in order
 
@@ -69,4 +69,4 @@ A green API-triggered pipeline is **not** confirmation of a working schedule. A 
 
 ## Instruction to successor agent
 
-Do not restate this as a completed connector. Start with read-only verification of schedule existence and provider capabilities, then evaluate the smallest secure route that actually works **in ChatGPT**. Preserve `WHY` / `WHAT` / `HOW CERTAIN` / `WHAT-NOT-TESTED` per `AGENTS.md`. Record conflicting new evidence, avoid copying a historical claim forward unexamined, and use an authorized development branch for implementation.
+Do not restate this as a completed connector. Start by refreshing the linked capability index and existing issue #9. Read-only schedule listing is already demonstrated; do not repeat completed discovery without a reason. Reopen candidate evaluation only for a confirmed need or materially changed native capability. Then evaluate the smallest secure route that actually works **in ChatGPT**. Preserve `WHY` / `WHAT` / `HOW CERTAIN` / `WHAT-NOT-TESTED` per `AGENTS.md`. Record conflicting new evidence, avoid copying a historical claim forward unexamined, and use an authorized development branch for implementation.
