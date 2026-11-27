@@ -11,10 +11,10 @@ depends_on:
   - Research Addendum 01
   - Heuristic Scouting
 
-consumed_by:
-  - Harness Capability Matrix
+consumed_by: []
 
 related_documents:
+  - docs/research/registry/Harness-Capability-Matrix.md
   - Evaluation Framework
   - Microsoft Agent Framework
 
@@ -23,6 +23,9 @@ last_updated: 2026-08-10
 ---
 
 # Harness Evaluation: Microsoft AutoGen
+
+> **Local relationship clarification (2026-11-27):** The [Harness Capability Matrix](https://github.com/rock-solid-sites/ASES/blob/main/docs/research/registry/Harness-Capability-Matrix.md) was a historical consumer of this evaluation evidence, not a current deployment or evaluation requirement. Original metadata and dated observations remain at [the pinned source](https://github.com/rock-solid-sites/ASES/blob/f0d0838e9e9439676330beb7283b6924bee78dde/docs/research/harness-evaluations/Microsoft-AutoGen.md). EDASES ownership and research evidence are unchanged.
+
 
 **Date:** 2026-06-23
 **Evaluator:** OpenCode (Principal/Orchestrator Agent)

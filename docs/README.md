@@ -1,6 +1,6 @@
 ---
 title: ASES Documentation Navigation and Authority Index
-version: 1.0.35
+version: 1.0.36
 program: ASES
 layer: Methodology
 document_type: Guide
@@ -45,6 +45,7 @@ Other documents under `docs/methodology/`, `docs/standards/`, `docs/requirements
 
 - [Generated current-document index](CURRENT-DOCUMENTS-INDEX.md) lists every **declared-active/current** repository-owned Markdown/MDX document found by the read-only scanner, with observed authority, version and diagnostics.
 - [Complete machine inventory](current-documents.json) records in-scope source paths, observed frontmatter, missing explicit versions, duplicate declared-active canonical identities and broken relative links. File metadata is **not automatically corrected**.
+- **Dependency/consumer impact lookup:** The v2 generated JSON adds the observed relationship graph, including frontmatter declarations, direct Markdown links, GitHub/raw URLs, literal document paths, explicit supersession and unresolved/ambiguous references. Run `python scripts/docs_audit/inventory.py --impact 'docs/methodology/ASES Task-Scoped Information and Handoff Method.md'` from a checkout, replacing the path with the source being changed. Candidate consumers carry line/section, relation kind, source revision/scope and resolution evidence; a link is not proof of an active dependency. Inspect derived restatements for semantic drift and leave historical pins intact. To include another authorized clean checkout, add `--consumer-root OWNER/REPO=/local/path` (repeat for additional repositories); keep multi-repository results outside public repos. Scope is the scanned checkouts, not every deployment, historical file, private source or implicit instruction. The graph is a derived diagnostic, not a new canonical authority, nor automatic propagation.
 - [Inventory source and regression tests](../scripts/docs_audit/inventory.py) define the coverage; [GitHub Actions](../.github/workflows/docs-status-inventory.yml) publishes a fresh diagnostic artifact and summary after relevant changes.
 - **Tracking:** Work Notes WNASES-9 owns the exhaustive metadata/version/collision audit and limited repairs. Projektor ASES-5 owns any *derived* documentation/relationship projection, not a new canonical store. Newly found material conflicts remain open until verified, not quietly downgraded by an index script.
 

@@ -10,8 +10,8 @@ canonical_repository: edases
 depends_on:
   - Documentation Standard
   - Concept: Levels of Abstraction
-  - docs/research/Workflow Topology Design and Reasoning Record.md
-  - docs/ORCHESTRATOR.md
+  - https://github.com/rock-solid-sites/ASES/blob/2235d237044d6cb850f827d65baadd1fe3da5b34/docs/research/Workflow%20Topology%20Design%20and%20Reasoning%20Record.md
+  - https://github.com/rock-solid-sites/ASES/blob/2235d237044d6cb850f827d65baadd1fe3da5b34/docs/ORCHESTRATOR.md
 
 consumed_by:
   - Future ATProto / Beads / Chainlink / VDD corpus extractions
@@ -31,6 +31,8 @@ last_updated: 2026-08-27
 ---
 
 # Doll Corpus Retrospective — From Beads to Crosslink via Gates 0–10
+
+> **Local applicability (2026-11-27):** The old Crosslink workflow and orchestrator document are historical evidence, not current operational prerequisites. The pinned dependencies identify the retained pre-retirement source snapshot; the historical pipeline is not an instruction to rebuild or launch it. Transfer research-method findings selectively under the current task-scoped method. Original metadata is retained at [the prior source](https://github.com/rock-solid-sites/ASES/blob/f0d0838e9e9439676330beb7283b6924bee78dde/docs/research/doll-corpus-retrospective.md).
 
 ## Purpose
 
