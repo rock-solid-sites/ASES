@@ -35,3 +35,5 @@ The [September reasoning-session decision record](Kernel-0-Reasoning-Session-Dec
 [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
 
 [What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
+
+[How hard is it to find a safe order for Work Unit moves?](Ordering-policy-preserving-relocations.md) proves NP-completeness with fixed containment filters, and gives a greedy algorithm with a deadlock certificate for a tractable subclass.
