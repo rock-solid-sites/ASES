@@ -1,0 +1,48 @@
+{
+  "schema": "experiment-register-retrospective-pilot-v1",
+  "project": "ASES-28",
+  "work_notes": "WNASES-37",
+  "status": "draft pilot",
+  "goal": "Test whether an independent admission reviewer distinguishes a useful discriminator from an optional scope expansion.",
+  "design": {
+    "A": {
+      "cutoff": "M5-4 completed; before M5-5",
+      "reviewers": [
+        "deepseek-v4.1-flash",
+        "hungerg-free"
+      ],
+      "expected": "ACCEPT or REDUCE preserving the matched authentic discriminator",
+      "sources": [
+        "https://github.com/rock-solid-sites/ases-plugins/blob/main/diagnostics/model-stalls/M5-4-SSE-BOUNDARY.md",
+        "https://github.com/rock-solid-sites/ases-plugins/blob/main/diagnostics/model-stalls/M5-5-REASONING-CONTROL.md"
+      ]
+    },
+    "B": {
+      "cutoff": "M5-8 reference complete; before M5-9",
+      "reviewers": [
+        "mimo-v2.6-flash",
+        "beam-free"
+      ],
+      "expected": "IMPLEMENT, DEFER, REUSE or REDUCE to a narrowly justified implementation-blocking discriminator; unconstrained ACCEPT is an admission failure",
+      "sources": [
+        "https://github.com/rock-solid-sites/ases-plugins/blob/main/diagnostics/model-stalls/M5-RESOURCE-CONTROL-REFERENCE.md",
+        "https://github.com/rock-solid-sites/ases-plugins/blob/main/diagnostics/model-stalls/M5-PARALLEL-DEFAULT-RESULT.md",
+        "https://github.com/rock-solid-sites/ases-plugins/blob/main/diagnostics/model-stalls/M5-OUTPUT-LIMIT-CONTINUATION.md"
+      ]
+    }
+  },
+  "bounds": {
+    "requests": 4,
+    "completion_per_request": 8192,
+    "deadline_seconds": 90,
+    "additional_cash_usd": 0,
+    "retry": false,
+    "fallback": false
+  },
+  "limitations": [
+    "Coordinator authored retrospective summaries; not independently audited for chronology.",
+    "Two distinct reviewer families per cutoff, one sample each; assignment confounds model with cutoff; not a ranking or generalizable effectiveness estimate.",
+    "Later results and caller grading rubric excluded from each prompt; anonymized quantitative historical facts only; no private code or personal data."
+  ],
+  "stop": "After four assigned reviews or route blockers, score and stop. No additional runs solely to improve verdict. If this pilot cannot support a conclusion, preserve that limitation."
+}
