@@ -1,6 +1,6 @@
 ---
 title: ASES Task-Scoped Information and Handoff Method
-version: 1.1.7
+version: 1.1.8
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -10,15 +10,18 @@ canonical_repository: ases
 depends_on:
   - docs/standards/Documentation Standard.md
   - docs/methodology/AI Orchestration Guide.md
+  - docs/research/registry/AI Capability Registry Specification.md
 consumed_by:
   - skills/current/compact-prompt/SKILL.md
   - skills/current/workflow-orchestration/SKILL.md
+  - skills/current/agent-launch/SKILL.md
+  - skills/current/review-launch/SKILL.md
   - ASES task coordinators and agent handoffs
 related_documents:
   - docs/architecture/Task-Scoped Information Architecture Decision 2026-11-21.md
   - research/agent-information-topology/greenfield-task-context/TASK-VIEW-CONTRACT.md
   - research/agent-information-topology/greenfield-task-context/comparison/RESULTS-2026-11-20.md
-last_updated: 2026-11-27
+last_updated: 2026-11-28
 ---
 
 # ASES Task-Scoped Information and Handoff Method
@@ -103,6 +106,14 @@ A turn may change none, one, or several of these dimensions. A discussion of alt
 Keep the operational record a concise, current resume point: replace stale state, blockers and next-action pointers rather than append indefinitely. Preserve material evidence, decisions, rejected alternatives and rationale in appropriate comments or durable documents; keep canonical technical content in its authoritative home. Reuse existing subject records and split work at meaningful changes of scope, ownership, independent acceptance or dependency, not at arbitrary turn counts or text lengths. A discussion without execution still preserves material questions, ideas, alternatives, decisions and provenance in the appropriate existing subject record (or a new one when the subject genuinely warrants it); this does not authorize implementation or require an execution issue. Immaterial turns need no artificial write.
 
 Verify material writes at the durable destination. When reading a body for replacement, verify completeness (follow continuation cursors or use a complete-body retrieval path); never overwrite a record with a partial read. If persistence is blocked, explicitly identify the gap and do not claim recoverability. These are Chat coordination information obligations, not a mandatory record template, one-note-per-turn rule, or universal lifecycle for other projects.
+
+### Model capability evidence intake
+
+**Capture new model feedback in the turn in which it is received.** Whenever an ASES coordination turn receives or establishes a material observation about model capability, limitation, reliability, efficiency, context behaviour or instruction adherence, persist that observation in the existing [AI Capability Registry](../research/registry/AI%20Capability%20Registry%20Specification.md) evidence records before concluding the turn, including discussion-only operator feedback and results from other sessions. Development and review agents apply the same obligation at meaningful result/evidence checkpoints. Do not defer intake until session closeout, a successful retry, or a periodic profile review. Positive, negative, partial and failed results all matter; a result from a tool or harness is not by itself evidence of intrinsic model behaviour.
+
+Record the smallest attributable material delta in the appropriate existing model/route record or a dated evidence entry. Preserve source/run/turn identity or a privacy-safe pointer, date, exact model/version when known (including distinct variants), provider/access route, harness/configuration and task conditions as relevant, observation and evidence basis, verification status, uncertainty and attribution limits. Distinguish operator reports, model claims, independently reproduced findings, provider/transport/harness failures and untested hypotheses; retain unavailable identity or usage as unknown, not a guessed variant, zero or a definitive ranking. Record changed or corrected assessments without erasing prior observations. Deduplicate by evidence identity and use cross-family independent checks where relevant; same-family preference is a possible assessment bias. A periodic synthesis may update a profile but does not replace prompt intake. No full profile, score, new file or registry write is required for a repeated or immaterial observation already captured.
+
+The coordinator owns intake and verifies the durable receipt (repository ref/path or authorized private evidence record). Retain private source material and account-sensitive telemetry only at authorized destinations; publish sanitized evidence where permitted. If registry persistence is blocked, retain the pending intake and source pointer in the existing Work Notes checkpoint or authorized private record, identify the missing persistence explicitly, and reconcile it when access is restored. Do not report an unverified write as complete. This rule concerns ASES capability learning; it does not automatically impose ASES lifecycle or publication rules on independent projects. The capture requirement is procedural until a controlled execution boundary or independently validated archive reconciliation implements it; a document or successful model output does not prove mechanical enforcement.
 
 ### Cross-chat related-work flags
 
