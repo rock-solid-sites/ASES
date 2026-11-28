@@ -179,3 +179,9 @@ Complete semantic coverage: **50/256** (37 compact, 13 legacy); mechanical 256/2
 ### R31b — partial liveness-prior-art review
 
 C-019: contiguous lines 1–3952 of 8803 (turns 1–107); resume at line 3953, turn 108. Existing selective excerpts do not increase full semantic coverage. The archived research calls lack preserved result content, so historical citations are not independent donor verification. Reconciled the documented EPIC #423 research and retired VPS Observer specification. Full semantic coverage remains 50/256; register remains 84. No new execution or archive mutation.
+
+### R32a — liveness and authority-design conversation closure
+
+C-019 is fully reviewed: all 193 numbered turns (8,803 lines), including the remaining lines 3953–8803, historical tool inventory, successive architecture proposals and complete ten-experiment design. The surviving [RPC enforcement prototype](../../../.design/rpc-enforcement-prototype.md) matches the archived design after whitespace normalization and removal of the later applicability annotation, not byte identity. Its historical ten experiments remain proposed, not completed. The final historical research consolidation joins state and enforcement at research level while distinguishing implementation layers. Historical external search results and the original Deep Research result are not preserved in the reviewed projection.
+
+Complete semantic coverage **51/256** (37 compact, 14 legacy); mechanical 256/256; 19 held metadata-only; zero local. Register **84** unchanged. Current identifier-first, coordination, engine and assurance records already cover the transferable questions; do not revive superseded mechanisms. Restricted evidence: WNASES-35 R32a. Ongoing incremental archive reconciliation belongs to the conversation archive project, not this assignment. No new issue, experiment, dispatch, implementation, policy or archive mutation.
