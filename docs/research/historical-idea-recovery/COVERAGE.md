@@ -306,3 +306,8 @@ Completed the compact Build 3 conversation (94 turns, 187,762 text characters); 
 ### R52 — Kernel Verification
 
 Completed 89 compact turns (180,116 text characters). Reconciled historical processorless preference, confinement and API layering, full revocation versus subsequent sealing semantics, donor leads and the progressive non-agent server application. HIR-028 already records the server research lead; no duplicate subject. **86/256 full semantic (40/210 compact; 46/46 legacy)**, 87 distinct registered subjects. No donor re-audit, new execution, implementation, or archive mutation.
+
+### R53 — Work Unit component design and interface research
+
+Completed the surviving 70-turn compact conversation (220,972 text characters), including the original 57-section design, operator corrections and historical closeout/future-topic authorization. Earlier selective review does not count again. The September bounded-object revision preserves the old design and supersedes mandatory object hierarchy; the current engine vision and conditional independent-position research distinguish continuing consumer requirements from representation and native owner-side enforcement. Historical original Library closeout files were not independently retrieved; the pinned repository design survives. **87/256 full semantic (41/210 compact; 46/46 legacy)**; register **87** distinct subjects, mechanically screened 256/256, 19 metadata-only, zero local coding transcripts. Existing HIR-029 and Work Unit research refined; no new candidate, runtime experiment, implementation or archive mutation. Restricted exact source and evidence: WNASES-35 R53.
+
