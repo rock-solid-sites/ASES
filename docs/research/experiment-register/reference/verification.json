@@ -1,0 +1,466 @@
+{
+  "schema": "experiment-admission-reference-verification-v1",
+  "environment": "Chat ECMAScript V8 tool isolate; exact function bodies executed in-memory, then serialized with Function.toString and repository readback compared; standalone Node module import not executed",
+  "scope": "deterministic unit/contract checks only; no inference, network dispatch, production gate, or scientific validation",
+  "red": {
+    "description": "deliberately permissive stub, not a claim of historical failure",
+    "count": 36,
+    "passed": 3,
+    "results": [
+      {
+        "name": "accepted bounded plan",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "routine no fresh review",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "missing outcome",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "no decision difference",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "unknown model cap",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "wrong parent",
+        "expected": "IDENTITY_OR_REVISION_MISMATCH",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stale plan",
+        "expected": "IDENTITY_OR_REVISION_MISMATCH",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "closed decision",
+        "expected": "DECISION_OR_EXPERIMENT_NOT_OPEN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stop reached",
+        "expected": "STOP_REACHED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stop unknown",
+        "expected": "STOP_REACHED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "reuse prior evidence",
+        "expected": "QUALIFICATION_REUSE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "source block cannot be waived",
+        "expected": "QUALIFICATION_BLOCKED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stale qualification",
+        "expected": "QUALIFICATION_MISSING_OR_STALE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "unclassified review policy",
+        "expected": "REVIEW_POLICY_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "review absent",
+        "expected": "REVIEW_MISSING",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "reasoning only failure",
+        "expected": "REVIEW_INCOMPLETE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "same family unverified",
+        "expected": "REVIEW_INDEPENDENCE_UNVERIFIED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "OP01 label action mismatch",
+        "expected": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "prose meaning unchecked",
+        "expected": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "reduce blocks current revision",
+        "expected": "REVIEW_REDUCE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "reuse verdict",
+        "expected": "REVIEW_REUSE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "implement verdict",
+        "expected": "REVIEW_IMPLEMENT",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "defer verdict",
+        "expected": "REVIEW_DEFER",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "reject verdict",
+        "expected": "REVIEW_REJECT",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stale review",
+        "expected": "REVIEW_RECORD_INVALID_OR_STALE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "manual OP01 adjudication",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "exception without reason",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "accept not authority",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stale authorization",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "duplicate claim",
+        "expected": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "stale dispatch",
+        "expected": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "exhausted aggregate runs",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "cash expansion",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "remaining cannot exceed plan",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "boolean not a numeric cap",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      },
+      {
+        "name": "manual cannot exceed budget",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": false
+      }
+    ]
+  },
+  "green": {
+    "count": 36,
+    "passed": 36,
+    "results": [
+      {
+        "name": "accepted bounded plan",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "routine no fresh review",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "missing outcome",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "INVALID_REGISTRATION",
+        "pass": true
+      },
+      {
+        "name": "no decision difference",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "INVALID_REGISTRATION",
+        "pass": true
+      },
+      {
+        "name": "unknown model cap",
+        "expected": "INVALID_REGISTRATION",
+        "actual": "INVALID_REGISTRATION",
+        "pass": true
+      },
+      {
+        "name": "wrong parent",
+        "expected": "IDENTITY_OR_REVISION_MISMATCH",
+        "actual": "IDENTITY_OR_REVISION_MISMATCH",
+        "pass": true
+      },
+      {
+        "name": "stale plan",
+        "expected": "IDENTITY_OR_REVISION_MISMATCH",
+        "actual": "IDENTITY_OR_REVISION_MISMATCH",
+        "pass": true
+      },
+      {
+        "name": "closed decision",
+        "expected": "DECISION_OR_EXPERIMENT_NOT_OPEN",
+        "actual": "DECISION_OR_EXPERIMENT_NOT_OPEN",
+        "pass": true
+      },
+      {
+        "name": "stop reached",
+        "expected": "STOP_REACHED_OR_UNKNOWN",
+        "actual": "STOP_REACHED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "stop unknown",
+        "expected": "STOP_REACHED_OR_UNKNOWN",
+        "actual": "STOP_REACHED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "reuse prior evidence",
+        "expected": "QUALIFICATION_REUSE",
+        "actual": "QUALIFICATION_REUSE",
+        "pass": true
+      },
+      {
+        "name": "source block cannot be waived",
+        "expected": "QUALIFICATION_BLOCKED",
+        "actual": "QUALIFICATION_BLOCKED",
+        "pass": true
+      },
+      {
+        "name": "stale qualification",
+        "expected": "QUALIFICATION_MISSING_OR_STALE",
+        "actual": "QUALIFICATION_MISSING_OR_STALE",
+        "pass": true
+      },
+      {
+        "name": "unclassified review policy",
+        "expected": "REVIEW_POLICY_UNKNOWN",
+        "actual": "REVIEW_POLICY_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "review absent",
+        "expected": "REVIEW_MISSING",
+        "actual": "REVIEW_MISSING",
+        "pass": true
+      },
+      {
+        "name": "reasoning only failure",
+        "expected": "REVIEW_INCOMPLETE",
+        "actual": "REVIEW_INCOMPLETE",
+        "pass": true
+      },
+      {
+        "name": "same family unverified",
+        "expected": "REVIEW_INDEPENDENCE_UNVERIFIED",
+        "actual": "REVIEW_INDEPENDENCE_UNVERIFIED",
+        "pass": true
+      },
+      {
+        "name": "OP01 label action mismatch",
+        "expected": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "actual": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "pass": true
+      },
+      {
+        "name": "prose meaning unchecked",
+        "expected": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "actual": "REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+        "pass": true
+      },
+      {
+        "name": "reduce blocks current revision",
+        "expected": "REVIEW_REDUCE",
+        "actual": "REVIEW_REDUCE",
+        "pass": true
+      },
+      {
+        "name": "reuse verdict",
+        "expected": "REVIEW_REUSE",
+        "actual": "REVIEW_REUSE",
+        "pass": true
+      },
+      {
+        "name": "implement verdict",
+        "expected": "REVIEW_IMPLEMENT",
+        "actual": "REVIEW_IMPLEMENT",
+        "pass": true
+      },
+      {
+        "name": "defer verdict",
+        "expected": "REVIEW_DEFER",
+        "actual": "REVIEW_DEFER",
+        "pass": true
+      },
+      {
+        "name": "reject verdict",
+        "expected": "REVIEW_REJECT",
+        "actual": "REVIEW_REJECT",
+        "pass": true
+      },
+      {
+        "name": "stale review",
+        "expected": "REVIEW_RECORD_INVALID_OR_STALE",
+        "actual": "REVIEW_RECORD_INVALID_OR_STALE",
+        "pass": true
+      },
+      {
+        "name": "manual OP01 adjudication",
+        "expected": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "actual": "ELIGIBLE_FOR_ATOMIC_CLAIM",
+        "pass": true
+      },
+      {
+        "name": "exception without reason",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "AUTHORITY_MISSING_OR_STALE",
+        "pass": true
+      },
+      {
+        "name": "accept not authority",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "AUTHORITY_MISSING_OR_STALE",
+        "pass": true
+      },
+      {
+        "name": "stale authorization",
+        "expected": "AUTHORITY_MISSING_OR_STALE",
+        "actual": "AUTHORITY_MISSING_OR_STALE",
+        "pass": true
+      },
+      {
+        "name": "duplicate claim",
+        "expected": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "actual": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "pass": true
+      },
+      {
+        "name": "stale dispatch",
+        "expected": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "actual": "DISPATCH_ALREADY_CLAIMED_OR_UNVERIFIED",
+        "pass": true
+      },
+      {
+        "name": "exhausted aggregate runs",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "cash expansion",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "remaining cannot exceed plan",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "boolean not a numeric cap",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "pass": true
+      },
+      {
+        "name": "manual cannot exceed budget",
+        "expected": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "actual": "ENVELOPE_EXCEEDED_OR_UNKNOWN",
+        "pass": true
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "admission-v1.mjs",
+      "commit": "42f8a24ab1d4d6515cee649f0cb1f75e464f1152",
+      "blob": "cfde687aac6c4f770474c8606673f519ef874613",
+      "chars": 5268,
+      "verified": true
+    },
+    {
+      "name": "test-admission-v1.mjs",
+      "commit": "a151edd78e04e808d607b15a7a4140a8deb30140",
+      "blob": "728cd125f0c740dd8c09f98bd46bf3eca19b0786",
+      "chars": 5993,
+      "verified": true
+    }
+  ]
+}
