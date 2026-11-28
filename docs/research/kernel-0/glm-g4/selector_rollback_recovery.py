@@ -275,19 +275,28 @@ def forgotten_commit_windows(images):
     selector's durable record of the accepted prefix is a strict lower
     bound on what its first fresh commit must transfer.
     """
-    total = window = 0
+    total = window = serving = 0
     for state, imgs in images.items():
         c_star = state[0][1]
+        open_now = any(g[2] for g in state[1])
         for image, _trace in imgs:
             if image == state[0]:
                 continue
             total += 1
             if c_star > image[1]:
                 window += 1
+                # An open gate at restore holds the true selected tenure
+                # (verified invariant), so an append at this instant is
+                # accepted under a tenure beyond the image's record.
+                if open_now:
+                    serving += 1
     print("forgotten-commit windows: %d of %d restored images"
           " (true tenure beyond the image's)" % (window, total))
+    print("appends servable under a forgotten tenure at the restore"
+          " instant: %d of %d" % (serving, total))
     assert window > 0, "no custody gap exercised"
-    return window
+    assert serving > 0, "no forgotten-tenure append reachable at restore"
+    return window, serving
 
 
 def run(gates, attempts, cap):
@@ -312,7 +321,7 @@ def run(gates, attempts, cap):
 
     verdicts = {}
     stats = {r: dict(checked=0, harmful=0, stale=0, forged=0, best=None,
-                     redecided=0, converged=0)
+                     redecided=0, converged=0, **{"forgotten service": 0})
              for r in RULES}
     for state in states:
         c_star = state[0][1]
@@ -328,11 +337,19 @@ def run(gates, attempts, cap):
                     restored, c_star, m_abs, d_star, rule, cap, verdicts)
                 redecided = False
                 converged = False
+                serving = False
                 for key in visited:
-                    bindings = key[0][0][4]
+                    vstate = key[0]
+                    bindings = vstate[0][4]
                     if fresh_tenure(bindings, m_abs, d_star) > 0:
                         converged = True  # the run reached a fresh,
                         # lineage-extending commit and resumed normal service
+                    if c_star > image[1] and any(
+                            g[2] and g[1] == c_star for g in vstate[1]):
+                        serving = True  # an open gate is accepting appends
+                        # under a tenure beyond the resumed selector's
+                        # record: contents the first fresh commit must
+                        # nevertheless transfer
                     for q in range(len(image[4]) + 1,
                                    min(len(bindings), m_abs) + 1):
                         if bindings[q - 1] == q:
@@ -344,6 +361,8 @@ def run(gates, attempts, cap):
                         break
                 if converged:
                     stats[rule]["converged"] += 1
+                if serving:
+                    stats[rule]["forgotten service"] += 1
                 if redecided:
                     stats[rule]["redecided"] += 1
                 if not hit:
@@ -367,9 +386,9 @@ def run(gates, attempts, cap):
     for rule in RULES:
         s = stats[rule]
         print("rule %-9s runs %5d harmful %5d stale %d forged %d"
-              " redecided-grants %d converged %d"
+              " redecided-grants %d converged %d forgotten-service %d"
               % (rule, s["checked"], s["harmful"], s["stale"], s["forged"],
-                 s["redecided"], s["converged"]))
+                 s["redecided"], s["converged"], s["forgotten service"]))
     assert stats[REPAIRED]["converged"] > 0, "repaired verdicts are vacuous"
     assert stats[BLOCKED]["converged"] > 0, "blocked verdicts are vacuous"
     forgotten_commit_windows(images)

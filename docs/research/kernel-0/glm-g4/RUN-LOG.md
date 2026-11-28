@@ -74,9 +74,10 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 | 0 | e65dc6d69 | Run log, starting context, frontier assessment, programme. |
 | 1 | 98262c6b4 | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
 | 2 | b02f92960 | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
-| 3 | (this commit) | Run-end wrap: precision fix to study evidence text; 3-gate breadth attempt recorded as failed (host memory); resume point and uncertainties below. |
+| 3 | 17116f4af | Title fix (GLM-5.3); SMT induction obligations [resumption_induction.smt2](resumption_induction.smt2), verified with Z3 5.4.1 on this host. |
+| 4 | (this commit) | Custody evidence strengthened: at-restore and during-run forgotten-tenure append service counts. |
 
-## Run-end record (2026-11-28)
+## First window end record (2026-11-28, superseded by the extension below)
 
 **Bounded coverage.** Verified configurations: one gate with attempts ≤ 3
 (700 phase-one states, 7,586 image records, 6,769 restored runs per rule) and
@@ -88,7 +89,8 @@ GB Codespace (the script's first print follows the fixpoint, so buffered output
 was lost). This is a coverage limitation of the executed evidence, not of the
 claims; the two smaller configurations carry all published results. A machine
 with more memory should re-run `selector_rollback_recovery.py 3 2 4` before
-trusting the invariant counts at three gates.
+trusting the invariant counts at three gates. Not retried in the extension
+window per supervision direction.
 
 **Artifacts produced (all under `docs/research/kernel-0/glm-g4/` on main).**
 
@@ -97,20 +99,11 @@ trusting the invariant counts at three gates.
 - [Custody-after-a-forgotten-commit.md](Custody-after-a-forgotten-commit.md) — Q2 study.
 - [selector_rollback_recovery.py](selector_rollback_recovery.py) — self-verifying executable model for both studies.
 
-**Exact resume point.** The next investigator should start from commit (this
-commit) on main and, in order of expected value: (1) port the resumption-rule
-induction obligations to SMT-LIB in the style of `abortable_induction.smt2` —
-the trace lemma, the two sufficient-rule invariants and the abort-binding
-necessity — noting that this Codespace hosts no `z3`/`cvc5` binaries, so the
-obligations were checked only by bounded enumeration; (2) compose the
-resumption floor with changing membership (`Changing-the-set-of-resource-owners.md`
-semantics under rollback); (3) make the custody reconciliation rule executable
-in the surviving-content study's certificate terms (store-cut verification at
-the first fresh commit); (4) re-run the three-gate breadth configuration on a
-host with more memory. Q1 and Q2 boundary sections list the remaining proof
-obligations in detail.
+**First-window resume point (superseded).** Items (1) SMT obligations and
+(partially) (3) custody evidence were addressed in the extension window below;
+membership composition (2) and the three-gate re-run (4) remain.
 
-**Uncertainties that remain.** All results are bounded-model demonstrations or
+**Uncertainties at first-window end.** All results are bounded-model demonstrations or
 explicitly marked conditional arguments; neither study has independent replay,
 SMT obligations, or runtime conformance evidence. Study 2's core claims
 (control-plane obliviousness, truncation/reclamation witnesses, the
@@ -121,6 +114,47 @@ lower bound by construction. Harm counts depend on the conservative
 selectors), store rollback sharing the selector's domain, hostile corruption
 beyond genuine images, and changing membership under rollback are unmodeled.
 No result selects an implementation; everything is experimental/provisional.
+
+## Extension window record (2026-11-28, supervision checkpoint)
+
+The run continued in the same session for roughly another hour under the same
+assignment and boundaries. Two recorded gaps were closed and one new direction
+was scoped:
+
+- **SMT obligations closed (checkpoint 3, 17116f4af).** Z3 5.4.1 was installed
+  on this host via `pip install z3-solver` (free, within scope). The new
+  [resumption_induction.smt2](resumption_induction.smt2) checks the repaired
+  rule's induction: the renumbered restore state satisfies the invariant, and
+  prepare, silent abort, fresh commit and summary delivery preserve it — five
+  `unsat` results — with the spool/floor lemma asserted as an axiom premise in
+  the same position the abortable study's arithmetic file asserts its summary
+  axiom. Two `sat` controls exhibit the necessity of each withheld clause
+  (stale pre-unblock abort binding; forged re-decision without renumbering).
+  Repeat execution by the same author as the enumeration, not independent
+  model authorship or engine conformance.
+- **Custody evidence strengthened (checkpoint 4, this commit).** The model now
+  counts direct append service under forgotten tenures: at the restore
+  instant, 948 of 6,769 one-gate images (702 of 4,219 two-gate) have an open
+  gate holding the true selected tenure beyond the image's record; under the
+  repaired rule itself, 1,134 of 6,769 runs (743 of 4,219) visit states where
+  an open gate keeps serving the forgotten tenure until the first fresh
+  commit fences it. Contents accepted during this service window are real,
+  post-failure, and invisible to the resumed selector's record — direct [D]
+  support for the custody study's reconciliation rule and its premise (no
+  open gate ever holds a non-lineage tenure under any append-safe rule).
+- **Scoped but not executed: membership composition under rollback.** The
+  resumed selector's membership view regresses with its image while gates
+  retain true floors. Working hypothesis for the next run: a removed gate
+  that never absorbed its removal summary is locally indistinguishable from
+  a lagging current member, so no selector-local choice of the outgoing voter
+  set can be both safe (a removed gate's vote must not co-authorize a
+  successor) and live (a lagging member's vote must be collectable) — the
+  membership ledger would then be a third placement obligation outside the
+  rolled-back domain, alongside the spool and the accepted-prefix ledger.
+  This is [H] with a sketched two-worlds construction; an enumeration in the
+  membership study's model (proposed subsets bound to attempts, summaries
+  binding membership) is the natural verification and was not attempted
+  within this window.
 
 ## Q2 outcome (recorded at checkpoint 2)
 
