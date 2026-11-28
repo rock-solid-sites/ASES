@@ -25,6 +25,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Accepted contents, retries and observations
 
+- [What evidence can restore current owner selection?](Recoverable-owner-selection.md) derives a protected selection construction and the conditions under which an eventless reservation could instead be cancelled.
 - [What can native recovery restore from surviving history?](Restoring-history-without-restoring-authority.md) uses the actual owner write order to separate monotone historical evidence from selected pending obligations and current authority.
 - [Native owner selection rollback](Native-owner-selection-rollback-result.md) exercises three genuine F3 selection cuts and demonstrates F4 historical success with unresolved owner settlement.
 - [What does the native owner actually acknowledge?](Native-acceptance-and-recovery-boundaries.md) maps the protected-witness question onto the pinned native source and identifies where exact retry, F3 currentness and W5/W6 diverge.
