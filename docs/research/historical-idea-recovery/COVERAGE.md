@@ -286,3 +286,7 @@ Completed the 95-turn historical stop-button review and subsequent adaptation/ch
 ### R47 — Crosslink historical and operational evidence
 
 Completed substantive review of the surviving 339-turn Crosslink projection, including the remaining research, original collection brief, operational reports, bounded corpus excerpts and subsequent interpretation. The original full collection artifacts were not independently recovered or replayed. Coverage: **81/256 full (37 compact + 44 legacy)**; two legacy partials remain. Register remains 87. Detailed restricted source locators and evidence qualifications are in WNASES-35 R47.
+
+### R48 — Versus/Rust primitive-reduction history
+
+Completed substantive review of the surviving 333-turn, 22,494-line legacy projection, including comparative prior art, original conditional and dissenting reviews, successive semantic specifications and pre-launch pins. The historical archive retains partial/duplicate attachment retrievals rather than a new independent review or implementation run. Coverage: **82/256 full (37 compact + 45 legacy)**; one legacy partial remains. Register remains 87. Exact restricted locators and evidence qualifications: WNASES-35 R48.
