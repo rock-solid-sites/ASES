@@ -1,6 +1,6 @@
 ---
-title: GLM-4 pilot run log and research programme
-version: 0.1.0
+title: "G4 pilot (GLM-5.3) run log and research programme"
+version: 0.1.1
 program: ASES
 layer: Research
 document_type: Experimental Run Log
@@ -10,7 +10,7 @@ canonical_repository: ases
 last_updated: 2026-11-28
 ---
 
-# GLM-4 pilot run log and research programme
+# G4 pilot (GLM-5.3) run log and research programme
 
 Experimental research record from the authorized G4 pilot. Not an architectural
 decision. Each study below carries its own evidence and limits; this log records
