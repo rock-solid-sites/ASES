@@ -1,0 +1,64 @@
+{
+  "schema": "admission-reference-remediation-verification-v1",
+  "date": "2026-11-28",
+  "scope": "Standalone Node v22.16.0. Original source and test bytes checked against exact Git blobs. Full original suite before and after fix; expanded suite red before and green after fix; fresh isolated two-file local Git clone with no external dependencies and clean status, identical stdout to green. Not a full remote repository checkout or CI run, no runtime authority, external inference or production integration.",
+  "source": {
+    "original": {
+      "commit": "8314413c7b6d989ce72e26019e1583d400edf21b",
+      "validator_blob": "cfde687aac6c4f770474c8606673f519ef874613",
+      "test_blob": "728cd125f0c740dd8c09f98bd46bf3eca19b0786"
+    },
+    "red": {
+      "commit": "f91730cd917eaf2a7db22cef370b8268aaa5bcae",
+      "validator_blob": "cfde687aac6c4f770474c8606673f519ef874613",
+      "test_blob": "dcef0bdcfb2411f770f21ca2973e95a82384bee7"
+    },
+    "green": {
+      "commit": "dc79247d6bac5226c341de070b1be299161e3d53",
+      "validator_blob": "a474db78b096d3b7f886754f3026bbb26d8d03cb",
+      "test_blob": "dcef0bdcfb2411f770f21ca2973e95a82384bee7"
+    },
+    "local_fixture_commit": "49e98f6a43909be6f688ce15e809f53644b28214"
+  },
+  "outputs": {
+    "baseline": {
+      "exit": 0,
+      "sha256": "1a72b388f3dcbb0cd8d233fff0b676a9e5513fac2eac51b6eedf0fa19d143f39",
+      "git_blob": "91cc26632d8eb71fcde1bb3665b82e801c6ac6f1",
+      "path": "docs/research/experiment-register/reference/evidence/remediation-baseline.json",
+      "commit": "b9e3b2e5c34a22e7e4ff597b59256515bcd9dee2"
+    },
+    "red": {
+      "exit": 1,
+      "sha256": "d61a820a259a70eaa7b552e427796a53cb90bd137837fdb61bff0f0b327b13a0",
+      "git_blob": "c786cbe02606d936894ddc4ef9cfb1e6e7b46976",
+      "path": "docs/research/experiment-register/reference/evidence/remediation-red.json",
+      "commit": "5c9a18b577ae5525391a98814a84a46b913410e8"
+    },
+    "green": {
+      "exit": 0,
+      "sha256": "a19d2dfc9c8f04561dde92c993da20c327e628cfe4c23e7f586b4dec31bedf33",
+      "git_blob": "c0c54f4233c1dcb229848f42b5b23bcf643602e5",
+      "path": "docs/research/experiment-register/reference/evidence/remediation-green.json",
+      "commit": "55f53a920f4768b9b29321386f2e0e22aaddde6b"
+    },
+    "original_against_repaired": {
+      "exit": 0,
+      "count": 36,
+      "passed": 36,
+      "byte_identical_to": "baseline"
+    },
+    "fresh_checkout": {
+      "exit": 0,
+      "count": 68,
+      "passed": 68,
+      "byte_identical_to": "green"
+    }
+  },
+  "receipt_encoding": "Complete per-case stdout reconstructed from local compact result rows and red differences, and verified below against actual stdout Git blob IDs by separate exact raw-file readback. JSON.stringify(result,null,2)+newline is stdout.",
+  "finding": {
+    "confirmed": "Malformed COMPLETE verdicts, including noncoercible objects, array aliases and missing/nonstring values, previously produced exceptions, inconsistent reason codes or manual-exception eligibility. Reject non-string COMPLETE verdict before independence, key conversion and waiver evaluation.",
+    "refuted": "Resource-cap coupling unchanged; both matching and mismatching pairs covered at plan and dispatch.",
+    "preserved": "Incomplete/failed review can be manually waived with recorded exception; unknown string verdict remains a semantic conflict eligible for explicit manual disposition, as previously specified. No broad schema/hostile-JS-object hardening or new controller guarantee."
+  }
+}
