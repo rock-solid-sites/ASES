@@ -266,3 +266,8 @@ Completed one legacy conversation (36 turns/2,117 projection lines); additionall
 ### R43 — RPC origins and connector evidence
 
 Completed one further legacy conversation (131 numbered turns); deeply inspected a second legacy conversation without crediting it as complete. Cumulative full substantive review: **78/256 (37 compact, 41 legacy)**. Five legacy conversations remain, two partially reviewed. Register unchanged at 87 entries. Original research-brief text recovered; historical reported donor findings and scripted experiment results are not independent runtime verification. Private locators and remaining ranges recorded in WNASES-35.
+
+
+### R44 — extended legacy-source reconciliation
+
+Three lengthy legacy projections inspected at key original operator turns, substantive proposals, review conclusions and related surviving artifacts. Full review is **not** claimed for these three. All five remaining legacy conversations are now partial; cumulative full substantive review remains **78/256 (37 compact, 41 legacy)**. Register remains 87 distinct entries; the historical microkernel comparison's evidence status is corrected from unfinished to partial comparison. Private source ranges and remaining material recorded in WNASES-35.
