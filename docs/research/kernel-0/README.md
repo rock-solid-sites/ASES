@@ -41,6 +41,7 @@ The owner experiments give executable witnesses for local handover, content cont
 ### Decision cost and trusted evidence
 
 - [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
+- [How much shared headroom can a Work Unit keep private?](Privacy-and-shared-capacity.md) proves a reply-level conflict between exact pooled admission and concealment, and characterizes the minimum disclosure for bounded underuse.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
 - [How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
 - [Can a progress stamp reconstruct which prepared Work Unit updates committed?](Reconstructing-a-cut-from-prepared-updates.md) counts indistinguishable committed cuts under partial order and exhibits two different acknowledgments with identical recovered SQLite files.
