@@ -298,3 +298,7 @@ Completed the final legacy projection (433 turns, 33,028 lines), including the o
 ### R50 — Compact Build 2, authority decisions and version custody
 
 Complete review of one compact identity (80 turns, 127,682 text characters). Historical reasoning input manifest and its pinned ontology are recoverable and match; the staged consolidation record also survives at the reported historical commit. This does not demonstrate actual consumption of every manifest input, physical enforcement or complete replay of filing changes. **84/256 full semantic (38 compact + 46 legacy)**; register 87 unchanged. Restricted locators: WNASES-35 R50.
+
+### R51 — EDASES Build 3
+
+Completed the compact Build 3 conversation (94 turns, 187,762 text characters); earlier selective reads do not count again. Historical Stage-1 reconciliation, machine-realization family reduction, panel dispositions and the operator's elimination-first correction were reconciled. Pinned reasoning artifacts survive; the individual clean-room panel responses were not independently recovered. Full semantic coverage: **85/256 (39/210 compact; 46/46 legacy)**. Register: **87** distinct subjects. No new candidate, implementation or archival mutation.
