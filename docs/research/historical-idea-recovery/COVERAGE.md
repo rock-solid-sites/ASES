@@ -241,3 +241,8 @@ Complete semantic **67/256** (37 compact, 30 legacy), mechanical 256/256, 19 hel
 ### R38 — UI design, permissions guard review, Tidepool
 
 Three complete legacy projections (82 turns, 6,642 lines) reconciled. Full semantic coverage: **70/256** (37 compact, 33 legacy); mechanically screened 256/256; 19 metadata-only; zero local coding sessions. Register remains 87 (40 canonical, 47 descriptive). UI retrospective and guard review match surviving repository text after formatting/citation normalization; separate UI attachment and full historical guard attachment were not retrieved. Tidepool overlaps existing formal-computation research; no duplicate lead or experimental claim.
+
+
+### R39 — Prime Agent comparison, Gas Town discussion, Deployment
+
+Three legacy identities reconciled (94 turns/9,128 projection lines). Two complete semantic reads (76 turns/6,195 lines), plus Deployment's 18 turns/2,933 lines verified node-for-node and body-for-body equal to the already-read opening of Methodology Research; not independent evidence. Full semantic identity coverage **73/256** (37 compact,36 legacy); mechanically screened 256/256; 19 metadata-only; zero local coding sessions. Register 87 unchanged. Gas Town classification prompt and answer match surviving repository texts after formatting normalization; other reviews not independently reread here.
