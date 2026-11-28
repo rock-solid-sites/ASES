@@ -302,3 +302,7 @@ Complete review of one compact identity (80 turns, 127,682 text characters). His
 ### R51 — EDASES Build 3
 
 Completed the compact Build 3 conversation (94 turns, 187,762 text characters); earlier selective reads do not count again. Historical Stage-1 reconciliation, machine-realization family reduction, panel dispositions and the operator's elimination-first correction were reconciled. Pinned reasoning artifacts survive; the individual clean-room panel responses were not independently recovered. Full semantic coverage: **85/256 (39/210 compact; 46/46 legacy)**. Register: **87** distinct subjects. No new candidate, implementation or archival mutation.
+
+### R52 — Kernel Verification
+
+Completed 89 compact turns (180,116 text characters). Reconciled historical processorless preference, confinement and API layering, full revocation versus subsequent sealing semantics, donor leads and the progressive non-agent server application. HIR-028 already records the server research lead; no duplicate subject. **86/256 full semantic (40/210 compact; 46/46 legacy)**, 87 distinct registered subjects. No donor re-audit, new execution, implementation, or archive mutation.
