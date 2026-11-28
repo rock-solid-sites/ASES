@@ -57,6 +57,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [When do separate checks prove one legal effect?](When-separate-checks-prove-one-legal-effect.md) verifies when independently observed checks can jointly enforce a guarded effect while preserving required positive cases.
 - [What makes authority checks independent under a common fault model?](How-independent-are-authority-checks.md) derives an exact effect-specific failure support test and separates real redundancy from shared premises.
 
 - [When is a state partition too strong for Kernel-0 minimization?](State-elimination-under-partial-contracts.md) contrasts exact total-interface quotients with overlapping closed covers and gives a strict three-state counterexample.
