@@ -75,7 +75,8 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 | 1 | 98262c6b4 | Q1 results: [Selector rollback recovery](Selector-rollback-recovery.md) with executable model [selector_rollback_recovery.py](selector_rollback_recovery.py). |
 | 2 | b02f92960 | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
 | 3 | 17116f4af | Title fix (GLM-5.3); SMT induction obligations [resumption_induction.smt2](resumption_induction.smt2), verified with Z3 5.4.1 on this host. |
-| 4 | (this commit) | Custody evidence strengthened: at-restore and during-run forgotten-tenure append service counts. |
+| 4 | a12c0ea67 | Custody evidence strengthened: at-restore and during-run forgotten-tenure append service counts. |
+| 5 | (this commit) | Second-solver confirmation (cvc5 1.4.2) of all seven SMT obligations; extension-window end record. |
 
 ## First window end record (2026-11-28, superseded by the extension below)
 
@@ -121,7 +122,8 @@ The run continued in the same session for roughly another hour under the same
 assignment and boundaries. Two recorded gaps were closed and one new direction
 was scoped:
 
-- **SMT obligations closed (checkpoint 3, 17116f4af).** Z3 5.4.1 was installed
+- **SMT obligations closed (checkpoint 3, 17116f4af; second solver at
+  checkpoint 5).** Z3 5.4.1 was installed
   on this host via `pip install z3-solver` (free, within scope). The new
   [resumption_induction.smt2](resumption_induction.smt2) checks the repaired
   rule's induction: the renumbered restore state satisfies the invariant, and
@@ -130,8 +132,10 @@ was scoped:
   the same position the abortable study's arithmetic file asserts its summary
   axiom. Two `sat` controls exhibit the necessity of each withheld clause
   (stale pre-unblock abort binding; forged re-decision without renumbering).
-  Repeat execution by the same author as the enumeration, not independent
-  model authorship or engine conformance.
+  cvc5 1.4.2 (Python bindings, driven with a small parse-and-execute script)
+  returned the same seven verdicts, matching the corpus's dual-solver
+  convention. Repeat execution by the same author as the enumeration, not
+  independent model authorship or engine conformance testing.
 - **Custody evidence strengthened (checkpoint 4, this commit).** The model now
   counts direct append service under forgotten tenures: at the restore
   instant, 948 of 6,769 one-gate images (702 of 4,219 two-gate) have an open
@@ -148,13 +152,39 @@ was scoped:
   that never absorbed its removal summary is locally indistinguishable from
   a lagging current member, so no selector-local choice of the outgoing voter
   set can be both safe (a removed gate's vote must not co-authorize a
-  successor) and live (a lagging member's vote must be collectable) — the
-  membership ledger would then be a third placement obligation outside the
-  rolled-back domain, alongside the spool and the accepted-prefix ledger.
-  This is [H] with a sketched two-worlds construction; an enumeration in the
-  membership study's model (proposed subsets bound to attempts, summaries
-  binding membership) is the natural verification and was not attempted
-  within this window.
+  successor) and live (a lagging member's vote must be collectable, and
+  excluding it leaves it open at the displaced tenure, admitting stale
+  appends) — the membership ledger would then be a third placement
+  obligation outside the rolled-back domain, alongside the spool and the
+  accepted-prefix ledger. This is [H] with a sketched two-worlds
+  construction; an enumeration in the membership study's model (proposed
+  subsets bound to attempts, summaries binding membership) is the natural
+  verification and was not attempted within this window.
+
+## Extension-window end record
+
+**Extension resume point.** Start from this commit on main. In order of
+expected value: (1) the membership-composition enumeration sketched above —
+the only remaining first-class question identified in this run; (2) an
+executable store-cut certificate for the custody reconciliation rule in the
+surviving-content study's terms (contents were never modeled as data in this
+run; the service-window counts are reachability evidence, not content
+histories); (3) independent replay of `selector_rollback_recovery.py` (both
+configurations) and `resumption_induction.smt2` (both engines) by another
+author or host, since all current evidence is same-author; (4) the
+three-gate breadth re-run on a host with more memory.
+
+**Uncertainties that remain after the extension.** The two studies remain
+bounded-model demonstrations plus marked conditional arguments; the SMT
+obligations hold in a single-gate abstraction whose invariant clauses were
+chosen by the same author who ran the enumeration; the spool/floor lemma and
+the trace lemma are axiom premises, not solver-derived; the custody study's
+content claims are [C] grounded in [D] window and service counts; the
+membership hypothesis is [H] only. Harm counts depend on the conservative
+"every issued message stays deliverable" premise. Selector failover, store
+rollback sharing the selector's domain, hostile corruption beyond genuine
+images, and changing membership under rollback are unmodeled. No result
+selects an implementation; everything is experimental/provisional.
 
 ## Q2 outcome (recorded at checkpoint 2)
 
