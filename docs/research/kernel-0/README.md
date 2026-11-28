@@ -60,6 +60,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 - [When is a state partition too strong for Kernel-0 minimization?](State-elimination-under-partial-contracts.md) contrasts exact total-interface quotients with overlapping closed covers and gives a strict three-state counterexample.
 
+- [How much usage can partly overlapping reports establish?](Reconciling-partly-overlapping-usage-evidence.md) derives exact union bounds for two qualified sources and a counterexample for indivisible charges.
 - [What capacity must a Work Unit hold for unresolved external attempts?](Budgeting-for-unresolved-external-attempts.md) derives exact and conservative exposure bounds from enforceable downstream outcome constraints.
 - [When can a transferred Work Unit allowance be reclaimed?](Transferring-and-reclaiming-resource-allowances.md) gives a conservation proof, a lost-acknowledgment limit and a rollback obligation for dynamic rights transfer.
 - [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
