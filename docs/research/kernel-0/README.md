@@ -73,6 +73,7 @@ The owner experiments give executable witnesses for local handover, content cont
 - [When can authority be checked without a common snapshot?](When-authority-can-be-checked-without-a-snapshot.md) gives exact one-sided decision bounds and minimum per-decision certificates for monotone guards.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
 - [Which state reductions preserve a Work Unit progress proof?](Removing-state-while-preserving-progress.md) verifies infinite path lifting and a spurious stall under a forward-only reduction.
+- [When does a shared scheduler preserve each owner’s progress promise?](Composing-owner-progress-under-shared-scheduling.md) verifies how to carry global fairness to local obligations and gives two starvation witnesses.
 - [When does a recovery implementation have to make progress?](When-recovery-must-make-progress.md) gives an exact finite-state progress test under declared fairness and checks when the promise would be vacuous.
 - [When does a safe recovery choice preserve future progress?](Recovery-as-repeated-decisions.md) gives an exact repeated-decision criterion and a counterexample to reusing one-shot safety.
 - [How much recovery evidence is needed when several outcomes are legal?](Recovery-with-several-legal-outcomes.md) extends exact-answer coloring to alternative outcomes and states when pairwise checks remain complete.
