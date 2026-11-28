@@ -59,12 +59,65 @@ export function runTests(evaluate) {
     ["boolean not a numeric cap",(p,c)=>c.dispatch.request.runs=true,"ENVELOPE_EXCEEDED_OR_UNKNOWN"],
     ["manual cannot exceed budget",(p,c)=>{c.authority.mode="MANUAL_REVIEW_EXCEPTION";c.authority.reason="Explicit";c.dispatch.request.wall_seconds=121;},"ENVELOPE_EXCEEDED_OR_UNKNOWN"],
   ];
-  const results=cases.map(([name,mutate,expected])=>{
+  // COMPLETE reviews must not coerce JSON values into verdict property keys.
+  const setAuthority=(c,mode)=>{
+    c.authority.mode=mode;
+    if(mode==="MANUAL_REVIEW_EXCEPTION") c.authority.reason="Explicit owner disposition";
+  };
+  const malformedVerdicts=[
+    ["missing",undefined], ["null",null], ["number",1], ["boolean",true],
+    ["object",{}], ["noncoercible object",{toString:null,valueOf:null}],
+    ["array alias",["ACCEPT"]],
+  ];
+  for(const mode of ["NORMAL","MANUAL_REVIEW_EXCEPTION"]){
+    for(const [label,value] of malformedVerdicts){
+      cases.push([`malformed COMPLETE verdict ${label} ${mode}`,(p,c)=>{
+        setAuthority(c,mode);
+        if(value===undefined) delete c.review.verdict;
+        else c.review.verdict=JSON.parse(JSON.stringify(value));
+      },"REVIEW_RECORD_INVALID_OR_STALE"]);
+    }
+    cases.push([`malformed nonindependent COMPLETE verdict ${mode}`,(p,c)=>{
+      setAuthority(c,mode);c.review.independent=false;c.review.verdict=["ACCEPT"];
+    },"REVIEW_RECORD_INVALID_OR_STALE"]);
+    cases.push([`malformed optional COMPLETE verdict ${mode}`,(p,c)=>{
+      setAuthority(c,mode);c.review_policy.required=false;c.review.verdict=["ACCEPT"];
+    },"REVIEW_RECORD_INVALID_OR_STALE"]);
+    for(const status of ["INCOMPLETE","FAILED"]){
+      const manual=mode==="MANUAL_REVIEW_EXCEPTION";
+      cases.push([`${status} without verdict ${mode}`,(p,c)=>{
+        setAuthority(c,mode);c.review.status=status;delete c.review.verdict;
+      },manual?"ELIGIBLE_FOR_ATOMIC_CLAIM":"REVIEW_INCOMPLETE",
+        manual?"MANUAL_EXCEPTION:REVIEW_INCOMPLETE":undefined]);
+    }
+    const manual=mode==="MANUAL_REVIEW_EXCEPTION";
+    cases.push([`unknown string verdict ${mode}`,(p,c)=>{
+      setAuthority(c,mode);c.review.verdict="UNKNOWN";
+    },manual?"ELIGIBLE_FOR_ATOMIC_CLAIM":"REVIEW_ACTION_CONFLICT_OR_UNCHECKED",
+      manual?"MANUAL_EXCEPTION:REVIEW_ACTION_CONFLICT_OR_UNCHECKED":undefined]);
+  }
+  // Pin all four resource-cap combinations independently at each rejection clause.
+  for(const [requests,tokens] of [[0,0],[10,1000],[0,1000],[10,0]]){
+    const coupled=(requests===0)===(tokens===0);
+    cases.push([`plan cap pair ${requests}/${tokens}`,(p,c)=>{
+      Object.assign(p.limits,{model_requests:requests,completion_tokens:tokens});
+      c.dispatch.request={...p.limits};c.dispatch.remaining={...p.limits};
+    },coupled?"ELIGIBLE_FOR_ATOMIC_CLAIM":"INVALID_REGISTRATION"]);
+    cases.push([`dispatch cap pair ${requests}/${tokens}`,(p,c)=>{
+      Object.assign(p.limits,{model_requests:10,completion_tokens:1000});
+      c.dispatch.remaining={...p.limits};
+      Object.assign(c.dispatch.request,{model_requests:requests,completion_tokens:tokens});
+    },coupled?"ELIGIBLE_FOR_ATOMIC_CLAIM":"ENVELOPE_EXCEEDED_OR_UNKNOWN"]);
+  }
+  const results=cases.map(([name,mutate,expected,expectedDisposition])=>{
     const [p,c]=fixture();mutate(p,c);
-    const before=JSON.stringify([p,c]);const got=evaluate(p,c);
-    const actual=got.status==="BLOCK"?got.reason:got.status;
+    const before=JSON.stringify([p,c]);
+    let got,actual,error;
+    try {got=evaluate(p,c);actual=got.status==="BLOCK"?got.reason:got.status;}
+    catch(e){actual="THREW";error=`${e.name}: ${e.message}`;}
     const unchanged=before===JSON.stringify([p,c]);
-    return {name,expected,actual,pass:actual===expected&&unchanged};
+    return {name,expected,actual,error,expectedDisposition,actualDisposition:got?.review_disposition,
+      pass:actual===expected&&unchanged&&(expectedDisposition===undefined||got?.review_disposition===expectedDisposition)};
   });
   return {count:results.length,passed:results.filter(x=>x.pass).length,results};
 }
