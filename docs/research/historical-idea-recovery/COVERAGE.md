@@ -175,3 +175,7 @@ C-029 is fully reviewed: all 96 numbered turns (17,597 lines), including origina
 Raw JSON confirms one pasted purported response repeats the operator's own earlier text exactly. It also confirms an alternate, not selected, retrospective branch includes an unrelated numerical tool action and mixed-script output suffix. Neither establishes source identity, causal attribution, user exposure or data leakage. The selected retrospective is a distinct branch.
 
 Complete semantic coverage: **50/256** (37 compact, 13 legacy); mechanical 256/256; 19 held metadata-only; zero local. Register: **84 unique entries** (40 canonical +44 descriptive), one additional conditional research lead, verification anticipation (historical V-003). Existing method, capability, failure and assurance owners retained. Restricted evidence: WNASES-35 R31a. No new issue, experiment, dispatch, implementation, policy or archive mutation.
+
+### R31b — partial liveness-prior-art review
+
+C-019: contiguous lines 1–3952 of 8803 (turns 1–107); resume at line 3953, turn 108. Existing selective excerpts do not increase full semantic coverage. The archived research calls lack preserved result content, so historical citations are not independent donor verification. Reconciled the documented EPIC #423 research and retired VPS Observer specification. Full semantic coverage remains 50/256; register remains 84. No new execution or archive mutation.
