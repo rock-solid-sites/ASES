@@ -12,6 +12,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### One handover and its recovery
 
+- [When does a Work Unit need independently recoverable executor positions?](Independently-replaceable-work-unit-positions.md) derives the authority distinctions needed for selective replacement and an unaffected-position control.
 - [Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
 - [One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.
 - [Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
