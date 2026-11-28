@@ -25,6 +25,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Accepted contents, retries and observations
 
+- [Native owner selection rollback](Native-owner-selection-rollback-result.md) exercises three genuine F3 selection cuts and demonstrates F4 historical success with unresolved owner settlement.
 - [What does the native owner actually acknowledge?](Native-acceptance-and-recovery-boundaries.md) maps the protected-witness question onto the pinned native source and identifies where exact retry, F3 currentness and W5/W6 diverge.
 
 - [A local owner witness for activation, replacement and replay](Local-owner-admission-and-replay.md) exercises W5/W6-shaped local histories at process-loss cuts on either side of the actual append commit.
