@@ -1,6 +1,6 @@
 ---
 name: review-launch
-version: 1.1.0
+version: 1.1.1
 description: Launch independent AI reviews with the smallest verified execution route, fixed source revision, explicit model and durable evidence.
 status: current
 ---
@@ -33,7 +33,7 @@ Apply [review modes and provenance](../../../docs/methodology/AI%20Orchestration
 2. Before launching, read the current reviewer recipe and verify the selected workflow, available secret, runner, CLI, capability limits, and model route. Do not claim the three Phoenix Grove models work based solely on the older DeepSeek connectivity probe: the operator separately confirmed all three produced reviews on 2026-11-17; cite actual run evidence when available.
 3. Read-only reviews must not run untrusted code or expose secrets to a model by default. Distinguish a prompt saying "do not use tools" from enforced deny-all permissions.
 4. Bound runtime; classify zero-byte success, timeout, explicit errors and quota exhaustion as failed review. Keep partial/incomplete output separate from verified findings.
-5. Preserve source SHA, model, workflow run, prompt/context hash where available, raw report, findings with falsifying tests, and honest limitations. Cost or provider token accounting is `unknown` unless verified.
+5. Preserve source SHA, model, workflow run, prompt/context hash where available, raw report, findings with falsifying tests, and honest limitations. Cost or provider token accounting is `unknown` unless verified. Apply [model capability evidence intake](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#model-capability-evidence-intake) when review feedback arrives, including failed and inconclusive reviews; preserve the verified registry receipt or pending intake.
 6. Re-review changes only when warranted; submit material findings to concrete tests. Stop on failed credentials or depleted provider quota; request approval before fallback.
 
 No GitHub, OpenCode Go or Phoenix Grove credentials should be copied into the skill. Never make an additional paid invocation solely to prove this document was read.
