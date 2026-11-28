@@ -53,6 +53,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [When can a transferred Work Unit allowance be reclaimed?](Transferring-and-reclaiming-resource-allowances.md) gives a conservation proof, a lost-acknowledgment limit and a rollback obligation for dynamic rights transfer.
 - [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
 - [How much shared headroom can a Work Unit keep private?](Privacy-and-shared-capacity.md) proves a reply-level conflict between exact pooled admission and concealment, and characterizes the minimum disclosure for bounded underuse.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
