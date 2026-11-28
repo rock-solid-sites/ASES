@@ -60,6 +60,10 @@ export function evaluateAdmission(plan, control) {
         !["COMPLETE","INCOMPLETE","FAILED"].includes(review.status)) {
       return block("REVIEW_RECORD_INVALID_OR_STALE");
     }
+    // A COMPLETE review must have a string verdict before coercive key lookup or waiver logic.
+    if (review.status === "COMPLETE" && typeof review.verdict !== "string") {
+      return block("REVIEW_RECORD_INVALID_OR_STALE");
+    }
     if (review.status !== "COMPLETE") reviewReason = "REVIEW_INCOMPLETE";
     else if (review.independent !== true) reviewReason = "REVIEW_INDEPENDENCE_UNVERIFIED";
     else if (!Object.hasOwn(actions,review.verdict) ||
