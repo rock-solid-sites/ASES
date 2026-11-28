@@ -59,6 +59,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 - [When do separate owner proofs establish one recovered cut?](Grounding-modular-assurance-after-recovery.md) verifies an inductive dependency rule and distinguishes authentic images from coherent predecessor cuts.
 - [Which verification observations distinguish the remaining explanations?](Selecting-discriminating-verification.md) derives how to select verification probes and checks where joint evidence is essential.
+- [Can a single protected switch preserve independent approval?](One-protected-switch-with-separate-approval.md) distinguishes a fixed guarded selection from unrestricted replacement and general transactions.
 - [When do separate checks prove one legal effect?](When-separate-checks-prove-one-legal-effect.md) verifies when independently observed checks can jointly enforce a guarded effect while preserving required positive cases.
 - [What makes authority checks independent under a common fault model?](How-independent-are-authority-checks.md) derives an exact effect-specific failure support test and separates real redundancy from shared premises.
 
