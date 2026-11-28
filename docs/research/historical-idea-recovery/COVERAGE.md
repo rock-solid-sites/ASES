@@ -159,3 +159,11 @@ C-032 is fully reviewed: all 87 numbered turns (9,989 lines), including alternat
 C-035 was reviewed contiguously through line 3310 (turn 31), covering its opening research documents, harness reframing, execution/evidence distinction, explicit deferral of cross-domain generalization, and external prior-art research. It remains partial. Resume at line 3311 (turn 32).
 
 Complete semantic coverage: **48/256** (37 compact, 11 legacy); mechanically screened 256/256; 19 held metadata-only; zero local sessions. The 83 unique register entries (40 canonical + 43 descriptive) are unchanged; R29 refined existing methodology, retrieval and evaluation questions. Restricted source locators and evidence: WNASES-35 R29a/b. No new issue, experiment, dispatch, implementation, policy or archive changes.
+
+### R30 — foundational research conversation closure
+
+C-035 is now fully reviewed: all 131 numbered turns (14,470 lines) cumulatively, including the remaining contiguous material from line 3311, original imported reviews, charter drafts, archival tool calls, operational reports and retrospective. This is review of the preserved projection, not independent authentication of its attachments or reported operational results.
+
+The third knowledge-architecture charter draft survives in the repository and matches its archived text after normalization of CRLF, list markers and terminal whitespace (not byte identity). Five historical evidence-category README files survive on main. These establish artifact realization, not the effectiveness of the proposed architecture or completion of its evaluation corpus. The archival tool code directly establishes that two historical handoff bundles contained summaries rather than complete source documents. Preserve the distinction between source custody and task-scoped derivatives.
+
+Complete semantic coverage: **49/256** (37 compact, 12 legacy), mechanically screened 256/256, 19 held metadata-only, zero local coding-agent sessions. No remaining contiguous partial from R29. The 83 unique register entries (40 canonical +43 descriptive) are unchanged; R30 refines existing retrieval, method-efficacy and review-evidence questions. Restricted evidence: WNASES-35 R30a. No new issue, experiment, dispatch, implementation, policy or archive mutation.
