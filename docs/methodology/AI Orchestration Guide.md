@@ -1,6 +1,6 @@
 ---
 title: AI Orchestration Guide
-version: 2026-11-26.1
+version: 2026-11-28.1
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -22,7 +22,7 @@ related_documents:
   - docs/historical/Harness Setup and Permission Design History.md
 
 supersedes: []
-last_updated: 2026-11-26
+last_updated: 2026-11-28
 ---
 
 # AI Orchestration Guide
@@ -229,6 +229,8 @@ Typical review objectives include:
 - unnecessary complexity
 
 Successful adversarial review strengthens rather than delays progress.
+
+**Experiment admission:** For new decision-oriented or exploratory investigations, apply the [canonical experiment and decision admission procedure](ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#experiment-and-decision-admission). Necessity review asks whether the experiment changes a decision at proportionate cost, not merely whether its technique is sound. Routine authorized verification is not a new experiment. The canonical task-scoped method governs the procedure and exception boundary.
 
 ## Review modes and provenance
 
