@@ -1,6 +1,6 @@
 ---
 name: workflow-orchestration
-version: 1.0.9
+version: 1.0.10
 description: Coordinate project work and substantive discussions; select the smallest evidence-driven execution loop and preserve recoverable progress.
 status: current
 ---
@@ -8,6 +8,8 @@ status: current
 # ASES workflow orchestration
 
 Inspect current evidence and identify the smallest unresolved question. Choose targeted recon when the mechanism is unknown; independent parallel tests for separable hypotheses; synthesis for conflicts; implementation when requirements are sufficiently settled; and verification against observable claims. Do not require a ritual sequence or create agents to increase agent count.
+
+**Experiments and scope expansion:** Apply the [canonical experiment and decision admission procedure](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#experiment-and-decision-admission) before launching a new investigation: establish the parent decision, qualify necessity from existing evidence, freeze the bounded registration, classify independent review need and obtain exact-revision authority. Routine verification and already admitted matrix slots inherit existing approval; stop or transfer when the decision is resolved. Do not turn this into a new per-test review or mandatory form.
 
 Choose execution environment according to task: bounded GitHub Actions work units, Codespaces/Modal for longer exploratory work when available and authorized. Parallelize only separable questions; sequence dependent work. Isolate shared files, worktrees, databases, browser/session identities, deployed resources and provider quotas, or sequence the checks when isolation is unavailable. Compare results with acceptance and distinguish observed, inferred, contradicted and not-tested claims; route only the remaining blocker to the next mode. Apply the [canonical destination-first handoff method](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#destination-first-execution-and-recovery): establish final artifact home/status and disposable workspace before work, push and verify short recoverable checkpoints during development-agent execution (approximately five minutes or meaningful transitions), update relevant authoritative sources each substantive Chat coordination turn instead of using a timed commit cadence, and verify retained useful results on the appropriate repository's main branch separately from disposable branch progress. Persist verified test evidence and work-unit position; investigate stale progress with corroborating signals rather than killing a healthy worker solely for unchanged terminal text.
 

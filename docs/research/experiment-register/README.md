@@ -1,6 +1,6 @@
-# Experiment and decision register — draft pilot
+# Experiment and decision register — adopted procedure and pilot evidence
 
-ASES-28 / WNASES-37. Distinct from streaming engineering (ASES-21). Use Work Notes draft wiki templates `experiment-registration-template-pilot` and `investigation-decision-register-template-pilot`. Retrospective pilot complete; no global methodology promotion or runtime enforcement yet.
+ASES-28 / WNASES-37. Distinct from streaming engineering (ASES-21). Use the existing Work Notes templates `experiment-registration-template-pilot` and `investigation-decision-register-template-pilot` (stable slugs). **Current status: procedure adopted 2026-11-28** in the [canonical task-scoped method](https://github.com/rock-solid-sites/ASES/blob/3a5aaa7e69f6a9457994b8a6e7319767a6435f4b/docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#experiment-and-decision-admission); runtime enforcement remains unimplemented. The following dated pilot and review entries preserve historical dispositions.
 
 - [Frozen pilot plan](PILOT-PLAN.json)
 - [Historical decision register](HISTORICAL-DECISION-REGISTER.md)
@@ -24,3 +24,5 @@ ASES-28 / WNASES-37. Distinct from streaming engineering (ASES-21). Use Work Not
 - [Maximum-effort reviewer rerun](ADMISSION-REVIEW-MAX-2026-11-28.md): 3 complete, native DeepSeek HTTP429; Hy4 cap inversion refuted, HungerG malformed verdict exception reproduced, Beam ACCEPT. One confirmed predicate defect pending remediation, no adoption. [Capability record](https://github.com/rock-solid-sites/ASES/blob/b3cde63bfebc396de7eccc9d26ded0e70ce954e9/docs/research/registry/model-feedback-admission-review-2026-11-28.md).
 
 - **Remediation complete (2026-11-28):** [verification](reference/verification-remediation-2026-11-28.json). Malformed COMPLETE verdicts now block before key coercion and manual exception. 36/36 original, 50/68 red, 68/68 green, fresh local isolated checkout identical. Cap semantics unchanged. Draft ready for owner adoption decision; no controller/runtime/skill changes. Supersedes the pending-remediation disposition above, not historical receipts.
+
+- **Procedural adoption (2026-11-28):** operator approved the canonical procedure. Current workflow-orchestration, compact-prompt, agent-launch and review-launch skills reference it; existing templates used proportionately. No separate admission service, runtime gate, provider call or independent-project policy change. Later integration belongs to ASES-13 and existing Resource Solver/controller work.

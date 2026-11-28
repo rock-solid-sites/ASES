@@ -1,6 +1,6 @@
 ---
 name: review-launch
-version: 1.1.1
+version: 1.1.2
 description: Launch independent AI reviews with the smallest verified execution route, fixed source revision, explicit model and durable evidence.
 status: current
 ---
@@ -17,6 +17,8 @@ Historical route detail: `rock-solid-sites/ASES/docs/methodology/Agent Model Lau
 Before preparing or triggering any independent reviewer workflow, apply the current **ChatGPT coordination launch convention** and its **funding/entitlement types** in `skills/current/agent-launch/SKILL.md`. Declare the exact model/provider/account/funding route. **For OpenCode reviews**, eligible **Go subscription** and verified **zero-price Zen** remain approved; separately operator-approved NVIDIA, OpenRouter, Vercel or other API routes may also be used with an explicit bounded subscription, promotional/free-credit, purchased API-credit or free-tier entitlement. The presence of a key, credits, or a model in the catalog does not itself authorize spend. This OpenCode entitlement rule **does not ban Phoenix Grove**. **For separately authorized Phoenix Grove/Codex reviews**, pin the independent `pgs2` provider, exact PGS model, supported Codex CLI configuration, host, scoped authorization, runtime/allowance and `fallback: none`; verify provider credential presence and retain usage/cost uncertainty. Historical successful runs establish reachability, not unlimited spending permission. If the chosen route is unverified or unauthorized, stop before dispatch; do not silently switch models/providers. No invocation is necessary merely to test these instructions.
 
 **Per-model and per-funding admission:** A mixed provider catalog (including OpenCode Go/Zen, NVIDIA, OpenRouter or Vercel AI Gateway) is never approved wholesale. Track the **selected funding source** separately from the model's price: (1) included subscription allowance, (2) purchased/prepaid API credits, (3) promotional/free credits, (4) genuinely free model/free-tier inference. A provider can offer several at once. Verify current entitlement, actual balance/limits, credit expiration, authorized budget and overflow/fallback behavior for the exact account/model/endpoint. Stop on unknown or automatic paid promotion; an authorized *bounded* prepaid-credit route is not equivalent to unapproved API spending. This does **not** revoke separately authorized Phoenix Grove PGS2 reviews or confer blanket authorization on any provider.
+
+**Necessity/admission reviews:** When reviewing a proposed experiment, apply the [canonical experiment and decision admission procedure](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#experiment-and-decision-admission). Bind the decision-only packet (if used) to the full frozen registration, use the typed verdict/action contract and separately check the actual recommendation's meaning. Preserve failed/conflicting results; do not vote-shop or confuse a recommendation with dispatch authority. This is a review lens, not a requirement to review every test.
 
 ## Select the review mode and verify independence
 
