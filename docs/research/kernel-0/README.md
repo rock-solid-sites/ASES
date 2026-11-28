@@ -41,6 +41,8 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Nested Work Units and managerial authority
 
+- [When does delegated authority remain grounded after withdrawal?](Grounding-delegated-authority.md) gives a circular-support counterexample, an exact local recomputation proof and a structural alternative using prior incarnations.
+
 - [When can Work Unit containment express managerial authority?](Authority-without-containment.md) characterizes single-subtree scope policies, bounds the cost of using multiple subtrees, and checks a direct policy with independent cross-cutting vetoes.
 - [Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
 - [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
