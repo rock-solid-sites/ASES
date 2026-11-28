@@ -177,6 +177,10 @@ was scoped:
   study's model is the natural verification and was not attempted within
   this window.
 
+## Subsequent research
+
+The [membership-rollback follow-up](../Fencing-after-membership-rollback.md) tests the unresolved availability claim under an explicit recovery observation. It gives a fresh-attempt counterexample with fixed proposals, identifies why the earlier witness B by itself is insufficient, and proves admission closure can replace exact membership reconstruction when actual member participation is optional. Accepted-content custody remains a separate obligation.
+
 ## Extension-window end record
 
 **Extension resume point.** Start from this commit on main. In order of
