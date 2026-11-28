@@ -261,3 +261,8 @@ Complete semantic **76/256** (37 compact, 39 legacy), mechanically screened 256/
 ### R42 — state-model and cancellation conformance provenance
 
 Completed one legacy conversation (36 turns/2,117 projection lines); additionally reviewed the core methodological exchange, generated artifacts and selected embedded review/specification material in another longer legacy conversation, not counted as complete. Complete semantic coverage: **77/256 (37 compact, 40 legacy)**. Six legacy conversations remain incomplete. No register addition (87 entries). The historical universal conformance checklist was recovered from its generation record and matched to the surviving repository draft. The companion profile text was also recovered, but its current authority is not established. Historical test reports, source-level counterexamples and actual live verification remain distinct. Restricted source details: WNASES-35 R42.
+
+
+### R43 — RPC origins and connector evidence
+
+Completed one further legacy conversation (131 numbered turns); deeply inspected a second legacy conversation without crediting it as complete. Cumulative full substantive review: **78/256 (37 compact, 41 legacy)**. Five legacy conversations remain, two partially reviewed. Register unchanged at 87 entries. Original research-brief text recovered; historical reported donor findings and scripted experiment results are not independent runtime verification. Private locators and remaining ranges recorded in WNASES-35.
