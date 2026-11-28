@@ -15,6 +15,7 @@ The owner experiments give executable witnesses for local handover, content cont
 - [Tenure reuse and delayed admission](Tenure-reuse-and-delayed-admission.md) gives a conditional lower bound on safe identifier reuse, a bounded schedule experiment, and the resulting Work Unit owner verification obligation.
 - [One handover across resource owners](One-handover-across-resource-owners.md) derives a two-resource witness for a failed Work Unit handover and checks a conditional construction for repeated replacements over a fixed set of resources.
 - [Checking a history across repeated handovers](Repeated-handover-histories.md) gives a complete decision procedure for an ordered succession with known local orders, and a lower bound on the number of observations needed to explain some failures.
+- [When can ordering between Work Unit effects be removed?](Removing-order-between-work-unit-effects.md) checks local swap sufficiency across reachable prefixes and the failure of pair tests against a shared cap.
 - [When can split authorities publish a handover separately?](When-split-authorities-can-publish-separately.md) derives exactly which observation surfaces must switch together under a one-replacement contract.
 - [When must Work Unit handover order be fixed?](When-handover-order-must-be-fixed.md) separates ordinary history checking from a witnessed, prefix-preserving cut and gives a late-decision counterexample.
 - [Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
@@ -26,6 +27,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Accepted contents, retries and observations
 
+- [Which quorums can recover a selected owner cut?](Which-quorums-can-recover-owner-selection.md) gives exact certificate-retrieval thresholds and the direct-read boundary across membership changes.
 - [What evidence can restore current owner selection?](Recoverable-owner-selection.md) derives a protected selection construction and the conditions under which an eventless reservation could instead be cancelled.
 - [What can native recovery restore from surviving history?](Restoring-history-without-restoring-authority.md) uses the actual owner write order to separate monotone historical evidence from selected pending obligations and current authority.
 - [Native owner selection rollback](Native-owner-selection-rollback-result.md) exercises three genuine F3 selection cuts and demonstrates F4 historical success with unresolved owner settlement.
@@ -54,9 +56,15 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [What makes authority checks independent under a common fault model?](How-independent-are-authority-checks.md) derives an exact effect-specific failure support test and separates real redundancy from shared premises.
+
+- [When is a state partition too strong for Kernel-0 minimization?](State-elimination-under-partial-contracts.md) contrasts exact total-interface quotients with overlapping closed covers and gives a strict three-state counterexample.
+
+- [What capacity must a Work Unit hold for unresolved external attempts?](Budgeting-for-unresolved-external-attempts.md) derives exact and conservative exposure bounds from enforceable downstream outcome constraints.
 - [When can a transferred Work Unit allowance be reclaimed?](Transferring-and-reclaiming-resource-allowances.md) gives a conservation proof, a lost-acknowledgment limit and a rollback obligation for dynamic rights transfer.
 - [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
 - [How much shared headroom can a Work Unit keep private?](Privacy-and-shared-capacity.md) proves a reply-level conflict between exact pooled admission and concealment, and characterizes the minimum disclosure for bounded underuse.
+- [When can authority be checked without a common snapshot?](When-authority-can-be-checked-without-a-snapshot.md) gives exact one-sided decision bounds and minimum per-decision certificates for monotone guards.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
 - [When does a safe recovery choice preserve future progress?](Recovery-as-repeated-decisions.md) gives an exact repeated-decision criterion and a counterexample to reusing one-shot safety.
 - [How much recovery evidence is needed when several outcomes are legal?](Recovery-with-several-legal-outcomes.md) extends exact-answer coloring to alternative outcomes and states when pairwise checks remain complete.
