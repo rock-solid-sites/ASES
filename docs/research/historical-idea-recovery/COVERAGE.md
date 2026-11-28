@@ -271,3 +271,8 @@ Completed one further legacy conversation (131 numbered turns); deeply inspected
 ### R44 — extended legacy-source reconciliation
 
 Three lengthy legacy projections inspected at key original operator turns, substantive proposals, review conclusions and related surviving artifacts. Full review is **not** claimed for these three. All five remaining legacy conversations are now partial; cumulative full substantive review remains **78/256 (37 compact, 41 legacy)**. Register remains 87 distinct entries; the historical microkernel comparison's evidence status is corrected from unfinished to partial comparison. Private source ranges and remaining material recorded in WNASES-35.
+
+
+### R45 — identifier-first research history
+
+Completed the surviving 146-turn, 9,908-line connector and minimal-interface research projection (previously partial). Coverage: **79/256 full** (37 compact, 42 legacy); four legacy partials remain. Historical web/attachment output and some embedded reports are absent or truncated; this is review of the preserved projection, not an independent recreation of those sources. Register remains 87 distinct entries. Restricted source locators and evidence: WNASES-35 R45.
