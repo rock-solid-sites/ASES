@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-24",
+  "as_of_utc": "2026-11-28",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -21,7 +21,8 @@
       "unfunded_mandatory_travel": "exclude",
       "credit_type_separate_from_general_cpu": true,
       "record_gpu_notebook_quotas": true
-    }
+    },
+    "active_scope": "signup credits and newly discovered free compute allowances only; exclude paid-credit discounts, matching deposits and fixed-term sales; preserve history"
   },
   "providers": [
     {
@@ -889,6 +890,75 @@
       },
       "last_verified_at": "2026-11-22",
       "notes": "Hong Kong and Seattle VPS listings; official BF page shows qualifying 6GB+ SKUs temporarily out of stock; fixed monthly/annual billing only."
+    },
+    {
+      "id": "freestyle",
+      "name": "Freestyle",
+      "category": "developer_sandbox",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://www.freestyle.sh/docs/vms/pricing-and-limits",
+      "last_verified_at": "2026-11-28"
+    },
+    {
+      "id": "novita",
+      "name": "Novita AI",
+      "category": "developer_sandbox",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://novita.ai/sandbox",
+      "last_verified_at": "2026-11-28"
+    },
+    {
+      "id": "flyio",
+      "name": "Fly.io",
+      "category": "developer_sandbox",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://community.fly.io/t/introducing-the-free-plan/29145",
+      "last_verified_at": "2026-11-28"
     }
   ],
   "compute_offerings": [
@@ -2010,6 +2080,105 @@
       "redemption_deadline_utc": "2027-01-17T23:59:00Z",
       "evidence_level": "official_terms_no_checkout",
       "alert_state": "research_only"
+    },
+    {
+      "id": "freestyle-free-vm-2026",
+      "provider_id": "freestyle",
+      "type": "monthly_free_allowance",
+      "advertised_value": null,
+      "value_unit": null,
+      "details": "200 vCPU-hours, 400 GiB-hours RAM, 60000 GiB-hours storage and 50 GB transfer monthly; 4 vCPU/8 GiB max per VM, 10 concurrent; hard stop; paused storage only. Pricing page conflicts on custom sizing and persistence. Payment and Albania eligibility unknown.",
+      "credit_expiry": "monthly reset",
+      "first_seen_at": "2026-11-28",
+      "last_checked_at": "2026-11-28",
+      "status": "official_advertised_not_checkout_verified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://www.freestyle.sh/docs/vms/pricing-and-limits",
+        "https://www.freestyle.sh/pricing"
+      ],
+      "evidence_level": "official_public_terms",
+      "alert_state": "new_conditional"
+    },
+    {
+      "id": "novita-sandbox-welcome-100-2026",
+      "provider_id": "novita",
+      "type": "signup_credit",
+      "advertised_value": 100,
+      "value_unit": "USD",
+      "details": "New customers link card; $100 advertised at https://novita.ai/es/agent-sandbox. Free tier 2 vCPU/4GB, 1h; paid tier up to 8 vCPU/8GB, 24h; promotional balance unlocking paid tier not verified. Deposit, expiry and Albania eligibility unknown.",
+      "credit_expiry": null,
+      "first_seen_at": "2026-11-28",
+      "last_checked_at": "2026-11-28",
+      "status": "official_advertised_not_checkout_verified",
+      "eligible_existing_account": null,
+      "requires_new_account": true,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://novita.ai/sandbox",
+        "https://novita.ai/es/agent-sandbox"
+      ],
+      "evidence_level": "official_public_terms",
+      "alert_state": "new_conditional"
+    },
+    {
+      "id": "flyio-free-plan-2026-11",
+      "provider_id": "flyio",
+      "type": "monthly_free_allowance",
+      "advertised_value": 5,
+      "value_unit": "USD",
+      "details": "Announced Nov23; $5 monthly usage covers Machines, Sprites, storage, networking; automatic paid overage, no hard stop. Account/payment and regional eligibility unverified.",
+      "credit_expiry": "monthly reset",
+      "first_seen_at": "2026-11-28",
+      "last_checked_at": "2026-11-28",
+      "status": "official_advertised_not_checkout_verified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://community.fly.io/t/introducing-the-free-plan/29145",
+        "https://fly.io/changelog/"
+      ],
+      "evidence_level": "official_public_terms",
+      "alert_state": "new_conditional"
+    },
+    {
+      "id": "flyio-hacksgiving-2026",
+      "provider_id": "flyio",
+      "type": "remote_hackathon",
+      "advertised_value": null,
+      "value_unit": null,
+      "details": "Nov23–29 remote event, free compute via new $5 monthly plan, requires Sprite agent and connector, code/demo submission; $5000 cash prize pool not compute credit.",
+      "credit_expiry": null,
+      "first_seen_at": "2026-11-28",
+      "last_checked_at": "2026-11-28",
+      "status": "official_live",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": "worldwide developers per event page",
+      "redemption_deadline_utc": "2026-11-30T08:00:00Z",
+      "source_urls": [
+        "https://fly.io/hacksgiving/"
+      ],
+      "evidence_level": "official_event",
+      "alert_state": "new_deadline"
     }
   ],
   "account_inventory": {
@@ -2251,6 +2420,17 @@
         "digitalocean-secret-ai-100-2026"
       ],
       "summary": "Dataforest revealed hourly 16GB offers and €30 signup credit; AVORO monthly offers revealed; discovered conditional DigitalOcean Secret partner credit. CPU policy and account eligibility remain unverified."
+    },
+    {
+      "at": "2026-11-28",
+      "kind": "signup_scope_and_new_discoveries",
+      "entity_ids": [
+        "freestyle-free-vm-2026",
+        "novita-sandbox-welcome-100-2026",
+        "flyio-free-plan-2026-11",
+        "flyio-hacksgiving-2026"
+      ],
+      "summary": "Signup-only monitoring scope; Freestyle recurring VM allowance, Novita conditional $100 welcome credit, Fly.io Nov23 free plan and remote event discovered."
     }
   ],
   "source_policy": {
