@@ -76,7 +76,9 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 | 2 | b02f92960 | Q2 results: [Custody after a forgotten commit](Custody-after-a-forgotten-commit.md); model extended with forgotten-commit window counts. |
 | 3 | 17116f4af | Title fix (GLM-5.3); SMT induction obligations [resumption_induction.smt2](resumption_induction.smt2), verified with Z3 5.4.1 on this host. |
 | 4 | a12c0ea67 | Custody evidence strengthened: at-restore and during-run forgotten-tenure append service counts. |
-| 5 | (this commit) | Second-solver confirmation (cvc5 1.4.2) of all seven SMT obligations; extension-window end record. |
+| 5 | 6dcf691cf | Second-solver confirmation (cvc5 1.4.2) of all seven SMT obligations; extension-window end record. |
+| 6 | 206d08311 | Correction: 3-gate stop reclassified as unattributed, not confirmed OOM. |
+| 7 | (this commit) | Membership-rollback witnesses A and B demonstrated; extension end record finalized. |
 
 ## First window end record (2026-11-28, superseded by the extension below)
 
@@ -153,33 +155,44 @@ was scoped:
   post-failure, and invisible to the resumed selector's record — direct [D]
   support for the custody study's reconciliation rule and its premise (no
   open gate ever holds a non-lineage tenure under any append-safe rule).
-- **Scoped but not executed: membership composition under rollback.** The
-  resumed selector's membership view regresses with its image while gates
-  retain true floors. Working hypothesis for the next run: a removed gate
-  that never absorbed its removal summary is locally indistinguishable from
-  a lagging current member, so no selector-local choice of the outgoing voter
-  set can be both safe (a removed gate's vote must not co-authorize a
-  successor) and live (a lagging member's vote must be collectable, and
-  excluding it leaves it open at the displaced tenure, admitting stale
-  appends) — the membership ledger would then be a third placement
-  obligation outside the rolled-back domain, alongside the spool and the
-  accepted-prefix ledger. This is [H] with a sketched two-worlds
-  construction; an enumeration in the membership study's model (proposed
-  subsets bound to attempts, summaries binding membership) is the natural
-  verification and was not attempted within this window.
+- **Membership composition under rollback: two witnesses demonstrated
+  (final commit).** The resumed selector's membership view regresses with
+  its image while gates retain true floors. Two complete hand-driven
+  histories, [membership_rollback_witness.py](membership_rollback_witness.py),
+  now demonstrate both sides of the recorded dichotomy [D]:
+  (A) a removed gate whose removal summary never reached it keeps its
+  escaped vote deliverable, and that vote co-authorizes the resumed
+  selector's re-decision of the already-committed attempt that removed it —
+  the resumed commit rule demands receipts from every member of the stale
+  view, and the removed gate belongs to that view;
+  (B) a true current member that joined after the image is absent from the
+  stale view, never receives the prepare of the resumed next attempt, and
+  stays open at the displaced tenure while that attempt commits — an
+  append delivered in that window is accepted under an obsolete tenure.
+  The stronger claim — no selector-local choice of the outgoing voter set
+  can be both safe and live, implying a membership ledger outside the
+  rolled-back domain as a third placement obligation — remains [C] with a
+  sketched indistinguishability (a removed-not-told gate is locally
+  identical to a lagging member); an enumeration in the membership
+  study's model is the natural verification and was not attempted within
+  this window.
 
 ## Extension-window end record
 
 **Extension resume point.** Start from this commit on main. In order of
-expected value: (1) the membership-composition enumeration sketched above —
-the only remaining first-class question identified in this run; (2) an
+expected value: (1) the membership-composition enumeration — the two
+witnesses above are hand-driven data points; the no-selector-local-rule
+dichotomy needs the exhaustive search in the membership study's model
+(proposed subsets bound to attempts, summaries binding membership) to
+upgrade the remaining [C] claim; (2) an
 executable store-cut certificate for the custody reconciliation rule in the
 surviving-content study's terms (contents were never modeled as data in this
 run; the service-window counts are reachability evidence, not content
 histories); (3) independent replay of `selector_rollback_recovery.py` (both
 configurations) and `resumption_induction.smt2` (both engines) by another
 author or host, since all current evidence is same-author; (4) the
-three-gate breadth re-run on a host with more memory.
+three-gate breadth re-run on a host with more memory, unattributed-silent-stop
+caveat above.
 
 **Uncertainties that remain after the extension.** The two studies remain
 bounded-model demonstrations plus marked conditional arguments; the SMT
@@ -187,11 +200,14 @@ obligations hold in a single-gate abstraction whose invariant clauses were
 chosen by the same author who ran the enumeration; the spool/floor lemma and
 the trace lemma are axiom premises, not solver-derived; the custody study's
 content claims are [C] grounded in [D] window and service counts; the
-membership hypothesis is [H] only. Harm counts depend on the conservative
-"every issued message stays deliverable" premise. Selector failover, store
-rollback sharing the selector's domain, hostile corruption beyond genuine
-images, and changing membership under rollback are unmodeled. No result
-selects an implementation; everything is experimental/provisional.
+membership witnesses are two hand-driven data points with the
+no-local-rule dichotomy still [C] and the enumeration unattempted; the
+3-gate breadth stop is unattributed and unverified. Harm counts depend on
+the conservative "every issued message stays deliverable" premise. Selector
+failover, store rollback sharing the selector's domain, hostile corruption
+beyond genuine images, and an exhaustive membership-under-rollback search
+are unmodeled or unexecuted. No result selects an implementation;
+everything is experimental/provisional.
 
 ## Q2 outcome (recorded at checkpoint 2)
 
