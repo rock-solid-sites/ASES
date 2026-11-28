@@ -6,7 +6,7 @@ document_type: Research Charter
 status: Experimental
 authority: Derived
 canonical_repository: ases
-last_updated: 2026-11-26
+last_updated: 2026-11-28
 ---
 
 # Formal Computation, Reuse and Avoidance
@@ -31,6 +31,7 @@ This research branch extends the earlier Universal Caching & Computation Reuse s
 
 - [SOURCE-MAP.md](SOURCE-MAP.md): earlier studies, qualified observations, candidate techniques, and outstanding reconciliation.
 - [ARCHIVE-DISCOVERY.md](ARCHIVE-DISCOVERY.md): step 2 semantic discovery criteria, source-backed calibration and candidate corpus reconnaissance plan.
+- [ARCHIVE-FINDINGS.md](ARCHIVE-FINDINGS.md#final-baseline-discovery-synthesis--2026-11-28): dedicated baseline discovery delivered 2026-11-28; 135 dated taxonomy IDs accounted for, 64 findings organized in seven provisional study areas, with explicit source-scope limitations. Restricted receipts and handoff in WNASES-32.
 - [GRAPH-ASSISTED-REVIEW.md](GRAPH-ASSISTED-REVIEW.md): draft controlled comparison and evaluation rubric for source-only, graph-only and graph-assisted chat/review agents.
 - Add topic-specific research documents and runnable experiments here when substantive work warrants them. Keep existing owner artifacts in place; link pinned originals rather than copy or move them. No empty placeholder directories or parallel test lab.
 - Human research direction: Projektor ASES-25; topic graph node `ases-concept-formal-computation-reuse-avoidance`. Execution/reconciliation: WNASES-32. Public technical findings belong on main; private archive source locators remain in authorized records.
@@ -43,7 +44,7 @@ CodeGraph is already selected and used in our structural analysis workflow after
 ## Planning sequence (operator confirmed 2026-11-26)
 
 1. Reconcile existing research and current capabilities. [Scoped reconciliation in SOURCE-MAP](SOURCE-MAP.md#step-1--prior-research-reconciled-with-current-capabilities-2026-11-26); remaining provenance gaps explicit.
-2. Identify and organize distinct areas of study. [Archive discovery plan](ARCHIVE-DISCOVERY.md) in progress; wider coverage pending.
+2. Identify and organize distinct areas of study. [Dedicated baseline discovery and initial grouping delivered](ARCHIVE-FINDINGS.md#final-baseline-discovery-synthesis--2026-11-28); coordinator to reconcile and finalize the organization, including relevant later/wider sources.
 3. Map relationships between research topics.
 4. Identify unresolved questions and relevant literature.
 5. Establish a coherent research programme.
