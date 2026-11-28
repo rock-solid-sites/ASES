@@ -1,0 +1,148 @@
+{
+  "schema": "admission-v1-independent-review-receipt-v1",
+  "packet_commit": "8c0ea0446019018b59204281a216562ff1a0eea7",
+  "reviewed_commit": "8314413c7b6d989ce72e26019e1583d400edf21b",
+  "packet_sha256": "5d689083b5a1054d92650d872233b2d3eead50a28edeb304ba67536eb83766c2",
+  "pipeline": 3125856668,
+  "job": 18446991475,
+  "source": "e68db9c765c53a360c7d8604f133a097517faea8",
+  "permit": "fcbfbb8c6f572fc874467f89fa86174b961a7fa5",
+  "terminal": {
+    "status": "failed",
+    "started_at": "2026-11-28T04:55:57.939Z",
+    "finished_at": "2026-11-28T04:56:56.207Z",
+    "duration": 58.268378
+  },
+  "qualification": {
+    "permit": true,
+    "source_hashes": true,
+    "dry": [
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7867.014,
+                "wall_ms": 1795841812157
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "none",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 32000,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8294.268,
+                "target": true,
+                "wall_ms": 1795841812584
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "none",
+                "post_effort": "none",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 32000,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8297.564,
+                "target": true,
+                "wall_ms": 1795841812587,
+                "wire": {
+                  "max_completion_tokens": 8192,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "none",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8306.175,
+                "target": true,
+                "wall_ms": 1795841812596
+              }
+            ],
+            "limit": 8192,
+            "mode": "none",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 8192,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "none",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      }
+    ],
+    "auth": [
+      {
+        "catalog": {
+          "http": 200
+        },
+        "console_free_quota": "not_exposed; one exact zero-price request, stop on throttling",
+        "exact_free": false,
+        "family": "not_exposed_or_unrecognized",
+        "go_account_meters": {
+          "api": {
+            "http": 200
+          },
+          "headroom_pass": true,
+          "meters": {
+            "monthly": {
+              "percent": 14,
+              "status": "ok"
+            },
+            "rolling": {
+              "percent": 0,
+              "status": "ok"
+            },
+            "weekly": {
+              "percent": 7,
+              "status": "ok"
+            }
+          },
+          "utc": "2026-11-28T04:56:53.304605+00:00"
+        },
+        "price_cache": null,
+        "price_input": null,
+        "price_output": null,
+        "real_model_calls": 0,
+        "route": "opencode/deepseek-v4.1-flash-free",
+        "workspace_catalog": {
+          "http": 200
+        }
+      }
+    ],
+    "batch": []
+  },
+  "grade": "BLOCKED_BEFORE_INFERENCE",
+  "inference_calls": 0,
+  "raw_answer": null,
+  "limitation": "Both authenticated catalog endpoints returned HTTP 200, composite exact-free check false; individual cause not exposed by this receipt. No inference, no verdict. Do not infer model unavailable or incorrect price."
+}
