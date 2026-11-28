@@ -29,6 +29,7 @@ The owner experiments give executable witnesses for local handover, content cont
 - [What must survive replacement to answer an old retry?](Receipt-retention-after-replacement.md) counts distinguishable histories with identical application bytes and verifies conditional reclamation under a prefix-release contract.
 - [What evidence shows that accepted contents survive handover?](Surviving-content-at-handover.md) separates version and storage custody from a checkable recovery certificate, and derives exact domain-loss bounds for linear contents.
 - [Transferring the accepted prefix between local resource owners](Transferring-the-accepted-prefix.md) exercises ten process-loss cuts in a three-database handover, including recovery after the outgoing store becomes unavailable.
+- [Where can a Work Unit acknowledge an append that must survive rollback?](Committing-to-a-surviving-cut.md) tests protected decision ordering, exact retry and separate surviving custody under process loss and owner-image restore.
 - [Which holders may release immutable Work Unit contents after a handover?](Retaining-immutable-content-across-attempts.md) proves a repeated storage-promise protocol and produces complete data-loss histories for two weakened receipt or release rules.
 
 ### Nested Work Units and managerial authority
