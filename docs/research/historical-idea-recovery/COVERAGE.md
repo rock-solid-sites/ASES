@@ -276,3 +276,8 @@ Three lengthy legacy projections inspected at key original operator turns, subst
 ### R45 — identifier-first research history
 
 Completed the surviving 146-turn, 9,908-line connector and minimal-interface research projection (previously partial). Coverage: **79/256 full** (37 compact, 42 legacy); four legacy partials remain. Historical web/attachment output and some embedded reports are absent or truncated; this is review of the preserved projection, not an independent recreation of those sources. Register remains 87 distinct entries. Restricted source locators and evidence: WNASES-35 R45.
+
+
+### R46 — Stop-button review and state-model adaptation
+
+Completed the 95-turn historical stop-button review and subsequent adaptation/checklist discussion. The surviving projection includes a truncated supplied specification, multiple pasted reviewer dispositions, successive proposed suites, and generated drafts. These were semantically reviewed, not re-executed. Coverage: **80/256 full (37 compact + 43 legacy); 3 legacy conversations remain partial**. Register unchanged at 87; exact restricted locators and discrepancies recorded in WNASES-35 R46.
