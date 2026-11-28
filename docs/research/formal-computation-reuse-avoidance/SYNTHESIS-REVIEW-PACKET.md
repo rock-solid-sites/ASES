@@ -1,0 +1,18 @@
+# Independent conceptual review — Formal Computation, Reuse and Avoidance
+
+Critique the proposed research direction below, not its authors or wording. You have only this evidence summary; do not claim to have independently inspected archives, run tests, or surveyed literature. No tools or edits. Return a concise verdict (RETAIN, REVISE or REJECT as framed), up to four substantive objections ranked by importance, a concrete counterexample or discriminating question for each, and the strongest revised research question. Distinguish a genuine objection from an unverified premise. Do not propose implementation work.
+
+Proposal: Given a demanded outcome, existing information and guarantees, and constraints, what is the minimum additional computation necessary to produce the outcome correctly? Establish necessity before optimization; where possible change the representation or substrate to remove an obligation. Candidate mechanisms span optimization, reuse, incremental computation, demand-driven evaluation, structural reduction and elimination by construction. Include the cost of deciding what to omit, retaining state, validating evidence and recovering errors. No universal minimum, architecture or optimizer is claimed.
+
+A semantic discovery pass across a dated 135-conversation ASES taxonomy produced 64 distinct findings, grouped provisionally into seven areas: necessity/framing; information/decision economy; validity/identity/provenance; incremental computation/lifecycle; dependencies/composition/authority; verification/assurance; research method/lifetime cost. Historical reports are heterogeneous, not independent replications. Raw tool payloads and attachments were not exhaustively examined; long repeated drafts in the final source were sampled; newer/wider sources remain outside baseline.
+
+Illustrative evidence:
+- Compact identifier-first interface reportedly reduced description tokens 71% but strict argument accuracy fell 23/24 to 20/24; smaller representation can lose necessary semantics.
+- Bounded RTL comparisons support scoped equivalence, not universal minimality or security. Static extension tests passed but actual browser interaction failed. A stale-version rejection masked a removed authorization check.
+- Commit-scoped CodeGraph reuse is operational; capped queries produced a false discrepancy, while a Go incremental-index negative control was reproduced. Metadata enrichment derived new fields from retained counts without changing historical observations.
+- A later 16-question retrieval evaluation: ordinary search 14/16 strict full source support vs index 13/16; both selected 42 candidates; all 42 index links incorrect at observed tree. Known-key coordinator grading, not blind answer accuracy.
+- Historical Jev matched insufficiency pairs 24/24 directional signal, no universal threshold or superiority established. Optimization infrastructure, coordination, and review can create their own work.
+
+Candidate formal connections: incremental/self-adjusting computation, demand-driven evaluation, recursion schemes/fusion, types/effects, lawful lenses, compositional verification, decision theory and cost semantics. Intended next phase is organization, literature and unresolved questions, not experiment dispatch.
+
+Attack the strongest version: is the unifying question well-posed, novel or useful relative to established fields? Does it conflate different kinds of guarantees/costs, or mistake a design choice for an absolute lower bound? Does the evidence justify a coherent programme rather than a collection of familiar engineering heuristics? What is the most important scope or falsifiability correction?
