@@ -281,3 +281,8 @@ Completed the surviving 146-turn, 9,908-line connector and minimal-interface res
 ### R46 — Stop-button review and state-model adaptation
 
 Completed the 95-turn historical stop-button review and subsequent adaptation/checklist discussion. The surviving projection includes a truncated supplied specification, multiple pasted reviewer dispositions, successive proposed suites, and generated drafts. These were semantically reviewed, not re-executed. Coverage: **80/256 full (37 compact + 43 legacy); 3 legacy conversations remain partial**. Register unchanged at 87; exact restricted locators and discrepancies recorded in WNASES-35 R46.
+
+
+### R47 — Crosslink historical and operational evidence
+
+Completed substantive review of the surviving 339-turn Crosslink projection, including the remaining research, original collection brief, operational reports, bounded corpus excerpts and subsequent interpretation. The original full collection artifacts were not independently recovered or replayed. Coverage: **81/256 full (37 compact + 44 legacy)**; two legacy partials remain. Register remains 87. Detailed restricted source locators and evidence qualifications are in WNASES-35 R47.
