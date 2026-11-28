@@ -1,0 +1,633 @@
+{
+  "schema": "admission-v1-max-review-receipt-v1",
+  "packet_commit": "8c0ea0446019018b59204281a216562ff1a0eea7",
+  "reviewed_commit": "8314413c7b6d989ce72e26019e1583d400edf21b",
+  "packet_sha256": "5d689083b5a1054d92650d872233b2d3eead50a28edeb304ba67536eb83766c2",
+  "pipeline": 3125926420,
+  "job": 18447376280,
+  "source": "a745e8270416e9887e44addcaeb6fbf43d377cb5",
+  "permit": "20743e77703ed7f873054391812ebded0bd578aa",
+  "terminal": {
+    "status": "success",
+    "started_at": "2026-11-28T05:43:33.322Z",
+    "finished_at": "2026-11-28T05:47:15.784Z",
+    "duration": 222.461385
+  },
+  "qualification": {
+    "permit": true,
+    "source_hashes": true,
+    "dry": [
+      {
+        "real_model_calls": 0,
+        "results": [
+          {
+            "case": "L",
+            "cli_counts": {
+              "error": 1,
+              "step_start": 1
+            },
+            "cli_exit": 1,
+            "events": [
+              {
+                "stage": "HOOKS_READY",
+                "t_ms": 7926.769,
+                "wall_ms": 1795844668464
+              },
+              {
+                "contexts": 1,
+                "kind": "primary",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 65536,
+                "stage": "MODEL_PREPARED",
+                "t_ms": 8397.853,
+                "target": true,
+                "wall_ms": 1795844668935
+              },
+              {
+                "attempt": 1,
+                "contexts": 1,
+                "dry_blocked": true,
+                "kind": "primary",
+                "mode": "default",
+                "post_effort": "ABSENT",
+                "pre_effort": "ABSENT",
+                "prior_native_max_tokens": 65536,
+                "route_matches": true,
+                "stage": "HTTP_REQUEST",
+                "t_ms": 8401.919,
+                "target": true,
+                "wall_ms": 1795844668939,
+                "wire": {
+                  "max_completion_tokens": 32000,
+                  "max_tokens": null,
+                  "parse_ok": true,
+                  "reasoning_effort": "ABSENT",
+                  "thinking": "ABSENT",
+                  "wire_model_match": true,
+                  "wire_stream": true
+                }
+              },
+              {
+                "proposed_retry": true,
+                "stage": "RETRY_VETO",
+                "t_ms": 8408.932,
+                "target": true,
+                "wall_ms": 1795844668946
+              }
+            ],
+            "limit": 32000,
+            "mode": "default",
+            "orphan": false,
+            "outcome": "PASS",
+            "real_model_calls": 0,
+            "server": {
+              "hooks_ready": true,
+              "server_exit": 0,
+              "server_orphan": false
+            },
+            "watchdog": false,
+            "wire": {
+              "max_completion_tokens": 32000,
+              "max_tokens": null,
+              "parse_ok": true,
+              "reasoning_effort": "ABSENT",
+              "thinking": "ABSENT",
+              "wire_model_match": true,
+              "wire_stream": true
+            }
+          }
+        ]
+      }
+    ],
+    "auth": [
+      {
+        "billing_flags": {},
+        "catalog": {
+          "http": 200
+        },
+        "meters": {
+          "api": {
+            "http": 200
+          },
+          "headroom_pass": true,
+          "meters": {
+            "monthly": {
+              "percent": 14,
+              "status": "ok"
+            },
+            "rolling": {
+              "percent": 0,
+              "status": "ok"
+            },
+            "weekly": {
+              "percent": 7,
+              "status": "ok"
+            }
+          },
+          "utc": "2026-11-28T05:44:29.620479+00:00"
+        },
+        "models": {
+          "hungerg-free": {
+            "cache": {
+              "read": 0
+            },
+            "cache_all_zero": true,
+            "context_limit": 1000000,
+            "go": {
+              "training": false,
+              "zdr": true
+            },
+            "input": {
+              "price": 0
+            },
+            "monthly_usage": null,
+            "output": {
+              "price": 0
+            },
+            "present": true
+          }
+        },
+        "real_model_calls": 0,
+        "usage": {
+          "http": 200
+        },
+        "usage_schema": [
+          "usage"
+        ]
+      }
+    ],
+    "batch": [
+      {
+        "released": true,
+        "release": {
+          "models": [
+            "hungerg-free"
+          ],
+          "at": 1795844673653
+        },
+        "max_requests": 1,
+        "max_completion_tokens": 32000,
+        "cash_authorized": 0
+      }
+    ]
+  },
+  "case": {
+    "admitted_hook_attempts": 1,
+    "after": {
+      "api": {
+        "http": 200
+      },
+      "headroom_pass": true,
+      "meters": {
+        "monthly": {
+          "percent": 14,
+          "status": "ok"
+        },
+        "rolling": {
+          "percent": 0,
+          "status": "ok"
+        },
+        "weekly": {
+          "percent": 7,
+          "status": "ok"
+        }
+      },
+      "utc": "2026-11-28T05:47:14.811761+00:00"
+    },
+    "answer_bytes": 1523,
+    "answer_chunks": 2,
+    "answer_sha256": "be1c8fe01d4c84bf0cc6363492fb3c638b8e77c43e2b91cd5c76181fb259902d",
+    "answer_status": "VISIBLE_TEXT_UNTRUSTED",
+    "before": {
+      "api": {
+        "http": 200
+      },
+      "headroom_pass": true,
+      "meters": {
+        "monthly": {
+          "percent": 14,
+          "status": "ok"
+        },
+        "rolling": {
+          "percent": 0,
+          "status": "ok"
+        },
+        "weekly": {
+          "percent": 7,
+          "status": "ok"
+        }
+      },
+      "utc": "2026-11-28T05:44:33.439778+00:00"
+    },
+    "case": "L",
+    "cli_exit": 0,
+    "cost_usd": 0,
+    "decoded_feed": {
+      "counts": {
+        "session.created": 1,
+        "session.execution.started": 1,
+        "session.execution.succeeded": 1,
+        "session.reasoning.delta": 1179,
+        "session.reasoning.ended": 1,
+        "session.reasoning.started": 1,
+        "session.step.ended": 1,
+        "session.step.first-token": 1,
+        "session.step.started": 1,
+        "session.step.streamed": 1,
+        "session.text.delta": 12,
+        "session.text.ended": 1,
+        "session.text.started": 1
+      },
+      "exact_session_matches": 1,
+      "feed_eof": true,
+      "feed_error": null,
+      "feed_thread_alive": false,
+      "first_epoch_ms": {
+        "session.created": 1795844673580,
+        "session.execution.started": 1795844673642,
+        "session.execution.succeeded": 1795844834390,
+        "session.reasoning.delta": 1795844674088,
+        "session.reasoning.ended": 1795844834377,
+        "session.reasoning.started": 1795844673988,
+        "session.step.ended": 1795844834377,
+        "session.step.first-token": 1795844673988,
+        "session.step.started": 1795844673988,
+        "session.step.streamed": 1795844834377,
+        "session.text.delta": 1795844832893,
+        "session.text.ended": 1795844834377,
+        "session.text.started": 1795844832794
+      },
+      "invalid": 0,
+      "oversized": 0,
+      "ready": true,
+      "reasoning_delta_chars": 105460,
+      "reasoning_ended_chars": 105460,
+      "text_delta_chars": 1521,
+      "text_ended_chars": 1521,
+      "unmatched_session_count": 0
+    },
+    "elapsed_seconds": 160.981,
+    "event_counts": {
+      "step_finish": 1,
+      "step_start": 1,
+      "text": 1
+    },
+    "events": [
+      {
+        "stage": "HOOKS_READY",
+        "t_ms": 1144.042,
+        "wall_ms": 1795844672894
+      },
+      {
+        "contexts": 1,
+        "kind": "primary",
+        "post_effort": "ABSENT",
+        "pre_effort": "ABSENT",
+        "prior_native_max_tokens": 65536,
+        "stage": "MODEL_PREPARED",
+        "t_ms": 1883.975,
+        "target": true,
+        "wall_ms": 1795844673634
+      },
+      {
+        "attempt": 1,
+        "contexts": 1,
+        "dry_blocked": false,
+        "kind": "primary",
+        "mode": "default",
+        "post_effort": "ABSENT",
+        "pre_effort": "ABSENT",
+        "prior_native_max_tokens": 65536,
+        "route_matches": true,
+        "stage": "HTTP_REQUEST",
+        "t_ms": 1903.737,
+        "target": true,
+        "wall_ms": 1795844673654,
+        "wire": {
+          "max_completion_tokens": 32000,
+          "max_tokens": null,
+          "parse_ok": true,
+          "reasoning_effort": "ABSENT",
+          "thinking": "ABSENT",
+          "wire_model_match": true,
+          "wire_stream": true
+        }
+      },
+      {
+        "attempt": 1,
+        "sse_content_type": true,
+        "stage": "RESPONSE_HEADERS",
+        "status": 200,
+        "t_ms": 2222.063,
+        "wall_ms": 1795844673972
+      },
+      {
+        "attempt": 1,
+        "bytes": 1259,
+        "stage": "FIRST_BODY_BYTE",
+        "t_ms": 2225.038,
+        "wall_ms": 1795844673975
+      }
+    ],
+    "finish": true,
+    "first_event_epoch_ms": {
+      "step_finish": 1795844834360,
+      "step_start": 1795844673977,
+      "text": 1795844834354
+    },
+    "inference_cli_launched": true,
+    "live_catalog": {
+      "api": {
+        "http": 200
+      },
+      "exact_model_present": true,
+      "expected_price_privacy": true,
+      "input_price": 0,
+      "monthly_go": null,
+      "output_price": 0
+    },
+    "max_sample_gap_ms": 1343.161,
+    "model": "opencode-go/hungerg-free",
+    "operator_overflow_exception": false,
+    "orphan": false,
+    "outcome": "COMPLETE_TEXT",
+    "persistence": {
+      "assistant_content_source": "session_part_projection",
+      "assistant_finish_messages": 1,
+      "assistant_part_type_counts": {
+        "reasoning": 1,
+        "text": 1
+      },
+      "assistant_text_characters": 1521,
+      "idle_outcome_counts": {
+        "succeeded": 1
+      },
+      "persistent_state_qualified": true,
+      "reason": null,
+      "session_match_basis": "exact_cli_session_id",
+      "status": null
+    },
+    "prompt_bytes": 9817,
+    "prompt_sha256": "5d689083b5a1054d92650d872233b2d3eead50a28edeb304ba67536eb83766c2",
+    "prompt_variant": "admission_v1_max_reasoning",
+    "provider_requests_delivered": "NOT_OBSERVED",
+    "provider_tokens": "SSE_REPORTED",
+    "quality_grade": {
+      "semantic_correctness": "PENDING_COORDINATOR_REVIEW"
+    },
+    "quality_structure": {
+      "semantic_correctness": "PENDING_COORDINATOR_REVIEW"
+    },
+    "registry": {
+      "model_api": {
+        "http": 200
+      },
+      "model_found": true,
+      "model_package": "native_chat_compatible",
+      "model_settings": {
+        "chunk_ms": "UNSET",
+        "header_ms": "UNSET",
+        "tls_present": false,
+        "total_ms": "UNSET",
+        "transport": "UNSET_OR_OTHER"
+      },
+      "provider_api": {
+        "http": 200
+      },
+      "provider_found": true,
+      "provider_package": "native_chat_compatible",
+      "provider_settings": {
+        "chunk_ms": "UNSET",
+        "header_ms": "UNSET",
+        "tls_present": false,
+        "total_ms": "UNSET",
+        "transport": "UNSET_OR_OTHER"
+      }
+    },
+    "requested_completion_limit": 32000,
+    "requested_reasoning_effort": "default",
+    "schema": "ases-admission-v1-max-review-v1",
+    "server": {
+      "hooks_ready": true,
+      "server_exit": 0,
+      "server_orphan": false
+    },
+    "sse_first": {
+      "allowance_usd": null,
+      "attempt": 1,
+      "billed_cache_read": null,
+      "billed_cache_write_1h": null,
+      "billed_cache_write_5m": null,
+      "billed_input": null,
+      "billed_output": null,
+      "billed_reasoning": null,
+      "billing_source": null,
+      "bytes": 1259,
+      "chunks": 1,
+      "comments": 0,
+      "cost_estimated": null,
+      "cost_usd": null,
+      "done": 0,
+      "errors": 0,
+      "finish_events": 0,
+      "frames": 3,
+      "json_frames": 3,
+      "length": 0,
+      "list_cost_usd": null,
+      "malformed": 0,
+      "other_finish": 0,
+      "other_json": 0,
+      "other_lines": 0,
+      "parser_disabled": false,
+      "reason_blocks": 0,
+      "reason_repeated_blocks": 0,
+      "reasoning_alias_events": 2,
+      "reasoning_chars": 19,
+      "reasoning_content_events": 2,
+      "reasoning_details_events": 0,
+      "reasoning_events": 2,
+      "role_events": 3,
+      "stage": "SSE_PROGRESS",
+      "stop": 0,
+      "t_ms": 2225.101,
+      "text_blocks": 0,
+      "text_chars": 0,
+      "text_events": 0,
+      "text_repeated_blocks": 0,
+      "tool_events": 0,
+      "tool_finish": 0,
+      "trailing_incomplete": false,
+      "unknown_delta_events": 0,
+      "usage_completion_tokens": 4,
+      "usage_events": 3,
+      "usage_prompt_tokens": 3049,
+      "usage_reasoning_tokens": 0,
+      "usage_total_tokens": 3053,
+      "wall_ms": 1795844673975
+    },
+    "sse_first_category": {
+      "done": 162593.254,
+      "errors": null,
+      "finish_events": 162593.254,
+      "malformed": null,
+      "other_json": null,
+      "parser_disabled": null,
+      "reasoning_events": 2225.101,
+      "text_events": 161035.982,
+      "unknown_delta_events": null,
+      "usage_events": 2225.101
+    },
+    "sse_last": {
+      "allowance_usd": 0,
+      "attempt": 1,
+      "billed_cache_read": 448,
+      "billed_cache_write_1h": 0,
+      "billed_cache_write_5m": 0,
+      "billed_input": 2601,
+      "billed_output": 22266,
+      "billed_reasoning": 0,
+      "billing_source": "go",
+      "bytes": 4426315,
+      "chunks": 5503,
+      "comments": 0,
+      "cost_estimated": null,
+      "cost_usd": 0,
+      "done": 1,
+      "errors": 0,
+      "finish_events": 1,
+      "frames": 9730,
+      "json_frames": 9729,
+      "length": 0,
+      "list_cost_usd": 0,
+      "malformed": 0,
+      "other_finish": 0,
+      "other_json": 0,
+      "other_lines": 0,
+      "parser_disabled": false,
+      "reason_blocks": 823,
+      "reason_repeated_blocks": 0,
+      "reasoning_alias_events": 9624,
+      "reasoning_chars": 105460,
+      "reasoning_content_events": 9624,
+      "reasoning_details_events": 0,
+      "reasoning_events": 9624,
+      "role_events": 9728,
+      "stage": "SSE_PROGRESS",
+      "stop": 1,
+      "t_ms": 162593.254,
+      "text_blocks": 11,
+      "text_chars": 1521,
+      "text_events": 102,
+      "text_repeated_blocks": 0,
+      "tool_events": 0,
+      "tool_finish": 0,
+      "trailing_incomplete": false,
+      "unknown_delta_events": 0,
+      "usage_completion_tokens": 22266,
+      "usage_events": 9729,
+      "usage_prompt_tokens": 3049,
+      "usage_reasoning_tokens": 0,
+      "usage_total_tokens": 25315,
+      "wall_ms": 1795844834343
+    },
+    "sse_sample_count": 346,
+    "stderr_truncated": false,
+    "stdout_truncated": false,
+    "text_characters": 1521,
+    "version": "2.4.2",
+    "version_gate": {
+      "basis": "same_job_dummy_exact_version_and_executable_digest",
+      "executable_sha256": "523b1502d1d556998b0904235cef65eb1d8cf8362b4e2faa7ae7a170c9a44cd4",
+      "qualified": true
+    },
+    "watchdog": false
+  },
+  "progress": [
+    {
+      "truncated": true,
+      "raw_fragment": "{\"case\":\"L\",\"samples\":[{\"t_ms\":2225.101,\"bytes\":1259,\"chunks\":1,\"reasoning_chars\":19,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":2616.479,\"bytes\":10838,\"chunks\":16,\"reasoning_chars\":294,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":2941.242,\"bytes\":20905,\"chunks\":32,\"reasoning_chars\":591,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":3401.745,\"bytes\":34168,\"chunks\":48,\"reasoning_chars\":966,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":3934.392,\"bytes\":48710,\"chunks\":64,\"reasoning_chars\":1334,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":4405.567,\"bytes\":58730,\"chunks\":80,\"reasoning_chars\":1599,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":4567.039,\"bytes\":65960,\"chunks\":96,\"reasoning_chars\":1764,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":4967.853,\"bytes\":77900,\"chunks\":112,\"reasoning_chars\":2127,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":5690.621,\"bytes\":93366,\"chunks\":128,\"reasoning_chars\":2526,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":6242.165,\"bytes\":111005,\"chunks\":144,\"reasoning_chars\":2937,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":6669.953,\"bytes\":123609,\"chunks\":160,\"reasoning_chars\":3201,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":7235.471,\"bytes\":139010,\"chunks\":176,\"reasoning_chars\":3560,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":7684.405,\"bytes\":152088,\"chunks\":192,\"reasoning_chars\":3860,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":8141.932,\"bytes\":164786,\"chunks\":208,\"reasoning_chars\":4173,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":8578.039,\"bytes\":177941,\"chunks\":224,\"reasoning_chars\":4497,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":9062.799,\"bytes\":192469,\"chunks\":240,\"reasoning_chars\":4863,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":9524.545,\"bytes\":206099,\"chunks\":256,\"reasoning_chars\":5198,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":10102.617,\"bytes\":220179,\"chunks\":272,\"reasoning_chars\":5536,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":10436.207,\"bytes\":232873,\"chunks\":288,\"reasoning_chars\":5831,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":11030.803,\"bytes\":249755,\"chunks\":304,\"reasoning_chars\":6280,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":11349.18,\"bytes\":259777,\"chunks\":320,\"reasoning_chars\":6531,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":11736.625,\"bytes\":271371,\"chunks\":336,\"reasoning_chars\":6924,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":12182.094,\"bytes\":281881,\"chunks\":352,\"reasoning_chars\":7205,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":12563.244,\"bytes\":293375,\"chunks\":368,\"reasoning_chars\":7548,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":13062.859,\"bytes\":307435,\"chunks\":384,\"reasoning_chars\":7879,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":13516.534,\"bytes\":320405,\"chunks\":400,\"reasoning_chars\":8311,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":13970.444,\"bytes\":333097,\"chunks\":416,\"reasoning_chars\":8609,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":14407.201,\"bytes\":345475,\"chunks\":432,\"reasoning_chars\":8966,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":14872.724,\"bytes\":356972,\"chunks\":448,\"reasoning_chars\":9302,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":15322.662,\"bytes\":370567,\"chunks\":464,\"reasoning_chars\":9628,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":15883.952,\"bytes\":385395,\"chunks\":480,\"reasoning_chars\":9911,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":16504.807,\"bytes\":400365,\"chunks\":496,\"reasoning_chars\":10264,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":16983.883,\"bytes\":413029,\"chunks\":512,\"reasoning_chars\":10548,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":17431.437,\"bytes\":425315,\"chunks\":528,\"reasoning_chars\":10858,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":17811.434,\"bytes\":436765,\"chunks\":544,\"reasoning_chars\":11182,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":18285.869,\"bytes\":448154,\"chunks\":560,\"reasoning_chars\":11463,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":18642.952,\"bytes\":461355,\"chunks\":576,\"reasoning_chars\":11813,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":19195.432,\"bytes\":475369,\"chunks\":592,\"reasoning_chars\":12118,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":19719.982,\"bytes\":489970,\"chunks\":608,\"reasoning_chars\":12482,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":20136.27,\"bytes\":499955,\"chunks\":624,\"reasoning_chars\":12731,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":20745.209,\"bytes\":517749,\"chunks\":640,\"reasoning_chars\":13199,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":21160.101,\"bytes\":529170,\"chunks\":656,\"reasoning_chars\":13491,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":21742.982,\"bytes\":544441,\"chunks\":672,\"reasoning_chars\":13789,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":22312.423,\"bytes\":559795,\"chunks\":688,\"reasoning_chars\":14116,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":22871.042,\"bytes\":575225,\"chunks\":704,\"reasoning_chars\":14483,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":23424.646,\"bytes\":588393,\"chunks\":720,\"reasoning_chars\":14801,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":23886.582,\"bytes\":600645,\"chunks\":736,\"reasoning_chars\":15091,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":24452.012,\"bytes\":615819,\"chunks\":752,\"reasoning_chars\":15544,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":24873.248,\"bytes\":628627,\"chunks\":768,\"reasoning_chars\":15900,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":25624.92,\"bytes\":646793,\"chunks\":784,\"reasoning_chars\":16339,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":26054.841,\"bytes\":659517,\"chunks\":800,\"reasoning_chars\":16645,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":26669.124,\"bytes\":676477,\"chunks\":816,\"reasoning_chars\":17128,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":27273.819,\"bytes\":691973,\"chunks\":832,\"reasoning_chars\":17529,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":27777.64,\"bytes\":707275,\"chunks\":848,\"reasoning_chars\":17828,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":28458.411,\"bytes\":724561,\"chunks\":864,\"reasoning_chars\":18259,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":28911.305,\"bytes\":737207,\"chunks\":880,\"reasoning_chars\":18532,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":29300.444,\"bytes\":747707,\"chunks\":896,\"reasoning_chars\":18812,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":29800.379,\"bytes\":761311,\"chunks\":912,\"reasoning_chars\":19130,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":30419.718,\"bytes\":773499,\"chunks\":928,\"reasoning_chars\":19390,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":30650.176,\"bytes\":784867,\"chunks\":944,\"reasoning_chars\":19669,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":31439.037,\"bytes\":797737,\"chunks\":960,\"reasoning_chars\":20052,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":31529.902,\"bytes\":805001,\"chunks\":976,\"reasoning_chars\":20227,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":32025.691,\"bytes\":818241,\"chunks\":992,\"reasoning_chars\":20579,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":32504.901,\"bytes\":829613,\"chunks\":1008,\"reasoning_chars\":20861,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":32860.408,\"bytes\":839773,\"chunks\":1024,\"reasoning_chars\":21184,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":34203.569,\"bytes\":849697,\"chunks\":1040,\"reasoning_chars\":21392,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":34213.254,\"bytes\":857001,\"chunks\":1056,\"reasoning_chars\":21586,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":34224.907,\"bytes\":864913,\"chunks\":1072,\"reasoning_chars\":21862,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":34234.953,\"bytes\":873135,\"chunks\":1088,\"reasoning_chars\":22085,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":34704.473,\"bytes\":887231,\"chunks\":1104,\"reasoning_chars\":22426,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":35222.379,\"bytes\":900479,\"chunks\":1120,\"reasoning_chars\":22783,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":35821.791,\"bytes\":915927,\"chunks\":1136,\"reasoning_chars\":23159,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":36274.511,\"bytes\":927908,\"chunks\":1152,\"reasoning_chars\":23519,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":36709.211,\"bytes\":941031,\"chunks\":1168,\"reasoning_chars\":23825,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":37160.321,\"bytes\":952737,\"chunks\":1184,\"reasoning_chars\":24060,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":37588.037,\"bytes\":963727,\"chunks\":1200,\"reasoning_chars\":24371,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":38051.612,\"bytes\":976491,\"chunks\":1216,\"reasoning_chars\":24699,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":38543.374,\"bytes\":990075,\"chunks\":1232,\"reasoning_chars\":25005,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":39093.216,\"bytes\":1004995,\"chunks\":1248,\"reasoning_chars\":25335,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":39741.481,\"bytes\":1020029,\"chunks\":1264,\"reasoning_chars\":25720,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":40292.528,\"bytes\":1034153,\"chunks\":1280,\"reasoning_chars\":26084,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":40747.255,\"bytes\":1046503,\"chunks\":1296,\"reasoning_chars\":26423,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":41210.95,\"bytes\":1059269,\"chunks\":1312,\"reasoning_chars\":26758,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":41734.014,\"bytes\":1074359,\"chunks\":1328,\"reasoning_chars\":27171,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":42511.253,\"bytes\":1088823,\"chunks\":1344,\"reasoning_chars\":27491,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":42560.733,\"bytes\":1095589,\"chunks\":1360,\"reasoning_chars\":27630,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":43035.135,\"bytes\":1106939,\"chunks\":1376,\"reasoning_chars\":27901,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":43417.021,\"bytes\":1119123,\"chunks\":1392,\"reasoning_chars\":28153,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":43863.375,\"bytes\":1131287,\"chunks\":1408,\"reasoning_chars\":28393,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":44362.748,\"bytes\":1143139,\"chunks\":1424,\"reasoning_chars\":28682,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":44911.682,\"bytes\":1154943,\"chunks\":1440,\"reasoning_chars\":28952,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":45497.117,\"bytes\":1167183,\"chunks\":1456,\"reasoning_chars\":29225,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":46029.043,\"bytes\":1179979,\"chunks\":1472,\"reasoning_chars\":29543,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":46537.387,\"bytes\":1192319,\"chunks\":1488,\"reasoning_chars\":29876,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":46994.23,\"bytes\":1204525,\"chunks\":1504,\"reasoning_chars\":30143,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":47564.29,\"bytes\":1219375,\"chunks\":1520,\"reasoning_chars\":30432,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":47964.774,\"bytes\":1232111,\"chunks\":1536,\"reasoning_chars\":30749,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":48473.974,\"bytes\":1244074,\"chunks\":1552,\"reasoning_chars\":31098,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":48981.361,\"bytes\":1258999,\"chunks\":1568,\"reasoning_chars\":31438,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":49492.444,\"bytes\":1273625,\"chunks\":1584,\"reasoning_chars\":31838,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":50038.136,\"bytes\":1286775,\"chunks\":1600,\"reasoning_chars\":32148,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":50533.698,\"bytes\":1299553,\"chunks\":1616,\"reasoning_chars\":32485,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":50985.693,\"bytes\":1310438,\"chunks\":1632,\"reasoning_chars\":32730,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":51514.449,\"bytes\":1321897,\"chunks\":1648,\"reasoning_chars\":33073,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":51992.329,\"bytes\":1335107,\"chunks\":1664,\"reasoning_chars\":33412,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":52733.749,\"bytes\":1354605,\"chunks\":1680,\"reasoning_chars\":33860,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":53244.675,\"bytes\":1365009,\"chunks\":1696,\"reasoning_chars\":34070,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":53685.881,\"bytes\":1375479,\"chunks\":1712,\"reasoning_chars\":34338,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":54275.645,\"bytes\":1390047,\"chunks\":1728,\"reasoning_chars\":34692,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":54844.607,\"bytes\":1404245,\"chunks\":1744,\"reasoning_chars\":35061,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":55552.547,\"bytes\":1422554,\"chunks\":1760,\"reasoning_chars\":35562,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":55953.396,\"bytes\":1434191,\"chunks\":1776,\"reasoning_chars\":35964,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":56530.589,\"bytes\":1447441,\"chunks\":1792,\"reasoning_chars\":36298,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":57053.209,\"bytes\":1459277,\"chunks\":1808,\"reasoning_chars\":36584,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":57337.097,\"bytes\":1466177,\"chunks\":1824,\"reasoning_chars\":36795,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":57795.952,\"bytes\":1475906,\"chunks\":1840,\"reasoning_chars\":37108,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":57805.288,\"bytes\":1481357,\"chunks\":1856,\"reasoning_chars\":37221,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":58199.602,\"bytes\":1494076,\"chunks\":1872,\"reasoning_chars\":37531,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":58750.206,\"bytes\":1509147,\"chunks\":1888,\"reasoning_chars\":37917,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":59160.47,\"bytes\":1519339,\"chunks\":1904,\"reasoning_chars\":38248,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":59588.761,\"bytes\":1531636,\"chunks\":1920,\"reasoning_chars\":38549,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":60049.003,\"bytes\":1543955,\"chunks\":1936,\"reasoning_chars\":38862,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":60417.128,\"bytes\":1552177,\"chunks\":1952,\"reasoning_chars\":39075,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":60746.4,\"bytes\":1562127,\"chunks\":1968,\"reasoning_chars\":39287,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":61290.96,\"bytes\":1577344,\"chunks\":1984,\"reasoning_chars\":39747,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":61730.524,\"bytes\":1588891,\"chunks\":2000,\"reasoning_chars\":40102,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":62174.64,\"bytes\":1599508,\"chunks\":2016,\"reasoning_chars\":40428,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":62570.005,\"bytes\":1611091,\"chunks\":2032,\"reasoning_chars\":40804,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":63173.868,\"bytes\":1625527,\"chunks\":2048,\"reasoning_chars\":41094,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":63586.796,\"bytes\":1636485,\"chunks\":2064,\"reasoning_chars\":41373,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":64078.801,\"bytes\":1648459,\"chunks\":2080,\"reasoning_chars\":41729,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":64523.756,\"bytes\":1660790,\"chunks\":2096,\"reasoning_chars\":42045,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":65081.373,\"bytes\":1674903,\"chunks\":2112,\"reasoning_chars\":42389,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":65693.27,\"bytes\":1690413,\"chunks\":2128,\"reasoning_chars\":42780,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":66160.844,\"bytes\":1701948,\"chunks\":2144,\"reasoning_chars\":43132,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":66904.385,\"bytes\":1718729,\"chunks\":2160,\"reasoning_chars\":43511,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":67264.43,\"bytes\":1728717,\"chunks\":2176,\"reasoning_chars\":43740,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":67887.199,\"bytes\":1743608,\"chunks\":2192,\"reasoning_chars\":44037,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":68459.999,\"bytes\":1758200,\"chunks\":2208,\"reasoning_chars\":44399,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":69038.412,\"bytes\":1771822,\"chunks\":2224,\"reasoning_chars\":44707,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":69415.924,\"bytes\":1783700,\"chunks\":2240,\"reasoning_chars\":45015,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":69922.497,\"bytes\":1796929,\"chunks\":2256,\"reasoning_chars\":45343,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":70545.767,\"bytes\":1813197,\"chunks\":2272,\"reasoning_chars\":45677,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":70886.171,\"bytes\":1822325,\"chunks\":2288,\"reasoning_chars\":45907,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":71445.893,\"bytes\":1835083,\"chunks\":2304,\"reasoning_chars\":46220,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":71911.806,\"bytes\":1847871,\"chunks\":2320,\"reasoning_chars\":46546,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":72470.882,\"bytes\":1862124,\"chunks\":2336,\"reasoning_chars\":46953,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":72984.337,\"bytes\":1874847,\"chunks\":2352,\"reasoning_chars\":47235,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":73499.453,\"bytes\":1886568,\"chunks\":2368,\"reasoning_chars\":47478,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":73983.155,\"bytes\":1899727,\"chunks\":2384,\"reasoning_chars\":47775,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":74467.129,\"bytes\":1912473,\"chunks\":2400,\"reasoning_chars\":48084,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":74979.233,\"bytes\":1924900,\"chunks\":2416,\"reasoning_chars\":48446,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":75455.672,\"bytes\":1937624,\"chunks\":2432,\"reasoning_chars\":48741,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":75896.077,\"bytes\":1948551,\"chunks\":2448,\"reasoning_chars\":49000,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":76312.036,\"bytes\":1959113,\"chunks\":2464,\"reasoning_chars\":49290,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":76770.415,\"bytes\":1970087,\"chunks\":2480,\"reasoning_chars\":49569,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":77207.435,\"bytes\":1981968,\"chunks\":2496,\"reasoning_chars\":49855,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":77682.611,\"bytes\":1995115,\"chunks\":2512,\"reasoning_chars\":50148,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":78191.007,\"bytes\":2007019,\"chunks\":2528,\"reasoning_chars\":50455,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":78753.048,\"bytes\":2020291,\"chunks\":2544,\"reasoning_chars\":50792,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":79107.901,\"bytes\":2028987,\"chunks\":2560,\"reasoning_chars\":51017,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":79599.85,\"bytes\":2041667,\"chunks\":2576,\"reasoning_chars\":51277,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":80085.816,\"bytes\":2053100,\"chunks\":2592,\"reasoning_chars\":51553,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":80594.192,\"bytes\":2066793,\"chunks\":2608,\"reasoning_chars\":51901,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":81065.499,\"bytes\":2078637,\"chunks\":2624,\"reasoning_chars\":52181,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":81822.816,\"bytes\":2084989,\"chunks\":2640,\"reasoning_chars\":52319,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":81842.692,\"bytes\":2091393,\"chunks\":2656,\"reasoning_chars\":52481,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":81869.105,\"bytes\":2098139,\"chunks\":2672,\"reasoning_chars\":52599,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":82644.734,\"bytes\":2108091,\"chunks\":2688,\"reasoning_chars\":52801,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":82661.694,\"bytes\":2114887,\"chunks\":2704,\"reasoning_chars\":52944,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":82954.138,\"bytes\":2123937,\"chunks\":2720,\"reasoning_chars\":53129,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":83440.44,\"bytes\":2135855,\"chunks\":2736,\"reasoning_chars\":53443,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":83888.478,\"bytes\":2148199,\"chunks\":2752,\"reasoning_chars\":53751,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":84412.718,\"bytes\":2161915,\"chunks\":2768,\"reasoning_chars\":54099,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":84964.254,\"bytes\":2176645,\"chunks\":2784,\"reasoning_chars\":54516,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":85402.686,\"bytes\":2188033,\"chunks\":2800,\"reasoning_chars\":54781,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":85766.79,\"bytes\":2198629,\"chunks\":2816,\"reasoning_chars\":55086,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":86276.543,\"bytes\":2210955,\"chunks\":2832,\"reasoning_chars\":55388,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":86757.08,\"bytes\":2223241,\"chunks\":2848,\"reasoning_chars\":55667,\"text_chars\":0,\"reason_repeated_blocks\":0,\"text_repeated_blocks\":0},{\"t_ms\":87225.984,\"bytes\":2235955,\"chunks\":2864,\"reasoning_chars\":55943,\"text_chars\":0,\"reason_re",
+      "chars": 24950,
+      "reason": "job trace line truncated; terminal case and answer separately retained"
+    }
+  ],
+  "replay": [
+    [
+      {
+        "model": "hungerg-free",
+        "classification": {
+          "state": "VISIBLE_COMPLETION",
+          "hasUsage": true,
+          "quality": "UNVERIFIED",
+          "billing": "NOT_FREE_CLASSIFIED",
+          "reported_completion": 22266,
+          "continuation_blocked": false
+        },
+        "reconciliation": {
+          "meters": {
+            "requests": {
+              "reported": 1,
+              "hold": 0,
+              "release": 0,
+              "overrun": 0
+            },
+            "completion_tokens": {
+              "reported": 22266,
+              "hold": 0,
+              "release": 9734,
+              "overrun": 0
+            },
+            "cash_microusd": {
+              "reported": 0,
+              "hold": 0,
+              "release": 0,
+              "overrun": 0
+            }
+          },
+          "unresolved": false,
+          "overrun": false,
+          "stop_new_admission": false
+        },
+        "hook_wall_ms": 1795844673654,
+        "terminal_wall_ms": 1795844834343
+      }
+    ]
+  ],
+  "exit": [
+    {
+      "hungerg-free": 0
+    }
+  ],
+  "raw_answer": "{\n  \"verdict\": \"REVISE\",\n  \"findings\": [\n    {\n      \"severity\": \"MEDIUM\",\n      \"location\": \"evaluateAdmission — COMPLETE review verdict validation at Object.hasOwn(actions, review.verdict)\",\n      \"problem\": \"The verdict is coerced to a property key without first requiring a string. A syntactically valid JSON object can therefore throw an uncaught TypeError instead of returning BLOCK, violating the fail-closed contract for malformed or unknown review facts.\",\n      \"falsifier\": \"An otherwise admissible control with a COMPLETE review whose verdict is {\\\"toString\\\":null,\\\"valueOf\\\":null} reaches Object.hasOwn and throws during property-key conversion.\",\n      \"fix\": \"For COMPLETE reviews, hard-block with REVIEW_RECORD_INVALID_OR_STALE when typeof review.verdict !== \\\"string\\\", before calling Object.hasOwn. Preserve the existing waiver path for genuinely INCOMPLETE or FAILED reviews.\"\n    }\n  ],\n  \"uncertainty\": \"Static review only; test bodies and controller implementation were unavailable. Receipt authentication, authoritative-snapshot binding, atomic reservation/reconciliation, routine-slot membership, and nonlisted resource units remain integration prerequisites rather than established predicate guarantees. No separate necessity or proportionality defect is apparent from the packet.\",\n  \"next_action\": \"Retain the minimal design, add the COMPLETE-review verdict type guard, and add regression cases asserting BLOCK rather than an exception for object-valued verdicts under both authority modes.\"\n}",
+  "answer_hash_verified": true,
+  "parsed_answer": {
+    "verdict": "REVISE",
+    "findings": [
+      {
+        "severity": "MEDIUM",
+        "location": "evaluateAdmission — COMPLETE review verdict validation at Object.hasOwn(actions, review.verdict)",
+        "problem": "The verdict is coerced to a property key without first requiring a string. A syntactically valid JSON object can therefore throw an uncaught TypeError instead of returning BLOCK, violating the fail-closed contract for malformed or unknown review facts.",
+        "falsifier": "An otherwise admissible control with a COMPLETE review whose verdict is {\"toString\":null,\"valueOf\":null} reaches Object.hasOwn and throws during property-key conversion.",
+        "fix": "For COMPLETE reviews, hard-block with REVIEW_RECORD_INVALID_OR_STALE when typeof review.verdict !== \"string\", before calling Object.hasOwn. Preserve the existing waiver path for genuinely INCOMPLETE or FAILED reviews."
+      }
+    ],
+    "uncertainty": "Static review only; test bodies and controller implementation were unavailable. Receipt authentication, authoritative-snapshot binding, atomic reservation/reconciliation, routine-slot membership, and nonlisted resource units remain integration prerequisites rather than established predicate guarantees. No separate necessity or proportionality defect is apparent from the packet.",
+    "next_action": "Retain the minimal design, add the COMPLETE-review verdict type guard, and add regression cases asserting BLOCK rather than an exception for object-valued verdicts under both authority modes."
+  },
+  "grade": "COMPLETE_SCHEMA_VALID",
+  "triage": {
+    "finding": "CONFIRMED",
+    "source_blob": "cfde687aac6c4f770474c8606673f519ef874613",
+    "node": "v22.16.0",
+    "falsifier": {
+      "verdict": {
+        "toString": null,
+        "valueOf": null
+      },
+      "normal": "TypeError: Cannot convert object to primitive value",
+      "manual_exception": "TypeError: Cannot convert object to primitive value"
+    },
+    "note": "Pure predicate fails to return BLOCK as specified; no evidence of unauthorized dispatch."
+  },
+  "limitations": "Provider-reported billing, invoice not checked. Progress line truncated by trace retrieval, terminal and answer complete; coordinator triage separate."
+}
