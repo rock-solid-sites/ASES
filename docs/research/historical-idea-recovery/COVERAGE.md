@@ -290,3 +290,7 @@ Completed substantive review of the surviving 339-turn Crosslink projection, inc
 ### R48 — Versus/Rust primitive-reduction history
 
 Completed substantive review of the surviving 333-turn, 22,494-line legacy projection, including comparative prior art, original conditional and dissenting reviews, successive semantic specifications and pre-launch pins. The historical archive retains partial/duplicate attachment retrievals rather than a new independent review or implementation run. Coverage: **82/256 full (37 compact + 45 legacy)**; one legacy partial remains. Register remains 87. Exact restricted locators and evidence qualifications: WNASES-35 R48.
+
+### R49 — Build specification and conditional system roadmap
+
+Completed the final legacy projection (433 turns, 33,028 lines), including the original specification boundary corrections, conditional system roadmap, research reconstruction method and later UX/operational requirements. Repeated retrieved excerpts were reconciled by source rather than counted as separate evidence; underlying absent artifacts are not reconstructed. **83/256 full semantic (37 compact + all 46 legacy)**; 256/256 mechanically screened, 19 metadata-only, zero local coding sessions. Register remains 87. Exact restricted source and evidence: WNASES-35 R49. Compact semantic review remains incomplete.
