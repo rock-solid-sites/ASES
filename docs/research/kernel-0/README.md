@@ -57,6 +57,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [Which verification observations distinguish the remaining explanations?](Selecting-discriminating-verification.md) derives how to select verification probes and checks where joint evidence is essential.
 - [When do separate checks prove one legal effect?](When-separate-checks-prove-one-legal-effect.md) verifies when independently observed checks can jointly enforce a guarded effect while preserving required positive cases.
 - [What makes authority checks independent under a common fault model?](How-independent-are-authority-checks.md) derives an exact effect-specific failure support test and separates real redundancy from shared premises.
 
