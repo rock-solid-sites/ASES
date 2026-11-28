@@ -34,6 +34,7 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Nested Work Units and managerial authority
 
+- [When can Work Unit containment express managerial authority?](Authority-without-containment.md) characterizes single-subtree scope policies, bounds the cost of using multiple subtrees, and checks a direct policy with independent cross-cutting vetoes.
 - [Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
 - [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
 - [What authority becomes visible during a batch of Work Unit moves?](Authority-in-mixed-containment-trees.md) checks every possible containment path and proves that an arbitrarily large set of moves can require one observable publication even when all intermediate structures are trees.
