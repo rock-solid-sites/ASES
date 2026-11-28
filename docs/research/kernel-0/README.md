@@ -57,11 +57,15 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [When do separate owner proofs establish one recovered cut?](Grounding-modular-assurance-after-recovery.md) verifies an inductive dependency rule and distinguishes authentic images from coherent predecessor cuts.
+- [Which verification observations distinguish the remaining explanations?](Selecting-discriminating-verification.md) derives how to select verification probes and checks where joint evidence is essential.
+- [Can a single protected switch preserve independent approval?](One-protected-switch-with-separate-approval.md) distinguishes a fixed guarded selection from unrestricted replacement and general transactions.
 - [When do separate checks prove one legal effect?](When-separate-checks-prove-one-legal-effect.md) verifies when independently observed checks can jointly enforce a guarded effect while preserving required positive cases.
 - [What makes authority checks independent under a common fault model?](How-independent-are-authority-checks.md) derives an exact effect-specific failure support test and separates real redundancy from shared premises.
 
 - [When is a state partition too strong for Kernel-0 minimization?](State-elimination-under-partial-contracts.md) contrasts exact total-interface quotients with overlapping closed covers and gives a strict three-state counterexample.
 
+- [What changes when three usage reports may overlap?](Reconciling-three-or-more-usage-sources.md) proves the exact aggregate interval and a record-level hardness boundary for three sources.
 - [How much usage can partly overlapping reports establish?](Reconciling-partly-overlapping-usage-evidence.md) derives exact union bounds for two qualified sources and a counterexample for indivisible charges.
 - [What capacity must a Work Unit hold for unresolved external attempts?](Budgeting-for-unresolved-external-attempts.md) derives exact and conservative exposure bounds from enforceable downstream outcome constraints.
 - [When can a transferred Work Unit allowance be reclaimed?](Transferring-and-reclaiming-resource-allowances.md) gives a conservation proof, a lost-acknowledgment limit and a rollback obligation for dynamic rights transfer.
@@ -70,6 +74,7 @@ The owner experiments give executable witnesses for local handover, content cont
 - [When can authority be checked without a common snapshot?](When-authority-can-be-checked-without-a-snapshot.md) gives exact one-sided decision bounds and minimum per-decision certificates for monotone guards.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
 - [Which state reductions preserve a Work Unit progress proof?](Removing-state-while-preserving-progress.md) verifies infinite path lifting and a spurious stall under a forward-only reduction.
+- [When does a shared scheduler preserve each owner’s progress promise?](Composing-owner-progress-under-shared-scheduling.md) verifies how to carry global fairness to local obligations and gives two starvation witnesses.
 - [When does a recovery implementation have to make progress?](When-recovery-must-make-progress.md) gives an exact finite-state progress test under declared fairness and checks when the promise would be vacuous.
 - [When does a safe recovery choice preserve future progress?](Recovery-as-repeated-decisions.md) gives an exact repeated-decision criterion and a counterexample to reusing one-shot safety.
 - [How much recovery evidence is needed when several outcomes are legal?](Recovery-with-several-legal-outcomes.md) extends exact-answer coloring to alternative outcomes and states when pairwise checks remain complete.
