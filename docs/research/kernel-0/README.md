@@ -20,11 +20,13 @@ The owner experiments give executable witnesses for local handover, content cont
 - [Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
 - [Changing the set of resource owners at handover](Changing-the-set-of-resource-owners.md) extends the arbitrary-member proof to joins and removals, including delayed activation at an owner that never opened.
 - [Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
+- [When can a lease replace a Work Unit admission fence?](When-a-lease-can-replace-a-fence.md) derives tight clock-evidence thresholds and distinguishes expiry of admission from custody and charge release.
 - [Which resource owners must a recovered selector fence?](Fencing-after-membership-rollback.md) proves an observation limit under rollback and gives an admission-closure alternative to exact membership recovery.
 - [When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.
 
 ### Accepted contents, retries and observations
 
+- [What evidence can restore current owner selection?](Recoverable-owner-selection.md) derives a protected selection construction and the conditions under which an eventless reservation could instead be cancelled.
 - [What can native recovery restore from surviving history?](Restoring-history-without-restoring-authority.md) uses the actual owner write order to separate monotone historical evidence from selected pending obligations and current authority.
 - [Native owner selection rollback](Native-owner-selection-rollback-result.md) exercises three genuine F3 selection cuts and demonstrates F4 historical success with unresolved owner settlement.
 - [What does the native owner actually acknowledge?](Native-acceptance-and-recovery-boundaries.md) maps the protected-witness question onto the pinned native source and identifies where exact retry, F3 currentness and W5/W6 diverge.
@@ -40,6 +42,8 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Nested Work Units and managerial authority
 
+- [When does delegated authority remain grounded after withdrawal?](Grounding-delegated-authority.md) gives a circular-support counterexample, an exact local recomputation proof and a structural alternative using prior incarnations.
+
 - [When can Work Unit containment express managerial authority?](Authority-without-containment.md) characterizes single-subtree scope policies, bounds the cost of using multiple subtrees, and checks a direct policy with independent cross-cutting vetoes.
 - [Which withdrawals must still work after a Work Unit moves?](Reparenting-and-surviving-withdrawals.md) distinguishes point-in-time scope from retained withdrawal power and derives the greatest safe policy under partial visibility.
 - [When can sealed Work Units change parents independently?](Concurrent-moves-of-sealed-Work-Units.md) gives an exact compressed check for every mixture of parent edits and a constructive safe serial schedule when the target containment tree is valid.
@@ -50,9 +54,12 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Decision cost and trusted evidence
 
+- [When can a transferred Work Unit allowance be reclaimed?](Transferring-and-reclaiming-resource-allowances.md) gives a conservation proof, a lost-acknowledgment limit and a rollback obligation for dynamic rights transfer.
 - [Which capacity promises can disconnected Work Units honor together?](Disconnected-resource-allowances.md) derives an exact check for fixed independent allowances under shared linear budgets and identifies a limit on definitive global denials.
 - [How much shared headroom can a Work Unit keep private?](Privacy-and-shared-capacity.md) proves a reply-level conflict between exact pooled admission and concealment, and characterizes the minimum disclosure for bounded underuse.
 - [Which observations must be revalidated at commitment?](Minimum-revalidation-at-commit.md) derives sufficient commit-time observations from possible interference, with decision-table checks for the local owner and an adaptive-read lower bound.
+- [When does a safe recovery choice preserve future progress?](Recovery-as-repeated-decisions.md) gives an exact repeated-decision criterion and a counterexample to reusing one-shot safety.
+- [How much recovery evidence is needed when several outcomes are legal?](Recovery-with-several-legal-outcomes.md) extends exact-answer coloring to alternative outcomes and states when pairwise checks remain complete.
 - [How much currentness evidence must survive a Work Unit rollback?](How-much-currentness-must-survive.md) gives matching stamp encodings and lower bounds for whole, per-owner and block recovery with authentic ancestral candidates.
 - [Can a progress stamp reconstruct which prepared Work Unit updates committed?](Reconstructing-a-cut-from-prepared-updates.md) counts indistinguishable committed cuts under partial order and exhibits two different acknowledgments with identical recovered SQLite files.
 - [Can an online owner maintain the minimum recovery stamp?](Maintaining-a-recovery-stamp-online.md) proves that replayable cumulative updates can force full version-vector state behind a much smaller validation result.
