@@ -19,6 +19,7 @@ The owner experiments give executable witnesses for local handover, content cont
 - [Which gates must fence a handover?](Which-gates-must-fence.md) gives a certificate for barriers on partially completed writes, a selection complexity bound, and controls for cached approvals.
 - [Changing the set of resource owners at handover](Changing-the-set-of-resource-owners.md) extends the arbitrary-member proof to joins and removals, including delayed activation at an owner that never opened.
 - [Aborting a handover without reviving obsolete votes](Abortable-handover-and-catch-up.md) proves abort and direct catch-up first for fixed membership, then for a changing voter set, including a counterexample to simply conjoining the two prior invariants.
+- [Which resource owners must a recovered selector fence?](Fencing-after-membership-rollback.md) proves an observation limit under rollback and gives an admission-closure alternative to exact membership recovery.
 - [When is an earlier gate snapshot safe to resume?](Recovering-a-gate-with-votes-in-flight.md) derives an exact recovery threshold for one genuine gate rollback with old summaries and escaped votes still deliverable.
 
 ### Accepted contents, retries and observations
