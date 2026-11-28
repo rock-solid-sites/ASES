@@ -24,6 +24,8 @@ The owner experiments give executable witnesses for local handover, content cont
 
 ### Accepted contents, retries and observations
 
+- [What does the native owner actually acknowledge?](Native-acceptance-and-recovery-boundaries.md) maps the protected-witness question onto the pinned native source and identifies where exact retry, F3 currentness and W5/W6 diverge.
+
 - [A local owner witness for activation, replacement and replay](Local-owner-admission-and-replay.md) exercises W5/W6-shaped local histories at process-loss cuts on either side of the actual append commit.
 - [What a receipt reveals across Work Unit scopes](What-a-receipt-reveals.md) tests reply-level isolation in the local owner and checks scope-relative receipts across the same crash windows.
 - [What must survive replacement to answer an old retry?](Receipt-retention-after-replacement.md) counts distinguishable histories with identical application bytes and verifies conditional reclamation under a prefix-release contract.
