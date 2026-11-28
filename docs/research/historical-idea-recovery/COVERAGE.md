@@ -246,3 +246,7 @@ Three complete legacy projections (82 turns, 6,642 lines) reconciled. Full seman
 ### R39 — Prime Agent comparison, Gas Town discussion, Deployment
 
 Three legacy identities reconciled (94 turns/9,128 projection lines). Two complete semantic reads (76 turns/6,195 lines), plus Deployment's 18 turns/2,933 lines verified node-for-node and body-for-body equal to the already-read opening of Methodology Research; not independent evidence. Full semantic identity coverage **73/256** (37 compact,36 legacy); mechanically screened 256/256; 19 metadata-only; zero local coding sessions. Register 87 unchanged. Gas Town classification prompt and answer match surviving repository texts after formatting normalization; other reviews not independently reread here.
+
+### R40 — VSDD CLI
+
+- One complete legacy conversation: 91 turns, 3,831 projection lines. Full semantic identity coverage now **74/256 (37 compact, 37 legacy)**; all 256 searchable identities mechanically screened, 19 metadata-only. Register remains 87. Historical archaeology and follow-up surgical-read reports survive; the latter qualifies the former's source-point recommendation. No current donor runtime was tested.
