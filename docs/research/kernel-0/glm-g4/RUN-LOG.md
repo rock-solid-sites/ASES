@@ -83,15 +83,22 @@ Status markers used below: **D** = demonstrated (executable or deductive within 
 **Bounded coverage.** Verified configurations: one gate with attempts ≤ 3
 (700 phase-one states, 7,586 image records, 6,769 restored runs per rule) and
 two gates with attempts ≤ 2 (526 states, 4,796 records, 4,219 runs). A third
-breadth configuration (three gates, attempts ≤ 2) was attempted and **failed
-mechanically**: the process died silently at 2m30s with no output, consistent
-with an out-of-memory kill during the phase-one image fixpoint on this 2-core/8
-GB Codespace (the script's first print follows the fixpoint, so buffered output
-was lost). This is a coverage limitation of the executed evidence, not of the
-claims; the two smaller configurations carry all published results. A machine
-with more memory should re-run `selector_rollback_recovery.py 3 2 4` before
-trusting the invariant counts at three gates. Not retried in the extension
-window per supervision direction.
+breadth configuration (three gates, attempts ≤ 2) was attempted and **stopped
+silently at 2m30s with no program output**; the only captured line was a
+completed timing report, consistent with normal termination and lost stdout.
+The stop is **unattributed**: the host shows no kernel OOM-kill events
+(cgroup `oom_kill=0`) at any point, so the earlier "consistent with an
+out-of-memory kill" attribution was wrong and is retracted. A supervisor
+rerun of the same configuration reached roughly 7 GB RSS within about three
+minutes before being stopped deliberately, again with no OOM kill, so
+near-limit memory use on this 2-core/8 GB Codespace is plausible but not
+verified. Classification: **unattributed silent stop / probable memory-bound
+limitation, explicitly unverified**. This is a coverage limitation of the
+executed evidence, not of the claims; the two smaller configurations carry
+all published results. A larger host should re-run
+`selector_rollback_recovery.py 3 2 4` before trusting the invariant counts
+at three gates. Not retried in the extension window per supervision
+direction.
 
 **Artifacts produced (all under `docs/research/kernel-0/glm-g4/` on main).**
 
