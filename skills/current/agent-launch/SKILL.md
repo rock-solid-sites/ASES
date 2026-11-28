@@ -1,6 +1,6 @@
 ---
 name: agent-launch
-version: 1.0.7
+version: 1.0.8
 description: Resolve and verify ASES agent execution routes across GitHub Actions, Codespaces, Modal, and authorized model providers before launching.
 status: current
 ---
@@ -47,5 +47,7 @@ These categories are **independent dimensions, not exclusive provider labels**. 
 For independent reviews, use `skills/current/review-launch/SKILL.md` and the current `ases-plugins` reviewer recipe. GitHub Actions is proven for short, bounded one-shot reviews; Codespaces/Modal are candidates for deep investigations, with workload-specific readiness to verify.
 
 The old IT3812/VPS and Crosslink environment mentioned in `docs/methodology/Agent Model Launch Routes.md` is **historical** and must not be assumed connected or executable. Use that document only for model-provider compatibility details explicitly corroborated in current runs. Phoenix Grove reviewer routes and credentials are documented separately; a successful prior test establishes feasibility, while each new PGS2 review needs explicit scoped authorization and limits **independent of the Go/free-Zen restriction**.
+
+**Result intake:** Apply [model capability evidence intake](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#model-capability-evidence-intake) at each material agent-result checkpoint, including failures and partial returns. Preserve observed model/route/task attribution and verified registry receipt or explicit pending intake; this is not a claim that the launcher enforces the gate mechanically.
 
 Check the actual connected tools before claiming a remote launch can happen. Prefer the smallest approved test. On missing tool, route, account, secret or authorisation, report the precise blocker; no silent fallback. During execution, commit/push and verify recoverable remote checkpoints; verify retained outputs at their intended final destination before reporting delivery. Validate progress rather than treating a live process as proof of work.
