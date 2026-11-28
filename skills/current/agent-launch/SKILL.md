@@ -1,6 +1,6 @@
 ---
 name: agent-launch
-version: 1.0.8
+version: 1.0.9
 description: Resolve and verify ASES agent execution routes across GitHub Actions, Codespaces, Modal, and authorized model providers before launching.
 status: current
 ---
@@ -31,6 +31,8 @@ Resolve **controller**, **execution host**, **launcher**, **target provider/mode
 These categories are **independent dimensions, not exclusive provider labels**. A provider can simultaneously offer a subscription, a prepaid wallet, free credits and zero-price models; the same model can be charged differently across accounts, gateways or routes. An API key, catalog listing or advertised free tier does not establish which funding pool a request will debit. For mixed funding, name the **one intended funding source**, verify priority and overflow behavior, and forbid automatic substitution between pools. Record unknown billing as unknown, never as zero. Other execution costs (Actions minutes, cloud compute, storage) remain separate meters.
 
 **Examples requiring account-specific verification:** NVIDIA hosted NIM developer/prototyping access may be free but has eligibility and limits; OpenRouter has both a paid API-credit wallet and separately designated free-model variants; Vercel AI Gateway has free-credit and purchased-credit tiers with model eligibility differences. None of these examples confirms this user's current balance, exact model entitlement or permission to incur charges. See `docs/research/Resource Solver Specification Reconciliation 2026-11-02.md` §§2–4 and `research/provider-registry/known_accounts_v1.json` for the existing **experimental**, account-scoped source and historical registration claims; do not create a second account registry or misrepresent historical balances as live.
+
+**Experimental dispatch:** For a new decision-oriented or exploratory experiment, verify admission under the [canonical experiment and decision admission procedure](../../../docs/methodology/ASES%20Task-Scoped%20Information%20and%20Handoff%20Method.md#experiment-and-decision-admission) before invoking any model or external executor. This does not replace the exact route, account, permission, funding and budget gates below or require a separate admission review for routine authorized engineering checks. The experimental predicate is not a permit or deployed boundary.
 
 **Compact caller-side launch declaration:** `host | exact provider/model/endpoint | account or approved route | funding_mode | verified balance/allowance + as-of | maximum authorized use/spend | overflow/top-up/fallback: disabled | evidence destination`. The model/provider route and funding mode must both be verified; a user may approve a bounded purchased-credit or promotional-credit use, while an unknown or unauthorized chargeable route must stop. Declaring a model "free" is not a substitute for checking its actual provider-specific meters.
 
