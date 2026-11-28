@@ -1,0 +1,3573 @@
+{
+  "cases": {
+    "R0": {
+      "accepted_event": {
+        "accepted_under_version": 1,
+        "admission": {
+          "authorization_point": "local-journal-append",
+          "descendant": "D",
+          "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+          "epoch": 2,
+          "import_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+          "l5": {
+            "selector": "record-000005.json",
+            "sha256": "1238ac6b722781b07b63fa8ac8e15e7cfba70a559d6134abf20328b84321e946"
+          },
+          "native_registration": true,
+          "pair_sha256": "95c848bd2da684fcbaa314bcb07648f0f92816bfd3eefa9c3b58c05504b9e2b8",
+          "presented_l5": {
+            "selector": "record-000004.json",
+            "sha256": "442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a"
+          },
+          "profile": "native-f3-owner-v1"
+        },
+        "check_mode": "managed-use-current",
+        "event": "effect_accepted",
+        "payload": "{\"epoch\":2,\"import_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback\"}",
+        "payload_sha256": "e185a98dbb285e595070cfe45dcd4806938f93320466070121ba20bd9f3b1567",
+        "position": "p",
+        "presented_version": 1,
+        "profile": "flat-managed-v1",
+        "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+        "seq": 4,
+        "unit": "C"
+      },
+      "classification": "OBSERVED",
+      "cold_ready": {
+        "port": 0,
+        "profile": "flat-managed-v1",
+        "ready": true
+      },
+      "final_sink_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "recover",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-1bf3f3c1338c404caeee9cf737205bb0",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1804145420555,
+        "frames": [
+          {
+            "ns": 1804071838462,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wm430uzd/sink-cold.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2793,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5534,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1803919907186,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-wm430uzd/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2781,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "inventory_identity": {
+        "dev": 34,
+        "ino": 2762
+      },
+      "journal_after_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+      "journal_before_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+      "original": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3162663366336331333338633430346361656565396366373337323035626230222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202231323338616336623732323738316230376236336661386163386531356537636662613730613535396436313334616266323033323862383433323165393436227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202234343265313462303266386631343939356436376163666238663632363433323133366563616539666539656538396138656334323261313732373065343261227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22343432653134623032663866313439393564363761636662386636323634333231333665636165396665396565383961386563343232613137323730653432615c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202265313835613938646262323835653539353037306366653435646364343830363933386639333332303436363037303132316261323062643966336231353637222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a",
+          "sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef",
+          "size": 438
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback\"}",
+          "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "authority_version": 1,
+            "event_seq": 4,
+            "outcome": "accepted",
+            "owner_effect": {
+              "event_seq": 4,
+              "replayed": false,
+              "status": "published"
+            },
+            "published_journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+            "published_revision": 5
+          },
+          "raw": "{\"authority_version\":1,\"event_seq\":4,\"outcome\":\"accepted\",\"owner_effect\":{\"event_seq\":4,\"replayed\":false,\"status\":\"published\"},\"published_journal_sha256\":\"7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4\",\"published_revision\":5}",
+          "status": 201
+        }
+      },
+      "original_owner": {
+        "generation": {
+          "selector": "record-000007.json",
+          "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2772,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1803828267409,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000007.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2778
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2779
+                  ],
+                  "path": "/tmp/a4u-wm430uzd/witness.sock"
+                },
+                "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2761
+              ],
+              "root": [
+                34,
+                2760
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "effects": {
+              "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback": {
+                "payload_sha256": "e185a98dbb285e595070cfe45dcd4806938f93320466070121ba20bd9f3b1567",
+                "receipt": {
+                  "journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+                  "nonce": "e7a485ece53a6279b67b71aea1a39ad4",
+                  "revision": 5,
+                  "root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "inventory": {
+              "identity": [
+                34,
+                2762
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2778
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2779
+                ],
+                "path": "/tmp/a4u-wm430uzd/witness.sock"
+              },
+              "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f1/store.sqlite",
+              "identity": [
+                34,
+                2753
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_after": {
+        "generation": {
+          "selector": "record-000007.json",
+          "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2772,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1804132666146,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000007.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2778
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2779
+                  ],
+                  "path": "/tmp/a4u-wm430uzd/witness.sock"
+                },
+                "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2761
+              ],
+              "root": [
+                34,
+                2760
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "effects": {
+              "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback": {
+                "payload_sha256": "e185a98dbb285e595070cfe45dcd4806938f93320466070121ba20bd9f3b1567",
+                "receipt": {
+                  "journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+                  "nonce": "e7a485ece53a6279b67b71aea1a39ad4",
+                  "revision": 5,
+                  "root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "inventory": {
+              "identity": [
+                34,
+                2762
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2778
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2779
+                ],
+                "path": "/tmp/a4u-wm430uzd/witness.sock"
+              },
+              "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f1/store.sqlite",
+              "identity": [
+                34,
+                2753
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_identity": {
+        "dev": 34,
+        "ino": 2760
+      },
+      "owner_local": {
+        "selector": "record-000006.json",
+        "sha256": "c1fb11193c66f8b2de1e52c236c0844d156f29e076266d1d69f697a0f815ec83"
+      },
+      "pre_reservation": {
+        "selector": "record-000004.json",
+        "sha256": "442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a"
+      },
+      "restored_owner": {
+        "generation": {
+          "selector": "record-000007.json",
+          "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2772,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1803900065081,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000007.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2778
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2779
+                  ],
+                  "path": "/tmp/a4u-wm430uzd/witness.sock"
+                },
+                "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2761
+              ],
+              "root": [
+                34,
+                2760
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "effects": {
+              "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback": {
+                "payload_sha256": "e185a98dbb285e595070cfe45dcd4806938f93320466070121ba20bd9f3b1567",
+                "receipt": {
+                  "journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+                  "nonce": "e7a485ece53a6279b67b71aea1a39ad4",
+                  "revision": 5,
+                  "root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-1bf3f3c1338c404caeee9cf737205bb0",
+            "inventory": {
+              "identity": [
+                34,
+                2762
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2778
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2779
+                ],
+                "path": "/tmp/a4u-wm430uzd/witness.sock"
+              },
+              "witness_root": "domain-1bf3f3c1338c404caeee9cf737205bb0"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R0/f1/store.sqlite",
+              "identity": [
+                34,
+                2753
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-1bf3f3c1338c404caeee9cf737205bb0:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "retained_after": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2753,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2764,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2772,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2768,
+          "sha256": "6469d5fd09c41c94571ee27c602bc764fe6515e478465a741f6dc99fd417fdf8"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2774,
+          "sha256": "4b31823bbb698d8b09db73eda89f218966290d9e37d2a83ab5caf13fdcd6fcea"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2776,
+          "sha256": "271d2da8ad1657bafa978c76391e0b4a195de1e88aa031bac003974c43831f37"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2782,
+          "sha256": "442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2787,
+          "sha256": "1238ac6b722781b07b63fa8ac8e15e7cfba70a559d6134abf20328b84321e946"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2789,
+          "sha256": "c1fb11193c66f8b2de1e52c236c0844d156f29e076266d1d69f697a0f815ec83"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2791,
+          "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+        }
+      },
+      "retained_before": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2753,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2764,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2772,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2768,
+          "sha256": "6469d5fd09c41c94571ee27c602bc764fe6515e478465a741f6dc99fd417fdf8"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2774,
+          "sha256": "4b31823bbb698d8b09db73eda89f218966290d9e37d2a83ab5caf13fdcd6fcea"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2776,
+          "sha256": "271d2da8ad1657bafa978c76391e0b4a195de1e88aa031bac003974c43831f37"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2782,
+          "sha256": "442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2787,
+          "sha256": "1238ac6b722781b07b63fa8ac8e15e7cfba70a559d6134abf20328b84321e946"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2789,
+          "sha256": "c1fb11193c66f8b2de1e52c236c0844d156f29e076266d1d69f697a0f815ec83"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2791,
+          "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+        }
+      },
+      "retry": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3162663366336331333338633430346361656565396366373337323035626230222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202231323338616336623732323738316230376236336661386163386531356537636662613730613535396436313334616266323033323862383433323165393436227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202234343265313462303266386631343939356436376163666238663632363433323133366563616539666539656538396138656334323261313732373065343261227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22343432653134623032663866313439393564363761636662386636323634333231333665636165396665396565383961386563343232613137323730653432615c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202265313835613938646262323835653539353037306366653435646364343830363933386639333332303436363037303132316261323062643966336231353637222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3162663366336331333338633430346361656565396366373337323035626230222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202231323338616336623732323738316230376236336661386163386531356537636662613730613535396436313334616266323033323862383433323165393436227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202234343265313462303266386631343939356436376163666238663632363433323133366563616539666539656538396138656334323261313732373065343261227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22343432653134623032663866313439393564363761636662386636323634333231333665636165396665396565383961386563343232613137323730653432615c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202265313835613938646262323835653539353037306366653435646364343830363933386639333332303436363037303132316261323062643966336231353637222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d31626633663363313333386334303463616565653963663733373230356262303a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+          "size": 1939
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"442e14b02f8f14995d67acfb8f626432136ecae9fe9ee89a8ec422a17270e42a\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback\"}",
+          "request_id": "domain-1bf3f3c1338c404caeee9cf737205bb0:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "accepted_authority_version": 1,
+            "event_seq": 4,
+            "outcome": "already-accepted",
+            "owner_effect": {
+              "event_seq": 4,
+              "replayed": true,
+              "status": "published"
+            },
+            "verified_journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4",
+            "verified_revision": 5
+          },
+          "raw": "{\"accepted_authority_version\":1,\"event_seq\":4,\"outcome\":\"already-accepted\",\"owner_effect\":{\"event_seq\":4,\"replayed\":true,\"status\":\"published\"},\"verified_journal_sha256\":\"7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4\",\"verified_revision\":5}",
+          "status": 200
+        }
+      },
+      "selected": {
+        "selector": "record-000007.json",
+        "sha256": "4defa9fce2990e1559d08f762373cb318852e7aa561101920c614a4c08ec6c29"
+      },
+      "stopped_original_sink": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "fresh",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-1bf3f3c1338c404caeee9cf737205bb0",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R0/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1803841556052,
+        "frames": [
+          {
+            "ns": 1803662322964,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wm430uzd/sink.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2785,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5514,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1803507584857,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-wm430uzd/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2781,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "witness_after": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4"
+        },
+        "pid": 5512,
+        "revision": 5
+      },
+      "witness_before": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "7220b2e34389661678f09482c5799492405038bd5f123914a6427a98e6c687a4"
+        },
+        "pid": 5512,
+        "revision": 5
+      },
+      "witness_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--witness",
+          "domain-1bf3f3c1338c404caeee9cf737205bb0"
+        ],
+        "exit": -9,
+        "exit_ns": 1804146568851,
+        "frames": [
+          {
+            "ns": 1803505619807,
+            "raw": "{\"ready\": true, \"port\": 0, \"pid\": 5512}\n",
+            "value": {
+              "pid": 5512,
+              "port": 0,
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wm430uzd/witness.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2781,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5512,
+        "ready": {
+          "pid": 5512,
+          "port": 0,
+          "ready": true
+        },
+        "start_ns": 1803371745373,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": null
+      }
+    },
+    "R1": {
+      "accepted_event": {
+        "accepted_under_version": 1,
+        "admission": {
+          "authorization_point": "local-journal-append",
+          "descendant": "D",
+          "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+          "epoch": 2,
+          "import_id": "domain-60222cf5319443a9a274684cee98be33:1",
+          "l5": {
+            "selector": "record-000005.json",
+            "sha256": "c60c50c023b841a053f28f889d20a96e8f1315fa6b7133d47be2e38a220b6992"
+          },
+          "native_registration": true,
+          "pair_sha256": "95c848bd2da684fcbaa314bcb07648f0f92816bfd3eefa9c3b58c05504b9e2b8",
+          "presented_l5": {
+            "selector": "record-000004.json",
+            "sha256": "0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75"
+          },
+          "profile": "native-f3-owner-v1"
+        },
+        "check_mode": "managed-use-current",
+        "event": "effect_accepted",
+        "payload": "{\"epoch\":2,\"import_id\":\"domain-60222cf5319443a9a274684cee98be33:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-60222cf5319443a9a274684cee98be33:selection-rollback\"}",
+        "payload_sha256": "c69a20b4732bbf87d1bf22b38976b7289d6c4692d4bc96d36ebacad232d059a1",
+        "position": "p",
+        "presented_version": 1,
+        "profile": "flat-managed-v1",
+        "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+        "seq": 4,
+        "unit": "C"
+      },
+      "classification": "OBSERVED",
+      "cold_ready": {
+        "port": 0,
+        "profile": "flat-managed-v1",
+        "ready": true
+      },
+      "final_sink_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "recover",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-60222cf5319443a9a274684cee98be33",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1805262360012,
+        "frames": [
+          {
+            "ns": 1805189837926,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-p6ncaq38/sink-cold.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2837,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5571,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1805040937989,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-p6ncaq38/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2825,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "inventory_identity": {
+        "dev": 34,
+        "ino": 2806
+      },
+      "journal_after_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+      "journal_before_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+      "original": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3630323232636635333139343433613961323734363834636565393862653333222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202263363063353063303233623834316130353366323866383839643230613936653866313331356661366237313333643437626532653338613232306236393932227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202230646232353262316135346362376238616333663931623939643938626238316438663931666630393735633635333937333331393863626661643335623735227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22306462323532623161353463623762386163336639316239396439386262383164386639316666303937356336353339373333313938636266616433356237355c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202263363961323062343733326262663837643162663232623338393736623732383964366334363932643462633936643336656261636164323332643035396131222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a",
+          "sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef",
+          "size": 438
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-60222cf5319443a9a274684cee98be33:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-60222cf5319443a9a274684cee98be33:selection-rollback\"}",
+          "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "authority_version": 1,
+            "event_seq": 4,
+            "outcome": "accepted",
+            "owner_effect": {
+              "event_seq": 4,
+              "replayed": false,
+              "status": "published"
+            },
+            "published_journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+            "published_revision": 5
+          },
+          "raw": "{\"authority_version\":1,\"event_seq\":4,\"outcome\":\"accepted\",\"owner_effect\":{\"event_seq\":4,\"replayed\":false,\"status\":\"published\"},\"published_journal_sha256\":\"ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af\",\"published_revision\":5}",
+          "status": 201
+        }
+      },
+      "original_owner": {
+        "generation": {
+          "selector": "record-000007.json",
+          "sha256": "b3d8d00538bc7630babb1f38df85c254b4253d5df26deb600991dc64bead08e1"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2816,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1804931357707,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000007.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-60222cf5319443a9a274684cee98be33:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2822
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2823
+                  ],
+                  "path": "/tmp/a4u-p6ncaq38/witness.sock"
+                },
+                "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2805
+              ],
+              "root": [
+                34,
+                2804
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+            "effects": {
+              "domain-60222cf5319443a9a274684cee98be33:selection-rollback": {
+                "payload_sha256": "c69a20b4732bbf87d1bf22b38976b7289d6c4692d4bc96d36ebacad232d059a1",
+                "receipt": {
+                  "journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+                  "nonce": "6d80afb46b264ba75c7526ae340a5118",
+                  "revision": 5,
+                  "root": "domain-60222cf5319443a9a274684cee98be33"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-60222cf5319443a9a274684cee98be33",
+            "inventory": {
+              "identity": [
+                34,
+                2806
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-60222cf5319443a9a274684cee98be33:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-60222cf5319443a9a274684cee98be33:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2822
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2823
+                ],
+                "path": "/tmp/a4u-p6ncaq38/witness.sock"
+              },
+              "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f1/store.sqlite",
+              "identity": [
+                34,
+                2797
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_after": {
+        "generation": {
+          "selector": "record-000008.json",
+          "sha256": "a81dad2b60119795d0df735c2defe04b9f546cadf5c6e19264f7426aab7aaad9"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2816,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1805249613654,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000008.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-60222cf5319443a9a274684cee98be33:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2822
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2823
+                  ],
+                  "path": "/tmp/a4u-p6ncaq38/witness.sock"
+                },
+                "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2805
+              ],
+              "root": [
+                34,
+                2804
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+            "effects": {
+              "domain-60222cf5319443a9a274684cee98be33:selection-rollback": {
+                "payload_sha256": "c69a20b4732bbf87d1bf22b38976b7289d6c4692d4bc96d36ebacad232d059a1",
+                "receipt": {
+                  "journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+                  "nonce": "800421db5b1782bd720bfefd364d2ae6",
+                  "revision": 5,
+                  "root": "domain-60222cf5319443a9a274684cee98be33"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-60222cf5319443a9a274684cee98be33",
+            "inventory": {
+              "identity": [
+                34,
+                2806
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-60222cf5319443a9a274684cee98be33:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-60222cf5319443a9a274684cee98be33:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2822
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2823
+                ],
+                "path": "/tmp/a4u-p6ncaq38/witness.sock"
+              },
+              "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f1/store.sqlite",
+              "identity": [
+                34,
+                2797
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_identity": {
+        "dev": 34,
+        "ino": 2804
+      },
+      "owner_local": {
+        "selector": "record-000006.json",
+        "sha256": "e47225758a990c1b6dd4ea892a6298eb1756f5bb575d0049e9e6eb28c7f2cc9d"
+      },
+      "pre_reservation": {
+        "selector": "record-000004.json",
+        "sha256": "0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75"
+      },
+      "restored_owner": {
+        "generation": {
+          "selector": "record-000006.json",
+          "sha256": "e47225758a990c1b6dd4ea892a6298eb1756f5bb575d0049e9e6eb28c7f2cc9d"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2816,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1805020665629,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000006.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-60222cf5319443a9a274684cee98be33:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2822
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2823
+                  ],
+                  "path": "/tmp/a4u-p6ncaq38/witness.sock"
+                },
+                "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2805
+              ],
+              "root": [
+                34,
+                2804
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-60222cf5319443a9a274684cee98be33",
+            "effects": {
+              "domain-60222cf5319443a9a274684cee98be33:selection-rollback": {
+                "payload_sha256": "c69a20b4732bbf87d1bf22b38976b7289d6c4692d4bc96d36ebacad232d059a1",
+                "seq": 4,
+                "status": "local"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-60222cf5319443a9a274684cee98be33",
+            "inventory": {
+              "identity": [
+                34,
+                2806
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-60222cf5319443a9a274684cee98be33:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-60222cf5319443a9a274684cee98be33:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2822
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2823
+                ],
+                "path": "/tmp/a4u-p6ncaq38/witness.sock"
+              },
+              "witness_root": "domain-60222cf5319443a9a274684cee98be33"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R1/f1/store.sqlite",
+              "identity": [
+                34,
+                2797
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-60222cf5319443a9a274684cee98be33:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "retained_after": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2797,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2808,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2816,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2812,
+          "sha256": "600b42deb0cc4d4dd662532925985a5fd49fbadb932ebf926b3b7935eedcb8f7"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2818,
+          "sha256": "da8b012971cd91c613a3840b98f2d02c2797ccc627d2fce72661bf5a26cc52c0"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2820,
+          "sha256": "840abe3b14d7f5c71f7e3563b5f627d8bf9ec528db6a7c8f55107059cdc20ad4"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2826,
+          "sha256": "0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2831,
+          "sha256": "c60c50c023b841a053f28f889d20a96e8f1315fa6b7133d47be2e38a220b6992"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2833,
+          "sha256": "e47225758a990c1b6dd4ea892a6298eb1756f5bb575d0049e9e6eb28c7f2cc9d"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2835,
+          "sha256": "b3d8d00538bc7630babb1f38df85c254b4253d5df26deb600991dc64bead08e1"
+        },
+        "owner/protected/record-000008.json": {
+          "dev": 34,
+          "ino": 2838,
+          "sha256": "a81dad2b60119795d0df735c2defe04b9f546cadf5c6e19264f7426aab7aaad9"
+        }
+      },
+      "retained_before": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2797,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2808,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2816,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2812,
+          "sha256": "600b42deb0cc4d4dd662532925985a5fd49fbadb932ebf926b3b7935eedcb8f7"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2818,
+          "sha256": "da8b012971cd91c613a3840b98f2d02c2797ccc627d2fce72661bf5a26cc52c0"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2820,
+          "sha256": "840abe3b14d7f5c71f7e3563b5f627d8bf9ec528db6a7c8f55107059cdc20ad4"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2826,
+          "sha256": "0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2831,
+          "sha256": "c60c50c023b841a053f28f889d20a96e8f1315fa6b7133d47be2e38a220b6992"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2833,
+          "sha256": "e47225758a990c1b6dd4ea892a6298eb1756f5bb575d0049e9e6eb28c7f2cc9d"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2835,
+          "sha256": "b3d8d00538bc7630babb1f38df85c254b4253d5df26deb600991dc64bead08e1"
+        }
+      },
+      "retry": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3630323232636635333139343433613961323734363834636565393862653333222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202263363063353063303233623834316130353366323866383839643230613936653866313331356661366237313333643437626532653338613232306236393932227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202230646232353262316135346362376238616333663931623939643938626238316438663931666630393735633635333937333331393863626661643335623735227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22306462323532623161353463623762386163336639316239396439386262383164386639316666303937356336353339373333313938636266616433356237355c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202263363961323062343733326262663837643162663232623338393736623732383964366334363932643462633936643336656261636164323332643035396131222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d3630323232636635333139343433613961323734363834636565393862653333222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202263363063353063303233623834316130353366323866383839643230613936653866313331356661366237313333643437626532653338613232306236393932227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202230646232353262316135346362376238616333663931623939643938626238316438663931666630393735633635333937333331393863626661643335623735227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22306462323532623161353463623762386163336639316239396439386262383164386639316666303937356336353339373333313938636266616433356237355c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202263363961323062343733326262663837643162663232623338393736623732383964366334363932643462633936643336656261636164323332643035396131222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d36303232326366353331393434336139613237343638346365653938626533333a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+          "size": 1939
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-60222cf5319443a9a274684cee98be33:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"0db252b1a54cb7b8ac3f91b99d98bb81d8f91ff0975c6539733198cbfad35b75\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-60222cf5319443a9a274684cee98be33:selection-rollback\"}",
+          "request_id": "domain-60222cf5319443a9a274684cee98be33:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "accepted_authority_version": 1,
+            "event_seq": 4,
+            "outcome": "already-accepted",
+            "owner_effect": {
+              "event_seq": 4,
+              "replayed": false,
+              "status": "published"
+            },
+            "verified_journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af",
+            "verified_revision": 5
+          },
+          "raw": "{\"accepted_authority_version\":1,\"event_seq\":4,\"outcome\":\"already-accepted\",\"owner_effect\":{\"event_seq\":4,\"replayed\":false,\"status\":\"published\"},\"verified_journal_sha256\":\"ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af\",\"verified_revision\":5}",
+          "status": 200
+        }
+      },
+      "selected": {
+        "selector": "record-000006.json",
+        "sha256": "e47225758a990c1b6dd4ea892a6298eb1756f5bb575d0049e9e6eb28c7f2cc9d"
+      },
+      "stopped_original_sink": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "fresh",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-60222cf5319443a9a274684cee98be33",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R1/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1804944882148,
+        "frames": [
+          {
+            "ns": 1804769894910,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-p6ncaq38/sink.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2829,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5551,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1804646194504,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-p6ncaq38/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2825,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "witness_after": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af"
+        },
+        "pid": 5549,
+        "revision": 5
+      },
+      "witness_before": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "ca8837786e5e3337fe32e3e4b55aa19dc7540a12b70707126194d04ce7d726af"
+        },
+        "pid": 5549,
+        "revision": 5
+      },
+      "witness_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--witness",
+          "domain-60222cf5319443a9a274684cee98be33"
+        ],
+        "exit": -9,
+        "exit_ns": 1805263107482,
+        "frames": [
+          {
+            "ns": 1804644665230,
+            "raw": "{\"ready\": true, \"port\": 0, \"pid\": 5549}\n",
+            "value": {
+              "pid": 5549,
+              "port": 0,
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-p6ncaq38/witness.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2825,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5549,
+        "ready": {
+          "pid": 5549,
+          "port": 0,
+          "ready": true
+        },
+        "start_ns": 1804505755097,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": null
+      }
+    },
+    "R2": {
+      "accepted_event": {
+        "accepted_under_version": 1,
+        "admission": {
+          "authorization_point": "local-journal-append",
+          "descendant": "D",
+          "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+          "epoch": 2,
+          "import_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+          "l5": {
+            "selector": "record-000005.json",
+            "sha256": "4d4778aab2d872bc85124848a1b00b775bb7e5c92cbbda32f7daf8a93ca1d7f0"
+          },
+          "native_registration": true,
+          "pair_sha256": "95c848bd2da684fcbaa314bcb07648f0f92816bfd3eefa9c3b58c05504b9e2b8",
+          "presented_l5": {
+            "selector": "record-000004.json",
+            "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+          },
+          "profile": "native-f3-owner-v1"
+        },
+        "check_mode": "managed-use-current",
+        "event": "effect_accepted",
+        "payload": "{\"epoch\":2,\"import_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback\"}",
+        "payload_sha256": "bea192b1ee27d017b43feed4b85540881d3fad741846c4c75ad3a08ec437a592",
+        "position": "p",
+        "presented_version": 1,
+        "profile": "flat-managed-v1",
+        "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback",
+        "seq": 4,
+        "unit": "C"
+      },
+      "classification": "OBSERVED",
+      "cold_ready": {
+        "port": 0,
+        "profile": "flat-managed-v1",
+        "ready": true
+      },
+      "final_sink_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "recover",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1806350202035,
+        "frames": [
+          {
+            "ns": 1806267385199,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wtz8s9eb/sink-cold.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2882,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5608,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1806146492194,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-wtz8s9eb/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2870,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "inventory_identity": {
+        "dev": 34,
+        "ino": 2851
+      },
+      "journal_after_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+      "journal_before_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+      "original": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d6433373435663661386135633434663738313333623833666339656335656539222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202234643437373861616232643837326263383531323438343861316230306237373562623765356339326362626461333266376461663861393363613164376630227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202266613963366530363663653730633439613530343131303066363830363032373731653134336564313933393631326166316566626238303235333534633930227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22666139633665303636636537306334396135303431313030663638303630323737316531343365643139333936313261663165666262383032353335346339305c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202262656131393262316565323764303137623433666565643462383535343038383164336661643734313834366334633735616433613038656334333761353932222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a",
+          "sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef",
+          "size": 438
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback\"}",
+          "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "authority_version": 1,
+            "event_seq": 4,
+            "outcome": "accepted",
+            "owner_effect": {
+              "event_seq": 4,
+              "replayed": false,
+              "status": "published"
+            },
+            "published_journal_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+            "published_revision": 5
+          },
+          "raw": "{\"authority_version\":1,\"event_seq\":4,\"outcome\":\"accepted\",\"owner_effect\":{\"event_seq\":4,\"replayed\":false,\"status\":\"published\"},\"published_journal_sha256\":\"18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a\",\"published_revision\":5}",
+          "status": 201
+        }
+      },
+      "original_owner": {
+        "generation": {
+          "selector": "record-000007.json",
+          "sha256": "d12b7e713e749924ae6e35cef66555a5998d6ca01675d0f68f4a9a3fb88db899"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2861,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1806065363307,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000007.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2867
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2868
+                  ],
+                  "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+                },
+                "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+              },
+              "op": "native-attach-f4-sink"
+            },
+            {
+              "op": "native-effect-reserved",
+              "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback"
+            },
+            {
+              "op": "native-effect-locally-accepted",
+              "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback",
+              "seq": 4
+            },
+            {
+              "op": "native-effect-published",
+              "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback",
+              "seq": 4
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2850
+              ],
+              "root": [
+                34,
+                2849
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "effects": {
+              "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback": {
+                "payload_sha256": "bea192b1ee27d017b43feed4b85540881d3fad741846c4c75ad3a08ec437a592",
+                "receipt": {
+                  "journal_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+                  "nonce": "43f08846bff8fdb2ce258687e99087df",
+                  "revision": 5,
+                  "root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+                },
+                "seq": 4,
+                "status": "published"
+              }
+            },
+            "epoch": 2,
+            "genesis": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "inventory": {
+              "identity": [
+                34,
+                2851
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2867
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2868
+                ],
+                "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+              },
+              "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f1/store.sqlite",
+              "identity": [
+                34,
+                2842
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_after": {
+        "generation": {
+          "selector": "record-000004.json",
+          "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2861,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1806328842116,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000004.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2867
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2868
+                  ],
+                  "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+                },
+                "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+              },
+              "op": "native-attach-f4-sink"
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2850
+              ],
+              "root": [
+                34,
+                2849
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "effects": {},
+            "epoch": 2,
+            "genesis": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "inventory": {
+              "identity": [
+                34,
+                2851
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2867
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2868
+                ],
+                "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+              },
+              "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f1/store.sqlite",
+              "identity": [
+                34,
+                2842
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "owner_identity": {
+        "dev": 34,
+        "ino": 2849
+      },
+      "owner_local": {
+        "selector": "record-000006.json",
+        "sha256": "347e7f58efdfe4863896ca2e3c2ead4f352ed6df010121e1333f8a499fdd1912"
+      },
+      "pre_reservation": {
+        "selector": "record-000004.json",
+        "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+      },
+      "restored_owner": {
+        "generation": {
+          "selector": "record-000004.json",
+          "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+        },
+        "inventory": {
+          "dependencies": [
+            {
+              "disposed": 0,
+              "kind": "candidate",
+              "name": "objecta",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "files": {
+            "objecta": {
+              "inode": 2861,
+              "mode": 384,
+              "raw_hex": "6163636570746564006f6e650a",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          },
+          "integrity_check": "ok",
+          "live": true,
+          "objects_directory_exists": true,
+          "observation_ns": 1806134039576,
+          "reconstruction_status": "current-logical-records",
+          "sealed": true,
+          "unknown_files": []
+        },
+        "selector": "record-000004.json",
+        "state": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+              "op": "native-establish-domain"
+            },
+            {
+              "op": "native-accept-f1-subject",
+              "registration_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            },
+            {
+              "binding": {
+                "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+                "journal_parent_identity": [
+                  34,
+                  2867
+                ],
+                "witness_endpoint": {
+                  "parent_identity": [
+                    34,
+                    2868
+                  ],
+                  "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+                },
+                "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+              },
+              "op": "native-attach-f4-sink"
+            }
+          ],
+          "native_owner": {
+            "children": {
+              "D": "live"
+            },
+            "created_by": "ases4-test-issuer",
+            "custody": {
+              "lock": [
+                34,
+                2850
+              ],
+              "root": [
+                34,
+                2849
+              ]
+            },
+            "disposed_candidates": {},
+            "disposed_units": {},
+            "disposed_unknown": {},
+            "domain_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "effects": {},
+            "epoch": 2,
+            "genesis": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+            "inventory": {
+              "identity": [
+                34,
+                2851
+              ],
+              "root": "protected"
+            },
+            "lifecycle": "live",
+            "profile": "native-f3-owner-v1",
+            "project": "native-owner-probe",
+            "registrations": [
+              {
+                "id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                "metadata": {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                },
+                "pair": {
+                  "accepted_content": "accepted\u0000one\n",
+                  "required": {
+                    "consumer_evidence": "A:consumer_evidence",
+                    "created_by": "A:created_by",
+                    "identity_genesis": "A:identity_genesis",
+                    "project": "A:project"
+                  }
+                },
+                "status": "live"
+              }
+            ],
+            "selected": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+            "sink_binding": {
+              "journal": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+              "journal_parent_identity": [
+                34,
+                2867
+              ],
+              "witness_endpoint": {
+                "parent_identity": [
+                  34,
+                  2868
+                ],
+                "path": "/tmp/a4u-wtz8s9eb/witness.sock"
+              },
+              "witness_root": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+            },
+            "source": {
+              "db": "/tmp/ases-native-selection.2Tx1TJ/state/R2/f1/store.sqlite",
+              "identity": [
+                34,
+                2842
+              ]
+            }
+          },
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [
+                {
+                  "accepted_pair": {
+                    "accepted_content": "accepted\u0000one\n",
+                    "required": {
+                      "consumer_evidence": "A:consumer_evidence",
+                      "created_by": "A:created_by",
+                      "identity_genesis": "A:identity_genesis",
+                      "project": "A:project"
+                    }
+                  },
+                  "identity": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1",
+                  "object": "objects/objecta",
+                  "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                  "size": 13
+                }
+              ],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "accepted_contents": [],
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "retained_after": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2842,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2853,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2861,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2857,
+          "sha256": "3626342160cc153dd38972136e9d911f443b9d72666cbf70894c51e2768a148b"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2863,
+          "sha256": "bd95f0fd07541ae2a6d44629ab31067055337f9d8a2ed24898db74819570d107"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2865,
+          "sha256": "f06cd1a96b247be523eea075f1e17fc626162df2d249f85d8e55651076c78e95"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2871,
+          "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2876,
+          "sha256": "4d4778aab2d872bc85124848a1b00b775bb7e5c92cbbda32f7daf8a93ca1d7f0"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2878,
+          "sha256": "347e7f58efdfe4863896ca2e3c2ead4f352ed6df010121e1333f8a499fdd1912"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2880,
+          "sha256": "d12b7e713e749924ae6e35cef66555a5998d6ca01675d0f68f4a9a3fb88db899"
+        }
+      },
+      "retained_before": {
+        "f1/store.sqlite": {
+          "dev": 34,
+          "ino": 2842,
+          "sha256": "91d385ba959406cf0fdcc81806c4ec0c0198852a1dd666f89531091347e46dda"
+        },
+        "owner/protected/catalog.sqlite": {
+          "dev": 34,
+          "ino": 2853,
+          "sha256": "31be6f5f88f62f18afad05406cf355c40df5addbd9c9fdae8445f33b9b38a7ac"
+        },
+        "owner/protected/objects/objecta": {
+          "dev": 34,
+          "ino": 2861,
+          "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8"
+        },
+        "owner/protected/record-000001.json": {
+          "dev": 34,
+          "ino": 2857,
+          "sha256": "3626342160cc153dd38972136e9d911f443b9d72666cbf70894c51e2768a148b"
+        },
+        "owner/protected/record-000002.json": {
+          "dev": 34,
+          "ino": 2863,
+          "sha256": "bd95f0fd07541ae2a6d44629ab31067055337f9d8a2ed24898db74819570d107"
+        },
+        "owner/protected/record-000003.json": {
+          "dev": 34,
+          "ino": 2865,
+          "sha256": "f06cd1a96b247be523eea075f1e17fc626162df2d249f85d8e55651076c78e95"
+        },
+        "owner/protected/record-000004.json": {
+          "dev": 34,
+          "ino": 2871,
+          "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+        },
+        "owner/protected/record-000005.json": {
+          "dev": 34,
+          "ino": 2876,
+          "sha256": "4d4778aab2d872bc85124848a1b00b775bb7e5c92cbbda32f7daf8a93ca1d7f0"
+        },
+        "owner/protected/record-000006.json": {
+          "dev": 34,
+          "ino": 2878,
+          "sha256": "347e7f58efdfe4863896ca2e3c2ead4f352ed6df010121e1333f8a499fdd1912"
+        },
+        "owner/protected/record-000007.json": {
+          "dev": 34,
+          "ino": 2880,
+          "sha256": "d12b7e713e749924ae6e35cef66555a5998d6ca01675d0f68f4a9a3fb88db899"
+        }
+      },
+      "retry": {
+        "after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d6433373435663661386135633434663738313333623833666339656335656539222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202234643437373861616232643837326263383531323438343861316230306237373562623765356339326362626461333266376461663861393363613164376630227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202266613963366530363663653730633439613530343131303066363830363032373731653134336564313933393631326166316566626238303235333534633930227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22666139633665303636636537306334396135303431313030663638303630323737316531343365643139333936313261663165666262383032353335346339305c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202262656131393262316565323764303137623433666565643462383535343038383164336661643734313834366334633735616433613038656334333761353932222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+          "size": 1939
+        },
+        "before": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c202261646d697373696f6e223a207b22617574686f72697a6174696f6e5f706f696e74223a20226c6f63616c2d6a6f75726e616c2d617070656e64222c202264657363656e64616e74223a202244222c2022646f6d61696e5f6964223a2022646f6d61696e2d6433373435663661386135633434663738313333623833666339656335656539222c202265706f6368223a20322c2022696d706f72745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a31222c20226c35223a207b2273656c6563746f72223a20227265636f72642d3030303030352e6a736f6e222c2022736861323536223a202234643437373861616232643837326263383531323438343861316230306237373562623765356339326362626461333266376461663861393363613164376630227d2c20226e61746976655f726567697374726174696f6e223a20747275652c2022706169725f736861323536223a202239356338343862643264613638346663626161333134626362303736343866306639323831366266643365656661396333623538633035353034623965326238222c202270726573656e7465645f6c35223a207b2273656c6563746f72223a20227265636f72642d3030303030342e6a736f6e222c2022736861323536223a202266613963366530363663653730633439613530343131303066363830363032373731653134336564313933393631326166316566626238303235333534633930227d2c202270726f66696c65223a20226e61746976652d66332d6f776e65722d7631227d2c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227b5c2265706f63685c223a322c5c22696d706f72745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a315c222c5c226b696e645c223a5c227573652d63757272656e742d64657363656e64616e745c222c5c226c355c223a7b5c2273656c6563746f725c223a5c227265636f72642d3030303030342e6a736f6e5c222c5c227368613235365c223a5c22666139633665303636636537306334396135303431313030663638303630323737316531343365643139333936313261663165666262383032353335346339305c227d2c5c22706169725c223a7b5c2261636365707465645f636f6e74656e745c223a5c2261636365707465645c5c75303030306f6e655c5c6e5c222c5c2272657175697265645c223a7b5c22636f6e73756d65725f65766964656e63655c223a5c22413a636f6e73756d65725f65766964656e63655c222c5c22637265617465645f62795c223a5c22413a637265617465645f62795c222c5c226964656e746974795f67656e657369735c223a5c22413a6964656e746974795f67656e657369735c222c5c2270726f6a6563745c223a5c22413a70726f6a6563745c227d7d2c5c22726571756573745f69645c223a5c22646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b5c227d222c20227061796c6f61645f736861323536223a202262656131393262316565323764303137623433666565643462383535343038383164336661643734313834366334633735616433613038656334333761353932222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022646f6d61696e2d64333734356636613861356334346637383133336238336663396563356565393a73656c656374696f6e2d726f6c6c6261636b222c2022736571223a20342c2022756e6974223a202243227d0a",
+          "sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+          "size": 1939
+        },
+        "path": "/submit",
+        "request": {
+          "authority_version": 1,
+          "payload": "{\"epoch\":2,\"import_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:1\",\"kind\":\"use-current-descendant\",\"l5\":{\"selector\":\"record-000004.json\",\"sha256\":\"fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90\"},\"pair\":{\"accepted_content\":\"accepted\\u0000one\\n\",\"required\":{\"consumer_evidence\":\"A:consumer_evidence\",\"created_by\":\"A:created_by\",\"identity_genesis\":\"A:identity_genesis\",\"project\":\"A:project\"}},\"request_id\":\"domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback\"}",
+          "request_id": "domain-d3745f6a8a5c44f78133b83fc9ec5ee9:selection-rollback"
+        },
+        "response": {
+          "body": {
+            "accepted_authority_version": 1,
+            "event_seq": 4,
+            "outcome": "already-accepted",
+            "owner_effect": {
+              "reason": "native-effect-reservation-mismatch",
+              "status": "unresolved"
+            },
+            "verified_journal_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a",
+            "verified_revision": 5
+          },
+          "raw": "{\"accepted_authority_version\":1,\"event_seq\":4,\"outcome\":\"already-accepted\",\"owner_effect\":{\"reason\":\"native-effect-reservation-mismatch\",\"status\":\"unresolved\"},\"verified_journal_sha256\":\"18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a\",\"verified_revision\":5}",
+          "status": 200
+        }
+      },
+      "selected": {
+        "selector": "record-000004.json",
+        "sha256": "fa9c6e066ce70c49a5041100f680602771e143ed1939612af1efbb8025354c90"
+      },
+      "stopped_original_sink": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--sink",
+          "fresh",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/sink-effects.jsonl",
+          "0",
+          "published-cut",
+          "domain-d3745f6a8a5c44f78133b83fc9ec5ee9",
+          "/tmp/ases-native-selection.2Tx1TJ/state/R2/f4/native-config.json"
+        ],
+        "exit": -9,
+        "exit_ns": 1806079317640,
+        "frames": [
+          {
+            "ns": 1805922763694,
+            "raw": "{\"ready\": true, \"port\": 0, \"profile\": \"flat-managed-v1\"}\n",
+            "value": {
+              "port": 0,
+              "profile": "flat-managed-v1",
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wtz8s9eb/sink.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2874,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5588,
+        "ready": {
+          "port": 0,
+          "profile": "flat-managed-v1",
+          "ready": true
+        },
+        "start_ns": 1805788584344,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": "/tmp/a4u-wtz8s9eb/witness.sock",
+        "witness_socket_stat": {
+          "dev": 34,
+          "ino": 2870,
+          "mode": "0o600",
+          "uid": 1000
+        }
+      },
+      "witness_after": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a"
+        },
+        "pid": 5586,
+        "revision": 5
+      },
+      "witness_before": {
+        "current": {
+          "authority": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "granted": true,
+            "holder": "old"
+          },
+          "journal_sha256": "18f576e44800f7f0ad44d7e194f34cd41a8396adc88c95728b676e02bc3f8e9a"
+        },
+        "pid": 5586,
+        "revision": 5
+      },
+      "witness_process": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+          "--witness",
+          "domain-d3745f6a8a5c44f78133b83fc9ec5ee9"
+        ],
+        "exit": -9,
+        "exit_ns": 1806351351904,
+        "frames": [
+          {
+            "ns": 1805787104600,
+            "raw": "{\"ready\": true, \"port\": 0, \"pid\": 5586}\n",
+            "value": {
+              "pid": 5586,
+              "port": 0,
+              "ready": true
+            }
+          }
+        ],
+        "listen_socket": "/tmp/a4u-wtz8s9eb/witness.sock",
+        "listen_socket_stat": {
+          "dev": 34,
+          "ino": 2870,
+          "mode": "0o600",
+          "uid": 1000
+        },
+        "pid": 5586,
+        "ready": {
+          "pid": 5586,
+          "port": 0,
+          "ready": true
+        },
+        "start_ns": 1805667934558,
+        "stderr": "",
+        "stdout_tail": "",
+        "witness_socket": null
+      }
+    }
+  },
+  "finished_ns": 1806351436306,
+  "harness_sha256": "385a851789e16a3dcd431e67e292b5df58226a2f3c649a7e6d692b01288c350f",
+  "python": "3.12.14",
+  "source": "0bd51a34700164a5eb77efe98158fa37d1a74e23",
+  "source_manifest": {
+    "f1_original": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-sol-integration/evidence/sources/f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py",
+      "sha256": "864e43153e069247c6c2557dc5cb2ce7c51795c612a20515c2be0cb82c9a2c28"
+    },
+    "f1_repaired": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-f1-recovery-repair/repaired_service.py",
+      "sha256": "f95b043d4fed01046c3875afa87871228843fdd5a4b92b2cd13034e7089a8fdc"
+    },
+    "l5_core": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/l5_integrated.py",
+      "sha256": "7216dbb401afa01c01ef5f72a5c45555d5525678799aa30164a7eafce4076fd8"
+    },
+    "l5_manager": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts/worker.py",
+      "sha256": "69486c004728c55ba74fa6d8b11205513abf70fc99580b0c193e97c63213b8db"
+    },
+    "l6_race_store": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race/race_store.py",
+      "sha256": "85b5290ac9f37fbff33b45804f27ffe4e1a853325ddf458aeb07887659f274cb"
+    },
+    "l6_store": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/store.py",
+      "sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+    },
+    "native_f4_sink": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_sink.py",
+      "sha256": "f4262271ea008208b99f5339d3b1e42c8239753d0a823e65e725bf2097bea70d"
+    },
+    "native_owner": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/native_owner.py",
+      "sha256": "f772e9054966646257faa3460cfda7833ede0e452043dbc7001158ffe54fa59d"
+    },
+    "owner_cli": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/owner_cli.py",
+      "sha256": "5576a233c1c1f45f98abb3cee350b6a1d25fb5c2b793017216941c008d6a09ba"
+    },
+    "unix_transport": {
+      "path": "/workspace/ASES-kernel-native-evidence/docs/research/phase-ii-native-ownership/unix_transport.py",
+      "sha256": "94171cc116631eae61549df4bc270fa0e97cf9de1176d2a17c7e33e2ebb1b487"
+    }
+  },
+  "sqlite": "3.53.1",
+  "started_ns": 1802894708255,
+  "uid": 1000
+}
